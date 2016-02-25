@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
+    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/x3dom/release/x3dom.css'></link>
+    <script type='text/javascript' src='http://www.x3dom.org/x3dom/release/x3dom.js'></script>
+  </head>
+  <body>
+    <x3d id='someUniqueId' showStat='false' showLog='false' x='0px' y='0px' width='1200px' height='800px'>
+      <scene DEF='scene'>
+        <worldInfo info='"VRML by Geoff Pack geoff@spike.com.au" "Models by Christain Carruthers xtian@spike.com.au" "Copyright 1998 Spike (Australia) Pty Ltd" "For further info email geoff@spike.com.au"' title='Integral Energy Virtual House'></worldInfo>
+        <navigationInfo avatarSize='0.25 2.5 0.75' speed='3' type='"EXAMINE" "WALK"'></navigationInfo>
+        <viewpoint description='View 1' orientation='0 1 0 2.3562' position='20 2 -20'></viewpoint>
+        <background groundAngle='1.5708' groundColor='0.1 0.1 0.1 0.1 0.1 0.1' skyAngle='1 1.5708' skyColor='0.2 0.2 0.7 0.3 0.3 0.8 0.7 0.5 0.2'></background>
+        <directionalLight direction='0 -1 -1'></directionalLight>
+        <group>
+          <group DEF='house'>
+            <inline url='"grid.html"'></inline>
+          </group>
+          <transform rotation='1 0 0 -1.5708' scale='1.0 1.0 1.0'>
+            <inline url='"grid.x3d"'></inline>
+          </transform>
+          <transform rotation='0 0 1 -1.5708' scale='1.0 1.0 1.0'>
+            <inline url='"grid.xhtml"'></inline>
+          </transform>
+        </group>
+      </scene>
+    </x3d>
+  </body>
+</html>

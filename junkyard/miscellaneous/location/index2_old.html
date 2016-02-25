@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Sending Parameters to an HTML Page</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Sending Parameters to an HTML Page: Results</h3>
+
+<script language="JavaScript">
+
+var searchStr = location.search;
+var section = location.hash.substring(1,location.hash.length);
+var searchArray = new Array();
+
+while (searchStr!='') {
+	var name, value;
+	// strip off leading ? or &
+	if ((searchStr.charAt(0)=='?')||(searchStr.charAt(0)=='&')) searchStr = searchStr.substring(1,searchStr.length);
+	// find name
+	name = searchStr.substring(0,searchStr.indexOf('='));
+	// find value
+	if (searchStr.indexOf('&')!=-1) value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.indexOf('&'));
+	else value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.length);
+	// add pair to an associative array
+	searchArray[name] = value;
+	// cut first pair from string
+	if (searchStr.indexOf('&')!=-1) searchStr =  searchStr.substring(searchStr.indexOf('&')+1,searchStr.length);
+	else searchStr = '';
+	// debug step
+	//document.write(name + ': ' + value + ': ' + searchStr + '<br>');
+}
+
+// write table of pairs and hash value
+document.write('<table align="center">');
+document.write('<tr><td><b>name: &nbsp;</b></td><td><b>value:</b></td></tr>');	
+for (var name in searchArray) {
+	document.write('<tr><td>' + name + ': </td><td>' + searchArray[name] + '</td></tr>');	
+}
+if (section!='') document.write('<tr><td>#: </td><td>' + section + '</td></tr>');
+document.write('</table>');
+
+</script>
+
+</body>
+</html>

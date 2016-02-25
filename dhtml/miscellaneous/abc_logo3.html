@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<title>ABC Logo 3 - Animated</title>
+<style type="text/css">
+
+body {color:#fff; background:#000;}
+.point {position:absolute; top:0px; left:0px;}
+
+</style>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+var N = 720;
+var r = 200;
+var pi = Math.PI;
+var theta = 0;
+var dt = 0;
+
+var points = new Array();
+var body = document.getElementsByTagName('body')[0];
+
+for (var i=0; i<N; i++) {
+	points[i] = document.createElement('div');
+	points[i].id = 'p' + i;
+	points[i].setAttribute('class','point');
+	points[i].innerHTML = '.';
+	body.appendChild(points[i]);
+}
+
+function draw() {
+	for (var i=0; i<N; i++) {
+		theta = i * 2 * pi / N; // convert degrees to radians
+		phi = dt * 5 * pi / N;
+		x = r * Math.cos(1 * theta - phi);
+		y = r * Math.sin(3 * theta);
+	
+		points[i].style.top  = Math.round(y + 300) + 'px';
+		points[i].style.left = Math.round(x + 300) + 'px';
+	}
+	dt++
+	if (dt >=N) dt = 0;
+	setTimeout(draw,25);
+}
+
+draw()
+//t = setInterval(draw,20);
+
+
+
+</script>
+
+</body>
+</html>

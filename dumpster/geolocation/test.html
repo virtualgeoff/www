@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Geolocation Test</title>
+	<script type="text/javascript">
+
+		function success (position) {
+			message.innerHTML += '<br>location: ' + position.coords.latitude + ', ' + position.coords.longitude;
+			message.innerHTML += '<br>';
+			message.innerHTML += '<br>latitude: ' + position.coords.latitude +	'º'; //guaranteed to exist
+			message.innerHTML += '<br>longitude: ' + position.coords.longitude + 'º'; //guaranteed to exist
+			message.innerHTML += '<br>altitude: ' + ((position.coords.altitude)? (position.coords.altitude + ' m') : ('not available'));
+			message.innerHTML += '<br>accuracy: ' + position.coords.accuracy + ' m'; //guaranteed to exist
+			message.innerHTML += '<br>altitudeAccuracy: ' + ((position.coords.altitudeAccuracy)? (position.coords.altitudeAccuracy + ' m') : ('not available'));
+			message.innerHTML += '<br>heading: ' + ((position.coords.heading)? (position.coords.heading +	'º') : ('not available'));
+			message.innerHTML += '<br>speed: ' + ((position.coords.speed)? (position.coords.speed + ' m/s') : ('not available'));
+			message.innerHTML += '<br>timestamp: ' + position.timestamp; // guaranteed?
+		}
+		
+		function error (error) {
+			message.innerHTML += '<br>error ' + error.code + ':';
+			switch(error.code) {
+				case 1:
+					message.innerHTML += ' Permission denied';
+					break;		
+				case 2:
+					message.innerHTML += ' Position unavailable';
+					break;		
+				case 3:
+					message.innerHTML += ' Timeout';
+					break;		
+				default:
+					message.innerHTML += ' Unknown';
+			}
+		}
+
+		function getLocation() {
+			message = document.getElementById('message');
+			if (navigator.geolocation) {
+				message.innerHTML = 'navigator.geolocation is supported';
+				navigator.geolocation.getCurrentPosition(success, error);
+			} else {
+				message.innerHTML = 'navigator.geolocation not supported';
+			}
+		}
+		
+		var message;
+		window.onload = getLocation;
+		
+	</script>
+</head>
+<body>
+
+<h1>Geolocation Test</h1>
+
+<p id="message"></p>
+
+<h2>More:</h2>
+<ul>
+	<li><a href="http://diveintohtml5.org/geolocation.html">Dive into Mark</a></li>
+	<li><a href="http://html5demos.com/geo">HTML5 Demos</a></li>
+	<!-- li><a href="http://anthonywillis.com/html5/">Willis</a></li -->
+</ul>
+
+</body>
+</html>

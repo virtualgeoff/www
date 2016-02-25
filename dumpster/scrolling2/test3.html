@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Scroll Test 3</title>
+<style type="text/css">
+
+body {width:12100px; background:#fff;}
+h1 {margin-left:100px;}
+
+#info {position:fixed; top:0px; right:0px; width:200px; padding:0 0.5em;}
+#scrubberWrapper {position:fixed; top:80px; left:100px; width:90%; margin:0; background:#eee; border:1px solid #000;}
+#scrubber {position:relative; width:50px; height:50px;  background:#ccc; border:1px solid #000;}
+
+.bigPic {float:left; width:500px; height:500px; margin:150px 0 100px 100px; background:#aaa;}
+
+</style>
+<script type="text/javascript" src="drag.js"></script>
+<script type="text/javascript">
+
+function scroll() {
+	scrubber.style.left = (body.scrollLeft * scale) + 'px'
+	info.innerHTML = 'body: ' + body.scrollLeft + '<br>scrubber: ' + scrubber.style.left;
+}
+
+function scroll3 (element, eventID, mouseX, mouseY, elementX, elementY) {
+	if (elementX) {
+		body.scrollLeft = elementX / scale;
+		info.innerHTML = 'body: ' + body.scrollLeft + '<br>scrubber: ' + elementX;
+	}
+}
+
+function init() {
+	windowWidth = window.innerWidth;
+	body = document.getElementsByTagName('BODY')[0];
+	info = document.getElementById('info');
+	scrubberWrapper = document.getElementById('scrubberWrapper');
+
+	var scrubberWrapperWidth = (windowWidth - 200)
+	scrubberWrapper.style.width = scrubberWrapperWidth + 'px';
+	scale = scrubberWrapperWidth / 12100;
+	scrubberWidth = windowWidth * scale;
+	
+	document.getElementById('scrubber').style.width = scrubberWidth + 'px';
+	scrubberLimit = scrubberWrapperWidth - scrubberWidth;
+	
+	scrubber = dragDrop.attach('scrubber', false, true, 0, scrubberLimit, 0, 0);
+	scrubber.callback = scroll3;
+}
+function reload() {
+	timer = setTimeout('window.location.reload()',600);
+}
+var timer, scrubber, scrubberWrapper, body, info, windowWidth, scrubberWidth, scrubberLimit, scale;
+window.onload = init;
+window.onscroll = scroll;
+window.onresize = reload;
+
+</script>
+</head>
+<body>
+
+<h1>Scroll Test 3</h1>
+<p id="info"></p>
+
+<div id="scrubberWrapper">
+	<div id="scrubber" class="drag">scrubber</div>
+</div>
+
+<div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div>
+<div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div>
+<div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div>
+<div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div>
+<div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div><div class="bigPic"></div>
+
+</body>
+</html>

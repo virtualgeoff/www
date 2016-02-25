@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Random Event Generator</title>
+	
+</head>
+<body>
+
+	<script type="text/javascript">
+
+	for (var i=1931; i<2011; i++) {
+		document.write('\n<div id="y' + i + '" class="year">');
+		document.write('\n	<h3>' + i + '</h3>');
+		for (var j=0, k=Math.floor(Math.random()*9); j<k; j++) {
+			document.write('\n	<a href="#"><img src="" width="100" height="75" alt=""></a>');
+		}
+		document.write('\n</div>');
+	}
+	
+	</script>
+
+</body>
+</html>

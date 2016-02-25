@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>Three.js Hello World</title>
+	<style type="text/css">
+	body {background:#ccc;}
+	#renderer {background:#fff;}
+	</style>
+	<script type="text/javascript" src="/scripts/libraries/three.js/build/three.min.js"></script>
+	<script type="text/javascript" src="/scripts/libraries/three.js/examples/js/loaders/ColladaLoader.js"></script>
+</head>      
+<body>
+
+	<h1>Three.js Hello World</h1>
+
+	<script>
+
+    var camera, scene, renderer;
+    var geometry, material, mesh;
+
+    init();
+    animate();
+
+    function init() {
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+
+        scene = new THREE.Scene();
+
+        geometry = new THREE.CubeGeometry( 200, 200, 200 );
+        material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+
+        mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
+
+
+		var loader = new THREE.ColladaLoader();
+		loader.load('untitled.dae', function (result) {
+			mesh2 = result.scene
+			scene.add(mesh2);
+		});
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.id = "renderer";
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+    }
+
+    function animate() {
+
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.02;
+
+        mesh2.rotation.x += 0.02;
+        mesh2.rotation.y += 0.01;
+
+        renderer.render( scene, camera );
+
+    }
+
+</script>
+
+</body>
+</html>

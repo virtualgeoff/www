@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    
+		<title>Add/Remove Nodes Example</title>
+		<style>
+		p.case { clear: both; border-top: 1px solid #000; }
+		</style>
+		<link rel="stylesheet" type="text/css" href="/scripts/libraries/x3dom/x3dom.css"></link>
+		<script type="text/javascript" src="/scripts/libraries/x3dom/x3dom-full.js"></script>
+	</head>
+       
+<body>
+
+    <h1>Add/Remove Nodes Example</h1>
+	<p class="case"> 
+		<x3d id="boxes" showStat="true" x="0px" y="0px" width="1200px" height="700px">
+			<scene>
+    		    <navigationInfo avatarSize='0.25 2.5 0.75' speed='3' type='"EXAMINE" "WALK"'></navigationInfo>
+				<viewpoint position='0 0 20' orientation='1 0 0 0.15'></viewpoint>
+				<background DEF='bgnd' transparency='0' groundAngle='1.5708' groundColor='0.1 0.1 0.1 0.1 0.1 0.1' skyAngle='1 1.5708' skyColor='0.2 0.2 0.7 0.3 0.3 0.8 0.7 0.5 0.2'></background>
+				<timeSensor DEF='TIMER1' cycleInterval='20' loop='true' stopTime='-1'></timeSensor>
+				<orientationInterpolator DEF='ROTATE1' key='0 0.25 0.5 0.75 1' keyValue='0 1 0 0 0 1 0 1.5708 0 1 0 3.1416 0 1 0 4.7124 0 1 0 6.2832'></orientationInterpolator>
+				<transform id="root" translation="0 0 0">
+					<!-- shape>
+						<box></box>
+					</shape -->
+				</transform> 
+				<ROUTE fromNode='TIMER1' fromField='fraction_changed' toNode='ROTATE1' toField='set_fraction'></ROUTE>
+				<ROUTE fromNode='ROTATE1' fromField='value_changed' toNode='root' toField='set_rotation'></ROUTE>
+			</scene>
+		</x3d>
+	</p>
+	
+	<script type="text/javascript">
+	    
+    function addNode() {
+		var x = Math.random() * 12 - 6;
+		var y = Math.random() * 12 - 6;
+		var z = Math.random() * 12 - 6;
+	
+		var s0 = Math.random() + 0.5;
+		var s1 = Math.random() + 0.5;
+		var s2 = Math.random() + 0.5;
+
+        var transform = document.createElement('transform');
+        transform.setAttribute("translation", x + " " + y + " " + z );
+        transform.setAttribute("scale", s0 + " " + s1 + " " + s2 );
+
+        var shape = document.createElement('shape');
+        transform.appendChild(shape);
+
+        var appearance = document.createElement('appearance');
+        shape.appendChild(appearance);
+
+        var material = document.createElement('material');
+        material.setAttribute("diffuseColor", Math.random() + " " + Math.random() + " " + Math.random() );
+        appearance.appendChild(material);
+
+        var box = document.createElement('box');
+        shape.appendChild(box);
+        
+        var root = document.getElementById('root');
+        root.appendChild(transform);
+        
+        return false;
+    };
+    
+    function removeNode() {
+        var root = document.getElementById('root');
+        for (var i = 0; i < root.childNodes.length; i++) {
+        	// check if we have a real X3DOM Node; not just e.g. a Text-tag
+        	if (root.childNodes[i].nodeType === Node.ELEMENT_NODE) {
+        		root.removeChild(root.childNodes[i]);
+  				break;
+  			}
+  		}
+        
+        return false;
+    };
+    
+    window.onload = addNode;
+    
+    
+	</script>
+	
+	<p class="case"> &nbsp; 
+	Dynamic childtree update
+	<input type="button" value="Add Child" 		onclick="window.addNode();" />
+	<input type="button" value="Remove Child" 	onclick="window.removeNode();" />
+	</p>
+	
+
+</body>
+</html>

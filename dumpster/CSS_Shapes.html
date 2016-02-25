@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Cheat Sheet - CSS Simple Shapes made by land-of-web.com</title>
+<style type="text/css">
+
+div {float:left; margin:40px;}
+hr {clear:both; margin:20px;}
+
+#square {
+width: 100px;
+height: 100px;
+background: blue;
+}
+#rectangle {
+width: 100px;
+height: 60px;
+background: blue;
+}
+#diamond {
+width: 80px;
+height: 80px;
+background: blue;
+margin: 3px 0 0 30px;
+-webkit-transform: rotate(-45deg);
+-moz-transform: rotate(-45deg);
+-ms-transform: rotate(-45deg);
+-o-transform: rotate(-45deg);
+transform: rotate(-45deg);
+-webkit-transform-origin: 0 100%;
+-moz-transform-origin: 0 100%;
+-ms-transform-origin: 0 100%;
+-o-transform-origin: 0 100%;
+transform-origin: 0 100%;
+}
+#parallelogram {
+width: 100px;
+height: 70px;
+background: blue;
+-webkit-transform: skew(20deg);
+-moz-transform: skew(20deg);
+-o-transform: skew(20deg);
+transform: skew(20deg);
+}
+#parallelogram2 {
+width: 100px;
+height: 70px;
+background: blue;
+-webkit-transform: skew(-20deg);
+-moz-transform: skew(-20deg);
+-o-transform: skew(-20deg);
+transform: skew(-20deg);
+}
+#trapez {
+height: 0;
+width: 100px;
+border-bottom: 100px solid green;
+border-left: 60px solid transparent;
+order-right: 60px solid transparent;
+}
+#trapez2{
+height: 0;
+width: 100px;
+border-top: 100px solid green;
+border-left: 60px solid transparent;
+border-right: 60px solid transparent;
+}
+#trapez3{
+height: 100px;
+width: 0;
+border-right: 100px solid green;
+border-top: 60px solid transparent;
+border-bottom: 60px solid transparent;
+}
+#trapez4{
+height: 100px;
+width: 0;
+border-left: 100px solid green;
+border-top: 60px solid transparent;
+border-bottom: 60px solid transparent;
+}
+#triangleUp {
+width: 0;
+height: 0;
+border-bottom: 100px solid red;
+border-left: 50px solid transparent;
+border-right: 50px solid transparent;
+}
+#triangleRight {
+width: 0;
+height: 0;
+border-left: 100px solid red;
+border-top: 50px solid transparent;
+border-bottom: 50px solid transparent;
+}
+#triangleDown {
+width: 0;
+height: 0;
+border-top: 100px solid red;
+border-left: 50px solid transparent;
+border-right: 50px solid transparent;
+}
+#triangleLeft {
+width: 0;
+height: 0;
+border-right: 100px solid red;
+border-top: 50px solid transparent;
+border-bottom: 50px solid transparent;
+}
+#half-circleTop{
+background: orange;
+height: 45px;
+width: 90px;
+-moz-border-radius:90px 90px 0 0;
+-webkit-border-radius:90px 90px 0 0;
+border-radius:90px 90px 0 0;
+}
+#half-circleRight {
+background: orange;
+height: 90px;
+width: 45px;
+-moz-border-radius:0 90px 90px 0;
+-webkit-border-radius:0 90px 90px 0;
+border-radius:0 90px 90px 0;
+}
+#half-circleBottom {
+background: orange;
+height: 45px;
+width: 90px;
+-moz-border-radius: 0 0 90px 90px ;
+-webkit-border-radius: 0 0 90px 90px;
+border-radius:0 0 90px 90px ;
+}
+#half-circleLeft {
+background: orange;
+height: 90px;
+width: 45px;
+-moz-border-radius:90px 0 0 90px;
+-webkit-border-radius:90px 0 0 90px;
+border-radius:90px 0 0 90px;
+}
+#circle {
+width: 90px;
+height: 90px;
+background: yellow;
+-moz-border-radius: 45px;
+-webkit-border-radius: 45px;
+border-radius: 45px;
+}
+#ovalHor {
+width: 180px;
+height: 90px;
+background: orange;
+-moz-border-radius:90px/ 45px;
+-webkit-border-radius:90px/45px;
+border-radius:90px/45px;
+}
+#ovalVert {
+width: 90px;
+height: 180px;
+background: orange;
+-moz-border-radius:45px/90px;
+-webkit-border-radius:45px/90px;
+border-radius:45px/90px;
+}
+#chartColorful {
+width: 0px;
+height: 0px;
+border-right: 60px solid purple;
+border-top: 60px solid yellow;
+border-left: 60px solid black;
+border-bottom: 60px solid blue;
+-moz-border-radius:60px;
+-webkit-border-radius:60px;
+border-radius: 60px;
+}
+#quartercircleTop {
+width: 90px;
+height: 90px;
+background:yellow;
+-moz-border-radius: 90px 0 0 0;
+-webkit-border-radius: 90px 0 0 0;
+border-radius: 90px 0 0 0;
+}
+#quartercircleRight {
+width: 90px;
+height: 90px;
+background:yellow;
+-moz-border-radius: 0 90px 0 0;
+-webkit-border-radius: 0 90px 0 0;
+border-radius:0 90px 0 0;
+}
+#quartercircleBottom {
+width: 90px;
+height: 90px;
+background:yellow;
+-moz-border-radius: 0 0 90px 0;
+-webkit-border-radius: 0 0 90px 0;
+border-radius:0 0 90px 0;
+}
+#quartercircleLeft {
+width: 90px;
+height: 90px;
+background:yellow;
+-moz-border-radius: 0 0 0 90px;
+-webkit-border-radius: 0 0 0 90px;
+border-radius:0 0 0 90px;
+}
+#chartTop {
+width: 0px;
+height: 0px;
+border-right: 60px solid purple;
+border-top: 60px solid transparent;
+border-left: 60px solid purple;
+border-bottom: 60px solid purple;
+-moz-border-radius:60px;
+-webkit-border-radius:60px;
+border-radius:60px;
+}
+#chartRight {
+width: 0px;
+height: 0px;
+border-right: 60px solid transparent;
+border-top: 60px solid purple;
+border-left: 60px solid purple;
+border-bottom: 60px solid purple;
+-moz-border-radius:60px;
+-webkit-border-radius:60px;
+border-radius: 60px;
+}
+#chartBottom {
+width: 0px;
+height: 0px;
+border-right: 60px solid purple;
+border-top: 60px solid purple;
+border-left: 60px solid purple;
+border-bottom: 60px solid transparent;
+-moz-border-radius:60px;
+-webkit-border-radius:60px;
+border-radius: 60px;
+}
+#chartLeft {
+width: 0px;
+height: 0px;
+border-right: 60px solid purple;
+border-top: 60px solid purple;
+border-left: 60px solid transparent;
+border-bottom: 60px solid purple;
+-moz-border-radius:60px;
+-webkit-border-radius:60px;
+border-radius:60px;
+}
+#heartLeft {
+width: 0;
+height: 0;
+border-color: red;
+border-style: dotted;
+border-width: 0 80px 80px 0;
+}
+#heartRight {
+width: 0;
+height: 0;
+border-color: red;
+border-style: dotted;
+border-width:0 0 80px 80px;
+}
+#triangleUpLeft {
+width: 0;
+height: 0;
+border-top: 50px solid red;
+border-bottom: 50px solid transparent;
+border-left: 50px solid red;
+border-right: 50px solid transparent;
+}
+#triangleUpRight {
+width: 0;
+height: 0;
+border-top: 50px solid red;
+border-bottom: 50px solid transparent;
+border-left: 50px solid transparent;
+border-right: 50px solid red;
+}
+#bookmark-ribbon {
+width: 0;
+height: 100px;
+border-left: 50px solid red;
+border-right: 50px solid red;
+border-bottom: 35px solid transparent;
+}
+#funkyhourglasses {
+width: 0px;
+border-top: 100px dotted red;
+border-left: 90px solid transparent;
+border-right: 90px solid transparent;
+border-bottom: 100px dotted red;
+-moz-border-radius:200px;
+-webkit-border-radius:200px;
+border-radius:200px;
+}
+#twoCircles {
+width: 0px;
+border-top: 50px solid transparent;
+border-left: 100px dotted red;
+border-right: 100px dotted red;
+border-bottom: 50px solid transparent;
+-moz-border-radius:150px;
+-webkit-border-radius:150px;
+border-radius:150px;
+}
+</style>
+</head>
+<body>
+
+<p>From: <a href="http://www.land-of-web.com/freebies/css3-simple-shapes-cheat-sheet.html">http://www.land-of-web.com/freebies/css3-simple-shapes-cheat-sheet.html</a></p>
+
+<div id="square"></div>
+<div id="diamond"></div>
+<div id="parallelogram"></div>
+<div id="parallelogram2"></div>
+<div id="rectangle"></div>
+
+<hr />
+
+<div id="trapez"></div>
+<div id="trapez2"></div>
+<div id="trapez3"></div>
+<div id="trapez4"></div>
+
+<hr />
+
+<div id="triangleUp"></div>
+<div id="triangleRight"></div>
+<div id="triangleDown"></div>
+<div id="triangleLeft"></div>
+
+<hr />
+
+<div id="half-circleTop"></div>
+<div id="half-circleRight"></div>
+<div id="half-circleBottom"></div>
+<div id="half-circleLeft"></div>
+
+<hr />
+
+<div id="circle"></div>
+<div id="ovalHor"></div>
+<div id="ovalVert"></div>
+<div id="chartColorful"></div>
+
+<hr />
+
+<div id="quartercircleTop"></div>
+<div id="quartercircleRight"></div>
+<div id="quartercircleBottom"></div>
+<div id="quartercircleLeft"></div>
+
+<hr />
+
+<div id="chartTop"></div>
+<div id="chartRight"></div>
+<div id="chartBottom"></div>
+<div id="chartLeft"></div>
+
+<hr />
+
+<div id="heartLeft"></div>
+<div id="heartRight"></div>
+<div id="triangleUpLeft"></div>
+<div id="triangleUpRight"></div>
+
+<hr />
+
+<div id="bookmark-ribbon"></div>
+<div id="funkyhourglasses"></div>
+<div id="twoCircles"></div>
+
+</body>
+</html>

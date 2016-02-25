@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>The Beginning</title>
+	<link rel="stylesheet" type="text/css" href="/scripts/libraries/x3dom/x3dom.css"></link>
+	<script type="text/javascript" src="/scripts/libraries/x3dom/x3dom-full.js"></script>
+</head>
+<body>
+
+	<x3d id="boxes" showStat="true" x="0px" y="0px" width="1200px" height="700px">
+		<scene id="scene">
+			<navigationInfo avatarSize='0.25 2.5 0.75' speed='2' type='"EXAMINE" "WALK"'></navigationInfo>
+			<viewpoint position='0 10 100' orientation='1 0 0 0.15'></viewpoint>
+			<background DEF='bgnd' transparency='0' groundAngle='1.5708' groundColor='0.1 0.1 0.1 0.1 0.1 0.1' skyAngle='1 1.5708' skyColor='0.2 0.2 0.7 0.3 0.3 0.8 0.7 0.5 0.2'></background>
+			<transform id="box0" translation="0 1 0">
+				<shape>
+					<appearance>
+						<material diffuseColor='1 0 0'></material>
+					</appearance>
+ 					<box></box>
+				</shape>
+			</transform> 
+			<transform rotation='1 0 0 0' scale='5.0 5.0 5.0'>
+				<inline url='"grid_static.x3d"'></inline>
+			</transform>
+		</scene>
+	</x3d>
+
+	<script type="text/javascript">
+	
+	var boxes = [],
+		boxIndex = 0;
+
+    function addNode() {
+		var x = Math.random() * 100 - 50;
+		var y = 1; //Math.random() * 100 - 50;
+		var z = Math.random() * 100 - 50;
+	
+        var transform = document.createElement('transform');
+        transform.setAttribute("translation", x + " " + y + " " + z );
+        transform.id = 'box' + (++boxIndex);
+        boxes[boxIndex] = transform;
+
+        var shape = document.createElement('shape');
+        transform.appendChild(shape);
+
+        var appearance = document.createElement('appearance');
+        shape.appendChild(appearance);
+
+        var material = document.createElement('material');
+        material.setAttribute("diffuseColor", Math.random() + " " + Math.random() + " " + Math.random() );
+        appearance.appendChild(material);
+
+        var box = document.createElement('box');
+        shape.appendChild(box);
+        
+        var scene = document.getElementById('scene');
+        scene.appendChild(transform);
+        
+        return false;
+    };
+
+	function moveBox(id, deltaP) {
+		var box = document.getElementById(id);
+		var position = box.getAttribute("translation").split(" ");
+		for (var i=0; i<position.length; i++) {
+			position[i] = parseInt(position[i], 10);
+			position[i] += deltaP[i];
+		} 
+		box.setAttribute("translation", (position[0] + ' ' + position[1] + ' ' + position[2]));
+
+		return false;	
+	}
+
+	function init() {
+		//setInterval(addNode,1000);
+		addNode();
+	}
+	
+	document.addEventListener('keydown', function(event) {
+		switch (event.keyCode) {			
+			// box1
+			case 37: // left
+				moveBox("box0", [-1, 0, 0]);
+				break;
+			case 38: // right
+				moveBox("box0", [0, 0, -1]);
+				break;
+			case 39: // up
+				moveBox("box0", [1, 0, 0]);
+				break;
+			case 40: // down
+				moveBox("box0", [0, 0, 1]);
+				break;
+
+			// box 2			
+			case 74: // j
+				moveBox("box1", [-1, 0, 0]);
+				break;
+			case 76: // l
+				moveBox("box1", [1, 0, 0]);
+				break;
+			case 73: // i
+				moveBox("box1", [0, 0, -1]);
+				break;
+			case 75: // k
+				moveBox("box1", [0, 0, 1]);
+				break;
+
+			default:
+				//alert(event.keyCode);
+		}
+	});
+
+	window.onload = init;	
+
+	</script>
+
+</body>
+</html>

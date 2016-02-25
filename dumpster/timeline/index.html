@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Timeline Demo</title>
+<style type="text/css">
+
+body {background:#fff;}
+div {margin:0; padding:0;}
+img {border:0; background:#ccc;}
+
+#pageWrapper {width:960px; margin:0 auto;}
+#info {position:absolute; top:0px; right:0px; width:200px; padding:0 0.5em;}
+
+#timelineMap {position:relative; width:940px; height:80px; margin:20px 0; border:1px solid #000;}
+#timelineMap a {display:block; position:absolute; top:0; left:0; width:9px; height:6px; background:#b4b4b4;}
+#timelineMap h4 a {width:auto; height:auto; background:#fff;}
+
+#scrubber {position:absolute; left:0; top:0; width:80px; height:80px; margin:-2px; background:#ccc;  border:2px solid #000; z-index:9; opacity:0.5;}
+#scrubber span {display:block; margin-top:3em;}
+#scrubber.dragged {background:#f00;}
+
+#timelineFrame {position:relative; width:940px; height:600px; margin:20px 0; overflow:auto; border:1px solid #000;}
+#timelineScroller {/*position:absolute; left:0;*/ width:9680px; height:800px; overflow:hidden;}
+div.year {float:left; width:100px; margin:0 0 0 21px;}
+div#y1931 {margin:0;}
+div.year img {display:block; margin:0 0 20px 0; padding:0;}
+
+
+</style>
+<script type="text/javascript" src="scripts/drag.js"></script>
+<script type="text/javascript">
+
+function createTimelineMap() {
+
+	// get all the year divs in the timeline scroller
+	var map = document.getElementById('timelineMap');
+	var years = document.getElementById('timelineScroller').getElementsByTagName('DIV');
+	var year, events, event;
+	
+	// add label for 1930
+	map.innerHTML += '<h4><a href="#y1931" style="left:0px;">1930</a></h4>';
+
+	// for each year div
+	for (var i=0, j=years.length; i<j; i++) {
+		year = years[i];		
+		events = year.getElementsByTagName('A'); // get the events in each year
+		
+		// write the decade labels
+		if (parseInt(year.id.substr(1)) % 10 == 0) {
+			//alert(year.id.substr(1));
+			map.innerHTML += '<h4><a href="#' + year.id + '" style="left:' + (i*11) + 'px;">' + year.id.substr(1) + '</a></h4>';
+		}
+
+		// for each event		
+		for (var n=0, m=events.length; n<m; n++) {			
+			// create an link for each event & position it
+			map.innerHTML += '<a href="#' + year.id + '" style="left:' + (i*11) + 'px; top:' + (n*8+20) + 'px;"></a>'		
+		}		
+	}
+}
+
+function scrollWrapper(element) {
+	scrubber.style.left = (element.scrollLeft / 11) + 'px';
+	info.innerHTML = '#' + element.id + '<br>left: ' + element.scrollLeft;
+	
+}
+
+function scrollTimeline (element, eventID, mouseX, mouseY, elementX, elementY) {
+	if (elementX) {
+		timelineFrame.scrollLeft = elementX * 11;
+		info.innerHTML = '#' + element.id + '<br>left: ' + elementX;
+	}
+}
+
+function init() {
+	info = document.getElementById('info');
+	scrubber = document.getElementById('scrubber');
+	timelineFrame = document.getElementById('timelineFrame');
+	
+	createTimelineMap();
+	
+	scrubber = dragDrop.attach('scrubber', false, true, 0, 860, 0, 0, 11, 1);
+	scrubber.callback = scrollTimeline;
+}
+var info, scrubber, timelineFrame;
+
+window.onload = init;
+
+</script>
+</head>
+<body>
+
+<div id="pageWrapper">
+	<h1>Timeline</h1>
+	<p id="info"></p>
+	
+	<div id="timelineMap">
+		<div id="scrubber" class="drag"><span>drag me...</span></div>
+	</div>
+	
+	<div id="timelineFrame" onscroll="scrollWrapper(this);">
+		<div id="timelineScroller">
+			<div id="y1931" class="year">
+				<h3>1931</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1932" class="year">
+				<h3>1932</h3>
+			</div>
+			<div id="y1933" class="year">
+				<h3>1933</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1934" class="year">
+				<h3>1934</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1935" class="year">
+				<h3>1935</h3>
+			</div>
+			<div id="y1936" class="year">
+				<h3>1936</h3>
+			</div>
+			<div id="y1937" class="year">
+				<h3>1937</h3>
+			</div>
+			<div id="y1938" class="year">
+				<h3>1938</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1939" class="year">
+				<h3>1939</h3>
+			</div>
+			<div id="y1940" class="year">
+				<h3>1940</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1941" class="year">
+				<h3>1941</h3>
+			</div>
+			<div id="y1942" class="year">
+				<h3>1942</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1943" class="year">
+				<h3>1943</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1944" class="year">
+				<h3>1944</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1945" class="year">
+				<h3>1945</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1946" class="year">
+				<h3>1946</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1947" class="year">
+				<h3>1947</h3>
+			</div>
+			<div id="y1948" class="year">
+				<h3>1948</h3>
+			</div>		
+			<div id="y1949" class="year">
+				<h3>1949</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1950" class="year">
+				<h3>1950</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1951" class="year">
+				<h3>1951</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1952" class="year">
+				<h3>1952</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1953" class="year">
+				<h3>1953</h3>
+			</div>		
+			<div id="y1954" class="year">
+				<h3>1954</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1955" class="year">
+				<h3>1955</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1956" class="year">
+				<h3>1956</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1957" class="year">
+				<h3>1957</h3>
+			</div>
+			<div id="y1958" class="year">
+				<h3>1958</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1959" class="year">
+				<h3>1959</h3>
+			</div>
+			<div id="y1960" class="year">
+				<h3>1960</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1961" class="year">
+				<h3>1961</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1962" class="year">
+				<h3>1962</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1963" class="year">
+				<h3>1963</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1964" class="year">
+				<h3>1964</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1965" class="year">
+				<h3>1965</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1966" class="year">
+				<h3>1966</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1967" class="year">
+				<h3>1967</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1968" class="year">
+				<h3>1968</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1969" class="year">
+				<h3>1969</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1970" class="year">
+				<h3>1970</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1971" class="year">
+				<h3>1971</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1972" class="year">
+				<h3>1972</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1973" class="year">
+				<h3>1973</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1974" class="year">
+				<h3>1974</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1975" class="year">
+				<h3>1975</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1976" class="year">
+				<h3>1976</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1977" class="year">
+				<h3>1977</h3>
+			</div>
+			<div id="y1978" class="year">
+				<h3>1978</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1979" class="year">
+				<h3>1979</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1980" class="year">
+				<h3>1980</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1981" class="year">
+				<h3>1981</h3>
+			</div>
+			<div id="y1982" class="year">
+				<h3>1982</h3>
+			</div>
+			<div id="y1983" class="year">
+				<h3>1983</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1984" class="year">
+				<h3>1984</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1985" class="year">
+				<h3>1985</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1986" class="year">
+				<h3>1986</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1987" class="year">
+				<h3>1987</h3>
+			</div>
+			<div id="y1988" class="year">
+				<h3>1988</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y1989" class="year">
+				<h3>1989</h3>
+			</div>
+			<div id="y1990" class="year">
+				<h3>1990</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1991" class="year">
+				<h3>1991</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1992" class="year">
+				<h3>1992</h3>
+			</div>
+			<div id="y1993" class="year">
+				<h3>1993</h3>
+			</div>		
+			<div id="y1994" class="year">
+				<h3>1994</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1995" class="year">
+				<h3>1995</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1996" class="year">
+				<h3>1996</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1997" class="year">
+				<h3>1997</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y1998" class="year">
+				<h3>1998</h3>
+			</div>		
+			<div id="y1999" class="year">
+				<h3>1999</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2000" class="year">
+				<h3>2000</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2001" class="year">
+				<h3>2001</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2002" class="year">
+				<h3>2002</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2003" class="year">
+				<h3>2003</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y2004" class="year">
+				<h3>2004</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2005" class="year">
+				<h3>2005</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2006" class="year">
+				<h3>2006</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2007" class="year">
+				<h3>2007</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2008" class="year">
+				<h3>2008</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>		
+			<div id="y2009" class="year">
+				<h3>2009</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+			<div id="y2010" class="year">
+				<h3>2010</h3>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+				<a href="#"><img src="" alt="" width="100" height="75"></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

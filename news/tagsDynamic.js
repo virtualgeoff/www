@@ -20,7 +20,7 @@ for(var t in ts){
 	var fs = s(12,25,ts[t]-ta,tz)
 	document.write('<li id="f'+k+'" style="font-size:'+fs+'px;line-height:1;"><a style="color:rgb('+c[0]+','+c[1]+','+c[2]+')" href="http://del.icio.us/virtualgeoff/'+encodeURIComponent(t).replace('%2F','/')+'">'+t+'</a> </li>');
 }
-document.write('<li><a href="http://del.icio.us/virtualgeoff"><img src="http://del.icio.us/static/img/delicious.small.gif" width="16" height="16" alt="my del.icio.us" /></a></li>')
+document.write('<li><a href="http://del.icio.us/virtualgeoff"><img src="http://del.icio.us/static/img/delicious.small.gif" width="16" height="16" alt="my del.icio.us"></a></li>')
 document.write('</ul></div>')
 
 

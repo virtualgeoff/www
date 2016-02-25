@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<head>
+	<title>WebSocket Test</title>
+	<!-- script type="text/javascript" src="http://127.0.0.1:1337/socket.io/socket.io.js"></script -->
+	<script src="http://cdn.socket.io/stable/socket.io.js"></script>
+	<script type="text/javascript">
+	
+		var socket = io.connect();
+		//var socket = io.connect('http://127.0.0.1:1337');
+        //var socket = io.connect('http://127.0.0.1', {port: 1337});
+		
+		var output, websocket, message;
+
+		socket.on('connect', function() {
+			writeToScreen("CONNECTED");
+		});
+
+		socket.on('disconnect', function() {
+			writeToScreen("DISCONNECTED");
+		});
+		 
+		socket.on('message', function(msg) {
+			writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+		});
+
+		function init() {
+			output = document.getElementById("output");
+		}
+						
+		function writeToScreen(message) {
+			var pre = document.createElement("p");
+			pre.style.wordWrap = "break-word";
+			pre.innerHTML = message; output.appendChild(pre);
+		}
+		
+		function connect() {
+			socket.connect();
+		}
+
+		function disconnect() {
+			socket.close();
+		}
+
+		function send() {
+			message = document.getElementById("message").value;
+			writeToScreen("SENT: " + message);
+			socket.send(message);
+		}
+
+		window.addEventListener("load", init, false);
+
+</script>
+</head>
+<body>
+
+	<h2>WebSocket Test</h2>
+	<p>See: <a href="http://www.websocket.org/echo.htm">www.websocket.org/echo.html</a></p>
+
+	<div id="output"></div>
+
+	<hr />
+	
+	<p><button id="connect" onclick="connect();">Connect</button>
+	<button id="disconnect" onclick="disconnect();">Disconnect</button></p>
+
+	<p><input id="message" size="35" value="This is a test!">
+	<button id="send" onclick="send();">Send</button></p>
+	
+</body>
+</html>

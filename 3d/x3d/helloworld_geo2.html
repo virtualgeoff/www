@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
+	<!-- 
+	<link rel="stylesheet" type="text/css" href="/scripts/libraries/x3dom/x3dom.css" />
+	<script type="text/javascript" src="/scripts/libraries/x3dom/x3dom.js"></script>
+	-->
+
+	<link rel="stylesheet" type="text/css" href="http://x3dom.org/x3dom/src/x3dom.css" />
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/lang/Array.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Internals.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/debug.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/DownloadManager.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/RefinementJobManager.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/RefinementJobWorker.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/Properties.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/DoublyLinkedList.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/EarClipping.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/Utils.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/util/States.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/X3DCanvas.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Runtime.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Main.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Cache.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Texture.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/Shader.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderParts.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderDynamic.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderDynamicMobile.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderComposed.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderPicking.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderPickingColor.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderPickingTexcoord.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderFrontgroundTexture.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderBackgroundTexture.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderBackgroundSkyTexture.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderBackgroundCubeTexture.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/shader/ShaderShadow.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/gfx_webgl.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/gfx_flash.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/X3DDocument.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/MatrixMixer.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Viewarea.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Mesh.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/fields.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/NodeNameSpace.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Core.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Grouping.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Bindable.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Rendering.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Shape.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Lighting.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Followers.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Interpolation.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Time.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Networking.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/EnvironmentalEffects.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Navigation.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Text.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Sound.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Texturing.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Shaders.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Geometry3D.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Texturing3D.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Geospatial.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/Geometry2D.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/nodes/VolumeRendering.js"></script>
+	<script type="text/javascript" src="http://x3dom.org/x3dom/src/Docs.js"></script>
+	<!-- END:X3DOM -->
+	<script type="text/javascript" src="http://x3dom.org/x3dom/media/js/tests.js"></script>
+  </head>
+  <body>
+    <x3d id='someUniqueId' showStat='true' showLog='true' x='0px' y='0px' width='800px' height='600px'>
+      <scene>
+        <group>
+          <geoviewpoint id='V' description='Animating GeoViewpoint' orientation='1 0 0 -1.57' position='51.5122 -0.065 10000000'></geoviewpoint>
+          <shape>
+            <appearance>
+              <material diffuseColor='0.8 1 0.3'></material>
+              <imageTexture url='"textures/earth.jpg" "http://www.web3d.org/x3d/content/examples/Basic/images/earth.jpg" "http://www.geovrml.org/1.0/doc/images/earth.jpg"'></imageTexture>
+            </appearance>
+            <geoElevationGrid geoGridOrigin='-90 -180 0' height='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0' creaseAngle='1.05' xDimension='11' xSpacing='36' zDimension='11' zSpacing='18'></geoElevationGrid>
+          </shape>
+          <geopositioninterpolator id='GPI' key='0 0.1 0.55 1' keyValue='51.5122 -0.065 10000000 48.865 2.35 10000000 40.6698 -73.943849 10000000 51.5122 -0.065 10000000'></geopositioninterpolator>
+          <timesensor id='TS' cycleInterval='8' loop='true'></timesensor>
+          <background groundColor='0.3 0.3 0.3' skyColor='0.3 0.3 0.3'></background>
+        </group>
+        <route fromNode='TS' fromField='fraction_changed' toNode='GPI' toField='set_fraction'></route>
+        <route fromNode='GPI' fromField='geovalue_changed' toNode='V' toField='set_position'></route>
+      </scene>
+    </x3d>
+  </body>
+</html>
+
+

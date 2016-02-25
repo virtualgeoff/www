@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Scroll Test 2</title>
+<style type="text/css">
+
+#info {position:absolute; top:0px; right:0px; width:200px; padding:0 0.5em;}
+#scrubberWrapper {width:1000px; margin:50px 0 0 20px; border:1px solid #000;}
+#scrubber {position:relative; width:125px; height:40px; background:#ccc; border:1px solid #000;}
+
+#mainWrapper {clear:left; position:relative; width:1000px; height:350px; margin:50px 0 0 20px; overflow:auto; background:#eee; border:1px solid #000;}
+#mainWrapper h2 {position:absolute; top:1em; left:0;}
+#mainContent {width:8000px;}
+#mainContent div {float:left; width:300px; height:300px; margin-right:100px; background:#07f; opacity:0.5;}
+
+</style>
+<script type="text/javascript" src="drag.js"></script>
+<script type="text/javascript">
+
+function scroll(element) {
+	info.innerHTML = 'main: ' + element.scrollLeft + '<br>scrubber: ' + (element.scrollLeft / 8);
+	scrubber.style.left = (element.scrollLeft / 8) + 'px'
+}
+
+function scroll2 (element, eventID, mouseX, mouseY, elementX, elementY) {
+	if (elementX) {
+		main.scrollLeft = elementX * 8;
+	}
+}
+
+function init() {
+	scrubber = dragDrop.attach('scrubber', false, true, 0, 875, 0, 0);
+	main = document.getElementById('mainWrapper');
+	info = document.getElementById('info');
+	scrubber.callback = scroll2;
+}
+
+var scrubber, main, info;
+window.onload = init;
+
+</script>
+</head>
+<body>
+
+<h1>Scroll Test 2</h1>
+<p id="info"></p>
+
+<div id="scrubberWrapper">
+	<div id="scrubber" class="drag">scrubber</div>
+</div>
+
+<div id="mainWrapper" onscroll="scroll(this);">
+	<div id="mainContent">
+		<h2>Main Content</h2>		
+		<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+		<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+	</div>
+</div>
+
+</body>
+</html>

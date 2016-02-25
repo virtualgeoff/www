@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Simple Color Picker</title>
+	<style type="text/css">
+
+		body {background:#ccc;}
+		h1			{text-align:center;}
+		#wrapper	{position:relative; width:700px; margin:0 auto; padding:0 30px; background:#fff; overflow:auto;}
+		#wrapper2	{position:relative; width:700px; margin:020px auto 0 auto; padding:30px; background:#fff; overflow:auto;}
+
+		.color		{position:relative;}
+		span {float:left; width:10em;}
+		.bar		{width:270px; height:10px; margin:15px 25px 35px 100px; background:#eee; border:1px solid #ccc;}
+		.barInner	{width:0px; height:10px;}
+		.slider		{position:absolute; left:0; top:0; width:15px; height:30px; margin:-10px 0 0 100px; background:#ccc; border:1px solid #000; border-radius:6px;}
+		.text		{position:absolute; top:-3px; left:400px; margin:0;}
+
+		#wrapper2 .bar		{width:215px;}
+		#wrapper2 .text		{left:345px;}
+
+		#wrapper2 #hueBar 	{width:375px;}
+		#wrapper2 #hueText 	{left:495px;}
+		
+		#swatchOuter {float:right; width:152px;}
+		#swatch		{width:150px; height:150px; margin-bottom:5px; background:#000; border:1px solid #000;}
+		#hex		{text-align:center; margin:0.5em 0;}
+
+		#swatch2Outer 	{float:right; width:152px;}
+		#swatch2		{width:150px; height:150px; margin-bottom:5px; background:hsla(0,0,0,0); border:1px solid #000;}
+		#hsla			{text-align:center; margin:0.5em 0;}
+
+		#redBarInner	{background:#f00;}
+		#greenBarInner	{background:#0f0;}
+		#blueBarInner	{background:#00f;}
+
+	</style>
+	<script type="text/javascript" src="drag.js"></script>
+	<script type="text/javascript">
+
+		function fixed(n, digits) {
+			var m = Math.pow(10, digits)
+			return Math.round(n*m)/m;
+		}
+		
+		function toHex(N) {
+			if (N > 255) {
+				return "error";
+			} else if (N < 16) {
+				return '0' + N.toString(16);			
+			} else {
+				return N.toString(16);
+			}
+		}
+		
+		function updateSwatch (element, eventID, mouseX, mouseY, elementX, elementY) {
+			if (elementX) {
+				if (element.id == 'redSlider') { 
+					red = parseInt(elementX);
+					document.getElementById('redBarInner').style.width = elementX + 'px';
+					document.getElementById('redBarInner').style.backgroundColor = 'rgb(' + red + ',0,0)';
+					document.getElementById('redText').innerHTML = red;
+				} else if (element.id == 'greenSlider') {
+					green = parseInt(elementX);
+					document.getElementById('greenBarInner').style.width = elementX + 'px';
+					document.getElementById('greenBarInner').style.backgroundColor = 'rgb(0,' + green + ',0)';
+					document.getElementById('greenText').innerHTML = green;
+				} else if (element.id == 'blueSlider') {
+					blue = parseInt(elementX);
+					document.getElementById('blueBarInner').style.width = elementX + 'px';
+					document.getElementById('blueBarInner').style.backgroundColor = 'rgb(0,0,' + blue + ')';
+					document.getElementById('blueText').innerHTML = blue;
+				}
+				document.getElementById('swatch').style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+				document.getElementById('hex').innerHTML = 'rgb(' + red + ',' + green + ',' + blue + ')<br>#' + toHex(red) + toHex(green) + toHex(blue);
+			}
+		}
+
+		function updateSwatch2 (element, eventID, mouseX, mouseY, elementX, elementY) {
+			if (elementX) {
+				if (element.id == 'hueSlider') { 
+					hue = Math.round(elementX);
+					document.getElementById('hueBarInner').style.width = elementX + 'px';
+					document.getElementById('hueText').innerHTML = hue;
+				} else if (element.id == 'saturationSlider') { 
+					saturation = Math.round(elementX / 2);
+					document.getElementById('saturationBarInner').style.width = elementX + 'px';
+					document.getElementById('saturationText').innerHTML = saturation;
+				} else if (element.id == 'luminanceSlider') { 
+					luminance = Math.round(elementX / 2);
+					document.getElementById('luminanceBarInner').style.width = elementX + 'px';
+					document.getElementById('luminanceText').innerHTML = luminance;
+				} else if (element.id == 'opacitySlider') { 
+					opacity = fixed((elementX / 200), 2);;
+					document.getElementById('opacityBarInner').style.width = elementX + 'px';
+					document.getElementById('opacityText').innerHTML = opacity;
+				}
+				document.getElementById('hueBarInner').style.backgroundColor = 'hsl(' + hue + ',100%,50%)';
+				document.getElementById('saturationBarInner').style.backgroundColor = 'hsl(' + hue + ',' + saturation + '%,50%)';
+				document.getElementById('luminanceBarInner').style.backgroundColor = 'hsl(' + hue + ',100%,' + luminance + '%)';
+				document.getElementById('opacityBarInner').style.backgroundColor = 'hsla(' + hue + ',100%,50%,' + opacity + ')';
+
+				document.getElementById('swatch2').style.backgroundColor = 'hsla(' + hue + ',' + saturation + '%,' + luminance + '%,' + opacity +')';
+				document.getElementById('hsla').innerHTML = 'hsla(' + hue + ',' + saturation + '%,' + luminance + '%,' + opacity +')';
+			}
+		}
+
+		function init () {
+			 dragDrop.attach('redSlider', updateSwatch, false, true, 0, 255, 0, 0);
+			 dragDrop.attach('greenSlider', updateSwatch, false, true, 0, 255, 0, 0);
+			 dragDrop.attach('blueSlider', updateSwatch, false, true, 0, 255, 0, 0);
+
+			 dragDrop.attach('hueSlider', updateSwatch2, false, true, 0, 360, 0, 0);
+			 dragDrop.attach('saturationSlider', updateSwatch2, false, true, 0, 200, 0, 0);
+			 dragDrop.attach('luminanceSlider', updateSwatch2, false, true, 0, 200, 0, 0);
+			 dragDrop.attach('opacitySlider', updateSwatch2, false, true, 0, 200, 0, 0);
+		}
+
+		// IE throws errors if not all declared first:
+		var red = 0, green = 0, blue = 0;
+		var hue = 0, saturation = 0, luminance = 0, opacity = 0;
+
+		window.onload = init;
+
+	</script>
+</head>
+<body>
+	<h1>Simple Color Picker</h1>
+
+	<div id="wrapper">
+		<h2>RGB</h2>
+		<div id="swatchOuter">
+			<div id="swatch"></div>
+			<p id="hex">rgb(0,0,0)<br>#000000</p>
+		</div>
+
+		<div id="red" class="color">
+			<span>Red:</span>
+			<div id="redBar" class="bar">
+				<div id="redBarInner" class="barInner"></div>
+			</div>
+			<div id="redSlider" class="slider"></div>
+			<p id="redText" class="text">0</p>
+		</div>
+		<div id="green" class="color">
+			<span>Green:</span>
+			<div id="greenBar" class="bar">
+				<div id="greenBarInner" class="barInner"></div>
+			</div>
+			<div id="greenSlider" class="slider"></div>
+			<p id="greenText" class="text">0</p>
+		</div>
+		<div id="blue" class="color">
+			<span>Blue:</span>
+			<div id="blueBar" class="bar">
+				<div id="blueBarInner" class="barInner"></div>
+			</div>
+			<div id="blueSlider" class="slider"></div>
+			<p id="blueText" class="text">0</p>
+		</div>
+	</div>
+	<div id="wrapper2">
+		<h2>HSLA</h2>
+		<div id="swatch2Outer">
+			<div id="swatch2"></div>
+			<p id="hsla">hsla(0,0%,0%)</p>
+		</div>
+
+		<div id="hue" class="color">
+			<span>Hue:</span>
+			<div id="hueBar" class="bar">
+				<div id="hueBarInner" class="barInner"></div>
+			</div>
+			<div id="hueSlider" class="slider"></div>
+			<p id="hueText" class="text">0</p>
+		</div>
+			<span>Saturation:</span>
+		<div id="saturation" class="color">
+			<div id="saturationBar" class="bar">
+				<div id="saturationBarInner" class="barInner"></div>
+			</div>
+			<div id="saturationSlider" class="slider"></div>
+			<p id="saturationText" class="text">0</p>
+		</div>
+		<div id="luminance" class="color">
+			<span>Luminance:</span>
+			<div id="luminanceBar" class="bar">
+				<div id="luminanceBarInner" class="barInner"></div>
+			</div>
+			<div id="luminanceSlider" class="slider"></div>
+			<p id="luminanceText" class="text">0</p>
+		</div>
+		<div id="opacity" class="color">
+			<span>Opacity:</span>
+			<div id="opacityBar" class="bar">
+				<div id="opacityBarInner" class="barInner"></div>
+			</div>
+			<div id="opacitySlider" class="slider"></div>
+			<p id="opacityText" class="text">0</p>
+		</div>
+	</div>
+
+</body>
+</html>

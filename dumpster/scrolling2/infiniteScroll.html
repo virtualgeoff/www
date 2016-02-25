@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Infinite Scroll and a Scrolling->Fixed Sidebar</title>
+	<style type="text/css">
+
+		body {margin:0; padding:0; background:#fff;}
+		h1, h2, h3 {margin:0; padding:20px;}
+		p, hr {margin:1em 20px; padding:0;}
+		a {text-decoration:none;}
+
+		#header {width:980px; height:120px; margin:0 auto; background:#ccc;}
+		#wrapper {position:relative; width:980px; margin:0 auto; background:#fff; overflow:hidden;}
+		#main {width:620px; float:left; margin:0; background:#ddd;}
+		#sidebar {position:relative; float:left; width:360px; margin:0; background:#eee;}
+		#sidebarBox {position:relative; top:0px; margin:20px; background:#fff; border:1px solid #000;}
+		#footer {width:980px; height:100px; margin:0 auto; background:#ccc;}
+		
+	</style>
+	<script type="text/javascript" src="../slideshow/scripts/utilities.js"></script>
+	<script type="text/javascript">
+
+		function showInfo() {
+			info.innerHTML = 'document.body.scrollTop = ' + document.body.scrollTop;
+			info.innerHTML += '<br>document.body.scrollHeight = ' + document.body.scrollHeight;
+			info.innerHTML += '<br>sidebarBox.style.top = ' + sidebarBox.style.top;	
+		}
+
+		function callback(request) {
+			var contentType = request.getResponseHeader("Content-Type");
+			
+			if ((contentType == 'text/html') || (contentType == 'text/plain')) {
+				console.info("Success: Content loaded...");
+				main.innerHTML += request.responseText;
+			} else {
+				console.info("Error: Unknown Content-Type");
+				alert('Error: Unknown Content-Type \nFile not loaded');
+			}
+		}
+
+		function clearDelay() {
+			timer = null;
+			setPosition(); // check again if waiting at page bottom
+		}
+
+		function getMoreContent() {
+			if (!timer) {
+				url = 'data/page' + (++page) + '.html';
+				requestFile(url, callback);
+				timer = setTimeout(clearDelay, 3000);
+			}
+		}
+		
+		function setPosition() {
+			// adjust sidebar box position
+			if (document.body.scrollTop > 363) {
+				sidebarBox.style.top = (document.body.scrollTop-363) + 'px';
+			} else {
+				sidebarBox.style.top = '0px';
+			}
+			
+			// load more content if near page bottom
+			if (document.body.scrollTop + window.innerHeight >= document.body.scrollHeight - 50) {
+				getMoreContent();
+			}
+
+			// display numbers			
+			showInfo();	
+		}
+
+		function init() {
+			body = document.getElementsByTagName("body");
+			main = document.getElementById("main");
+			sidebarBox = document.getElementById("sidebarBox");
+			info = document.getElementById("info");
+			showInfo();	
+		}
+	
+		var body, main, sidebarBox, info, timer = null, page = 1;
+
+		window.onscroll = setPosition;
+		window.onresize = setPosition;
+		window.onload = init;
+	
+	</script>
+</head>
+<body>
+
+	<div id="header">
+		<h1>Infinite<sup><small><a href="#disclaimer">*</a></small></sup> Scroll and a Scrolling->Fixed Sidebar</h1>
+	</div>
+	<div id="wrapper">
+		<div id="main">
+			<h2>Main</h2>
+			<p><b>1. Extra body content added as scrolling nears end of page ('infinite scroll'). </b></p>
+			<p><b>2. Scrollbar box on right changes from scrolling with page to fixed position in order to avoid scrolling off screen.</b></p>
+			<p><small><a id="disclaimer">*</a> for small values of infinite.</small></p>
+			<hr />
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat felis id ante imperdiet vestibulum. Cras posuere velit ut nunc molestie nec mattis quam lobortis. Praesent neque enim, dignissim eu lacinia nec, lobortis ac nibh. Quisque a nibh rutrum purus dignissim pretium. Suspendisse vel ipsum eros. Suspendisse eget elit lacus. Proin volutpat mauris commodo arcu tempus molestie. Nunc sodales vulputate purus, nec dictum metus sodales ut.</p>
+			<p>Fusce pulvinar erat non sapien tincidunt auctor. Morbi varius massa eu turpis viverra porttitor. Vestibulum rhoncus auctor dapibus. Fusce purus ipsum, hendrerit non convallis vel, sollicitudin et nibh. Sed iaculis congue velit in tincidunt. In facilisis fringilla risus porta ornare. Phasellus luctus adipiscing posuere.</p>
+			<p>Vivamus vestibulum malesuada est et scelerisque. Nulla risus nisi, interdum vel porttitor vitae, luctus quis ante. Donec posuere condimentum sem eget commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi id neque sem. Donec mattis risus sit amet ligula mattis tincidunt. Integer pretium mattis quam, id venenatis diam mattis lacinia. Etiam semper eros eu tellus laoreet porta. Curabitur ligula felis, luctus ac ullamcorper eget, cursus ac tortor. Sed ac ullamcorper dolor.</p>
+			<p>Morbi eu purus lectus, sit amet luctus enim. Suspendisse quam sapien, placerat ac lacinia vel, fringilla non massa. Mauris gravida mi non magna tempor et scelerisque sem ornare. Cras eget adipiscing eros. Etiam a magna hendrerit ligula egestas fermentum eget ut nulla. Proin mollis dictum eleifend. Ut in eleifend enim. Sed auctor, mauris quis pulvinar mollis, dolor elit lobortis dolor, vel tempor elit nisi quis elit. Morbi ac lacus enim, sed tincidunt neque. Phasellus eu arcu varius quam bibendum sodales. Aliquam malesuada ultricies lacus et bibendum. Cras eleifend cursus nunc, sagittis convallis tellus lobortis nec. Nullam ac magna risus. Duis mauris lectus, eleifend vel dictum id, tempor sed tortor. Nam vestibulum elit eget eros fringilla eu pellentesque purus ultrices.</p>
+			<p>Vestibulum mattis tempor laoreet. Praesent pellentesque, massa non feugiat placerat, metus urna fermentum tortor, vel eleifend turpis tellus placerat sapien. Aenean vitae eros vel magna sollicitudin convallis. Suspendisse potenti. Fusce porttitor venenatis dolor sed tempus. Sed egestas fringilla arcu in volutpat. Etiam congue dictum vulputate. Nam pellentesque accumsan consequat. Nullam molestie eleifend sapien, et convallis lorem molestie sed. Aliquam posuere rutrum enim eget adipiscing.</p>
+			<p>Nunc at turpis eu nulla varius varius. Morbi mi ligula, laoreet sed commodo quis, consectetur eget nisi. Nam vulputate, purus quis gravida iaculis, magna quam pellentesque risus, eget scelerisque odio augue a risus. Nulla facilisi. Praesent vulputate eros urna, in mattis neque. Etiam iaculis sodales quam. Integer pulvinar fringilla lacus, vel lobortis elit vestibulum nec.</p>
+			<p>Etiam augue nibh, sagittis vitae placerat nec, bibendum ac risus. Vivamus ut lorem lacus. Quisque tincidunt nunc non libero dapibus egestas vitae ac diam. Praesent turpis turpis, commodo vitae tincidunt et, pretium nec nulla. Nulla rhoncus, nisi in blandit faucibus, leo neque congue est, eget accumsan sapien lacus posuere libero. Cras vitae lacus justo, non lacinia urna. Mauris a mauris nec lacus commodo consequat. Cras placerat tincidunt orci at tempor.</p>
+			<p>Maecenas sit amet sem diam. Duis lacinia malesuada sapien, eget convallis elit consequat vel. Vestibulum rhoncus blandit convallis. Donec vitae nibh eu lacus pretium iaculis a dictum nisl. Nunc rhoncus rhoncus tellus vel varius. Sed magna metus, aliquet quis hendrerit et, pulvinar at leo. Nam imperdiet viverra nunc, nec suscipit est feugiat ut. Donec vestibulum urna venenatis velit varius nec lacinia lacus scelerisque. Donec a lacus sed diam congue ultricies.</p>
+			<p>Curabitur luctus tincidunt lacus, et hendrerit libero luctus vitae. Cras odio urna, suscipit sed faucibus vel, mollis non nisi. Nam lobortis nibh a velit imperdiet ullamcorper. Cras sit amet placerat mauris. Nulla elementum mollis lectus vitae facilisis. Morbi libero leo, molestie quis malesuada sed, sodales in eros. Curabitur quis erat quis elit tincidunt volutpat vel quis nibh. Aliquam erat volutpat. Cras hendrerit elementum luctus. Pellentesque et sodales erat. Aenean at condimentum dui. Quisque vel odio sem.</p>
+			<p>Mauris vel nunc nisl, quis ullamcorper libero. Pellentesque ac tortor arcu. Fusce commodo diam massa, vel tincidunt turpis. Vivamus mollis aliquet justo id dapibus. Etiam vel velit id diam viverra congue. Nulla facilisi. Aliquam consectetur iaculis massa, in dapibus felis vulputate ac.</p>
+			<p>Fusce pulvinar erat non sapien tincidunt auctor. Morbi varius massa eu turpis viverra porttitor. Vestibulum rhoncus auctor dapibus. Fusce purus ipsum, hendrerit non convallis vel, sollicitudin et nibh. Sed iaculis congue velit in tincidunt. In facilisis fringilla risus porta ornare. Phasellus luctus adipiscing posuere.</p>
+			<p>Vivamus vestibulum malesuada est et scelerisque. Nulla risus nisi, interdum vel porttitor vitae, luctus quis ante. Donec posuere condimentum sem eget commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi id neque sem. Donec mattis risus sit amet ligula mattis tincidunt. Integer pretium mattis quam, id venenatis diam mattis lacinia. Etiam semper eros eu tellus laoreet porta. Curabitur ligula felis, luctus ac ullamcorper eget, cursus ac tortor. Sed ac ullamcorper dolor.</p>
+			<p>Morbi eu purus lectus, sit amet luctus enim. Suspendisse quam sapien, placerat ac lacinia vel, fringilla non massa. Mauris gravida mi non magna tempor et scelerisque sem ornare. Cras eget adipiscing eros. Etiam a magna hendrerit ligula egestas fermentum eget ut nulla. Proin mollis dictum eleifend. Ut in eleifend enim. Sed auctor, mauris quis pulvinar mollis, dolor elit lobortis dolor, vel tempor elit nisi quis elit. Morbi ac lacus enim, sed tincidunt neque. Phasellus eu arcu varius quam bibendum sodales. Aliquam malesuada ultricies lacus et bibendum. Cras eleifend cursus nunc, sagittis convallis tellus lobortis nec. Nullam ac magna risus. Duis mauris lectus, eleifend vel dictum id, tempor sed tortor. Nam vestibulum elit eget eros fringilla eu pellentesque purus ultrices.</p>
+			<p>Vestibulum mattis tempor laoreet. Praesent pellentesque, massa non feugiat placerat, metus urna fermentum tortor, vel eleifend turpis tellus placerat sapien. Aenean vitae eros vel magna sollicitudin convallis. Suspendisse potenti. Fusce porttitor venenatis dolor sed tempus. Sed egestas fringilla arcu in volutpat. Etiam congue dictum vulputate. Nam pellentesque accumsan consequat. Nullam molestie eleifend sapien, et convallis lorem molestie sed. Aliquam posuere rutrum enim eget adipiscing.</p>
+			<p>Nunc at turpis eu nulla varius varius. Morbi mi ligula, laoreet sed commodo quis, consectetur eget nisi. Nam vulputate, purus quis gravida iaculis, magna quam pellentesque risus, eget scelerisque odio augue a risus. Nulla facilisi. Praesent vulputate eros urna, in mattis neque. Etiam iaculis sodales quam. Integer pulvinar fringilla lacus, vel lobortis elit vestibulum nec.</p>
+			<p>Etiam augue nibh, sagittis vitae placerat nec, bibendum ac risus. Vivamus ut lorem lacus. Quisque tincidunt nunc non libero dapibus egestas vitae ac diam. Praesent turpis turpis, commodo vitae tincidunt et, pretium nec nulla. Nulla rhoncus, nisi in blandit faucibus, leo neque congue est, eget accumsan sapien lacus posuere libero. Cras vitae lacus justo, non lacinia urna. Mauris a mauris nec lacus commodo consequat. Cras placerat tincidunt orci at tempor.</p>
+			<p>Maecenas sit amet sem diam. Duis lacinia malesuada sapien, eget convallis elit consequat vel. Vestibulum rhoncus blandit convallis. Donec vitae nibh eu lacus pretium iaculis a dictum nisl. Nunc rhoncus rhoncus tellus vel varius. Sed magna metus, aliquet quis hendrerit et, pulvinar at leo. Nam imperdiet viverra nunc, nec suscipit est feugiat ut. Donec vestibulum urna venenatis velit varius nec lacinia lacus scelerisque. Donec a lacus sed diam congue ultricies.</p>
+			<p>Curabitur luctus tincidunt lacus, et hendrerit libero luctus vitae. Cras odio urna, suscipit sed faucibus vel, mollis non nisi. Nam lobortis nibh a velit imperdiet ullamcorper. Cras sit amet placerat mauris. Nulla elementum mollis lectus vitae facilisis. Morbi libero leo, molestie quis malesuada sed, sodales in eros. Curabitur quis erat quis elit tincidunt volutpat vel quis nibh. Aliquam erat volutpat. Cras hendrerit elementum luctus. Pellentesque et sodales erat. Aenean at condimentum dui. Quisque vel odio sem.</p>
+			<p>Mauris vel nunc nisl, quis ullamcorper libero. Pellentesque ac tortor arcu. Fusce commodo diam massa, vel tincidunt turpis. Vivamus mollis aliquet justo id dapibus. Etiam vel velit id diam viverra congue. Nulla facilisi. Aliquam consectetur iaculis massa, in dapibus felis vulputate ac.</p>
+		</div>
+		<div id="sidebar">
+			<h3>Sidebar</h3>
+			<p>Duis egestas, ligula eu porttitor consectetur, purus nisi fermentum arcu, quis lobortis lacus risus nec diam. Cras tincidunt feugiat nisl a dictum. Aenean iaculis metus eu elit dignissim sollicitudin. Aliquam suscipit porta ipsum nec euismod. Donec velit enim, rutrum in blandit nec, ullamcorper adipiscing sem. Sed vehicula aliquet dui imperdiet pulvinar. Phasellus vel orci ac felis luctus porttitor in id eros.</p>
+			<div id="sidebarBox">
+				<p id="info">info...</p>			
+				<p>Nulla feugiat purus porta diam imperdiet non euismod augue vehicula. Morbi eget est nibh, nec feugiat dui. Nullam tincidunt tincidunt ipsum, nec ullamcorper nunc accumsan viverra. Nullam a massa et lectus consectetur egestas non vel urna. Quisque nec mauris nisl, vel commodo justo. Duis vel dui turpis, eget pharetra erat.</p>
+			</div>	
+		</div>	
+	</div>
+	<div id="footer">
+		<h3>Footer</h3>
+		<p>Praesent tristique, ligula id ullamcorper euismod, lectus urna congue justo, sed auctor purus libero et nisl, purus nisi fermentum arcu, quis.</p>
+	</div>
+
+</body>
+</html>

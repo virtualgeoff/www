@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<title>Rotation</title>
+	<link rel="stylesheet" href="style.css" />
+	<style type="text/css">
+	
+		html, body {width:100%; height:100%; margin:0;}
+		
+		#old, #new {width:50%; float:left; height:100%; text-align:center;}
+		
+		span {background-image:url('pickles.jpg'); width:260px; height:195px; display:inline-block;}
+		
+		#new > span {text-indent:100%; white-space:nowrap; overflow:hidden;}
+
+		#p1, #p2, #p3 {font-size:3em; text-align:center;}
+		#p1 {margin-top:20%; color:#f00;}
+		#p2 {margin-top:1em; color:#0f0;}
+		#p3 {margin-top:1em; color:#00f;}
+
+		
+		@-webkit-keyframes rotate {
+			from {-webkit-transform:rotate(0deg); transform:rotate(0deg);}
+			to {-webkit-transform:rotate(360deg); transform:rotate(360deg);}
+		}
+		
+		@-moz-keyframes rotate {
+			from {-moz-transform:rotate(0deg); transform:rotate(0deg);}
+			to {-moz-transform:rotate(360deg); transform:rotate(360deg);}
+		}
+		
+		@-ms-keyframes rotate {
+			from {-ms-transform:rotate(0deg); transform:rotate(0deg);}
+			to {-ms-transform:rotate(360deg); transform:rotate(360deg);}
+		}
+		
+		@-o-keyframes rotate {
+			from {-o-transform:rotate(0deg); transform:rotate(0deg);}
+			to {-o-transform:rotate(360deg); transform:rotate(360deg);}
+		}
+		
+		@keyframes rotate {
+			from {transform:rotate(0deg);}
+			to {transform:rotate(360deg);}
+		}
+		
+		#p1 {
+			-webkit-animation: rotate 3s linear infinite;
+			-moz-animation:    rotate 3s linear infinite;
+			-ms-animation:     rotate 3s linear infinite;
+			-o-animation:      rotate 3s linear infinite;
+			animation:         rotate 3s linear infinite;
+		}	
+		#p2 {
+			-webkit-animation: rotate 5s linear infinite;
+			-moz-animation:    rotate 5s linear infinite;
+			-ms-animation:     rotate 5s linear infinite;
+			-o-animation:      rotate 5s linear infinite;
+			animation:         rotate 5s linear infinite;
+		}	
+		#p3 {
+			-webkit-animation: rotate 7s linear infinite;
+			-moz-animation:    rotate 7s linear infinite;
+			-ms-animation:     rotate 7s linear infinite;
+			-o-animation:      rotate 7s linear infinite;
+			animation:         rotate 7s linear infinite;
+		}	
+	
+	</style>
+</head>
+<body>
+
+	<p id="p1">This is</p>
+	<p id="p2">some text</p>
+	<p id="p3">rotating!</p>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Time Color</title>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css">
+	<style type="text/css">
+	
+		body {font-family:'Open Sans', Verdana, sans-serif; text-align:center; color:#fff; background:#000;}
+		h1 {font-size:120px; font-style:normal;}
+		h2 {font-size:30px;  font-style:normal;}
+	
+	</style>	
+	<script type="text/javascript">
+
+		// Inspired by http://whatcolourisit.scn9a.org
+		// which suffers from the problem mentioned below.
+		// Also, it weighs 390 KB instead of 26 KB here		
+		
+		var timer, now, ss, mm, hh;
+			
+		function pad(n) {
+			// add leading zero if needed
+			return (n < 10) ? ('0' + n) : n;
+		}
+		
+		// Note: calling showTime using setInterval with interval set to 1000 ms was 
+		// causing the time to drift by 2-5 ms every tick, ultimately causing it to 
+		// skip a second every few hundred.
+		// Instead, use setTimeout with dynamically calculated delay
+		
+		function showTime() {
+			now = new Date();	
+			hh = pad(now.getHours());
+			mm = pad(now.getMinutes());
+			ss = pad(now.getSeconds());
+			d  = 1000 - now.getMilliseconds();
+			timer = setTimeout(showTime, d);
+		
+			console.log(hh + ':' + mm + ':' + ss + '\t' + now.getMilliseconds());
+			document.getElementById('time').innerHTML = hh + ' : ' + mm + ' : ' + ss;
+			document.getElementById('hash').innerHTML = '#' + hh + mm + ss;
+			document.getElementsByTagName('body')[0].style.backgroundColor = '#' + hh + mm + ss;			
+		}
+		
+		function init() {
+			now = new Date();			
+			var initialDelay = 1000 - now.getMilliseconds(); // to sync with system clock
+			console.log(now.getMilliseconds() + ', ' + initialDelay);
+			timer = setTimeout(function(){
+				showTime();
+				//setInterval(showTime, 1000);			
+			}, initialDelay);		
+		}
+	
+		window.onload = init;
+	
+	</script>
+</head>
+<body>
+
+	<h1 id="time"></h1>
+	<h2 id="hash"></h2>
+
+</body>
+</html>

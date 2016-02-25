@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>The Sieve of Eratosthenes</title>
+</head>
+<body>
+
+<h1>The Sieve of Eratosthenes</h1>
+
+<p>See <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">
+Sieve of Eratostheness</a> (Wikipedia).</p>
+
+<script type="text/javascript">
+
+var then = new Date();
+var limit = 1000000;       // arbitrary search limit
+var is_prime = [];
+var i, n;
+var str = "";
+
+for (i=2; i<=limit; i++) { 
+	is_prime[i] = true;   // assume all numbers are prime at first
+}
+
+//for (n=2; n<=Math.sqrt(limit); n++) {
+for (n=2, m=Math.sqrt(limit); n<m; n++) {
+	if (is_prime[n]) {
+		// eliminate multiples of each prime, starting with its square
+		for (i=n*n; i<=limit; i+=n) {
+			is_prime[i] = false;
+		}
+	}
+}
+
+for (n=2; n<=limit; n++) { 
+	//if is_prime[n] then print n
+	if (is_prime[n]) {
+		str += n + ', ';
+	}
+}
+var now = new Date();
+
+document.write("<p>All the prime numbers between 0 and " + limit + ":</p>");
+document.write("<p>Time taken: " + (now-then) + " milliseconds</p>");
+document.write("<p>" + str + "</p>");
+
+</script>
+
+</body>
+</html

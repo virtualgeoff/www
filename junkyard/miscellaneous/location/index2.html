@@ -10,27 +10,13 @@
 
 <script language="JavaScript">
 
-var searchStr = location.search;
+//var searchStr = location.search;
 var section = location.hash.substring(1,location.hash.length);
-var searchArray = new Array();
+var searchArray = [];
 
-while (searchStr!='') {
-	var name, value;
-	// strip off leading ? or &
-	if ((searchStr.charAt(0)=='?')||(searchStr.charAt(0)=='&')) searchStr = searchStr.substring(1,searchStr.length);
-	// find name
-	name = searchStr.substring(0,searchStr.indexOf('='));
-	// find value
-	if (searchStr.indexOf('&')!=-1) value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.indexOf('&'));
-	else value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.length);
-	// add pair to an associative array
-	searchArray[name] = value;
-	// cut first pair from string
-	if (searchStr.indexOf('&')!=-1) searchStr =  searchStr.substring(searchStr.indexOf('&')+1,searchStr.length);
-	else searchStr = '';
-	// debug step
-	//document.write(name + ': ' + value + ': ' + searchStr + '<br>');
-}
+// fyi:http://www.bennadel.com/blog/695-ask-ben-getting-query-string-values-in-javascript.htm
+window.location.search.replace(/([^?=&]+)(=([^&]*))?/g, function($0,$1,$2,$3){searchArray[$1]=$3;});
+
 
 // write table of pairs and hash value
 document.write('<table align="center">');

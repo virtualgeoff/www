@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Image Magnifier Demo</title>
+	<style type="text/css">
+
+		#wrapper {position:relative; width:400px; margin:0 auto;}
+		#magnifier {position:absolute; top:0; left:0; width:150px; height:150px; border:1px solid #000; border-radius:100px; background:url('images/map_large.jpg') -225px -225px no-repeat; /*opacity:0.5;*/}
+		#info {position:absolute; top:0px; right:0px; width:200px; padding:1em;}
+		
+	</style>
+	<script type="text/javascript" src="drag.js"></script>
+	<script type="text/javascript">
+	
+		function doSomething (element, eventID, mouseX, mouseY, elementX, elementY) {
+			var scale = 4;
+			var W = 150;
+			var H = 150;
+			
+			document.getElementById('info').innerHTML = '#' + element.id + ' (' + eventID + ')';
+			if (mouseX) {
+				document.getElementById('info').innerHTML += '<br>Mouse: ' + mouseX + ',' + mouseY;
+			}
+			if (elementX) {
+				document.getElementById('info').innerHTML += '<br>Element: ' + elementX + ',' + elementY;
+				
+				// move magnifier background image...
+				var X = ((elementX + W/2) * scale - W/2) * -1;
+				var Y = ((elementY + W/2) * scale - H/2) * -1;								
+				magnifier.style.backgroundPosition = X + 'px ' + Y + 'px';				
+			}
+		}
+
+		function init() {
+			dragDrop.attach('magnifier', doSomething);					
+			magnifier = document.getElementById('magnifier');		
+		}
+		
+		// IE throws errors if not all declared first:
+		var magnifier, map;
+		
+		window.onload = init;
+	
+	</script>
+</head>
+<body>
+
+	<h1>Image Magnifier Demo</h1>
+	<p>Drag magnifier (circle) to see enlarged map.</p>
+	<p>See: <a href="http://queeriodictable.com/">queeriodictable.com</a> for inspiration</p>
+	<div id="wrapper">
+		<a href="images/map_large.jpg"><img id="map" src="images/map_small.jpg" alt="Map of Australia" width="400" height="277" /></a>
+		<div id="magnifier"></div>
+		<p>Map by <a href="https://www.ga.gov.au/products/servlet/controller?event=GEOCAT_DETAILS&catno=65186">Geosciences Australia<a>, (<a href="http://creativecommons.org/licenses/by/3.0/au/deed.en">some rights reserved</a>)</p>
+	</div>
+	<div id="info"></div>
+
+</body>
+</html>

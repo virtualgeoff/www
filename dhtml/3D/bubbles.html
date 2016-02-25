@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<!-- from: http://zenpsycho.com/bubbles.html -->
+	<!-- Breton Slivka <Slivka.Breton@abc.net.au> -->
+
+	<title>bubbles</title>
+<style>
+body {
+    margin:0;
+    padding:0;
+}
+</style>
+</head>
+
+<body>
+<canvas width="300" height="300">
+</canvas>
+
+<script>
+var canvas = document.getElementsByTagName("canvas")[0];
+var ctx = canvas.getContext("2d");
+
+canvas.setAttribute("width", window.innerWidth)
+canvas.setAttribute("height", window.innerHeight)
+
+function bubble(ctx, x,y,rad,op) {
+    if(ctx && !isNaN(op)) {
+        ctx.save();
+        ctx.scale(600,600);
+        ctx.translate(-0.25,-0.25)
+        ctx.beginPath();
+        ctx.fillStyle="rgba(0,0,0,"+(op/2)+")";
+        ctx.lineStyle="rgba(0,0,0,"+op+")"
+        ctx.lineWidth=0.001;
+        ctx.arc(x,y, rad, 0,Math.PI*2, false);
+        ctx.stroke();
+        ctx.fill();
+        //ctx.fill();
+        ctx.restore();
+    }
+}
+
+
+function bubbleZ (ctx, x,y,z, rad) {
+    z=z;
+    z=Math.max(Math.min(1,z),0);
+    
+    x=(x)*(z)+0.5;
+    y=(y)*(z)+0.5;
+    
+    rad=rad*(z);
+    
+    bubble(ctx, x,y,rad,(z-0.1)/4);
+}
+
+function drawCube (ctx, r) {
+    var x,y,z
+    
+    for(var i = 0; i<125; i++){
+        x = i%5/4 -0.5;
+        y = Math.floor(i/5)%5/4 - 0.5;
+        z = Math.floor(i/25)/4 - 0.5;
+        var rot= rotateVecY(x,y,z,r)
+            bubbleZ(ctx, rot[0]*0.5, rot[1]*0.5, (rot[2]+0.6)*0.5, 0.02);
+        
+    }
+}
+var bubbles={};
+
+function randombubbles () {
+    if(!bubbles.x||!bubbles.y||!bubbles.z){
+        bubbles.x = [];
+        bubbles.y = [];
+        bubbles.z = [];
+        bubbles.vx = [];
+        bubbles.vy = [];
+        bubbles.vz = [];
+        bubbles.r = [];
+        for(var i = 0; i<120; i++){
+            bubbles.x[i]=Math.random()*2-1;
+            bubbles.y[i]=Math.random()*20-1;
+            bubbles.z[i]=Math.random()*2-1;
+            bubbles.vx[i]=0;
+            bubbles.vy[i]=0;
+            bubbles.vz[i]=0;
+            bubbles.r[i]=0.02;
+        }
+    }
+}
+
+function drawBubbles (ctx,r) {
+    var x,y,z
+    
+
+       randombubbles();
+        
+        for(var i = 0; i<120; i++){
+            
+            if(bubbles.y[i]<-3) {
+                bubbles.x[i]=0;
+                bubbles.y[i]=5;
+                bubbles.z[i]=0;
+                bubbles.vx[i]=0;
+                bubbles.vy[i]=0;
+                bubbles.vz[i]=0;
+                bubbles.r[i]=0.04*Math.random();
+            }
+            
+            bubbles.vx[i]+=(Math.random()-0.5)*0.0005;
+            bubbles.vy[i]-=0.0003*Math.random();
+            bubbles.vz[i]+=(Math.random()-0.5)*0.0005;
+            bubbles.x[i]+=bubbles.vx[i];
+             bubbles.y[i]+=bubbles.vy[i];
+             bubbles.z[i]+=bubbles.vz[i];
+            
+            
+             var rot= rotateVecY(bubbles.x[i],bubbles.y[i],bubbles.z[i],r);
+             
+             bubbleZ(ctx, rot[0]*0.5, rot[1]*0.5, (rot[2]*0.2)+0.5, bubbles.r[i] );
+            
+            // bubbleZ(ctx, bubbles.x[i]*0.5, bubbles.y[i]*0.5, (bubbles.z[i]+0.5)*0.5, 0.02);
+        }
+        
+    
+    
+    
+    
+}
+  
+function rotateVecY(x,y,z,r) {
+    r = r%360/360*Math.PI*2;
+    
+    var xd = x*Math.cos(r)+z*Math.sin(r);
+    var zd = -x*Math.sin(r)+z*Math.cos(r);
+                    
+    return [xd,y,zd];
+}
+
+setInterval(function () {
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    //drawCube(ctx, new Date()*0.1);
+    //drawCircles (ctx);
+    drawBubbles(ctx, new Date()*0.1);
+}, 20)
+
+
+</script>
+<div id="debug"></div>
+</body>
+</html>

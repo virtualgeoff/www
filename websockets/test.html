@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<head>
+	<title>WebSocket Test</title>
+	<script type="text/javascript">
+	
+		var wsUri = "ws://echo.websocket.org/";
+		//var wsUri = "ws://127.0.0.1:1337";
+		var output, websocket, message;
+
+		function init() {
+			output = document.getElementById("output");
+		}
+
+		function testWebSocket() {
+			websocket = new WebSocket(wsUri);
+			websocket.onopen = function(evt) {
+				writeToScreen("CONNECTED");
+			};
+			websocket.onclose = function(evt) {
+				writeToScreen("DISCONNECTED");
+			};
+			websocket.onmessage = function(evt) {
+				writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+			};
+			websocket.onerror = function(evt) {
+				writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+			};
+		}
+						
+		function writeToScreen(message) {
+			var pre = document.createElement("p");
+			pre.style.wordWrap = "break-word";
+			pre.innerHTML = message; output.appendChild(pre);
+		}
+		
+		function connect() {
+			testWebSocket();
+		}
+
+		function disconnect() {
+			websocket.close();
+		}
+
+		function send() {
+			message = document.getElementById("message").value;
+			websocket.send(message);
+			writeToScreen("SENT: " + message);
+		}
+
+		window.addEventListener("load", init, false);
+
+</script>
+</head>
+<body>
+
+	<h2>WebSocket Test</h2>
+	<p>See: <a href="http://www.websocket.org/echo.htm">www.websocket.org/echo.html</a></p>
+
+	<div id="output"></div>
+
+	<hr />
+	
+	<p><button id="connect" onclick="connect();">Connect</button>
+	<button id="disconnect" onclick="disconnect();">Disconnect</button></p>
+
+	<p><input id="message" size="35" value="This is a test!">
+	<button id="send" onclick="send();">Send</button></p>
+	
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>luke.breuer.com Drag and Drop Script</title>
+
+<style type="text/css">
+
+body {background:#fff;}
+.drag {position:relative; float:left; width:100px; height:100px; margin:10px; background:#ccc; border:1px solid #000;}
+
+#draggable4 {position:absolute; left:500px; top:140px; width:100px; height:100px;}
+#draggable5 {position:absolute; left:620px; top:140px; width:100px; height:100px;}
+#draggable6 {position:fixed;    left:740px; top:140px; width:100px; height:100px;}
+#draggable10 {position:absolute; left:490px; top:0px; width:100px; height:100px;}
+#draggable11 {position:absolute; left:610px; top:0px; width:100px; height:100px;}
+#draggable12 {position:fixed;    left:741px; top:301px; width:100px; height:100px;}
+
+#anotherDiv {position:absolute; left:10px; top:300px; width:370px; height:300px; background:#eee; border:1px solid #000;}
+#info {position:absolute; top:0px; right:0px; width:200px; padding:1em;}
+
+</style>
+
+</head>
+<body>
+
+<h1>luke.breuer.com Drag and Drop Script</h1>
+<p>From <a href="http://luke.breuer.com/tutorial/javascript-drag-and-drop-tutorial.aspx">http://luke.breuer.com/tutorial/javascript-drag-and-drop-tutorial.aspx</a></p>
+<p>Doesn't work with fixed or absolutely positioned elements. Works in IE.</p>
+<p id="info"></p>
+
+<div id="draggable1" class="drag">1<br>position: relative;</div>
+<div id="draggable2" class="drag">2<br>position: relative;</div>
+<div id="draggable3" class="drag">3<br>position: relative;</div>
+<div id="draggable4" class="drag">4<br>position: absolute;</div>
+<div id="draggable5" class="drag">5<br>position: absolute;</div>
+<div id="draggable6" class="drag">6<br>position: fixed;</div>
+
+<div id="anotherDiv">
+	<div id="draggable7" class="drag">7<br>position: relative;</div>
+	<div id="draggable8" class="drag">8<br>position: relative;</div>
+	<div id="draggable9" class="drag">9<br>position: relative</div>
+	<div id="draggable10" class="drag">10<br>position: absolute</div>
+	<div id="draggable11" class="drag">11<br>position: absolute</div>
+	<div id="draggable12" class="drag">12<br>position: fixed</div>
+</div>
+
+<script type="text/javascript" src="luke.breuer.drag.js"></script>
+
+</body>
+</html>

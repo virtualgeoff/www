@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Boxes: HSL Colors</title>
+	<style type="text/css">
+	
+		body {font-family:Verdana; margin:0; padding:0; background:#777;}
+		.box {position:absolute; top:0; left:0; width:0; height:0; margin:0; padding:0; border:1px solid #000;}
+		h2, p {margin:12px;}
+	
+	</style>
+	<script type="text/javascript">
+	
+		var windowWidth  = self.innerWidth;
+		var windowHeight = self.innerHeight;
+		
+		function rand(max) {
+			return Math.floor(Math.random()*max);
+		}
+		
+		function makeBoxes(N) {
+			var boxes = [];
+		
+			var hue = rand(360);
+			var hueRange = rand(360);
+			var saturation = rand(100);
+			var lightness = rand(100);
+		
+			document.getElementById("description").innerHTML = "Hue: " + hue + "&ndash;" + (hue+hueRange) + "<br>"
+				+ "Saturation: " + saturation + "%<br>"
+				+ "Lightness: " + lightness + "%";
+			
+			
+			for (var i=0; i<N; i++) {
+			
+				// box size: no bigger than 1/4 window size
+				var w = windowWidth/72; 
+				var h = windowHeight/2;
+				
+				// box position: keep inside window
+				var x = windowWidth/8 + windowWidth/48 * i;
+				var y = windowHeight/4;
+		
+				// box color
+				var color = "hsl("+ (hue +(i*hueRange/N)) +","+saturation+"%,"+lightness+"%)";
+				
+				var opacity = 100;
+					
+				var box = boxes[i];		
+				box = document.createElement('DIV');
+				box.id = "box"+i;
+				box.className = 'box';
+		
+				box.style.top    = y + "px";
+				box.style.left   = x + "px";
+				box.style.width  = w + "px";
+				box.style.height = h + "px";
+				
+				box.style.background = color;
+				box.style.opacity = opacity;
+				
+				document.body.appendChild(box);
+					
+				box.onmouseover = function() {
+					document.body.style.background = this.style.background;
+				}
+			}
+		}
+		
+		function init() {
+			makeBoxes(36);
+		}
+		
+		window.onload = init;
+	
+	</script>
+</head>
+
+<body>
+
+	<h2>Random HSL spectrum</h2>
+	<p>Hit reload to get new values.</p>
+	
+	<p id="description"></p>
+
+</body>
+</html>
+

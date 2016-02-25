@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Webtoolkit Drag and Drop Script</title>
+
+<style type="text/css">
+
+body {background:#fff;}
+.drag {position:relative; float:left; width:100px; height:100px; margin:10px; background:#ccc; border:1px solid #000;}
+
+#draggable4 {position:absolute; left:500px; top:140px; width:100px; height:100px;}
+#draggable5 {position:absolute; left:620px; top:140px; width:100px; height:100px;}
+#draggable6 {position:fixed;    left:740px; top:140px; width:100px; height:100px;}
+#draggable10 {position:absolute; left:490px; top:0px; width:100px; height:100px;}
+#draggable11 {position:absolute; left:610px; top:0px; width:100px; height:100px;}
+#draggable12 {position:fixed;    left:741px; top:301px; width:100px; height:100px;}
+
+#anotherDiv {position:absolute; left:10px; top:300px; width:370px; height:300px; background:#eee; border:1px solid #000;}
+#info {position:absolute; top:0px; right:0px; width:200px; padding:1em;}
+
+</style>
+<script type="text/javascript" src="webtoolkit.drag.js"></script>
+<script type="text/javascript">
+
+function begin (element, x, y) {
+	var s = '#' + element.id + ' (begin drag) ' + x + ', ' + y;
+	updateInfo(s);
+}
+
+function drag (element, x, y) {
+	var s = '#' + element.id + ' (dragging) ' + x + ', ' + y;
+	updateInfo(s);
+}
+
+function end (element, x, y) {
+	var s = '#' + element.id + ' (end drag) ' + x + ', ' + y;
+	updateInfo(s);
+}
+
+function updateInfo(s) {
+	document.getElementById('info').innerHTML = s;
+}
+
+function init() {
+	draggable1 = DragHandler.attach(document.getElementById('draggable1'));
+	draggable2 = DragHandler.attach(document.getElementById('draggable2'));
+	draggable3 = DragHandler.attach(document.getElementById('draggable3'));
+	draggable4 = DragHandler.attach(document.getElementById('draggable4'));
+	draggable5 = DragHandler.attach(document.getElementById('draggable5'));
+	draggable6 = DragHandler.attach(document.getElementById('draggable6'));
+	draggable7 = DragHandler.attach(document.getElementById('draggable7'));
+	draggable8 = DragHandler.attach(document.getElementById('draggable8'));
+	draggable9 = DragHandler.attach(document.getElementById('draggable9'));
+	draggable10 = DragHandler.attach(document.getElementById('draggable10'));
+	draggable11 = DragHandler.attach(document.getElementById('draggable11'));
+	draggable12 = DragHandler.attach(document.getElementById('draggable12'));
+	
+	draggable1.dragBegin = begin;
+	draggable1.drag = drag;
+	draggable1.dragEnd = end;
+	
+	draggable2.dragBegin = begin;
+	draggable2.drag = drag;
+	draggable2.dragEnd = end;
+	
+	draggable3.dragBegin = begin;
+	draggable3.drag = drag;
+	draggable3.dragEnd = end;
+
+	draggable6.dragBegin = begin;
+	draggable6.drag = drag;
+	draggable6.dragEnd = end;
+
+	draggable7.dragBegin = begin;
+	draggable7.drag = drag;
+	draggable7.dragEnd = end;
+}
+
+var draggable1, draggable2, draggable3, draggable4, draggable5, draggable6, draggable7, draggable8;
+
+window.onload = init;
+
+</script>
+
+</head>
+<body>
+
+<h1>Webtoolkit Drag and Drop Script</h1>
+<p>From <a href="http://www.webtoolkit.info/javascript-drag-and-drop.html">http://www.webtoolkit.info/javascript-drag-and-drop.html</a></p>
+<p>Doesn't work with fixed or absolutely positioned elements. Has callbacks. Works in IE.</p>
+<p id="info"></p>
+
+<div id="draggable1" class="drag">1<br>position: relative;</div>
+<div id="draggable2" class="drag">2<br>position: relative;</div>
+<div id="draggable3" class="drag">3<br>position: relative;</div>
+<div id="draggable4" class="drag">4<br>position: absolute;</div>
+<div id="draggable5" class="drag">5<br>position: absolute;</div>
+<div id="draggable6" class="drag">6<br>position: fixed;</div>
+
+<div id="anotherDiv">
+	<div id="draggable7" class="drag">7<br>position: relative;</div>
+	<div id="draggable8" class="drag">8<br>position: relative;</div>
+	<div id="draggable9" class="drag">9<br>position: relative</div>
+	<div id="draggable10" class="drag">10<br>position: absolute</div>
+	<div id="draggable11" class="drag">11<br>position: absolute</div>
+	<div id="draggable12" class="drag">12<br>position: fixed</div>
+</div>
+
+</body>
+</html>

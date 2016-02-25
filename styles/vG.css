@@ -1,9 +1,9 @@
 /*last modified 2005-11-02 */
 
-body {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:76%; color:#000; background:#999;}
+body {font-family:Verdana,Arial,Helvetica,sans-serif; font-size:76%; color:#000; background:#888;}
 p, td {font-size:1.0em;}
 
-h1 {position:fixed; bottom:-20px; left:0px; font-size:10em; margin:0; color:#888; z-index:1;}
+h1 {position:fixed; bottom:-20px; left:0px; font-size:10em; margin:0; color:#777; z-index:1;}
 * html h1 {position:absolute; top:70%; left:0px;}
 h2 {position:fixed; top:10px; right:30px; font-size:5em; text-align:right; margin:0; color:#777; z-index:2;}
 * html h2 {position:absolute; top:10px; right:30px;}

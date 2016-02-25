@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<title>ABC Logo 2 - Animated</title>
+<style type="text/css">
+
+body {color:#fff; background:#000;}
+.point {position:absolute; top:0px; left:0px;}
+
+</style>
+</head>
+
+<body>
+
+<div id="wrapper"></div>
+
+<script type="text/javascript">
+
+var theta = 0;
+var str= '';
+var r = 200;
+var pi = Math.PI;
+var dt = 0;
+var wrapper = document.getElementById('wrapper');
+
+function draw() {
+	str = '';
+	for (var i=0; i<360; i++) {
+		theta = i * 2 * pi / 360; // convert degrees to radians
+		phi = dt * 5 * pi / 360;
+		x = r * Math.cos(theta + phi);
+		y = r * Math.sin(3*theta);
+		
+		xScreen = Math.round(x + 300);
+		yScreen = Math.round(y + 300);
+		str += '\n<div class="point" id="p' + i + '" style="top:' + yScreen + 'px; left:' + xScreen + 'px">.</div>';
+	}
+	wrapper.innerHTML = str;
+	dt++
+	if (dt >=360) dt = 0;
+	setTimeout(draw,20);
+}
+
+draw()
+
+</script>
+
+</body>
+</html>

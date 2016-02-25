@@ -1,43 +1,1 @@
-<html>
-<head>
-	<title> --------- virtualGeoff . sphere --------- </title>
-	<meta name="description" content="virtualGeoff is the home of Geoff Pack, web builder, javascript junkie, dhtml dumpster diver, and virtual realist." />
-	<meta name="keywords" content="Geoff Pack, Geoffrey Pack, Geoff, Geoffrey, virtual reality, vrml, dhtml, html, shout3D, javascript, script, javascript junkyard, dynamic dumpster" />
-	<meta name="author" content="Geoff Pack" />
-	<link rel="stylesheet" title="default" type="text/css" href="../../styles/vG.css" />
-	<script language="JavaScript" type="text/javascript" src="../scripts/scrollObject.js"></script>
-	<script language="JavaScript" type="text/javascript" src="sphere.js"></script>
-</head>
-
-<body onload="init();">
-
-	<h1>virtualGeoff...</h1>
-	
-	<div id="nav">
-		<p><a href="/index.html">.home</a><br />
-		<a href="/news/index.html">.news</a><br />
-		<a href="/about.html">.about</a><br />
-		<a href="/contact.html">.contact</a><br />
-		<a href="/portfolio/index.html">.portfolio</a><br />
-		<a href="/junkyard/index.html">.javascript Junkyard</a><br />
-		<a href="/dumpster/index.html">.dynamic Dumpster</a><br />
-		<a href="/dhtml/index.html">.dhtml Dev</a><br />
-		<a href="/vrml/index.html">.vrml</a><!-- br />
-		<a href="/java/index.html">.java</a><br / --></p>
-	</div>
-
-	<h2>.sphere</h2>
-
-	<div id="content">
-	
-		<script language="javascript">
-		// write all the div layers:
-		for (i=0; i<numpoints; i++){
-			document.write('<div id="p'+i+'"><img src="../images/1.gif" width="3" height="3"></div>');
-		}
-		</script>
-	
-	</div>
-
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head>	<meta charset="utf-8" />	<title>Sphere 2</title>	<link rel="stylesheet" type="text/css" media="all" href="pointcloud.css">	<script type="text/javascript" src="pointcloud.js"></script>	<script type="text/javascript">		function setPoints() {			// sphere			var n = 12; 	// every 180/n degrees latitude			var m = 16; 	// every 360/m degrees longitude			var k = 0;		// index					var radius = 2;			var phi, theta, i, j;						for (i = 0; i <= n; i++) {				for (j = 0; j < m; j++) {					phi   = i/n * pi;					theta = j/m * 2 * pi;							// find coords					p[k] = {};					p[k].x = radius * Math.sin(phi) * Math.sin(theta);					p[k].z = radius * Math.sin(phi) * Math.cos(theta);					p[k].y = radius * Math.cos(phi);										k++;					if ((i==0)||(i==n)) break; //only calculate once at poles				}			}		}		</script></head><body>	<!--#include virtual="pointcloud.inc" -->	</body></html>

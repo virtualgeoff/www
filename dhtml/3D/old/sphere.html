@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title> --------- virtualGeoff . sphere --------- </title>
+	<meta name="description" content="virtualGeoff is the home of Geoff Pack, web builder, javascript junkie, dhtml dumpster diver, and virtual realist.">
+	<meta name="keywords" content="Geoff Pack, Geoffrey Pack, Geoff, Geoffrey, virtual reality, vrml, dhtml, html, shout3D, javascript, script, javascript junkyard, dynamic dumpster">
+	<meta name="author" content="Geoff Pack">
+	<link rel="stylesheet" title="default" type="text/css" href="../../../styles/vG.css">
+	<script language="JavaScript" type="text/javascript" src="../../scripts/scrollObject.js"></script>
+	<script language="JavaScript" type="text/javascript" src="sphere.js"></script>
+</head>
+
+<body onload="init();">
+
+	<h1>virtualGeoff...</h1>
+	
+	<!--#include virtual="/includes/nav.inc" -->
+
+	<h2>.sphere</h2>
+
+	<div id="content">
+	
+		<script language="javascript">
+		// write all the div layers:
+		for (i=0; i<numpoints; i++){
+			document.write('<div id="p'+i+'"><img src="../../images/1.gif" width="3" height="3"></div>');
+		}
+		</script>
+	
+	</div>
+
+</body>
+</html>

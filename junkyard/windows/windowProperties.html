@@ -13,19 +13,47 @@
 <tr><td>
 
 <script language="javascript">
+
+	// window size
+	var windowWidth, windowHeight;
+	
+	if (typeof(window.innerWidth) == 'number') {
+		windowWidth = window.innerWidth;
+		windowHeight = window.innerHeight;
+	} else if (document.documentElement && document.documentElement.clientWidth) {
+		windowWidth = document.documentElement.clientWidth;
+		windowHeight = document.documentElement.clientHeight;
+	} else if (document.body && document.body.clientWidth) {
+		windowWidth = document.body.clientWidth;
+		windowHeight = document.body.clientHeight;
+	}
+	alert('window size: ' + windowWidth + ' x ' + windowHeight);
+
+
 	document.writeln('<table>');
-	document.writeln('<tr><td>window.innerWidth: (NS) </td><td>' 					+ window.innerWidth + '</td></tr>');
-	document.writeln('<tr><td>window.innerHeight: (NS) </td><td>' 					+ window.innerHeight + '</td></tr>');
-	document.writeln('<tr><td>window.outerWidth: (NS) </td><td>' 					+ window.outerWidth + '</td></tr>');
-	document.writeln('<tr><td>window.outerHeight: (NS) </td><td>' 					+ window.outerHeight + '</td></tr>');
+	document.writeln('<tr><td><b>Window:</b></td></tr>');
+	document.writeln('<tr><td>window.innerWidth: (NS) </td><td>' 			+ window.innerWidth + '</td></tr>');
+	document.writeln('<tr><td>window.innerHeight: (NS) </td><td>' 			+ window.innerHeight + '</td></tr>');
+	document.writeln('<tr><td>window.outerWidth: (NS) </td><td>' 			+ window.outerWidth + '</td></tr>');
+	document.writeln('<tr><td>window.outerHeight: (NS) </td><td>' 			+ window.outerHeight + '</td></tr>');
+
+	document.writeln('<tr><td>document.documentElement.clientWidth (IE) </td><td>' 	+ document.documentElement.clientWidth + '</td></tr>');
+	document.writeln('<tr><td>document.documentElement.clientHeight (IE) </td><td>' + document.documentElement.clientHeight + '</td></tr>');
+
+	document.writeln('<tr><td>document.body.clientWidth (IE) </td><td>' 	+ document.body.clientWidth + '</td></tr>');
+	document.writeln('<tr><td>document.body.clientHeight (IE) </td><td>' 	+ document.body.clientHeight + '</td></tr>');
+
 	document.writeln('<tr><td>&nbsp;</td></tr>');
-	document.writeln('<tr><td>window.screen.availHeight: </td><td>' 			+ window.screen.availHeight + '</td></tr>');
-	document.writeln('<tr><td>window.screen.availWidth: </td><td>' 				+ window.screen.availWidth + '</td></tr>');
-	document.writeln('<tr><td>window.screen.colorDepth: </td><td>' 				+ window.screen.colorDepth + '</td></tr>');
-	document.writeln('<tr><td>window.screen.screenLeft: (IE) </td><td>' 		+ window.screenLeft + '</td></tr>');
-	document.writeln('<tr><td>window.screen.screenTop: (IE) </td><td>' 			+ window.screenTop + '</td></tr>');
-	document.writeln('<tr><td>window.screen.screenX: (NS) </td><td>' 			+ window.screenX + '</td></tr>');
-	document.writeln('<tr><td>window.screen.screenY: (NS) </td><td>' 			+ window.screenY + '</td></tr>');
+	document.writeln('<tr><td><b>Screen:</b></td></tr>');
+	document.writeln('<tr><td>window.screen.width: </td><td>' 				+ window.screen.width + '</td></tr>');
+	document.writeln('<tr><td>window.screen.height: </td><td>' 				+ window.screen.height + '</td></tr>');
+	document.writeln('<tr><td>window.screen.availWidth: </td><td>' 			+ window.screen.availWidth + '</td></tr>');
+	document.writeln('<tr><td>window.screen.availHeight: </td><td>' 		+ window.screen.availHeight + '</td></tr>');
+	document.writeln('<tr><td>window.screen.colorDepth: </td><td>' 			+ window.screen.colorDepth + '</td></tr>');
+	document.writeln('<tr><td>window.screen.screenLeft: (IE) </td><td>' 	+ window.screenLeft + '</td></tr>');
+	document.writeln('<tr><td>window.screen.screenTop: (IE) </td><td>' 		+ window.screenTop + '</td></tr>');
+	document.writeln('<tr><td>window.screen.screenX: (NS) </td><td>' 		+ window.screenX + '</td></tr>');
+	document.writeln('<tr><td>window.screen.screenY: (NS) </td><td>' 		+ window.screenY + '</td></tr>');
 	//document.writeln('' + );
 	//document.writeln('' + );
 	document.writeln('</table>');

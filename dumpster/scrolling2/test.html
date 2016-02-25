@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Scroll Test</title>
+<style type="text/css">
+
+#info {position:absolute; top:0px; right:0px; width:200px; padding:0 0.5em;}
+
+#div1 {position:relative; width:500px; height:500px; background:#eee; overflow:auto;}
+#div1 p {display:block; width:1200px;}
+#div1 div {position:absolute; left:0; top:0; width:100px; height:100px; background:#f70; opacity:0.5;}
+#div1 #a2 {left:100px; top:100px;}
+#div1 #a3 {left:200px; top:200px;}
+#div1 #a4 {left:300px; top:300px;}
+#div1 #a5 {left:400px; top:400px;}
+#div1 #a6 {left:500px; top:500px;}
+#div1 #a7 {left:600px; top:600px;}
+#div1 #a8 {left:700px; top:700px;}
+#div1 #a9 {left:800px; top:800px;}
+#div1 #a10 {left:900px; top:900px;}
+#div1 #a11 {left:1000px; top:1000px;}
+#div1 #a12 {left:1100px; top:1100px;}
+
+#div2 {position:absolute; top:50px; left:600px; width:120px; height:500px; margin-top:30px; background:#eee; overflow:auto;}
+#div2 div {position:absolute; left:0; top:0; width:100px; height:100px; background:#7f0; opacity:0.5;}
+#div2 #b1 {left:0; top:100px;}
+#div2 #b2 {left:0; top:300px;}
+#div2 #b3 {left:0; top:500px;}
+#div2 #b4 {left:0; top:700px;}
+#div2 #b5 {left:0; top:900px;}
+#div2 #b6 {left:0; top:1100px;}
+
+#div3 {position:relative; width:500px; height:120px; margin-top:30px; background:#eee; overflow:auto;}
+#div3 h2 {position:absolute; top:0.5em; left:0;}
+#div3inner {width:1200px;}
+#div3inner div {float:left; width:100px; height:100px; margin-left:100px; background:#07f; opacity:0.5;}
+
+</style>
+<script type="text/javascript">
+
+function showInfo() {
+	info.innerHTML = 'div1.scrollTop = ' + div1.scrollTop;
+	info.innerHTML += '<br>div1.scrollLeft = ' + div1.scrollLeft;	
+	info.innerHTML += '<br>div1.scrollHeight = ' + div1.scrollHeight;
+	info.innerHTML += '<br>div1.scrollWidth = ' + div1.scrollWidth;
+
+	info.innerHTML += '<br><br>div2.scrollTop = ' + div2.scrollTop;
+	info.innerHTML += '<br>div2.scrollHeight = ' + div2.scrollHeight;	
+
+	info.innerHTML += '<br><br>div3.scrollLeft = ' + div3.scrollLeft;
+	info.innerHTML += '<br>div3.scrollWidth = ' + div3.scrollWidth;	
+}
+
+function scroll1(element) {
+	element.scrollLeft = element.scrollTop;
+	showInfo();
+}
+function scroll2(element) {
+	div1.scrollTop = element.scrollTop;
+}
+function scroll3(element) {
+	div2.scrollTop = element.scrollLeft;
+}
+function init() {
+	div1 = document.getElementById("div1");
+	div2 = document.getElementById("div2");
+	div3 = document.getElementById("div3");
+	info = document.getElementById("info");
+	showInfo();	
+}
+
+var div1, div2, div3, info;
+onload = init;
+
+</script>
+</head>
+<body>
+
+<h1>Scroll Test</h1>
+
+<p id="info"></p>
+
+<div id="div1" onscroll="scroll1(this);">
+	<h2>Div 1</h2>
+	<p>Try the scrollbars...</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh enim, ultrices eget vulputate vitae, ultricies nec velit. Aliquam congue velit non erat iaculis quis convallis tellus congue. Suspendisse potenti. Vestibulum feugiat lorem metus. Sed augue dolor, varius vel cursus quis, ultricies quis lacus. Duis at lobortis elit. Donec blandit felis a lectus fermentum tincidunt. Etiam tristique felis sit amet tellus dictum sodales. Sed mi nisl, pretium in faucibus eu, volutpat vitae est. Curabitur cursus semper odio, at suscipit nunc sodales non. Phasellus non lectus quam, a blandit nulla. Nullam accumsan fringilla odio, vitae luctus nulla malesuada sed. Cras eu tellus nisl, id porta purus. Phasellus justo urna, consequat ac interdum in, adipiscing vitae arcu. Praesent ultricies, metus at laoreet placerat, est dolor sodales purus, sit amet tempor odio justo non neque. Ut imperdiet lacinia porttitor.</p>
+	<p>Cras sodales, ipsum eget faucibus imperdiet, velit tellus ornare felis, in consequat enim metus vitae ipsum. Sed sit amet justo sed quam mattis convallis eleifend eu dui. Pellentesque purus nibh, laoreet et ultricies sed, pharetra ac ante. Aenean at massa neque. In sodales lorem sit amet eros rutrum at tincidunt odio hendrerit. Vestibulum tempus facilisis felis sed placerat. Morbi lorem eros, lacinia in adipiscing in, gravida vel neque. In molestie velit ut massa laoreet eget semper eros dapibus. Vestibulum dignissim neque vitae est congue consectetur. Nam volutpat nisi quis ipsum tincidunt sed consectetur massa consectetur. Phasellus vitae lacus quis leo eleifend interdum. In hac habitasse platea dictumst. Aliquam tempus mi non urna gravida ut mollis augue tempor. Mauris nulla risus, venenatis sodales interdum ac, molestie eu quam. Aliquam sed convallis risus. Vestibulum sit amet mauris in erat bibendum pulvinar.</p>
+	<p>Sed sit amet felis libero. Vivamus molestie imperdiet enim, ut posuere lorem blandit in. Vestibulum cursus, nisi quis ullamcorper varius, diam risus egestas massa, id rutrum orci mauris vitae tortor. Cras tristique odio et magna porttitor tincidunt. Aenean facilisis, lorem eu dapibus scelerisque, ligula velit tincidunt velit, at suscipit turpis dui id quam. Suspendisse non tortor placerat enim malesuada pulvinar. Phasellus ut orci urna. Fusce nec orci elit, at rhoncus ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur viverra tincidunt odio, vitae rutrum ligula venenatis a. Fusce mauris nulla, vehicula eu viverra non, consectetur non nibh. Mauris erat purus, euismod eget dapibus eu, facilisis et lectus. Cras ut lorem vel quam convallis lacinia. Vestibulum pellentesque nibh vel magna commodo pharetra. Vestibulum sollicitudin arcu ut ligula porttitor porta fringilla sapien iaculis. Sed sit amet nisl sed arcu semper tempor. Phasellus vitae dui nunc. Pellentesque id sem ac neque aliquam aliquam id vel tortor.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh enim, ultrices eget vulputate vitae, ultricies nec velit. Aliquam congue velit non erat iaculis quis convallis tellus congue. Suspendisse potenti. Vestibulum feugiat lorem metus. Sed augue dolor, varius vel cursus quis, ultricies quis lacus. Duis at lobortis elit. Donec blandit felis a lectus fermentum tincidunt. Etiam tristique felis sit amet tellus dictum sodales. Sed mi nisl, pretium in faucibus eu, volutpat vitae est. Curabitur cursus semper odio, at suscipit nunc sodales non. Phasellus non lectus quam, a blandit nulla. Nullam accumsan fringilla odio, vitae luctus nulla malesuada sed. Cras eu tellus nisl, id porta purus. Phasellus justo urna, consequat ac interdum in, adipiscing vitae arcu. Praesent ultricies, metus at laoreet placerat, est dolor sodales purus, sit amet tempor odio justo non neque. Ut imperdiet lacinia porttitor.</p>
+	<p>Cras sodales, ipsum eget faucibus imperdiet, velit tellus ornare felis, in consequat enim metus vitae ipsum. Sed sit amet justo sed quam mattis convallis eleifend eu dui. Pellentesque purus nibh, laoreet et ultricies sed, pharetra ac ante. Aenean at massa neque. In sodales lorem sit amet eros rutrum at tincidunt odio hendrerit. Vestibulum tempus facilisis felis sed placerat. Morbi lorem eros, lacinia in adipiscing in, gravida vel neque. In molestie velit ut massa laoreet eget semper eros dapibus. Vestibulum dignissim neque vitae est congue consectetur. Nam volutpat nisi quis ipsum tincidunt sed consectetur massa consectetur. Phasellus vitae lacus quis leo eleifend interdum. In hac habitasse platea dictumst. Aliquam tempus mi non urna gravida ut mollis augue tempor. Mauris nulla risus, venenatis sodales interdum ac, molestie eu quam. Aliquam sed convallis risus. Vestibulum sit amet mauris in erat bibendum pulvinar.</p>
+	<p>Sed sit amet felis libero. Vivamus molestie imperdiet enim, ut posuere lorem blandit in. Vestibulum cursus, nisi quis ullamcorper varius, diam risus egestas massa, id rutrum orci mauris vitae tortor. Cras tristique odio et magna porttitor tincidunt. Aenean facilisis, lorem eu dapibus scelerisque, ligula velit tincidunt velit, at suscipit turpis dui id quam. Suspendisse non tortor placerat enim malesuada pulvinar. Phasellus ut orci urna. Fusce nec orci elit, at rhoncus ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur viverra tincidunt odio, vitae rutrum ligula venenatis a. Fusce mauris nulla, vehicula eu viverra non, consectetur non nibh. Mauris erat purus, euismod eget dapibus eu, facilisis et lectus. Cras ut lorem vel quam convallis lacinia. Vestibulum pellentesque nibh vel magna commodo pharetra. Vestibulum sollicitudin arcu ut ligula porttitor porta fringilla sapien iaculis. Sed sit amet nisl sed arcu semper tempor. Phasellus vitae dui nunc. Pellentesque id sem ac neque aliquam aliquam id vel tortor.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh enim, ultrices eget vulputate vitae, ultricies nec velit. Aliquam congue velit non erat iaculis quis convallis tellus congue. Suspendisse potenti. Vestibulum feugiat lorem metus. Sed augue dolor, varius vel cursus quis, ultricies quis lacus. Duis at lobortis elit. Donec blandit felis a lectus fermentum tincidunt. Etiam tristique felis sit amet tellus dictum sodales. Sed mi nisl, pretium in faucibus eu, volutpat vitae est. Curabitur cursus semper odio, at suscipit nunc sodales non. Phasellus non lectus quam, a blandit nulla. Nullam accumsan fringilla odio, vitae luctus nulla malesuada sed. Cras eu tellus nisl, id porta purus. Phasellus justo urna, consequat ac interdum in, adipiscing vitae arcu. Praesent ultricies, metus at laoreet placerat, est dolor sodales purus, sit amet tempor odio justo non neque. Ut imperdiet lacinia porttitor.</p>
+	<p>Cras sodales, ipsum eget faucibus imperdiet, velit tellus ornare felis, in consequat enim metus vitae ipsum. Sed sit amet justo sed quam mattis convallis eleifend eu dui. Pellentesque purus nibh, laoreet et ultricies sed, pharetra ac ante. Aenean at massa neque. In sodales lorem sit amet eros rutrum at tincidunt odio hendrerit. Vestibulum tempus facilisis felis sed placerat. Morbi lorem eros, lacinia in adipiscing in, gravida vel neque. In molestie velit ut massa laoreet eget semper eros dapibus. Vestibulum dignissim neque vitae est congue consectetur. Nam volutpat nisi quis ipsum tincidunt sed consectetur massa consectetur. Phasellus vitae lacus quis leo eleifend interdum. In hac habitasse platea dictumst. Aliquam tempus mi non urna gravida ut mollis augue tempor. Mauris nulla risus, venenatis sodales interdum ac, molestie eu quam. Aliquam sed convallis risus. Vestibulum sit amet mauris in erat bibendum pulvinar.</p>
+	<p>Sed sit amet felis libero. Vivamus molestie imperdiet enim, ut posuere lorem blandit in. Vestibulum cursus, nisi quis ullamcorper varius, diam risus egestas massa, id rutrum orci mauris vitae tortor. Cras tristique odio et magna porttitor tincidunt. Aenean facilisis, lorem eu dapibus scelerisque, ligula velit tincidunt velit, at suscipit turpis dui id quam. Suspendisse non tortor placerat enim malesuada pulvinar. Phasellus ut orci urna. Fusce nec orci elit, at rhoncus ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur viverra tincidunt odio, vitae rutrum ligula venenatis a. Fusce mauris nulla, vehicula eu viverra non, consectetur non nibh. Mauris erat purus, euismod eget dapibus eu, facilisis et lectus. Cras ut lorem vel quam convallis lacinia. Vestibulum pellentesque nibh vel magna commodo pharetra. Vestibulum sollicitudin arcu ut ligula porttitor porta fringilla sapien iaculis. Sed sit amet nisl sed arcu semper tempor. Phasellus vitae dui nunc. Pellentesque id sem ac neque aliquam aliquam id vel tortor.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh enim, ultrices eget vulputate vitae, ultricies nec velit. Aliquam congue velit non erat iaculis quis convallis tellus congue. Suspendisse potenti. Vestibulum feugiat lorem metus. Sed augue dolor, varius vel cursus quis, ultricies quis lacus. Duis at lobortis elit. Donec blandit felis a lectus fermentum tincidunt. Etiam tristique felis sit amet tellus dictum sodales. Sed mi nisl, pretium in faucibus eu, volutpat vitae est. Curabitur cursus semper odio, at suscipit nunc sodales non. Phasellus non lectus quam, a blandit nulla. Nullam accumsan fringilla odio, vitae luctus nulla malesuada sed. Cras eu tellus nisl, id porta purus. Phasellus justo urna, consequat ac interdum in, adipiscing vitae arcu. Praesent ultricies, metus at laoreet placerat, est dolor sodales purus, sit amet tempor odio justo non neque. Ut imperdiet lacinia porttitor.</p>
+	<div id="a2"></div>
+	<div id="a3"></div>
+	<div id="a4"></div>
+	<div id="a5"></div>
+	<div id="a6"></div>
+	<div id="a7"></div>
+	<div id="a8"></div>
+	<div id="a9"></div>
+	<div id="a10"></div>
+	<div id="a11"></div>
+	<div id="a12"></div>
+</div>
+
+<div id="div2" onscroll="scroll2(this);">
+	<h2>Div 2</h2>
+	<div id="b1"></div>
+	<div id="b2"></div>
+	<div id="b3"></div>
+	<div id="b4"></div>
+	<div id="b5"></div>
+	<div id="b6"></div>
+</div>
+
+<div id="div3" onscroll="scroll3(this);">
+	<div id="div3inner">
+		<h2>Div 3</h2>		
+		<div id="c1"></div>
+		<div id="c2"></div>
+		<div id="c3"></div>
+		<div id="c4"></div>
+		<div id="c5"></div>
+		<div id="c6"></div>
+	</div>
+</div>
+
+</body>
+</html>

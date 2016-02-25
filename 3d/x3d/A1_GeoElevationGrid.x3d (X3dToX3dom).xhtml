@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>A1_GeoElevationGrid.x3d (X3dToX3dom)</title>
+      <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+      <meta name="generator" content="http://www.web3d.org/x3d/stylesheets/X3dToX3dom.xslt"/>
+      <meta name="TODO"
+            content="Webfonts must be loaded prior to using Text node... see http://x3dom.org/x3dom/example/x3dom_text.html"/>
+      <link rel="stylesheet" type="text/css"
+            href="http://www.x3dom.org/x3dom/example/x3dom.css"/>
+    <link rel="stylesheet" type="text/css" href="/scripts/libraries/x3dom/x3dom.css" />
+	<script type="text/javascript" src="/scripts/libraries/x3dom/x3dom.js"></script>
+      <!-- adapted from http://x3dom.org/x3dom/example/x3dom_text.html and http://web.mit.edu/jmorzins/www/fonts.html -->
+      <style type="text/css" media="screen, print">
+                .webfont { font-size:200%; font-family:'TYPEWRITER'; color:green;} /* TODO font families: SANS SERIF TYPEWRITER */
+                </style>
+      <!-- Button zoom adapted from http://x3dom.org/docs/dev/tutorial/styling.html -->
+<style type="text/css">
+
+html {width:100%;height:100%;margin:0;padding:0;}
+body {margin:0;padding:10px;width:100%;height:100%;}
+
+#rootX3dElement {
+    width: 50%;
+    height: 50%;
+    border: none;
+    display: block;
+    position:relative;
+    background:#000;
+}
+
+#toggler {
+    position: absolute;
+    float: left;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    width: 10em;
+    height: 2em;
+    border: none;
+    background-color: #202021;
+    color: #ccc;
+}
+
+#toggler:hover {
+    background-color:blue;
+}
+</style>
+      <!-- TODO showStat, showLog parameters do not appear to be resettable during runtime -->
+<!-- http://x3dom.org/docs/dev/configuration.html -->
+<script type="text/javascript">
+var zoomed = false;
+var showStat = true;
+var showLog  = true;
+
+function toggle(button) {
+
+        var new_size;
+        var x3d_element;
+        
+        htmlBody       = document.getElementById('htmlBody');
+        htmlPageHeader = document.getElementById('htmlPageHeader');
+        htmlPageFooter = document.getElementById('htmlPageFooter');
+        x3d_element    = document.getElementById('rootX3dElement');
+
+        if (zoomed) {
+                new_size = "50%";
+                button.innerHTML = "Zoom";
+                htmlPageHeader.style.display = "block";
+                htmlPageFooter.style.display = "block";
+                htmlBody.style.padding = '10px';
+                x3d_element.showStat = showStat;
+                x3d_element.showLog  = showLog;
+        } else {
+                new_size = "100%";
+                button.innerHTML = "Unzoom";
+                htmlPageHeader.style.display = "none";
+                htmlPageFooter.style.display = "none";
+                htmlBody.style.padding = '0';
+                x3d_element.showStat = false;
+                x3d_element.showLog  = false;
+        }
+
+        zoomed = !zoomed;
+
+        x3d_element.style.width  = new_size;
+        x3d_element.style.height = new_size;
+}
+ </script>
+   </head>
+   <body id="htmlBody">
+      <table>
+         <tr>
+            <td>
+               <h2 id="htmlPageHeader">
+                  <a href="http://www.web3d.org/x3d/content/examples/Basic/Geospatial/A1_GeoElevationGrid.x3d">A1_GeoElevationGrid.x3d</a>
+               </h2>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <p>
+                  <span class="webfont">Specification example shows the use of the GeoElevationGrid and the GeoViewpoint nodes. A flat grid is mapped to the full extent of Earth latitude and longitude.</span>
+               </p>
+            </td>
+         </tr>
+      </table>
+<X3D id='rootX3dElement' showStat='true' showLog='true'
+ profile='Immersive' version='3.0' noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.0.xsd'>
+<head>
+<component level='1' name='Geospatial'/>
+<meta content='A1_GeoElevationGrid.x3d' name='title'/>
+<meta content='Martin Reddy SRI, original example' name='creator'/>
+<meta content='Don Brutzman NPS, X3D encoding' name='creator'/>
+<meta content='26 June 2000' name='created'/>
+<meta content='4 July 2004' name='modified'/>
+<meta content='under revision, not matching spec example. Trying to get Background aligned.' name='warning'/>
+<meta content='Specification example shows the use of the GeoElevationGrid and the GeoViewpoint nodes. A flat grid is mapped to the full extent of Earth latitude and longitude.' name='description'/>
+<meta content='http://www.geovrml.org/1.0/doc/examples.html' name='reference'/>
+<meta content='originals/exagearth.wrl' name='reference'/>
+<meta content='http://www.geovrml.org/1.0/doc/examples/exagearth.wrl' name='VRML 97 encoding'/>
+<meta content='http://www.web3d.org/x3d/content/examples/Basic/Geospatial/A1_GeoElevationGrid.x3d' name='identifier'/>
+<meta content='X3D-Edit 3.2, https://savage.nps.edu/X3D-Edit' name='generator'/>
+<meta content='../license.html' name='license'/>
+</head>
+<button id="toggler" onclick="toggle(this); return false;">Zoom</button>
+<Scene>
+<Background groundColor='0.1 0.1 0.8' skyColor='0.1 0.1 0.8' containerField='children'/>
+<GeoViewpoint description='Initial GeoViewpoint' geoSystem='"GD" "WE"' jump='true' orientation='1 0 0 -1.57' position='35.0 70.0 30000000' speedFactor='1' fieldOfView='0.7854' navType='"EXAMINE" "ANY"' headlight='true' containerField='children'/>
+<Shape containerField='children' bboxCenter='0 0 0' bboxSize='-1 -1 -1'>
+<Appearance containerField='appearance'>
+<Material diffuseColor='0.3 1.0 0.3' ambientIntensity='0.2' emissiveColor='0 0 0' shininess='0.2' specularColor='0 0 0' transparency='0' containerField='material'/>
+</Appearance>
+<GeoElevationGrid colorPerVertex='true' creaseAngle='0' geoGridOrigin='-90 -180 0' geoSystem='"GD" "WE"' height='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3135 2976 2529 2135 3449 2899 3190 2375 0 0 3086 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 142 792 0 0 0 969 0 0 0 0 0 495 276 0 0 0 0 0 0 0 320 46 60 0 0 0 588 0 0 0 0 0 0 34 0 0 0 0 0 0 0 0 0 0 0 301 601 837 627 0 880 0 0 0 0 0 0 0 0 0 202 1 0 0 0 0 1241 385 6 582 468 215 5201 529 0 0 0 0 0 0 0 1304 427 365 374 0 0 0 1977 345 22 132 325 2072 1256 171 0 0 0 0 706 1896 464 134 0 0 2563 0 0 0 143 11 784 88 498 307 108 1707 0 0 0 0 0 0 0 600 378 1378 339 0 0 0 0 0 0 0 0 0 0 0' solid='true' xDimension='21' xSpacing='18' yScale='200' zDimension='11' zSpacing='18' normalPerVertex='true' ccw='true' containerField='geometry'/>
+</Shape>
+</Scene>
+</X3D>
+
+<p style="clear:both;"/>
+      <br/>
+      <p id="details">
+         <a href="#details"> Details </a>
+      </p>
+      <table style="margin-top:20px;margin-left:5%;">
+         <tr>
+            <th style="text-align:right;"> X3D Scene </th>
+            <th style="text-align:left;"> Metadata </th>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">title</td>
+            <td>
+               <a href="A1_GeoElevationGrid.x3d">A1_GeoElevationGrid.x3d</a>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">creator</td>
+            <td>Martin Reddy SRI, original example</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">creator</td>
+            <td>Don Brutzman NPS, X3D encoding</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">created</td>
+            <td>26 June 2000</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">modified</td>
+            <td>4 July 2004</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">warning</td>
+            <td>under revision, not matching spec example. Trying to get Background aligned.</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">description</td>
+            <td>Specification example shows the use of the GeoElevationGrid and the GeoViewpoint nodes. A flat grid is mapped to the full extent of Earth latitude and longitude.</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">reference</td>
+            <td>
+               <a href="http://www.geovrml.org/1.0/doc/examples.html">http://www.geovrml.org/1.0/doc/examples.html</a>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">reference</td>
+            <td>originals/exagearth.wrl</td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">VRML 97 encoding</td>
+            <td>
+               <a href="http://www.geovrml.org/1.0/doc/examples/exagearth.wrl">http://www.geovrml.org/1.0/doc/examples/exagearth.wrl</a>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">identifier</td>
+            <td>
+               <a href="http://www.web3d.org/x3d/content/examples/Basic/Geospatial/A1_GeoElevationGrid.x3d">http://www.web3d.org/x3d/content/examples/Basic/Geospatial/A1_GeoElevationGrid.x3d</a>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">generator</td>
+            <td>X3D-Edit 3.2, <a href="https://savage.nps.edu/X3D-Edit">https://savage.nps.edu/X3D-Edit</a>
+            </td>
+         </tr>
+         <tr>
+            <td style="text-align:right;color:green">license</td>
+            <td>../license.html</td>
+         </tr>
+      </table>
+      <div>
+         <table border="1"
+                style="margin: auto; margin-top:20px;border-collapse:collapse;border:1px solid black;">
+            <caption style="text-align:center;background-color:silver; padding:4px;">
+               <b>X3DOM node coverage</b>
+            </caption>
+            <tr style="">
+               <th style="text-align:center; padding:4px;"> Supported nodes found </th>
+               <th style="text-align:center; padding:4px;"> Unsupported nodes found </th>
+               <th style="text-align:center; padding:4px;"> Partial support</th>
+            </tr>
+            <tr>
+               <td style="text-align:left;vertical-align:text-top;padding:4px;">
+                  <span style="color:green;">Appearance<br/>Background<br/>GeoElevationGrid<br/>GeoViewpoint<br/>Material<br/>Shape<br/>
+                  </span> 
+               </td>
+               <td style="text-align:left;vertical-align:text-top;padding:4px;">
+                  <span style="color:red;"/> 
+               </td>
+               <td style="text-align:left;vertical-align:text-top;padding:4px;"> </td>
+            </tr>
+         </table>
+      </div>
+      <p id="htmlPageFooter"
+         style="text-align:center; background-color:silver; padding:2px;">References: <a href="http://x3dom.org" onclick="target='_blank';">X3DOM home</a>,
+                    <a href="http://x3dom.org/check" onclick="target='_blank';">X3DOM browser check</a>,
+                    <a href="http://x3dom.org/docs/dev" onclick="target='_blank';">X3DOM documentation</a>,
+                    <a href="http://x3dom.org/x3dom/test/functional/dumpNodeTypeTree.html"
+            onclick="target='_blank';">X3DOM list of supported nodes</a>,
+                    and
+                    <a href="http://www.web3d.org/x3d/content/examples/X3dResources.html"
+            onclick="target='_blank';">X3D Resources</a>
+      </p>
+   </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
+    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/x3dom/release/x3dom.css'></link>
+    <script type='text/javascript' src='http://www.x3dom.org/x3dom/release/x3dom.js'></script>
+  </head>
+  <body>
+    <x3d id='someUniqueId' showStat='false' showLog='false' x='0px' y='0px' width='800px' height='600px'>
+      <scene DEF='scene'>
+        <worldInfo info='"VRML by Geoff Pack geoff@spike.com.au" "Models by Christain Carruthers xtian@spike.com.au" "Copyright 1998 Spike (Australia) Pty Ltd" "For further info email geoff@spike.com.au"' title='Integral Energy Virtual House'></worldInfo>
+        <navigationInfo avatarSize='0.25 2.5 0.75' speed='3' type='"WALK" "EXAMINE"'></navigationInfo>
+        <viewpoint description='View 1' orientation='0 1 0 2.43319' position='20 0 -20'></viewpoint>
+        <background groundAngle='1.5708' groundColor='0.1 0.1 0.1 0.1 0.1 0.1' skyAngle='1 1.5708' skyColor='0.2 0.2 0.7 0.3 0.3 0.8 0.7 0.5 0.2'></background>
+        <directionalLight direction='0 -1 -1'></directionalLight>
+        <group>
+          <group DEF='house'>
+            <inline bboxCenter='2.104 0.532445 5.04535' bboxSize='16.848 5.94311 25.6907' url='"walls.x3d"'></inline>
+            <inline bboxCenter='2.38858 2.856 5.0063' bboxSize='20.8548 2.448 27.4846' url='"roof.x3d"'></inline>
+            <inline bboxCenter='-2.10533 1.38177 -7.79511' bboxSize='2.65689 7.69689 1.00178' url='"chimney.html"'></inline>
+            <inline bboxCenter='6.32765 -2.43911 -2.84222' bboxSize='8.21009 0.0871201 9.8' url='"patio.html"'></inline>
+            <inline bboxCenter='6.32765 -2.43911 -2.84222' bboxSize='8.21009 0.0871201 9.8' url='"car.html"'></inline>
+            <inline url='"floor.wrl"'></inline>
+          </group>
+          <group DEF='furniture'>
+            <inline bboxCenter='-2.05 -2.125 -4.375' bboxSize='3.2 0.55 1.05' url='"table.wrl"'></inline>
+            <inline bboxCenter='-5.41605 -1.50562 7.73333' bboxSize='1.63211 1.78877 7.33333' url='"sink.wrl"'></inline>
+            <inline bboxCenter='6.3 -1.536 8.75' bboxSize='7.6 1.728 5.1' url='"bed.wrl"'></inline>
+            <inline bboxCenter='9.45 -1.925 10.625' bboxSize='1.3 0.85 0.950001' url='"bedside.wrl"'></inline>
+            <transform translation='-6.35 0 0'>
+              <inline bboxCenter='9.45 -1.925 10.625' bboxSize='1.3 0.85 0.950001' url='"bedside.wrl"'></inline>
+            </transform>
+            <inline bboxCenter='-5.05019 -1.1768 12.398' bboxSize='2.0795 2.59353 1.3698' url='"toilet.wrl"'></inline>
+            <inline bboxCenter='1.1243 -1.65799 -2.27465' bboxSize='1.21952 1.71598 2.80831' url='"chair1.wrl"'></inline>
+            <inline bboxCenter='-4.52354 -1.65799 -6.09929' bboxSize='2.94925 1.71598 2.66175' url='"chair2.wrl"'></inline>
+            <inline bboxCenter='-5.2 -1.65799 -0.7' bboxSize='1.2 1.71598 4.6' url='"couch.wrl"'></inline>
+            <inline bboxCenter='9.17776 -1.67725 -0.822955' bboxSize='2.46187 1.5913 4.64685' url='"deck1.wrl"'></inline>
+            <inline bboxCenter='5.92373 -1.6776 -1.00507' bboxSize='3.24893 1.58623 4.73176' url='"deck2.wrl"'></inline>
+            <inline bboxCenter='0.1488 -1.39932 7.7' bboxSize='3.56038 2.12823 4.33212' url='"dining.wrl"'></inline>
+          </group>
+          <group DEF='appliances'>
+            <inline bboxCenter='9.45 -1.111 10.65' bboxSize='0.8 0.878 0.8' url='"lamp.wrl"'></inline>
+            <transform translation='-6.35 0 0'>
+              <inline bboxCenter='9.45 -1.111 10.65' bboxSize='0.8 0.878 0.8' url='"lamp.wrl"'></inline>
+            </transform>
+            <inline bboxCenter='-5.24936 -1.2054 3.14721' bboxSize='1.66659 2.44254 1.57224' url='"stove.wrl"'></inline>
+            <inline bboxCenter='-2.375 -1.58299 1.1624' bboxSize='1.8 1.76597 1.1252' url='"tv.wrl"'></inline>
+            <inline bboxCenter='-5.10978 -1.44462 15.4783' bboxSize='2.02141 1.86702 4.4621' url='"bath.wrl"'></inline>
+            <inline bboxCenter='-2.16032 -1.70635 -7.10159' bboxSize='1.59047 1.4127 0.7746' url='"fireplace.wrl"'></inline>
+            <inline bboxCenter='0.8 -1.13175 16.6' bboxSize='1.6 2.5365 1.8' url='"washer.wrl"'></inline>
+            <inline bboxCenter='-1.3 -1.13175 16.6' bboxSize='1.6 2.5365 1.8' url='"dryer.wrl"'></inline>
+            <inline bboxCenter='-5.10978 -1.44462 15.4783' bboxSize='2.02141 1.86702 4.4621' url='"bath.wrl"'></inline>
+            <inline bboxCenter='-3.5 -1.05 10.67' bboxSize='1.6 2.9 1.46' url='"fridge.wrl"'></inline>
+            <inline bboxCenter='-5.51194 -0.280555 7.04823' bboxSize='1.19742 1.02388 1.55606' url='"microwave.wrl"'></inline>
+            <inline bboxCenter='-5.52144 -0.556527 5.67865' bboxSize='0.71805 0.510204 0.79365' url='"blender.wrl"'></inline>
+            <inline bboxCenter='-5.61316 0.128774 5.67523' bboxSize='0.70149 0.843845 0.68999' url='"blenderTop.wrl"'></inline>
+          </group>
+        </group>
+      </scene>
+    </x3d>
+  </body>
+</html>

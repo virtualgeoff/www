@@ -3,9 +3,26 @@
 	"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
 <svg width="100%" height="100%" viewBox="0 0 400 300"
-	xmlns="http://www.w3.org/2000/svg" version="1.1" onload="init()">
-	<desc>Example script01 - invoke an ECMAScript function from an onclick event</desc>
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	version="1.1" onload="init()">
+	<desc>24 hour sun clock.</desc>
 
+	<script xlink:href="sun.js" />
+	<script type="text/javascript">
+	// <![CDATA[
+
+		var sunrise = new Date().sunrise(-33.881732,151.201465);
+		window.alert(sunrise.toLocaleTimeString());
+
+		var sunset = new Date().sunset(-33.881732,151.201465);
+		window.alert(sunset.toLocaleTimeString());
+		
+		// convert sunrse and sunset times to an angle
+		// draw an arc. see: https://developer.mozilla.org/en/docs/Web/SVG/Tutorial/Paths
+		
+	// ]]>
+	</script>
 	<script type="text/ecmascript">
 	<![CDATA[
 		var now = new Date();
@@ -36,9 +53,8 @@
 		
 	<g transform="translate(200,150)">
 	
-		<path id="day"   d="M 0,0 L 120,0 A 120,120 0 0,0 -120,0 z" fill="#aaf" stroke="none" stroke-width="0" />
-		<path id="night" d="M 0,0 L -120,0 A 120,120 0 0,0 120,0 z" fill="#555" stroke="none" stroke-width="0" />
-		<circle id="clockFace" cx="0" cy="0" r="120" fill="none" stroke="purple" stroke-width="1"/>
+		<circle id="clockFace" cx="0" cy="0" r="120" fill="333" stroke="purple" stroke-width="1"/>
+		<path   id="daylight"  d="M 0,0 L 120,0 A 120,120 0 0,0 -120,0 z" fill="#5af" stroke="none" stroke-width="0" />
 
 		<g id="hourMarks" fill="none" stroke="#000" stroke-width="2">
 			<line transform="rotate(0) translate(0,120)" x1="0" y1="-2" x2="0" y2="2"/>
