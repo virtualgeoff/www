@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Javascript Junkyard - Random Images with Links</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+target = new Image(); target.src = "numbers/blank.gif";
+var num=1;
+urlArray = new Array("0.html","1.html","2.html","3.html","4.html","5.html","6.html","7.html","8.html","9.html","10.html");
+statusArray = new Array("zero","one","two","three","four","five","six","seven","eight","nine","ten");
+
+function getRandom(max) {
+	rnumber = Math.round(Math.random()*(max-1)) +1
+	return rnumber
+}
+function getRandomImage() {
+	num = getRandom(10);	
+	xx = "numbers/" + num + "." + "gif";
+	img = new Image(); img.src = xx;
+	document.images.target.src = img.src
+}
+function goURL() {
+	document.location=urlArray[num];
+}
+function timer() {
+	getRandomImage();
+	setInterval("getRandomImage()",1000);
+}
+
+// -->
+</script>
+
+</head>
+<body onload="timer()">
+
+<h3 align="center"> Random Images with Links</h3>
+
+<br>
+
+<p align="center"><a href="javascript:goURL()" onmouseover="window.status=statusArray[num]; return true;" onmouseout="window.status=''; return true;"><img name="target" src="numbers/blank.gif" width="96" height="96"></a></p>
+
+</body>
+</html>

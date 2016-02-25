@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>Dice</title>
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function rollDice() {
+	// gets a random number between 1 and 6 inclusive
+	return Math.floor(Math.random()*6) + 1;
+}
+
+var nThrows = 500;
+var nDice = 2;
+
+var d1; 	// dice1
+var d2; 	// dice2
+var S;		// sum of a throw
+
+var count = new Array();
+
+// initaialise counter
+for (var i=2; i<=12; i++) {
+	count[i] = 0;	
+}
+
+// -->
+</script>
+
+</head>
+<body>
+
+<h3>Dice</h3>
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+	
+	document.write('<p>' + nThrows + ' throws of ' + nDice + ' die:<\/p>');
+	
+	// generate all the throws:
+	for (var i=0; i<nThrows; i++) {
+		d1 = rollDice();
+		d2 = rollDice();
+		S = d1 + d2;
+		count[S]++
+		document.write(d1 + ' + ' + d2 + ' = ' + S + ' <br>');
+	}
+	
+	document.write('<hr>');
+
+	// summarise throws:
+	document.write('<table><tr><td>sum&nbsp;<\/td><td>n<\/td><td><\/td><\/tr>');
+	for (var i=2; i<=12; i++) {
+		document.write('<tr><td>' + i + ': <\/td><td>' + count[i] + '<\/td><td>&nbsp;&nbsp;&nbsp;');
+		// write a bar chart
+		for (var j=0; j<count[i]; j++) {
+			document.write('*');
+		}
+		document.write('<\/td><\/tr>');
+	}
+	document.write('<\/table>');
+
+	// check the total:
+	var total = 0;
+	for (var i=1; i<=M; i++) {
+		total += count[i];	
+	}
+	document.write('<p>Total: ' + total + '<\/p>');
+
+// -->
+</script>
+
+</body>
+</html>
+
+
+

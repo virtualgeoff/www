@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Javascript Junkyard - Window Madness</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+<script language="JavaScript">
+<!--
+
+var win = new Array();
+
+function doIt(m,n) {
+	w = screen.availWidth/m - 20; 
+	h = screen.availHeight/n - 40;
+	var k = 0;
+	for (var j=0;j<n;j++) {
+		for (var i=0;i<m;i++) {
+			x = i * screen.availWidth/m + 10; 
+			y = j * screen.availHeight/n + 10;
+			k++;
+			str = 'win_' + k;
+			win[k] = window.open('http://www.spike.com.au',str,'width='+w+',height='+h+',left='+x+',top='+y);	
+		}
+	}
+}
+function kill() {
+	for (var w in win) {
+		win[w].close();
+	}
+}
+
+//-->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Window Madness</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<ul>
+<li><a href="javascript:doIt(3,3);">Open 3x3</a>
+<li><a href="javascript:doIt(4,3);">Open 4x3</a>
+<li><a href="javascript:doIt(5,2);">Open 5x2</a>
+<li><a href="javascript:doIt(3,1);">Open 3x1</a>
+<br><br>
+<li><a href="javascript:kill();">Kill 'em all</a>
+
+</ul>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+

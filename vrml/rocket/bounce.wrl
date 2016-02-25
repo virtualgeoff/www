@@ -1,0 +1,253 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title       "Bouncing Ball"
+    info        "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+    headlight   FALSE
+    type        "EXAMINE"
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+    description "Front"
+    position    0 2 12
+    orientation 0 0 1 0
+}
+Viewpoint {
+    description "Above"
+    position    0 12 6
+    orientation 1 0 0 -0.785
+
+}
+
+
+#----------------------------------------------------------------------------
+# Sounds
+
+Sound {
+    source DEF Bounce AudioClip { url ["bounce.wav"] }
+    maxFront    50
+    minFront    50
+    spatialize  FALSE
+}
+
+#----------------------------------------------------------------------------
+# Lights
+
+DirectionalLight {
+    color       1 1 1
+    direction   0 -1 -1
+    intensity   1
+    on      TRUE
+}
+
+#----------------------------------------------------------------------------
+# Ground
+
+DEF Ground Shape {
+    appearance  Appearance {
+        material  Material {
+            ambientIntensity    0
+            diffuseColor    0.1 0.1 0.1
+            emissiveColor   0.2 0.2 0.2
+        }
+    }
+    geometry  IndexedFaceSet {
+        coord  Coordinate {
+            point   [ -20 0 -20, 20 0 -20, -20 0 20, 20 0 20 ]
+        }
+        coordIndex  [ 0, 2, 1, -1, 1, 2, 3, -1 ]
+        colorIndex  [ 0, 0, 0, -1, 0, 0, 0, -1 ]
+        solid   TRUE
+        creaseAngle 0.5
+    }
+}
+
+#----------------------------------------------------------------------------
+# Ball
+
+DEF Ball Transform {
+    translation 0 5 0
+    children [
+        DEF BallSensor TouchSensor {}
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor    1 0 0
+                }
+            }
+            geometry Sphere {
+                radius .2
+            }
+        }
+    ]
+}
+
+#----------------------------------------------------------------------------
+# Shadow
+
+DEF Shadow Transform {
+    translation 0 .01 -0.2
+    scale       1 1 1.4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor    0 0 0
+                }
+            }
+            geometry Cylinder {
+                radius .2
+                height 0.01
+            }
+        }
+    ]
+}
+
+#----------------------------------------------------------------------------
+# Info
+
+Transform {
+    translation -3 3 -5
+    children [
+        Shape {
+            appearance DEF InfoAppearance Appearance {
+                material Material {
+                    diffuseColor    1 0 0
+                }
+            }
+            geometry DEF Labels Text {
+                fontStyle DEF InfoFont FontStyle {
+                    family  "SANS"
+                    justify "LEFT"
+                    size        0.8
+                }
+                string ["height: ", "velocity: ", "acceleration: "]
+            }
+        }
+    ]
+}
+Transform {
+    translation 3 3 -5
+    children [
+        Shape {
+            appearance USE InfoAppearance
+            geometry DEF Info Text {
+                fontStyle USE InfoFont
+                string ["0", "0", "0"]
+            }
+        }
+    ]
+}
+
+#----------------------------------------------------------------------------
+# Timers
+
+DEF Clock TimeSensor {
+   cycleInterval    0.05
+   stopTime -1
+   loop     TRUE
+}
+
+#----------------------------------------------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+    eventIn     SFTime      moveBall
+    eventIn     SFTime      resetBall
+
+    eventOut    SFVec3f     ballChanged
+    eventOut    SFVec3f     shadowChanged
+    eventOut    SFTime      bounceSound
+    eventOut    MFString    updateInfo
+
+    field       SFVec3f     ballPosition        0 5 0
+    field       SFVec3f     shadowPosition      0 5 0
+    field       SFVec3f     ballVelocity        0 0 0
+    field       SFVec3f     ballAcceleration    0 -9.8 0
+    field       SFFloat     dt                  0.05
+    field       SFFloat     damping             0.9
+    field       SFTime      lastTime            0
+    field       SFTime      truedt              0
+
+    url "javascript:
+
+        function moveBall(timeValue) {
+
+            // print out diagnostic info:
+            truedt = timeValue - lastTime;
+            print('true dt = ' + truedt);
+            lastTime = timeValue;
+
+            // determine new position:
+            ballPosition[0] += ballVelocity[0] * dt;
+            ballPosition[1] += ballVelocity[1] * dt;
+            ballPosition[2] += ballVelocity[2] * dt;
+
+            shadowPosition[0] = ballPosition[0];
+            shadowPosition[1] = 0.01;
+            shadowPosition[2] =  -ballPosition[1];
+
+            // check to see if ball has hit floor:
+            if ((ballPosition[1] <= 0.2) && (ballVelocity[1] <= 0)) {
+                ballPosition[1] = 0.2;
+                ballVelocity[1] = Math.abs(ballVelocity[1]) * damping;
+                bounceSound = timeValue;
+
+                // damp out bounce
+                ballVelocity[1] *= damping;
+
+                // note a*dt = -0.5 this gets added each time step
+                // even if velocity is small - therefore increasing velocity.
+
+                if (ballVelocity[1] <= 0.05) {
+                    ballVelocity[1] = 0.05;
+                }
+            }
+
+            // determine new velocity:
+            ballVelocity[0] += ballAcceleration[0] * dt;
+            ballVelocity[1] += ballAcceleration[1] * dt;
+            ballVelocity[2] += ballAcceleration[2] * dt;
+
+            // update ball position:
+            ballChanged = ballPosition;
+            shadowChanged = shadowPosition;
+
+            // update info:
+            updateInfo[0] = Math.round(ballPosition[1]*100)/100;
+            updateInfo[1] = Math.round(ballVelocity[1]*100)/100;
+            updateInfo[2] = Math.round(ballAcceleration[1]*100)/100;
+
+        }
+
+        function resetBall(timeValue) {
+            // give it a kick:
+            ballVelocity[0] = 0;
+            ballVelocity[1] = 10;
+            ballVelocity[2] = 0;
+        }
+
+    "
+}
+
+#----------------------------------------------------------------------------
+# Routing:
+
+ROUTE Clock.cycleTime TO MotionScript.moveBall
+ROUTE BallSensor.touchTime TO MotionScript.resetBall
+
+ROUTE MotionScript.ballChanged TO Ball.set_translation
+ROUTE MotionScript.shadowChanged TO Shadow.set_translation
+ROUTE MotionScript.bounceSound TO Bounce.startTime
+ROUTE MotionScript.updateInfo TO Info.string
+

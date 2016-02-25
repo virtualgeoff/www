@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Rip Curl Template</title>
+
+<script language="JavaScript" src="../scripts/stylesheet.js"></script>
+<link rel=stylesheet href="../scripts/compass.css" type="text/css">
+
+<style type="text/css">
+<!--
+
+#blacklines     {position:absolute; z-index:2;  left: 0;   top: 218;}
+#shoreline1     {position:absolute; z-index:3;  left: 2;   top: 236;}
+#shoreline2     {position:absolute; z-index:4;  left: 0;   top: 122;}
+#whitelines     {position:absolute; z-index:5;  left: 0;   top: 207;}
+#orange         {position:absolute; z-index:6;  left: 409; top: 212;}
+#blackcross     {position:absolute; z-index:7;  left: 53;  top: 393;}
+#whitecross     {position:absolute; z-index:8;  left: 680; top: 91;}
+#wash1          {position:absolute; z-index:9;  left: 551; top: 238;}
+#wash2          {position:absolute; z-index:10; left: 684; top: 169;}
+#whitedots      {position:absolute; z-index:11; left: 31;  top: 208;}
+#ripcurl        {position:absolute; z-index:12; left: 0;   top: 217;}
+
+#whitedots2     {position:absolute; z-index:11; left: 317; top: 207;}
+#blackdots      {position:absolute; z-index:11; left: 326; top: 238;}
+#sectionHeading {position:absolute; z-index:15; left: 218; top: 222;}
+
+-->
+</style>
+
+<script language="JavaScript" src="../scripts/status.js"></script>
+<script language="JavaScript" src="../scripts/show_hide.js"></script>
+<script language="JavaScript" src="../scripts/dragging.js"></script>
+<script language="JavaScript" src="../scripts/compass.js"></script>
+<script language="JavaScript" src="../scripts/scrolling.js"></script>
+
+<script language="JavaScript">
+<!--
+
+function init() {
+    compassInit();
+	isLoaded();
+}
+
+// -->
+</script>
+
+</head>
+
+<body onload="init()" link="#ffffff" alink="#ff9900">
+<div id="shieldLayer"></div>
+<div id="Loading" class="loading">LOADING - Chill Out</div>
+<div id="loadingClip"><SCRIPT LANGUAGE=JAVASCRIPT>loadbar('loadingClip');if (navigator.appName == "Netscape") {document.writeln('--------------')}</SCRIPT></div>
+
+<!-- background stuff -->
+
+<div id="blacklines"><img src="../images/blacklines.gif" width="770" height="20" alt=""></div>
+<div id="shoreline1"><img src="../images/shoreline1.gif" width="228" height="44" alt=""></div>
+<div id="shoreline2"><img src="../images/shoreline2.gif" width="217" height="84" alt=""></div>
+<div id="whitelines"><img src="../images/whitelines.gif" width="770" height="30" alt=""></div>
+<div id="orange"><img src="../images/orangething.jpg" width="361" height="5" alt=""></div>
+<div id="blackcross"><img src="../images/blackcross.gif" width="9" height="9" alt=""></div>
+<div id="whitecross"><img src="../images/whitecross.gif" width="9" height="9" alt=""></div>
+<div id="wash1"><img src="../images/wash1.gif" width="187" height="66" alt=""></div>
+<div id="wash2"><img src="../images/wash2.gif" width="80" height="65" alt=""></div>
+<div id="whitedots"><img src="../images/whitedots.gif" width="216" height="2" alt=""></div>
+<div id="ripcurl"><a href="../index.html" target="_top" onMouseOver="on('Rip Curl Home');" onMouseOut="off();"><img src="../images/ripcurl_dark.gif" width="216" height="19" alt="Rip Curl Home" border="0"></a></div>
+
+<div id="whitedots2"><img src="../images/whitedots2.gif" width="412" height="4"></div>
+<div id="blackdots"><img src="../images/blackdots.gif" width="152" height="4"></div>
+
+<!-- this section -->
+
+<div id="sectionHeading"><b>TEMPLATE</b></div>
+
+
+<!-- compass layers -->
+
+<!-- styles in head for NS, drag layer style inline for IE -->
+<div id="navDevice" style="position:absolute; width:230; height:160; z-index:100; left: 19px; top: 20px;">
+  <img src="../compass/arrows.gif" width="230" height="30" border="0">
+  <div id="compassClipLayer">
+    <div id="compassLayer"><nobr><img src="../compass/compass3.gif" width="720" height="30" border="0"><img src="../compass/compass3.gif" width="720" height="30" border="0"></nobr></div>
+  </div><!--  -->
+  <div id="contourClipLayer">
+    <div id="textLayer">
+      <div id="homeLayer" class="menu"><a href="/index.html">Home</a></div>
+	  <div id="rootsLayer" class="menu"><a href="../roots/index.html">Roots</a></div>
+      <div id="thesearchLayer" class="menu"><a href="../theSearch/index.html">The Search</a></div>
+      <div id="teamridersLayer" class="menu"><a href="../teamriders/index.html">Team</a></div>
+      <div id="eventsLayer" class="menu"><a href="../events/index.html">Events</a></div>
+      <div id="tutorialsLayer" class="menu"><a href="../tutorials/index.html">Bust a Move</a></div>
+      <div id="productsLayer" class="menu"><a href="../gear/index.html">Gear</a></div>
+      <div id="weatherLayer" class="menu"><a href="../weather/index.html">Swell &amp; Weather</a></div>
+      <div id="coolstuffLayer" class="menu"><a href="../coolstuff/index.html">Cool Stuff</a></div>
+	  <div id="dealersLayer" class="menu"><a href="/dealers/index.asp">Dealers</a></div>
+    </div>
+    <div id="contourLayer">
+      <img src="../compass/contours.gif" width="230" height="130" border="0">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

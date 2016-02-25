@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Javascript Junkyard - Writing Framesets</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+function makeFrames(section) {
+	document.writeln('<html><head><title>Framed!</title></head>');
+	document.writeln('<frameset border="1" rows="80,*,80">');
+	document.writeln('	<frame name="header" src="header'+section+'.html" marginwidth="15" marginheight="15">');
+	document.writeln('	<frame name="content" src="content'+section+'.html" marginwidth="15" marginheight="15">');
+	document.writeln('	<frame name="footer" src="footer'+section+'.html" marginwidth="15" marginheight="15">');
+	document.writeln('</frameset>');
+	document.writeln('</html>');
+}
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Writing Framesets On The Fly</h3>
+
+<br><br>
+
+<p align="center">
+<a href="javascript:makeFrames(1)">section 1</a> | 
+<a href="javascript:makeFrames(2)">section 2</a> | 
+<a href="javascript:makeFrames(3)">section 3</a>
+</p>
+
+<p align="center">Creates the frameset and writes the appropriate urls for each section</p>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>Random Numbers</title>
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function getRandom(max) {
+	// gets a random number between 1 and max inclusive
+	return Math.floor(Math.random()*max) + 1;
+}
+
+var N = 1000;
+var M = 20
+var count = new Array();
+var X;
+
+// initaialise counter
+for (var i=1; i<=M; i++) {
+	count[i] = 0;	
+}
+
+// -->
+</script>
+
+</head>
+<body>
+
+<h3>Random Numbers</h3>
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+	
+	document.write('<p>' + N + ' random numbers from 1 to ' + M + ' (inclusive):<\/p>');
+	
+	// generate all the numbers:
+	for (var i=0; i<N; i++) {	
+		X = getRandom(M);
+		count[X]++;
+		document.write(X + ', ');
+	}
+	
+	document.write('<hr>');
+	
+	// show the count of each:
+	document.write('<table><tr><td>n<\/td><td>count&nbsp;<\/td><td><\/td><\/tr>');
+	for (var i=1; i<=M; i++) {
+		document.write('<tr><td>' + i + ':&nbsp;&nbsp; <\/td><td>' + count[i] + '<\/td><td>');
+		// write a bar chart
+		for (var j=0; j<count[i]; j++) {
+			document.write('*');
+		}
+		document.write('<\/td><\/tr>');
+	}	
+	document.write('<\/table>');
+	
+	// check the total:
+	var total = 0;
+	for (var i=1; i<=M; i++) {
+		total += count[i];	
+	}
+	document.write('<p>Total: ' + total + '<\/p>');
+	
+// -->
+</script>
+
+<br>
+
+</body>
+</html>
+
+
+

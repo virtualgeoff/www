@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Bounce!</title>
+<script language="JavaScript">
+<!--
+
+fish = new Image(); fish.src = "images/fish.gif"
+fish2 = new Image(); fish2.src = "images/fish_right.gif"
+
+var i  = 0;
+var now;
+var then = new Date();
+var dt = 1;
+
+var px = (screen.width-170)/2;
+var py = (screen.height-100)/2;
+var vx = Math.random() * 400; // velocity: pixels per second
+var vy = (Math.random()-0.5) * Math.random() * 500;
+var xmax, ymax;
+
+function init() {
+    var pageWidth = (document.all)?document.body.clientWidth:window.innerWidth;
+    var pageHeight = (document.all)?document.body.clientHeight:window.innerHeight;
+    xmax = pageWidth-152;
+    ymax = pageHeight-83;
+    posWin();
+}
+
+function posWin() {
+    now = new Date();
+    dt = (now.getTime()-then.getTime())/1000; // in seconds
+    px += vx * dt; py += vy * dt;
+    //vx += ax * dt; vy += ay * dt;
+    if (px>xmax) {
+        px = xmax; vx = -vx;
+        if (document.layers) document.fishlayer.document.images.fishImg.src = fish.src;
+        else document.images.fishImg.src = fish.src;
+   } else if (px<0) {
+        px = 0; vx = -vx;
+        if (document.layers) document.fishlayer.document.images.fishImg.src = fish2.src;
+        else document.images.fishImg.src = fish2.src;
+    }
+    if (py>ymax) {
+        py = ymax; vy = -vy;
+    } else if (py<0) {
+        py=0; vy=-vy;
+    }
+    moveIt('fishlayer',px,py);
+    then = now;
+    next = setTimeout("posWin()",30);
+}
+
+function moveIt(layerID,mLeft,mTop){
+	if (document.getElementById) {	// IE5, NS6, DOM
+        document.getElementById(layerID).style.left = mLeft + 'px';
+        document.getElementById(layerID).style.top  = mTop + 'px';
+    } else if (document.all) {		// IE4
+        document.all[layerID].style.left = mLeft;
+        document.all[layerID].style.top  = mTop;
+    } else if (document.layers) {	// NS4
+        document.layers[layerID].moveTo(mLeft,mTop);
+	}
+}
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#ffffff" onLoad="init()">
+
+<div id="fishlayer" style="position:absolute; width:152px; height:83px; z-index:1; left: 0px; top: 10px"><img name="fishImg" src="images/fish_right.gif" width="152" height="83"></div>
+
+</body>
+</html>

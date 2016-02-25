@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>fish 3</title>
+<script language="JavaScript">
+
+	// sine wave
+
+    var i  = 0;
+    var r  = 120;
+    var x0 = -170;
+    var y0 = (screen.height-100)/2;
+    var pi = Math.PI;
+
+    function posWin() {
+        if (i<540) {
+            x = (screen.width+170) - i*(screen.width+170)/540;
+            y = -r * Math.sin(i*2*pi/360);
+            self.moveTo(x+x0,y+y0);
+            i+=2;
+        } else {
+            window.close();
+        }
+        setTimeout("posWin()",15);
+    }
+
+</script>
+</head>
+<body bgcolor="#ffffff" onload="posWin()" topmargin="5" leftmargin="5" marginwidth="5" marginheight="5">
+
+<a href="#" onclick="self.close()"><img src="images/fish.gif" width="152" height="83" border="0"></a>
+
+</body>
+</html>

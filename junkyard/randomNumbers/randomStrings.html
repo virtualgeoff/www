@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Random Strings</title>
+
+<script language="JavaScript">
+<!-- 
+
+function getRandom(max) {
+	// gets a random number between 0 and (max-1) inclusive
+	return Math.floor(Math.random()*max);
+}
+
+//var characters = new Array('0','1','2','3','4','5','6','7','8','9');
+// numerals plus alphabet minus i and o:
+var characters = new Array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z');
+var N = 400;
+var L = 8;
+var P = Math.pow(characters.length,L)
+// -->
+</script>
+
+</head>
+<body>
+
+<h3>Random Strings</h3>
+
+<pre>
+<script language="JavaScript">
+<!-- 
+	
+	document.write('<p>' + N + ' strings of ' + L + ' characters long (Out of ' + P + ' possible combinations.)<\/p>');
+		
+	for (var i=0; i<N; i++) {	
+		for (var j=0; j<L; j++) {
+			document.write(characters[getRandom(characters.length)]);
+			//document.write(Math.floor(Math.random()) + '<br>');
+			//document.write(Math.floor(getRandom(5)) + '<br>');
+		}
+		document.write('<br>');
+	}
+
+// -->
+</script>
+</pre>
+
+</body>
+</html>
+
+
+

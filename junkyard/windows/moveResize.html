@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Javascript Junkyard - Moving and Resizing Windows</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+<script language="JavaScript">
+<!--
+
+function resizeWindow(width,height){
+	if (document.layers) {
+		// resizeTo sets inner size, so use this instead
+		window.outerWidth = width;
+		window.outerHeight = height;		
+	} else window.resizeTo(width,height);
+}
+function centerWindow(width,height){
+	x = (window.screen.availWidth-width)/2;
+	y = (window.screen.availHeight-height)/2;
+	resizeWindow(width,height);
+	window.moveTo(x,y);
+}
+function resizeFullScreen() {
+	x = screen.availLeft; // ns only
+	y = screen.availTop;
+	resizeWindow(screen.availWidth,screen.availHeight);
+	window.moveTo(x,y);
+}
+function openFullScreen() {
+	w = screen.availWidth - 12; 
+	h = screen.availHeight - 48;
+	x = screen.availLeft; // ns only
+	y = screen.availTop;
+	// unlike resize, must allow for chrome
+	bigWin = window.open('http://www.spike.com.au','bigWin','resizable=yes,status=yes,width='+w+',height='+h+',left='+x+',top='+y);
+}
+
+//-->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Moving and Resizing Windows</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<ul>
+<li><a href="javascript:resizeWindow(800,600);">Resize to (800,600)</a>
+<li><a href="javascript:resizeWindow(640,480);">Resize to (640,480)</a>
+<li><a href="javascript:window.moveTo(0,0);">Move to (0,0)</a>
+<li><a href="javascript:window.moveTo(200,100);">Move to (200,100)</a>
+<br><br>
+<li><a href="javascript:resizeFullScreen();">Resize to full screen</a>
+<li><a href="javascript:resizeWindow(screen.availWidth/2,screen.availHeight/2);">Resize to quarter screen</a>
+<li><a href="javascript:centerWindow(640,480)">Center on screen</a>
+<br><br>
+<li><a href="javascript:openFullScreen()">Open new window to full screen</a>
+</ul>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+

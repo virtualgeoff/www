@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Orbital Simulation - Lagrange Points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="author" content="Geoff Pack">
+<style type="text/css">
+<!--
+
+body {background-color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #666666}
+#p0	 {position:absolute; z-index:10; left:0px; top:-20px;}
+#p1  {position:absolute; z-index:9; left:0px; top:-20px;}
+#p2  {position:absolute; z-index:8; left:0px; top:-20px;}
+#p3  {position:absolute; z-index:7; left:0px; top:-20px;}
+#p4  {position:absolute; z-index:6; left:0px; top:-20px;}
+#p5  {position:absolute; z-index:5; left:0px; top:-20px;}
+#p6  {position:absolute; z-index:4; left:0px; top:-20px;}
+
+-->
+</style>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+// dhtml stuff:
+var dom = (document.getElementById)? true:false;
+var ns4 = (document.layers)? true:false;
+var ie  = (document.all)? true:false;
+
+// center of window:
+var xcenter = 400;
+var ycenter = 200;
+
+// misc variables
+var N = 6; 				// sun, jupiter, + 5 Lagrange points
+var dx,dy,dr,dt;		// all the deltas
+var timesteps = 0; 		// timestep counter
+var next; 				// timer id
+
+// physical constants:
+var G = 6.67E-11; 		// in N.m^2.kg^2
+var Me = 5.974E24; 		// mass of earth in kg
+var AU = 149.6E9; 		// 1 AU in metres
+
+// scaling factors:
+var scale = AU/30; 		// 1E9 m = 30 pixels on screen
+var day = 86400;		// seconds in a day
+var timescale = 5; 		// days per timestep
+
+// labels for each planet's div:
+var p = new Array('p0','p1','p2','p3','p4','p5','p6');
+
+// planetary data: (from appendix, p.759, Universe, Kaufmann and Freedman.)
+// n.b. planet[0] is the sun!
+var m  = new Array(333000,317.83,0.01,0.01,0.01,0.01,0.01);	// mass in Me
+var Fx = new Array(0,0,0,0,0,0,0,0,0,0); // forces - initialised to zero
+var Fy = new Array(0,0,0,0,0,0,0,0,0,0);
+// velocities: calculate from positions below so that angular velocity is constant:
+// w = v/r = 13.1/5.203 = 2.5178
+// v = rw = ...
+var vx = new Array(0,0,0,0,0,-11.345,11.345);
+var vy = new Array(0,-13.1,-12.2266,-14.011,13.1,-6.55,-6.55); // = average orbital speed in km/s
+// use trig to calculate L4, L5 positions
+// see http://www.merlyn.demon.co.uk/gravity.htm#L15 for calculation of L1, L2, L3:
+var px = new Array(0,5.203,4.856102,5.564845,-5.20011,2.6015,2.6015);	// = semimajor axis in AU
+var py = new Array(0,0,0,0,0,-4.506,4.506);
+
+// convert mass to kg, speed to m/s, and AU to metres:
+for (var i=0; i<=N; i++) {
+	m[i]  *= Me;
+	vx[i] *= 1000;
+	vy[i] *= 1000; 
+	px[i] *= AU;
+	py[i] *= AU;
+}
+
+function movePlanets() {
+	// find dt:
+	dt = day * timescale;  
+	// deleted all forces from last step:
+	for (var i=0; i<=N; i++) {
+		Fx[i] = 0; Fy[i] = 0;
+	}
+    // calculate gravitational force between each pair of planets:
+    for (var i=0; i<=N; i++) {
+		for (var j=i+1; j<=N; j++) {
+			// calculate dx,dy,dr:
+	        dx = px[i] - px[j];
+	        dy = py[i] - py[j];
+	        dr = Math.sqrt(dx*dx + dy*dy);
+			// calculate forces - add to previous calculations:
+			Fx[i] += -G*m[i]*m[j]/(dr*dr*dr) * dx;
+			Fy[i] += -G*m[i]*m[j]/(dr*dr*dr) * dy;
+			Fx[j] += -Fx[i];
+			Fy[j] += -Fy[i];
+		}
+    }
+	// calculate acceleration, velocity, position of each planet:
+	// note that sun is also movable! (loop from i=1 to fix sun in place)
+    for (var i=1; i<=N; i++) {
+		vx[i] += Fx[i]/m[i]*dt;
+		vy[i] += Fy[i]/m[i]*dt;
+        px[i] += vx[i]*dt;
+        py[i] += vy[i]*dt;
+		// plot position:
+		moveDiv(p[i],px[i],py[i]);
+	}
+	// how many time steps have we done?	
+	window.status = 'timesteps: ' + (++timesteps) + ', days: ' + (timesteps*timescale);
+	// do it all again...
+    next = setTimeout("movePlanets()",10); // timeout in millisecs
+}
+
+function moveDiv(id,x,y) {
+	// moves the div layers
+	x = x/scale + xcenter;
+	y = y/scale + ycenter;
+	if (dom) {			// IE5, NS6, DOM
+		var d = document.getElementById(id); 
+        d.style.left = x + 'px';
+        d.style.top  = y + 'px';
+    } else if (ie) {	// IE4
+		var d = document.all[id];
+        d.style.left = x;
+        d.style.top  = y;
+    } else if (ns4) {	// NS4
+        document.layers[id].moveTo(x,y);
+	} 
+}
+
+function init() {
+	// move planets to initial positions
+	for (n=0; n<=N; n++) {
+		moveDiv(p[n],px[n],py[n]);
+	}
+	movePlanets();
+}
+
+// -->
+</script>
+</head>
+
+<body onload="init();" bgcolor="#000000" text="#cccccc" link="#ffffff" vlink="#ffffff" alink="#33dd33">
+	<h3>DHTML Simulation of Lagrange Points</h3>
+	<p>using simple Euler integration method</p>
+	<p><i>- runs fastest in Internet Explorer<br>
+	 - moderatley fast in Netscape 4,<br>
+	 - very slow in Mozilla/Netscape 6.</i></p>
+	
+    <div id="p0"><img src="images/yellow.gif" width="10" height="10" alt=""> Sun</div>
+    <div id="p1"><img src="images/orange.gif" width="10" height="10" alt=""> Jupiter</div>
+    <div id="p2"><img src="images/green.gif" width="10" height="10" alt=""> L1</div>
+    <div id="p3"><img src="images/lightblue.gif" width="10" height="10" alt=""> L2</div>
+    <div id="p4"><img src="images/darkblue.gif" width="10" height="10" alt=""> L3</div>
+    <div id="p5"><img src="images/violet.gif" width="10" height="10" alt=""> L4</div>
+    <div id="p6"><img src="images/purple.gif" width="10" height="10" alt=""> L5</div>
+
+</body>
+</html>

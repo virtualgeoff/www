@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Javascript Junkyard - Rounding Numbers</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script>
+<!--
+
+function roundOff(number,precision) {
+	precision = parseInt(precision);
+	m = Math.pow(10, precision);
+	return parseInt(Math.round(number*m))/m;
+}
+
+// -->
+</script>
+
+</head>
+
+<body>
+
+<h3 align=center>Rounding Numbers</h3>
+
+<br>
+
+<form name="myForm">
+
+<table align="center">
+<tr><td>Enter a long number:&nbsp;&nbsp;</td><td><input type="text" name="text1" value="0.123456789" size="20"></td></tr>
+<tr><td>Enter precision:    </td><td><input type="text" name="text2" value="2" size="5"></td></tr>
+<tr><td>Result:             </td><td><input type="text" name="text3"></td></tr>
+<tr><td>					</td><td><input type="button" value="Calculate" onClick="myForm.text3.value=roundOff(myForm.text1.value,myForm.text2.value)"></td></tr>
+</table>
+
+</form>
+
+</body>
+</html> 

@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>fish 1</title>
+<script language="JavaScript">
+
+	// straight line
+
+    var i = screen.width-170;
+
+    function posWin() {
+        if (i>=0) {
+            self.moveTo(i,300);
+            i-=2;
+        } else {
+            window.close();
+        }
+        setTimeout("posWin()",10);
+    }
+
+</script>
+</head>
+<body bgcolor="#ffffff" onload="posWin()" topmargin="5" leftmargin="5" marginwidth="5" marginheight="5">
+
+<a href="#" onclick="self.close()"><img src="images/fish.gif" width="152" height="83" border="0"></a>
+
+</body>
+</html>

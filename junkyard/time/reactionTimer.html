@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Javascript Junkyard - Reaction Timer</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+var startTime = new Date();
+var stopTime  = new Date();
+var waiting = false;
+var timing  = false;
+var maxWait = 15;
+var timerID;
+
+function start() {
+	if(waiting) {
+		document.response.time.value = "Already timing..."; 
+		return;
+	} else {
+		waiting = true;
+		document.response.time.value = "Wait for it..." 
+		timerID = setTimeout('startTiming()', 1000*(1+maxWait*Math.random()));
+	}
+}
+function startTiming() {
+	document.bgColor="red";
+	document.response.time.value = "NOW!"
+	startTime=new Date();
+	timing=true;
+}
+function stop() {
+	if (timing) {
+		stopTime=new Date();
+		var responseTime=(stopTime.getTime()-startTime.getTime())/1000;
+		document.bgColor="white"; 
+		document.response.time.value = responseTime + ' seconds';      
+		waiting=false;
+		timing=false;
+	} else {
+		if (!waiting) {
+			document.response.time.value = "Hit start to begin...";
+		} else {       
+			clearTimeout(timerID);
+			waiting=false;             
+			document.response.time.value = "Too soon!";
+		}               
+	}
+}
+
+// End --> 
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Reaction Timer</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<p>Hit stop as soon as the background changes colour.</p>
+
+<form name="response">
+	<input name="time" size="30" value="Hit start to begin...">&nbsp;
+	<input type="button" value="start" onClick="start()">
+	<input type="button" value="stop"  onClick="stop()">
+</form>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

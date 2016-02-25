@@ -1,0 +1,144 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Helix indexFaceSet"
+   info ["Geoff Pack, Spike, 1999",
+         "partly based on pointset.wrl by Roland Smeenk" ]
+}
+
+NavigationInfo {
+    headlight TRUE
+    speed 1
+    type "EXAMINE"
+}
+
+Viewpoint {
+    position 0 -7 7
+    orientation 1 0 0 0.785
+    description "angled"
+}
+
+Viewpoint {
+    position 0 -10 0
+    orientation 1 0 0 1.5708
+    description "below"
+}
+
+Viewpoint {
+    position 0 0 10
+    description "side"
+}
+
+DEF OBJECT1 Transform {
+    rotation     1 0 0 0
+    center       0 1 0
+    children [
+        Shape {
+            geometry DEF FaceSet IndexedFaceSet {
+                coord DEF FaceSetCoords Coordinate {
+                    point [ ]
+                }
+                coordIndex [ ]
+                color DEF FaceSetColor Color {
+                    color [ ]
+                }
+                colorIndex [ ]
+                solid FALSE
+            }
+            appearance Appearance  {
+                material Material {
+                    transparency 0.3
+                }
+            }
+        }
+    ]
+}
+
+DEF TIMER1 TimeSensor {
+    cycleInterval    10
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF ROTATE1 OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF FaceSetScript Script {
+    eventOut MFVec3f point_Changed
+    eventOut MFInt32 index_Changed
+    eventOut MFColor color_Changed
+    eventOut MFInt32 colorIndex_Changed
+
+    field    MFVec3f point 0.0 0.0 0.0
+    field    MFInt32 index 0
+    field    MFColor color 1 1 1
+    field    MFInt32 colorIndex 0
+
+    field    SFInt32 FaceCount 24
+    field    SFInt32 Size 2
+
+    url "javascript:
+        function initialize() {
+            point.length = FaceCount*3;
+            color.length = FaceCount*3;
+            index.length = FaceCount*4;
+            colorIndex.length = FaceCount*4;
+
+            for (i=0; i<FaceCount; i++) {
+                for (j=0; j<3; j++) {
+                    var m = (3*i)+j;
+                    if (j==0) {
+                        point[m].x = 0;
+                        point[m].z = 0;
+                    } else {
+                        point[m].x = Size * Math.cos((i+j)*2*3.14159/12);
+                        point[m].z = Size * Math.sin((i+j)*2*3.14159/12);
+                    }
+                    point[m].y = Size * (m/FaceCount - 1.5) ;
+
+                    color[m].r = Math.random();
+                    color[m].g = Math.random();
+                    color[m].b = Math.random();
+                }
+                index[4*i] = 3*i;
+                index[4*i+1] = 3*i+1;
+                index[4*i+2] = 3*i+2;
+                index[4*i+3] = -1;
+
+                colorIndex[4*i] = 3*i;
+                colorIndex[4*i+1] = 3*i+1;
+                colorIndex[4*i+2] = 3*i+2;
+                colorIndex[4*i+3] = -1;
+            }
+
+            // Send the points to the empty geometry
+            point_Changed = point;
+            color_Changed = color;
+
+            colorIndex_Changed = colorIndex;
+            index_Changed = index;
+
+            // debug step:
+            //for (i=0; i<FaceCount; i++) {
+            //    print('            ');
+            //    print('face:       ' + i);
+            //    print('coords:     ' + point[3*i] + ', ' + point[3*i+1] + ', ' + point[3*i+2]);
+            //    print('color:      ' + color[3*i] + ', ' + color[3*i+1] + ', ' + color[3*i+2]);
+            //    print('coordIndex: ' + index[4*i] + ', ' + index[4*i+1] + ', ' + index[4*i+2] + ', ' + index[4*i+3]);
+            //    print('colorIndex: ' + colorIndex[4*i] + ', ' + colorIndex[4*i+1] + ', ' + colorIndex[4*i+2] + ', ' + colorIndex[4*i+3]);
+            //}
+        }
+    "
+}
+
+ROUTE FaceSetScript.point_Changed TO FaceSetCoords.set_point
+ROUTE FaceSetScript.color_Changed TO FaceSetColor.set_color
+ROUTE FaceSetScript.index_Changed TO FaceSet.set_coordIndex
+ROUTE FaceSetScript.colorIndex_Changed TO FaceSet.set_colorIndex
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+
+

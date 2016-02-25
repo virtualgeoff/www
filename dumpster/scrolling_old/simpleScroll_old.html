@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Simple Scroll</title>
+
+<style>
+    #scrollClipping {position:absolute; z-index:21; left:220; top:140; width:260; height:175; clip:rect(0,260,175,0); background-color: white; layer-background-color: white;}
+    #scrollContent  {position:absolute; z-index:20; left:0;   top:0;   font-size:10pt; font-family:verdana; background-color: orange; layer-background-color: orange;}
+    #scrollbutton1  {position:absolute; z-index:25; left:134; top:220; width:9; height:9;}
+    #scrollbutton2  {position:absolute; z-index:25; left:134; top:230; width:9; height:9;}
+</style>
+
+<script language='JavaScript'>
+
+// created by Geoff Pack
+// geoff@spike.com.au
+
+var ie = document.all?1:0
+var ns = document.layers?1:0
+
+// scroll object: makes a browser-independent object for easy scrolling
+// partly inspired by DFORM1.
+
+function makeScrollObj(objId,layerId,parent){
+    // need to find parent if netscape
+    parent=(parent)? 'document.'+parent+'.':'';
+    this.style=(ns)? eval(parent+'document.'+layerId):eval('document.all.'+layerId+'.style')
+    this.scrollHeight=(ns)?this.style.document.height:eval('document.all.'+layerId+'.offsetHeight')
+    this.top  = getTop;
+    this.id   = objId;
+}
+function getTop(){
+    var top=(ns)?eval(this.style.top):eval(this.style.pixelTop);
+    return top;
+}
+
+// Scroll Variables
+var scrollTimer = new Array(); // timeouts for each scrolling object
+var fps=60, deltaT = 1000/fps; // fps = frames per second; deltaT in millisecs
+var contHeight = 100;
+var contWidth  = 100;
+
+function scroll(obj,vy){
+    clearTimeout(scrollTimer[obj.id]);
+    py=obj.top();
+    py+=vy; yMin=0; yMax=contHeight-obj.scrollHeight;
+	if(py<yMax){py=yMax;vy=0;} if(py>yMin){py=yMin;vy=0;}
+    obj.style.top=py;
+    if (vy!=0) scrollTimer[obj.id]=setTimeout("scroll("+obj.id+","+vy+")",deltaT);
+}
+
+function noScroll(obj){
+    clearTimeout(scrollTimer[obj.id]);
+}
+
+function scrollInit(){
+    scroller1 = new  makeScrollObj('scroller1','scrollContent','scrollClipping');
+}
+
+// -->
+</script>
+</head>
+
+<body onload="scrollInit()">
+
+<div id="scrollbutton1"><a href="#" onMouseOver="scroll(scroller1,4)" onMouseOut="noScroll(scroller1)"><img src="images/up.gif" width="11" height="9" border="0" alt></a></div>
+<div id="scrollbutton2"><a href="#" onMouseOver="scroll(scroller1,-4)" onMouseOut="noScroll(scroller1)"><img src="images/down.gif" width="11" height="9" border="0" alt></a></div>
+
+<div id="scrollClipping">
+    <div id="scrollContent">
+        <p>Lots of content goes in here.</p>
+
+        <p>Your mailbox has exceeded one or more size limits set by your administrator.<br>
+        Your mailbox size is xxxxx KB.</p>
+
+        <p>Mailbox size limits:<br>
+        You will receive a warning when your mailbox reaches 20480 KB.<br>
+        You cannot send mail when your mailbox reaches 25600 KB.</p>
+
+        <p>You may not be able to send or receive new mail until you reduce your
+        mailbox size. To make more space available, delete any items that you
+        are no longer using or move them to your personal folder file (.pst).
+        Items in all of your mailbox folders including the Deleted Items and
+        Sent Items folders count against your size limit.  You must empty the
+        Deleted Items folder after deleting items or the space will not be
+        freed.</p>
+
+        <p>See client Help for more information.</p>
+
+        <p>--------------------------------------<br>
+        Take 2: Lots of content goes in here.</p>
+
+        <p>Your mailbox has exceeded one or more size limits set by your administrator.<br>
+        Your mailbox size is xxxxx KB.</p>
+
+        <p>Mailbox size limits:<br>
+        You will receive a warning when your mailbox reaches 20480 KB.<br>
+        You cannot send mail when your mailbox reaches 25600 KB.</p>
+
+        <p>You may not be able to send or receive new mail until you reduce your
+        mailbox size. To make more space available, delete any items that you
+        are no longer using or move them to your personal folder file (.pst).
+        Items in all of your mailbox folders including the Deleted Items and
+        Sent Items folders count against your size limit.  You must empty the
+        Deleted Items folder after deleting items or the space will not be
+        freed.</p>
+
+        <p>See client Help for more information.</p>
+    </div>
+</div>
+
+
+</body>
+</html>

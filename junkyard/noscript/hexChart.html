@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Javascript Junkyard - Hex to Decimal Conversion</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+function decHex(n) {
+	if (n<10)  return n;
+	if (n==10) return "a";
+	if (n==11) return "b";
+	if (n==12) return "c";
+	if (n==13) return "d";		
+	if (n==14) return "e";
+	if (n==15) return "f";
+	if (n>15)  return "error";
+}
+
+// -->
+</script>
+
+</head>
+
+<body>
+
+<h3 align="center">Hexadecimal to Decimal Conversion Chart</h3>
+
+<br>
+
+<p align="center">This script generates a Hexadecimal to Decimal Conversion Chart.</p>
+
+<p align="center"><b>Second Digit</b></p>
+
+<table border="0" align="center">
+<tr>
+<td valign="middle" align="center"><b>First&nbsp;<br>Digit&nbsp;</b></td>
+<td>
+
+
+<script language="JavaScript">
+<!-- 
+	
+	var i,j = 0;
+	
+	// top row
+	document.writeln('<table cellpadding="3" border="1" align="center">');			
+	document.write('<tr><td bgcolor="#cccccc">&nbsp;&nbsp;&nbsp;&nbsp;</td>');					
+	for (i=0; i<16; i++) {		
+		document.write('<td bgcolor="#cccccc" align="center"><font color="#0000c0"><b>' + decHex(i) + '</b></font></td>');
+	}	
+	document.write('</tr>');		
+		
+	for (i=0; i<16; i++) {	
+		// first cell of each row
+		document.write('<tr><td bgcolor="#cccccc" align="center"><font color="#0000c0"><b>' + decHex(i) + '</b></font></td>');
+		// rest of table
+		for (j=0; j<16; j++) {	
+			var k = i*16 + j	
+			document.write('<td align=center>' + k + '</td>');
+		}
+		document.write('</tr>');		
+	}
+	document.writeln('</table>');						
+
+// -->
+</script>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

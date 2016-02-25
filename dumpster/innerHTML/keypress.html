@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Add Banner</title>
+
+<style type="text/css">
+.b4	{font-family: Arial, Helvetica; font-size: 20pt; font-weight: bold; color: #ff0000;}
+</style>
+
+<script language="JavaScript">
+
+function writeText(id,str) {
+	if (document.getElementById) {
+		document.getElementById(id).innerHTML = '<span class="b4">' + str + '</span>';
+	} else if (document.all) {
+		document.all[id].innerHTML = '<span class="b4">' + str + '</span>';
+	} else if (document.layers) {
+		with (document[id].document) {
+			open();
+			write('<span class="b4">' + str + '</span>');
+			close();
+		}
+	}
+}
+
+var NS = (window.Event) ? 1 : 0;
+
+function checkKey(e) {
+	var code = (NS) ? e.which : event.keyCode;
+	var key = String.fromCharCode(code);
+	var str = 'key =  ' + key + '<br>keycode = ' + code;
+	writeText('banner', str);
+}
+
+if (NS) document.captureEvents(Event.KEYPRESS)
+document.onkeypress = checkKey;
+
+</script>
+</head>
+
+<body>
+
+<div id="banner" style="position: absolute; left: 100; top: 100;">
+    <span class="b4">Press a key...</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>Associative Array Test</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Associative Array Test</h3>
+
+<script language="JavaScript">
+
+var myArray = new Array();
+myArray['red'] = '#ff0000';
+myArray['green'] = '#00ff00';
+myArray['blue'] = '#0000ff';
+myArray['cyan'] = '#00ffff';
+myArray['magenta'] = '#ff00ff';
+myArray['yellow'] = '#ffff00';
+myArray['black'] = '#000000';
+
+document.write('<table align="center">');
+for (var nom in myArray) {
+	document.write('<tr><td><font color="'+myArray[nom]+'">' + nom + ': </font></td>');	
+	document.write('<td><font color="'+myArray[nom]+'"> ' + myArray[nom] + '</font></td></tr>');	
+}
+document.write('</table>');
+
+</script>
+
+</body>
+</html>

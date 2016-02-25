@@ -1,0 +1,162 @@
+<html>
+<head>
+<title>Javascript Junkyard - Nested Rollovers</title>
+<link rel="stylesheet" type="text/css" href="../../junkyardBlack.css">
+
+<script language=javascript>
+<!-- 
+
+function getOS() {
+	if (navigator.appVersion.indexOf("Macintosh") > 0) return "Mac";
+	else return "UNKNOWN";
+}
+
+var browserName = navigator.appName;
+var browserVerNo = parseFloat(navigator.appVersion);
+var browserOS = getOS();
+	
+if ((browserName == "Microsoft Internet Explorer") && (browserVerNo < 4) && (browserOS != "Mac")) {
+	window.location.href="indexIE3.html";
+}
+
+if (document.images) {   		   
+	nav09on  = new Image(); nav09on.src  = "images/n9_r.gif";
+	nav09off = new Image(); nav09off.src = "images/n9.gif";
+	nav16on  = new Image(); nav16on.src  = "images/n16_r2.gif";
+	nav16bon = new Image(); nav16bon.src = "images/n16_r1.gif";
+	nav16off = new Image(); nav16off.src = "images/n16.gif";
+	nav23on  = new Image(); nav23on.src  = "images/n23_r2.gif";
+	nav23bon = new Image(); nav23bon.src = "images/n23_r1.gif";
+	nav23off = new Image(); nav23off.src = "images/n23.gif";
+	nav10on  = new Image(); nav10on.src  = "images/n10_r.gif";
+	nav10off = new Image(); nav10off.src = "images/n10.gif";
+	nav17on  = new Image(); nav17on.src  = "images/n17_r2.gif";
+	nav17bon = new Image(); nav17bon.src = "images/n17_r1.gif";
+	nav17off = new Image(); nav17off.src = "images/n17.gif";
+	nav24on  = new Image(); nav24on.src  = "images/n24_r2.gif";
+	nav24bon = new Image(); nav24bon.src = "images/n24_r1.gif";
+	nav24off = new Image(); nav24off.src = "images/n24.gif";
+	nav11on  = new Image(); nav11on.src  = "images/n11_r.gif";
+	nav11off = new Image(); nav11off.src = "images/n11.gif";
+	nav18on  = new Image(); nav18on.src  = "images/n18_r2.gif";
+	nav18bon = new Image(); nav18bon.src = "images/n18_r1.gif";
+	nav18off = new Image(); nav18off.src = "images/n18.gif";
+	nav25on  = new Image(); nav25on.src  = "images/n25_r2.gif";
+	nav25bon = new Image(); nav25bon.src = "images/n25_r1.gif";
+	nav25off = new Image(); nav25off.src = "images/n25.gif";
+	nav12on  = new Image(); nav12on.src  = "images/n12_r.gif";
+	nav12off = new Image(); nav12off.src = "images/n12.gif";
+	nav19on  = new Image(); nav19on.src  = "images/n19_r2.gif";
+	nav19bon = new Image(); nav19bon.src = "images/n19_r1.gif";
+	nav19off = new Image(); nav19off.src = "images/n19.gif";		   
+	nav26on  = new Image(); nav26on.src  = "images/n26_r2.gif";
+	nav26bon = new Image(); nav26bon.src = "images/n26_r1.gif";
+	nav26off = new Image(); nav26off.src = "images/n26.gif";
+	nav13on  = new Image(); nav13on.src  = "images/n13_r.gif";
+	nav13off = new Image(); nav13off.src = "images/n13.gif";
+	nav20on  = new Image(); nav20on.src  = "images/n20_r2.gif";
+	nav20bon = new Image(); nav20bon.src = "images/n20_r1.gif";
+	nav20off = new Image(); nav20off.src = "images/n20.gif";		   
+	nav27on  = new Image(); nav27on.src  = "images/n27_r2.gif";
+	nav27bon = new Image(); nav27bon.src = "images/n27_r1.gif";
+	nav27off = new Image(); nav27off.src = "images/n27.gif";  		   
+}
+	
+var menuActive = new Array(false,false,false,false,false);
+var i1;
+var i2;
+var i3;
+		
+function rollOn(img1,img2,img3,n){
+	menuActive[n] = true;
+	if (document.images) {
+		document[img1].src = eval(img1 + "on.src");
+		document[img2].src = eval(img2 + "bon.src");
+		document[img3].src = eval(img3 + "on.src");
+	}
+}
+	
+function rollOnB(img1,img2,img3,n){
+	menuActive[n] = true;
+	if (document.images) {
+		document[img1].src = eval(img1 + "on.src");
+		document[img2].src = eval(img2 + "bon.src");
+		document[img3].src = eval(img3 + "bon.src");
+	}
+}
+
+function rollOff(img1,img2,img3,n){
+	menuActive[n] = false;
+	i1 = img1;
+	i2 = img2;
+	i3 = img3;
+	if (document.images) {
+		var str = 'if (!menuActive[' + n + ']) { rollOffReal() }';
+		id = setTimeout(str,1);
+	}
+}
+
+function rollOffReal(){
+	if (document.images) {
+		document[i1].src = eval(i1 + "off.src");
+		document[i2].src = eval(i2 + "off.src");
+		document[i3].src = eval(i3 + "off.src");
+	}
+}
+		
+// -->
+</script>
+<noscript>
+	<meta http-equiv ="Refresh" content = "0; URL=indexIE3.html">
+</noscript>
+
+</head>
+<body bgcolor="#000000" text="#ffffff">
+
+<h3 align="center">Nested Rollovers</h3>
+
+<br><br>
+
+<table align="center" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+<td><img src="images/n1.gif" width=168 height=40></td>
+<td><img src="images/n2.gif" width=99 height=40></td>
+<td><img src="images/n3.gif" width=92 height=40></td>
+<td><img src="images/single.gif" width=129 height=40></td>
+<td><img src="images/n5.gif" width=110 height=40></td>
+<td><img src="images/n6.gif" width=103 height=40></td>
+</tr>
+
+<tr> 
+<td><img src="images/n8.gif" width=168 height=17></td>
+<td><a href="#" onmouseover="rollOnB('nav09','nav16','nav23','0'); return true;" onmouseout="rollOff('nav09','nav16','nav23','0'); return true;"><img name="nav09" src="images/n9.gif" width=99 height=17 border=0></a></td>
+<td><a href="#" onmouseover="rollOnB('nav10','nav17','nav24','1'); return true;" onmouseout="rollOff('nav10','nav17','nav24','1'); return true;"><img name="nav10" src="images/n10.gif" width=92 height=17 border=0></a></td>
+<td><a href="#" onmouseover="rollOnB('nav11','nav18','nav25','2'); return true;" onmouseout="rollOff('nav11','nav18','nav25','2'); return true;"><img name="nav11" src="images/n11.gif" width=129 height=17 border=0></a></td>
+<td><a href="#" onmouseover="rollOnB('nav12','nav19','nav26','3'); return true;" onmouseout="rollOff('nav12','nav19','nav26','3'); return true;"><img name="nav12" src="images/n12.gif" width=110 height=17 border=0></a></td>
+<td><a href="#" onmouseover="rollOnB('nav13','nav20','nav27','4'); return true;" onmouseout="rollOff('nav13','nav20','nav27','4'); return true;"><img name="nav13" src="images/n13.gif" width=103 height=17 border=0></a></td>
+</tr>
+
+<tr>
+<td><img src="images/n15.gif" width=168 height=28></td>
+<td><a href="x.html" onmouseover="rollOn('nav16','nav23','nav09','0'); return true;" onmouseout="rollOff('nav16','nav23','nav09','0'); return true;"><img name="nav16" src="images/n16.gif" width=99 height=28 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav17','nav24','nav10','1'); return true;" onmouseout="rollOff('nav17','nav24','nav10','1'); return true;"><img name="nav17" src="images/n17.gif" width=92 height=28 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav18','nav25','nav11','2'); return true;" onmouseout="rollOff('nav18','nav25','nav11','2'); return true;"><img name="nav18" src="images/n18.gif" width=129 height=28 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav19','nav26','nav12','3'); return true;" onmouseout="rollOff('nav19','nav26','nav12','3'); return true;"><img name="nav19" src="images/n19.gif" width=110 height=28 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav20','nav27','nav13','4'); return true;" onmouseout="rollOff('nav20','nav27','nav13','4'); return true;"><img name="nav20" src="images/n20.gif" width=103 height=28 border=0></a></td>
+</tr>
+
+<tr>
+<td><img src="images/n22.gif" width=168 height=13></td>
+<td><a href="x.html" onmouseover="rollOn('nav23','nav16','nav09','0'); return true;" onmouseout="rollOff('nav23','nav16','nav09','0'); return true;"><img name="nav23" src="images/n23.gif" width=99 height=13 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav24','nav17','nav10','1'); return true;" onmouseout="rollOff('nav24','nav17','nav10','1'); return true;"><img name="nav24" src="images/n24.gif" width=92 height=13 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav25','nav18','nav11','2'); return true;" onmouseout="rollOff('nav25','nav18','nav11','2'); return true;"><img name="nav25" src="images/n25.gif" width=129 height=13 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav26','nav19','nav12','3'); return true;" onmouseout="rollOff('nav26','nav19','nav12','3'); return true;"><img name="nav26" src="images/n26.gif" width=110 height=13 border=0></a></td>
+<td><a href="x.html" onmouseover="rollOn('nav27','nav20','nav13','4'); return true;" onmouseout="rollOff('nav27','nav20','nav13','4'); return true;"><img name="nav27" src="images/n27.gif" width=103 height=13 border=0></a></td>
+</tr>
+
+</table>
+
+</body>
+</html>
+

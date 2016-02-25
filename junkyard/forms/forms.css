@@ -1,0 +1,91 @@
+* {margin: 0; padding: 0;}
+body {font: 0.8125em Verdana, sans-serif; line-height: 1; color: #333; background: #fff;}
+p {margin:10px;}
+h1 {font-size:1.5em; margin:10px; color:#369;}
+
+div.row,
+div.row-odd {
+	margin: 0;
+	padding: 3px 0;
+	border: 1px solid #fff;
+	background: #fff;
+	clear: both;
+}
+/*
+div.row-odd {
+	background: #F0F5FF;
+	border: 1px solid #ECF0FF;
+	margin: 0;
+	padding: 3px 0;
+	clear: both;
+}
+*/
+fieldset {
+	border: 1px solid #369;
+	margin: 10px;
+	padding: 5px;;
+	background: #fff;
+}
+fieldset fieldset {
+	border: 1px solid #ccc;
+	margin: 10px;
+	padding: 5px;
+}
+legend {
+	color: #369;
+	font-weight: bold;
+	padding: 3px;
+	font-size: 110%;
+	text-transform: uppercase;
+}
+label {
+	float: left;
+	width: 195px;
+	text-align: right;
+	padding: 4px 0 0 0;
+	margin: 0;
+	color: #000;
+}
+input, select {
+	float: left;
+	margin: 0 0 0 8px;
+	font-size: 1em;
+	color: #003399;
+	width: 200px;
+}
+fieldset.radio {
+	border: 1px solid #ccc;
+	margin-left: 15px;
+}
+fieldset.radio legend {
+	font-size: 90%;
+}
+fieldset.radio label {
+	float: none !important;
+	width: auto !important;
+	display: block;
+	text-align: left;
+	margin-bottom: 5px;
+}
+fieldset.radio input {
+	margin: 0 5px 0 1em;
+	width: auto;
+	float: none !important;
+}
+hr {
+	margin: 10px;
+	padding: 0;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #369;
+}
+input.submit {
+	margin-left: 40px;
+}
+img {
+	margin-left: 10px;
+	padding: 0;
+	float: left;
+	border: 0;
+	text-decoration: none;
+}

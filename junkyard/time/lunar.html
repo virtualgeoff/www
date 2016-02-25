@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>Javascript Junkyard - Moon Phase Calculator</title>
+<style type="text/css">
+<!--
+
+body {background-color: #999999; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #ffffff}
+h3   {font-size: 14pt;}
+
+-->
+</style>
+</head>
+
+<body bgcolor="#999999" text="#ffffff">
+
+<h3 align="center">Moon Phase Calculator</h3>
+
+<br>
+
+<center>
+
+<script language=javascript>
+<!--
+
+// by James Thiele, jet@eskimo.com
+// intricate.com
+
+function showMoon() {
+	var height = 1;
+	var size = 50;
+	var i;
+
+	// var currentDate  = new Date(96, 1, 22, 16, 15, 0)
+	var currentDate  = new Date();
+	var x = currentDate;
+	// Convert it to GMT
+    currentDate.setTime(currentDate.getTime() + (currentDate.getTimezoneOffset()*60000));
+
+	// Get Date (GMT) for recent full moon
+	// NOTE: months, hours, and minutes are 0 based
+	var blueMoonDate = new Date(96, 1, 3, 16, 15, 0);
+
+	// Compute length of lunar period -- source: World Almanac
+	var lunarPeriod  = 29*(24*3600*1000) + 12*(3600*1000) + 44.05*(60*1000);
+
+	var moonPhaseTime = (currentDate.getTime() - blueMoonDate.getTime()) % lunarPeriod;
+	// alert("Moon phase in days = "+moonPhaseTime/(24*3600*1000))
+
+	// Compute various percentages of lunar cycle
+	var percentRaw = (moonPhaseTime / lunarPeriod);
+	var percent    = Math.round(100*percentRaw) / 100;
+	var percentBy2 = Math.round(200*percentRaw);
+
+	var left  = (percentRaw >= 0.5) ? "images/black.gif" : "images/white.gif";
+	var right = (percentRaw >= 0.5) ? "images/white.gif" : "images/black.gif";
+
+	document.write("<center>")
+    	if (percentBy2 > 100) {
+    		percentBy2 = percentBy2 - 100;
+        }
+        for (i = -(size-1); i < size; ++i) {
+        	var wid=2*parseFloat(Math.sqrt((size*size)-(i*i)));
+            if (percentBy2 != 100) document.write ("<img src="+left +" height=1 width="+(wid*((100-percentBy2)/100))+">");
+            if (percentBy2 != 0) document.write ("<img src="+right+" height=1 width="+(wid*((percentBy2)/100))+">");
+            document.write ("<br>");
+        }
+		document.write("<br>The next full moon is in about ",
+        	Math.round((lunarPeriod-moonPhaseTime)/(24*3600*1000)), " days",
+            Math.round((lunarPeriod-moonPhaseTime)/(24*3600*1000)) != 1 ? "s" : "", "");
+}
+
+showMoon();
+
+// -->
+</script>
+</center>
+
+<p align="center">Script from: <a href="http://www.intricate.com/javascript/ccc/">intricate.com</a></p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

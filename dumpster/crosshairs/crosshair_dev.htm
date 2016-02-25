@@ -1,0 +1,300 @@
+<html>
+
+
+
+<head>
+
+<meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+
+<title>Document crosshair Script- Developer's View</title>
+
+</head>
+
+
+
+<body bgcolor="#FFFFFF">
+
+
+
+<p align="left"><u><font face="Verdana" color="#800080"><strong><big>Document crosshair
+
+Script- </big>Developer's View</strong></font></u></p>
+
+
+
+<p align="left"><font face="Verdana"><strong>&lt;!--</strong></font></p>
+
+
+
+<p align="left"><font face="Verdana"><small><strong>Developer's Notes: </strong>Note the
+
+use of dynamic properties of IE 5 inside the two &lt;div&gt; tags below. We used dynamic
+
+properties to ensure that the divs (which make up the crosshair) always expands to the
+
+width/height of the viewable browser window, even when the surfer resizes the window. IE 4
+
+and NS 4 do NOT support dynamic properties, so we had to write code (located at bottom)
+
+that manually detects when the surfer using these browsers resizes the window, and reloads
+
+the page whenever that happens.</small></font></p>
+
+
+
+<p align="left"><big><font face="Arial">--&gt;</font></big></p>
+
+
+
+<p align="left"><font face="Arial"><small>&lt;html&gt;</small></font></p>
+
+
+
+<p align="left"><small><font face="Arial">&lt;head&gt;<br>
+
+&lt;style&gt;<br>
+
+&lt;!--<br>
+
+#leftright, #topdown{<br>
+
+position:absolute;<br>
+
+left:0;<br>
+
+top:0;<br>
+
+width:1px;<br>
+
+height:1px;<br>
+
+layer-background-color:black;<br>
+
+background-color:black;<br>
+
+z-index:100;<br>
+
+font-size:1px;<br>
+
+}<br>
+
+--&gt;<br>
+
+&lt;/style&gt;<br>
+
+&lt;/head&gt;</font></small></p>
+
+
+
+<p align="left"><font face="Arial"><small>&lt;body&gt;<br>
+
+&lt;div id=&quot;leftright&quot;
+
+style=&quot;width:expression(document.body.clientWidth-2)&quot;&gt;&lt;/div&gt;<br>
+
+&lt;div id=&quot;topdown&quot;
+
+style=&quot;height:expression(document.body.clientHeight-2)&quot;&gt;&lt;/div&gt;<br>
+
+<br>
+
+&lt;script language=&quot;JavaScript1.2&quot;&gt;<br>
+
+&lt;!--<br>
+
+<br>
+
+/*<br>
+
+Document crosshair Script- <br>
+
+By Dynamic Drive (www.dynamicdrive.com)<br>
+
+For full source code, installation instructions,<br>
+
+100's more free DHTML scripts, and Terms Of<br>
+
+Use, visit dynamicdrive.com<br>
+
+*/<br>
+
+<br>
+
+if (document.all&amp;&amp;!window.print){</small><br>
+
+<small>//if the user is using IE 4 (but NOT IE 5. We used dynamic expressions in IE 5 to
+
+replace the below code)<br>
+
+leftright.style.width=document.body.clientWidth-2<br>
+
+topdown.style.height=document.body.clientHeight-2<br>
+
+}<br>
+
+else if (document.layers){<br>
+
+document.leftright.clip.width=window.innerWidth<br>
+
+document.leftright.clip.height=1<br>
+
+document.topdown.clip.width=1<br>
+
+document.topdown.clip.height=window.innerHeight<br>
+
+}<br>
+
+<br>
+
+<br>
+
+function followmouse1(){<br>
+
+//move cross engine for IE 4+<br>
+
+leftright.style.pixelTop=document.body.scrollTop+event.clientY+1<br>
+
+topdown.style.pixelTop=document.body.scrollTop<br>
+
+if (event.clientX&lt;document.body.clientWidth-2)<br>
+
+topdown.style.pixelLeft=document.body.scrollLeft+event.clientX+1<br>
+
+else<br>
+
+topdown.style.pixelLeft=document.body.clientWidth-2<br>
+
+}<br>
+
+<br>
+
+function followmouse2(e){<br>
+
+//move cross engine for NS 4+<br>
+
+document.leftright.top=e.y+1<br>
+
+document.topdown.top=pageYOffset<br>
+
+document.topdown.left=e.x+1<br>
+
+}<br>
+
+<br>
+
+if (document.all)<br>
+
+document.onmousemove=followmouse1<br>
+
+else if (document.layers){<br>
+
+window.captureEvents(Event.MOUSEMOVE)<br>
+
+window.onmousemove=followmouse2<br>
+
+}<br>
+
+</small><br>
+
+<small>//entire code below simply refreshes the page when a surfer reloads the page, to
+
+reposition the crosshair. Irrelevant in IE 5<br>
+
+function regenerate(){<br>
+
+window.location.reload()<br>
+
+}<br>
+
+function regenerate2(){<br>
+
+setTimeout(&quot;window.onresize=regenerate&quot;,400)<br>
+
+}<br>
+
+if ((document.all&amp;&amp;!window.print)||document.layers)<br>
+
+//if the user is using IE 4 or NS 4, both NOT IE 5+<br>
+
+window.onload=regenerate2<br>
+
+<br>
+
+//--&gt;<br>
+
+&lt;/script&gt;<br>
+
+&lt;/body&gt;</small></font></p>
+
+
+
+<p align="left"><small><font face="Arial">&lt;/html&gt;</font></small></p>
+
+
+
+<p align="center">
+
+<table border="0" width="100%" bgcolor="#E7E7E7" cellspacing="0" cellpadding="0">
+
+  <tr>
+
+    <td width="100%"><font face="Verdana" color="#000000"><strong>Subscribe to our newsletter!</strong><br>
+
+    <small>Want to be right here when new scripts are added? Subscribe to our FREE newsletter
+
+    then!</small></font><form ACTION="http://freewarejava.com/cgi-bin/dynamicdrive/subscribe.pl"
+
+    METHOD="POST">
+
+      <table BORDER="0" width="100%">
+
+<TBODY>
+
+<COLDEFS>
+
+<COLDEF>
+
+</COLDEFS>
+
+<ROWS>
+
+        <tr>
+
+          <td COLSTART="1"><div align="left"><p><input SIZE="25" NAME="email"
+
+          value="Email address here"><!--webbot bot="HTMLMarkup" startspan --><input type="hidden" name="subscribe" value="subscribe"><!--webbot
+
+          bot="HTMLMarkup" endspan --> <input TYPE="SUBMIT" VALUE="  Submit  "></td>
+
+        </tr>
+
+</ROWS>
+
+</TBODY>
+
+      </table>
+
+    </form>
+
+    </td>
+
+  </tr>
+
+</table>
+
+
+
+<p align="center"><font face="Verdana"><small>Copyright © 1998-1999 <a
+
+href="http://www.dynamicdrive.com">Dynamic Drive.</a> Read <a
+
+href="http://dynamicdrive.com/notice.htm">Terms Of Use here.</a></small></font></p>
+
+
+
+</p>
+
+</body>
+
+</html>
+

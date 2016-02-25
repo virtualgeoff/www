@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>S P ^ K E  time</title>
+
+<script language="JavaScript">
+
+<!--
+        function displayTime() {
+                now = new Date();
+                utc = new Date();
+                sydney = new Date();
+                losangeles = new Date();
+                newyork = new Date();
+                london = new Date();
+                tokyo = new Date();
+                auckland = new Date();
+
+                // add time difference from UTC - daylight savings in brackets
+                // convert to millisecs
+                timezone = now.getTimezoneOffset()*60000;           // minutes to millisecs
+                utc.setTime(now.getTime() + timezone);              // no offset
+                sydney.setTime(utc.getTime() + 10*3600000);         // UTC+10:00 (UTC+11:00)
+                losangeles.setTime(utc.getTime() - 7*3600000);  // UTC-08:00 (UTC-07:00)
+                newyork.setTime(utc.getTime() - 4*3600000);         // UTC-05:00 (UTC-04:00)
+                london.setTime(utc.getTime() + 1*3600000);          // UTC       (UTC+01:00)
+                tokyo.setTime(utc.getTime() + 9*3600000);           // UTC+09:00 (no daylight savings)
+                auckland.setTime(utc.getTime() +12*3600000);    // UTC+12:00 (UTC+13:00)
+
+                //document.timeform.localtime.value = now;
+                document.timeform.utc.value = now.toGMTString();
+                document.timeform.sydney.value = sydney.toLocaleString();
+                document.timeform.losangeles.value = losangeles.toLocaleString();
+                document.timeform.newyork.value = newyork.toLocaleString();
+                document.timeform.london.value = london.toLocaleString();
+                document.timeform.tokyo.value = tokyo.toLocaleString();
+                document.timeform.auckland.value = auckland.toLocaleString();
+        }
+
+        function Timer() {
+                displayTime()
+                setTimeout("Timer()", 1000);
+        }
+
+// -->
+</script>
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000044" link="#000044" alink="#000099" vlink="#000099" onload="Timer()">
+
+<center>
+
+<p align=center><img src="images/logo_header.gif" alt="Spike Intranet" border="0" width="591" height="74"><br><br>
+
+<!--    <font face="Arial,Helvetica" size="2">
+    <a href="Production_Web/contents_page.htm">Index</a> |
+        <a href="Production_Web/Organisation.html">Org Chart</a> |
+        <a href="Production_Web/application_for_leave.htm">App for Leave</a> |
+        <a href="http://i.spike.com.au/Production_Web/people.asp">Phone</a> |
+        <a href="http://i.spike.com.au/articles/">Knowledge</a> |
+        <a href="http://i.spike.com.au:81/development/default.asp">Prod. System</a> |
+        <a href="http://i.spike.com.au/time.html">Time &amp; Date</a><br>
+        <a href="human_resources/human_resource_policies.html">Human Resources</a> |
+        <a href="LoggedIn/ListUsers.asp">In The Building</a> |
+        <a href="http://sydmx1.spike.com.au/exchange/logon.asp">Exchange Web Access</a></font></p>
+-->
+<br>
+
+<form name="timeform">
+        <table width="591" cellpadding="5" cellspacing="3">
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>UTC (GMT)</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="utc" size="40"></td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>Sydney</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="sydney" size="40"></td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>Los Angeles </b></font></td><td bgcolor="#DDDDDD"><input type="text" name="losangeles" size="40"> (Daylight Savings)</td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>New York</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="newyork" size="40"> (Daylight Savings)</td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>London</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="london" size="40"> (Daylight Savings)</td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>Tokyo</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="tokyo" size="40"></td></tr>
+                <tr><td bgcolor="#CC6644" align="right"><font color="white"><b>Auckland</b></font></td><td bgcolor="#DDDDDD"><input type="text" name="auckland" size="40"></td></tr>
+        </table>
+</form>
+<p><b>Daylight Savings:</b></p>
+
+<table width="591" cellpadding="5" cellspacing="3">
+        <tr><td bgcolor="#CC6644"><font color="white"><b>USA </b></font></td><td bgcolor="#DDDDDD"> First Sunday in April to the Last Sunday in October</td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>UK </b></font></td><td bgcolor="#DDDDDD"> Last Sunday in March to Last Sunday in October </td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>Japan </b></font></td><td bgcolor="#DDDDDD"> No Daylight Savings</td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>New Zealand </b></font></td><td bgcolor="#DDDDDD"> First Sunday in October to March 15th or the First Sunday on or after</td></tr>
+        <tr><td colspan="2"><b>Australia: </b></td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>NSW, Vic, SA, ACT </b></font></td><td bgcolor="#DDDDDD"> Last Sunday in October to Last Sunday in March</td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>Tas </b></font></td><td bgcolor="#DDDDDD"> First Sunday in October to Last Sunday in March</td></tr>
+        <tr><td bgcolor="#CC6644"><font color="white"><b>Qld, WA, NT </b></font></td><td bgcolor="#DDDDDD"> No Daylight Savings.<br>  </td></tr>
+</table>
+
+<br><br>
+
+<p>Last updated 13 April, 1999</p>
+
+</center>
+
+</body>
+</html>
+

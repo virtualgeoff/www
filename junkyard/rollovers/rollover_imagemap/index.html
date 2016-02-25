@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Javascript Junkyard - Imagemap Rollover (with Target)</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+if (document.images) {
+	nav1on = new Image(); nav1on.src = "navs/nw.gif";
+	nav2on = new Image(); nav2on.src = "navs/ne.gif";
+	nav3on = new Image(); nav3on.src = "navs/sw.gif";
+	nav4on = new Image(); nav4on.src = "navs/se.gif";
+	navoff = new Image(); navoff.src = "navs/compass.gif";
+	target1on = new Image(); target1on.src = "navs/nw-text.gif";
+	target2on = new Image(); target2on.src = "navs/ne-text.gif";
+	target3on = new Image(); target3on.src = "navs/sw-text.gif";
+	target4on = new Image(); target4on.src = "navs/se-text.gif";
+	targetoff = new Image(); targetoff.src = "navs/text.gif";
+}
+
+function rollOn(img1,img2,text){
+	str = "window.status = '" + text + "'";
+	if (document.all) setTimeout(str,5); // this is a hack to fix bug in IE on PC
+    else window.status = text;
+	if (document.images) {
+		document.navs.src=eval(img1 + "on.src");
+		document.target.src=eval(img2 + "on.src");
+	}
+}
+
+function rollOff(){
+    window.status = "";	
+	if (document.images) {
+		document.navs.src=navoff.src;
+		document.target.src=targetoff.src;
+	}
+}
+
+//-->
+</script>
+
+</head>
+
+<body>
+
+<h3 align="center">Imagemap Rollover (with Target)</h3>
+
+<br><br>
+
+<map name="compassMap">
+<area shape="RECT" coords="0,0,59,59" href="northwest.html" alt="NW" onmouseover="rollOn('nav1','target1','North West'); return true;" onmouseout="rollOff(); return true;">
+<area shape="RECT" coords="60,0,119,59" href="northeast.html" alt="NE" onmouseover="rollOn('nav2','target2','North East'); return true;" onmouseout="rollOff(); return true;">
+<area shape="RECT" coords="0,60,59,119" href="southwest.html" alt="SW" onmouseover="rollOn('nav3','target3','South West'); return true;" onmouseout="rollOff(); return true;">
+<area shape="RECT" coords="60,60,119,119" href="southeast.html" alt="SE" onmouseover="rollOn('nav4','target4','South East'); return true;" onmouseout="rollOff(); return true;">
+</map>
+
+<center>
+<img name="navs" src="navs/compass.gif" width="120" height="120" USEMAP="#compassMap" border="0">
+<img name="target" src="navs/text.gif" width="240" height="120">
+</center>
+
+</body>
+</html>

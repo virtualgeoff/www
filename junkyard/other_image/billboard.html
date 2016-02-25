@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Javascript Junkyard - Billboard Script</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language = "JavaScript">
+<!-- 
+
+var n = 0;
+var pics = new Array;
+pics[0] = new Image(); pics[0].src = "graphics/pic01.gif";
+pics[1] = new Image(); pics[1].src = "graphics/pic02.gif";
+pics[2] = new Image(); pics[2].src = "graphics/pic03.gif";
+pics[3] = new Image(); pics[3].src = "graphics/pic04.gif";
+pics[4] = new Image(); pics[4].src = "graphics/pic05.gif";
+pics[5] = new Image(); pics[5].src = "graphics/pic06.gif";
+pics[6] = new Image(); pics[6].src = "graphics/pic07.gif";
+pics[7] = new Image(); pics[7].src = "graphics/pic08.gif";
+
+function changeImages() {
+	n++;
+	if (n>=pics.length) n=0;
+	document.pic1.src = pics[n].src;
+	document.pic2.src = pics[(n+1)%pics.length].src;
+	document.pic3.src = pics[(n+2)%pics.length].src;
+	document.pic4.src = pics[(n+3)%pics.length].src;
+	document.pic5.src = pics[(n+4)%pics.length].src;
+}
+function timer() {
+   setInterval("changeImages()",1000);
+}
+
+// -->
+</script>
+
+</head>
+<body onLoad="timer()">
+
+<h3 align="center">Billboard Script</h3>
+
+<br>
+
+<table border="0" cellpadding="0" cellspacing="0" width="570" align="center">
+<tr>
+	<td align="center" width="110"><a href=".html"><img src="graphics/pic01.gif" width="80" height="100" border="0" name="pic1"></a></td>
+	<td align="center" width="110"><a href=".html"><img src="graphics/pic02.gif" width="80" height="100" border="0" name="pic2"></a></td>
+	<td align="center" width="110"><a href=".html"><img src="graphics/pic03.gif" width="80" height="100" border="0" name="pic3"></a></td>
+	<td align="center" width="110"><a href=".html"><img src="graphics/pic04.gif" width="80" height="100" border="0" name="pic4"></a></td>
+	<td align="center" width="110"><a href=".html"><img src="graphics/pic05.gif" width="80" height="100" border="0" name="pic5"></a></td>
+</tr>
+</table>
+
+</body>
+</html>

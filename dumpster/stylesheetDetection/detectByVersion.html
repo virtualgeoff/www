@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Mac/IE5 stylesheet fix</title>
+	
+<script language="javascript">
+
+var browserAgent  = navigator.userAgent;
+var browserName   = navigator.appName;
+var browserVer    = navigator.appVersion;
+var browserVerNum = parseFloat(navigator.appVersion);
+var majorVer      = parseInt(navigator.appVersion);
+var minorVer      = browserVer.charAt(2);
+
+var IE = (browserName=="Microsoft Internet Explorer")?1:0;
+var NS = (browserName=="Netscape")?1:0;
+var Mac = (browserVer.indexOf("Mac")!=-1)?1:0;
+
+if (IE) {
+	// workaround - IE screws up navigator.appVersion
+	majorVer = navigator.appVersion.charAt(navigator.appVersion.indexOf("MSIE")+5);
+	minorVer = navigator.appVersion.charAt(navigator.appVersion.indexOf("MSIE")+7);
+	browserVerNum = parseInt(majorVer) + parseInt(minorVer)/10;
+}
+
+if (majorVer>4) {
+	document.writeln('<LINK REL=stylesheet HREF="styles/default.css" TYPE="text/css">'); 
+} else if (majorVer==4) {
+	if (Mac) document.writeln('<LINK REL=stylesheet HREF="styles/mac.css" TYPE="text/css">');
+	else if (NS) document.writeln('<LINK REL=stylesheet HREF="styles/ns4pc.css" TYPE="text/css">');
+	else document.writeln('<LINK REL=stylesheet HREF="styles/default.css" TYPE="text/css">'); 
+} else { 
+	// Version 3 and earlier browsers - Not CSS compliant - No Stylesheet???
+}
+
+</script>
+</head>
+
+<body>
+
+<p><b>You are using:</b><p>
+
+<script language="JavaScript">
+	
+	document.write('<table>');
+	document.write('<tr><td>navigator.userAgent:    </td><td>' + browserAgent + '</td></tr>');
+	document.write('<tr><td>navigator.appName:      </td><td>' + browserName + '</td></tr>');
+	document.write('<tr><td>navigator.appVersion:   </td><td>' + browserVer + '</td></tr>');
+	document.write('<tr><td>browserVerNum:          </td><td>' + browserVerNum + '</td></tr>'); 
+	document.write('<tr><td>majorVer:   			</td><td>' + majorVer + '</td></tr>');
+	document.write('<tr><td>minorVer:   			</td><td>' + minorVer + '</td></tr>');
+	document.write('</table>');
+
+</script>
+
+<br><br>
+
+<p><b>This page uses one of three stylesheets:</b></p>
+
+<table>
+	<tr><td><b>default.css </b></td><td>(blue background)</td><td>- for NS6 (all platforms), IE5 (all platforms), and IE4(pc)</td></tr>	
+	<tr><td><b>mac.css </b></td><td>(red background)</td><td>- for Mac versions of IE4, IE4.5, NS4</td></tr>
+	<tr><td><b>ns4pc.css </b></td><td>(green background)</td><td>- for NS4 on PC</td></tr>
+</table>
+
+</body>
+</html>

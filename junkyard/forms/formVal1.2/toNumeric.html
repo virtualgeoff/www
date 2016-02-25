@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>Netscape JavaScript Field Edits</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+// --------------------------------------------------------------------
+// COMPANY:       Netscape Communications
+// AUTHOR:        Robert W. Husted
+// DATE CREATED:  March 17, 1997
+// MODIFIED BY: 
+// DATE MODIFIED: 
+// --------------------------------------------------------------------
+
+
+// CHECK FIELDS - NUMERIC DIGITS AND SPECIAL CHARACTERS ALLOWED
+function checkNumber(checkString)
+{
+    newString = "";    // REVISED/CORRECTED STRING
+    count = 0;         // COUNTER FOR LOOPING THROUGH STRING
+
+    for (i = 0; i < checkString.length; i++) {
+        ch = checkString.substring(i, i+1);
+
+        if ((ch >= "0" && ch <= "9") || (ch == ".") || (ch == ",")) {
+            newString += ch;
+        }
+    }
+
+    if (checkString != newString) {
+      // VERIFY WITH USER THAT IT IS OKAY TO REMOVE INVALID CHARACTERS
+      if (confirm("The value you have entered\ncontains invalid characters,\nis it okay to remove them?")) {
+        // RETURN REVISED STRING
+        return newString;
+      } else {
+        // RETURN ORIGINAL STRING
+        return checkString;
+      }
+    }
+    return checkString;
+}
+
+//-->
+</SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" "TEXT=#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#FF0000">
+
+<CENTER>
+<H2>
+<FONT SIZE=+3>N</FONT>UMERIC
+<FONT SIZE=+3>F</FONT>IELD 
+<FONT SIZE=+3>C</FONT>HECK
+</H2>
+</CENTER>
+
+<P>
+<HR>
+<P>
+
+<CENTER>
+<FORM NAME="TEST">
+<TABLE>
+<TR>
+<TD align=right>Numeric:</TD>
+<TD><INPUT NAME="test" SIZE=30 MAXLENGTH=50 onChange="this.value=checkNumber(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=center colspan=2><input type=submit value="Submit"><input type=reset value="Clear"></TD>
+</TR>
+</TABLE>
+</FORM>
+</CENTER>
+
+<P>
+<HR SIZE=4>
+<P>
+</BODY>
+</HTML>

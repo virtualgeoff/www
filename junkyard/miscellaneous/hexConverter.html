@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Javascript Junkyard - Hex Color Converter</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+
+function updateHex() {
+    var red   = parseInt(document.forms.colorcalc.red.value);
+    var green = parseInt(document.forms.colorcalc.green.value);
+    var blue  = parseInt(document.forms.colorcalc.blue.value);
+    document.forms.colorcalc.hexcolor.value = "#" + Color2Hex(red)+Color2Hex(green)+Color2Hex(blue);
+	document.bgColor = document.forms.colorcalc.hexcolor.value;
+
+}
+
+function Color2Hex(n) {
+    return ToHex(n >> 4) + ToHex(n);
+}
+
+function ToHex(n) {
+    n = n % 16;
+    if (n<=0)  return "0";
+    if (n<10)  return n.toString();
+    if (n==10) return "a";
+    if (n==11) return "b";
+    if (n==12) return "c";
+    if (n==13) return "d";
+    if (n==14) return "e";
+    if (n==15) return "f";
+}    
+
+function checkDecimal(s) {
+    var n=parseInt(s);
+    var i,c;
+    for (i=0; i<s.length; ++i) {
+        c = s.charAt(i);
+        if (c<'0' || '9'<c) {
+            alert("Please enter a value between 0 and 255");
+            return false;
+        }
+    }
+    if ((n<0)||(n>255)) {
+        alert("Please enter a value between 0 and 255");
+        return false;
+    }
+    return true;
+}
+
+function checkHex(s) {
+    if (!isHexColor(s)) {
+        alert("Please enter a value starting with '#' followed" + "\nby 6 hexadecimal digits, for example: #00FF66");
+        return false;
+    }
+    return true;
+}
+
+function isHexColor(s) {
+    var i, c;
+    if (s.charAt(0)!='#' || s.length!=7) return false;
+    for (i=1; i<7; ++i) {
+        c = s.charAt(i);
+        if ('0'<=c && c<='9') continue;
+        if ('A'<=c && c<='F') continue;
+        if ('a'<=c && c<='f') continue;
+        return false;  // bad character
+    }
+    return true;
+}
+
+function updateRGB() {
+    var s = document.forms.colorcalc.hexcolor.value;
+    if (checkHex(s)) {
+        var red = HexColor2Decimal(s, 1);
+        var green = HexColor2Decimal(s, 3);
+        var blue = HexColor2Decimal(s, 5);
+        document.forms.colorcalc.red.value = red.toString();
+        document.forms.colorcalc.green.value = green.toString();
+        document.forms.colorcalc.blue.value = blue.toString();
+		document.bgColor = s;
+    }
+}
+
+function HexColor2Decimal(s, n) {
+    return 16 * HexDigit2Dec(s.charAt(n)) + HexDigit2Dec(s.charAt(n+1));
+}
+// called with hex character
+function HexDigit2Dec(hex) {
+    if ('0' <= hex && hex <= '9') return parseInt(hex);
+    if (hex=='A' || hex=='a') return 10;
+    if (hex=='B' || hex=='b') return 11;
+    if (hex=='C' || hex=='c') return 12;
+    if (hex=='D' || hex=='d') return 13;
+    if (hex=='E' || hex=='e') return 14;
+    if (hex=='F' || hex=='f') return 15;
+    return 0;
+}
+
+</script>
+	
+	
+</head>
+<body>
+
+<h3 align="center">Hex Color Converter</h3>
+
+<br>
+
+<form name="colorcalc">
+<table border="1" cellspacing="0" cellpadding="5" bgcolor="#cccccc" align="center">
+	<tr>
+		<td>R: <input name="red"   size="4" maxlength="3" value="255" onblur="checkDecimal(this.value);updateHex()"></td>
+		<td>G: <input name="green" size="4" maxlength="3" value="255" onblur="checkDecimal(this.value);updateHex()"></td>
+		<td>B: <input name="blue"  size="4" maxlength="3" value="255" onblur="checkDecimal(this.value);updateHex()"></td>
+		<td><input type="button" value="hex ?" onclick="updateHex()"></td>
+	</tr>
+	<tr>
+		<td colspan="3">Hex: <input name="hexcolor" size="8" maxlength="7" value="#ffffff" onblur="checkHex(this.value);updateRGB()"></td>
+		<td><input type="button" value="rgb ?" onclick="updateRGB()"></td>
+	</tr>
+</table>
+</form>
+
+</body>
+</html>

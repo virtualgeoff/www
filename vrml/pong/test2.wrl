@@ -1,0 +1,69 @@
+#VRML V2.0 utf8
+
+Group {
+  children [
+    DEF Touch TouchSensor {}
+    DEF Object Transform {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {}
+          }
+          geometry Sphere {}
+        }
+      ]
+    }
+  ]
+}
+
+DEF Timer TimeSensor {
+  enabled               FALSE
+  loop                  TRUE
+  cycleInterval         5
+  startTime             0
+  stopTime              1
+}
+
+
+DEF Mover PositionInterpolator {
+  key           [0 .25 .5 .75 1.]
+  keyValue      [0 0 0, -2 0 0, 0 0 0, 2 0 0, 0 0 0]
+}
+
+
+#       Respond to the mouse click (button down) on the
+#       sphere.  Each event is time stamped and that time
+#       is available as the second argument on any eventIn
+#       function.  A mouse click generates 3 events, the
+#       animation starting time (startTime), the ending
+#       time (stopTime), and one to enable the timer to
+#       run (enable).
+
+DEF SetTime Script {
+  eventIn       SFBool  startAnimation
+  eventOut      SFTime  startTime
+  eventOut      SFTime  stopTime
+  eventOut      SFBool  enable
+
+  url   "javascript:
+     function startAnimation (value, time) {
+        if (value) {
+          startTime = time;
+          stopTime  = time + 3;
+          enable    = true;
+        }
+     }
+  "
+}
+
+
+ROUTE   Touch.isActive          TO      SetTime.startAnimation
+ROUTE   SetTime.enable          TO      Timer.enabled
+ROUTE   SetTime.startTime       TO      Timer.startTime
+ROUTE   SetTime.stopTime        TO      Timer.stopTime
+
+ROUTE   Timer.fraction_changed  TO      Mover.set_fraction
+ROUTE   Mover.value_changed     TO      Object.translation
+
+
+

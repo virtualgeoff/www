@@ -1,0 +1,338 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+	title	"Solar System, beta 1"
+	info	"Geoff Pack, geoff@virtualgeoff.com, 2001"
+}
+
+NavigationInfo {
+	headlight	TRUE
+	type		["WALK","EXAMINE","ANY"]
+}
+
+Viewpoint {
+	description 	"v1"
+	position 		0 2 5
+	orientation 	1 0 0 -0.4
+}
+Viewpoint {
+	description 	"entry"
+	position 		0 0 3
+}
+
+
+#--------------------------------------
+# Lights
+
+DirectionalLight {
+	color		1 1 1
+	direction	0 -1 0
+	intensity   1
+	on          TRUE
+}
+
+#--------------------------------------
+# Grid:
+
+Transform {
+	translation   0 0 0
+	rotation      0 1 0 0
+	scale         1 1 1
+	children [
+		Inline {
+			url		"grid.wrl"
+		}
+	]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WorldClock TimeSensor {
+	cycleInterval  0.01
+	stopTime       -1
+	loop           TRUE
+}
+
+#--------------------------------------
+
+DEF Sun Transform {
+  translation   0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 1 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1 }
+    }
+  ]
+}
+
+DEF Planet1 Transform {
+  translation   0.387 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0.5 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.04}
+    }
+  ]
+}
+DEF Planet2 Transform {
+  translation   0.723 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  .8 .8 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.04}
+    }
+  ]
+}
+DEF Planet3 Transform {
+  translation   1.0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 0.5 1
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.04}
+    }
+  ]
+}
+DEF Planet4 Transform {
+  translation   1.524 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.04}
+    }
+  ]
+}
+DEF Planet5 Transform {
+  translation   5.203 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 1 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1}
+    }
+  ]
+}
+DEF Planet6 Transform {
+  translation   9.554 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 0 .7
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1}
+    }
+  ]
+}
+DEF Planet7 Transform {
+  translation   19.22 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  .5 0 1
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1}
+    }
+  ]
+}
+DEF Planet8 Transform {
+  translation   30.11 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0 1
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1}
+    }
+  ]
+}
+DEF Planet9 Transform {
+  translation   39.54 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0 .5
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.1}
+    }
+  ]
+}
+
+#--------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+	eventIn		SFTime      set_lastTime
+	eventOut	SFVec3f     position0_changed
+	eventOut	SFVec3f     position1_changed
+	eventOut	SFVec3f     position2_changed
+	eventOut	SFVec3f     position3_changed
+	eventOut	SFVec3f     position4_changed
+	eventOut	SFVec3f     position5_changed
+	eventOut	SFVec3f     position6_changed
+	eventOut	SFVec3f     position7_changed
+	eventOut	SFVec3f     position8_changed
+	eventOut	SFVec3f     position9_changed
+
+	field		SFInt32     N			9
+	field		MFFloat     mass		[333000,0.55,10.815,1.0,0.107,317.83,95.16,14.5,17.204,0.002]
+	field		MFVec3f     force		[0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0]
+	field		MFVec3f     velocity	[0 0 0, 0 0 -47.9, 0 0 -35.0, 0 0 -29.8, 0 0 -24.1, 0 0 -13.1, 0 0 -9.7, 0 0 -6.8, 0 0 -5.5, 0 0 -4.7]
+	field		MFVec3f     position	[0 0 0, 0.387 0 0, 0.723 0 0, 1 0 0, 1.524 0 0, 5.203 0 0, 9.554 0 0, 19.22 0 0, 30.11 0 0, 39.54 0 0]
+	field		MFVec3f     posScaled	[0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0, 0 0 0]
+	field		SFVec3f     dr			0 0 0
+	field		SFFloat		dR			0
+
+	field		SFFloat     G			6.67E-11 
+	field		SFFloat     Me			5.974E24 
+	field		SFFloat     AU			149.6E9
+  
+	field		SFTime      lastTime	0
+	field		SFTime      dt			0
+	field		SFFloat     scale		1
+	field		SFFloat     day			86400
+	field		SFFloat     timescale	5
+ 
+	directOutput  TRUE
+	mustEvaluate  TRUE
+
+	url "javascript:
+		function initialize() {
+			// convert mass to kg, speed to m/s, and AU to metres:
+			for (var i=0; i<=N; i++) {
+				mass[i]  *= Me;
+				velocity[i].x *= 1000;
+				velocity[i].y *= 1000; 
+				velocity[i].z *= 1000; 
+				position[i].x *= AU;
+				position[i].y *= AU;
+				position[i].z *= AU;
+				//print('position['+i+']: ' + position[i]);
+			}
+		}
+
+		function set_lastTime(timeValue) {
+			//if (lastTime == 0) {
+				//lastTime = timeValue;
+			//} else {
+				//dt = timeValue - lastTime ;
+				dt = day * timescale; 
+				//lastTime = timeValue;
+				//print('dt: ' + dt);
+				// deleted all forces from last step:
+				for (var i=0; i<=N; i++) {
+					force[i].x = 0;
+					force[i].y = 0;
+					force[i].z = 0;
+					//print('force['+i+']: ' + force[i]);
+				}
+				// calculate gravitational force between each pair of planets:
+			    for (var i=0; i<=N; i++) {
+					for (var j=i+1; j<=N; j++) {
+						// calculate dx,dy,dr:
+				        dr.x = position[i].x - position[j].x;
+				        dr.y = position[i].y - position[j].y;
+				        dr.z = position[i].z - position[j].z;						
+				        dR   = Math.sqrt(dr.x*dr.x + dr.y*dr.y + dr.z*dr.z);
+						//print('dR: ' + dR);
+						// calculate forces - add to previous calculations:
+						force[i].x += -G*mass[i]*mass[j]/(dR*dR*dR) * dr.x;
+						force[i].y += -G*mass[i]*mass[j]/(dR*dR*dR) * dr.y;
+						force[i].z += -G*mass[i]*mass[j]/(dR*dR*dR) * dr.z;
+						//print('force['+i+']: ' + force[i]);
+						force[j].x += -force[i].x
+						force[j].y += -force[i].y
+						force[j].z += -force[i].z
+					}
+			    }
+				// calculate acceleration, velocity, position of each planet:
+				// note that sun is also movable! (loop from i=1 to fix sun in place)
+				for (var i=0; i<=N; i++) {
+        	 		velocity[i].x += force[i].x / mass[i] * dt;
+        	 		velocity[i].y += force[i].y / mass[i] * dt;
+        	 		velocity[i].z += force[i].z / mass[i] * dt;
+			 		position[i].x += velocity[i].x * dt;
+			 		position[i].y += velocity[i].y * dt;
+			 		position[i].z += velocity[i].z * dt;
+					//print('position['+i+']: ' + position[i]);
+					// scale the positions in AU
+					posScaled[i].x = position[i].x * scale/AU;
+					posScaled[i].y = position[i].y * scale/AU;
+					posScaled[i].z = position[i].z * scale/AU;
+					//print('posScaled['+i+']: ' + posScaled[i]);
+				}
+				// event out:
+				position1_changed = posScaled[0];
+				position1_changed = posScaled[1];
+				position2_changed = posScaled[2];
+				position3_changed = posScaled[3];
+				position4_changed = posScaled[4];
+				position5_changed = posScaled[5];
+				position6_changed = posScaled[6];
+				position7_changed = posScaled[7];
+				position8_changed = posScaled[8];
+				position9_changed = posScaled[9];
+			}
+		//}
+	"
+}
+
+#--------------------------------------
+# Routing
+
+# Connect Clock to MotionScript
+ROUTE WorldClock.cycleTime TO MotionScript.set_lastTime
+
+# Connect MotionScript to Planet positions
+ROUTE MotionScript.position0_changed TO Sun.set_translation
+ROUTE MotionScript.position1_changed TO Planet1.set_translation
+ROUTE MotionScript.position2_changed TO Planet2.set_translation
+ROUTE MotionScript.position3_changed TO Planet3.set_translation
+ROUTE MotionScript.position4_changed TO Planet4.set_translation
+ROUTE MotionScript.position5_changed TO Planet5.set_translation
+ROUTE MotionScript.position6_changed TO Planet6.set_translation
+ROUTE MotionScript.position7_changed TO Planet7.set_translation
+ROUTE MotionScript.position8_changed TO Planet8.set_translation
+ROUTE MotionScript.position9_changed TO Planet9.set_translation
+
+# end

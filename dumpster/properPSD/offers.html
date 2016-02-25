@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Offers</title>
+<link rel=stylesheet href="styles/main.css" type="text/css">
+<script language="JavaScript" src="scripts/show_hide.js"></script>
+<script language="JavaScript">
+
+var section = location.hash.substring(1,location.hash.length);
+
+function showSection(str) {
+	if (str) section=str;
+	switch (section) {
+		case 'intro':     show('text1'); hide('text2','text3'); break;
+		case 'special':   show('text2'); hide('text1','text3'); break;
+		case 'special2':  show('text3'); hide('text1','text2'); break;
+	}
+}
+
+</script>
+</head>
+
+<body bgcolor="#ffffff" onload="top.frames.left.showNav('offersOn');showSection()">
+
+<div id="bg" style="position:absolute; width:541px; height:405px; z-index:1; left: 0; top: 0"><img src="images/star_white.gif" width="541" height="405"></div>
+<div id="heading" style="position:absolute; width:44px; height:12px; z-index:2; left: 33px; top: 37px"><img src="images/offers_head.gif" width="44" height="12" alt="" border="0"></div>
+<div id="image" style="position:absolute; width:146px; height:116px; z-index:3; left: 348px; top: 40px"><img src="images/bear2.jpg" width="146" height="116"></div>
+
+<div id="submenu" style="position:absolute; z-index:5; left: 33px; top: 70px">
+	<p><a href="javascript:section='intro';showSection();">Introduction</a><br>
+	<a href="javascript:showSection('special');">Special Offer #1</a><br>
+	<a href="javascript:showSection('special2');">Special Offer #2</a></p>
+</div>
+
+<div id="text1" style="position:absolute; width:300px; height:180px; z-index:6; left: 190px; top: 200px;">
+  <p><b>Introduction</b></p>
+  <p>This layer is on by default.</p>
+  <p>If the link to this page has no anchor tag then this is the layer you get.</p>
+</div>
+
+<div id="text2" style="position:absolute; width:300px; height:180px; z-index:7; left: 190px; top: 200px; visibility: hidden;">
+  <p><b>Special Offer!</b></p>
+  <p>This layer is hidden by default.</p>
+  <p>If the link to this page contains an anchor i.e. <b>"offers.html#special"</b> then this layer is turned on after loading.</p>
+</div>
+
+<div id="text3" style="position:absolute; width:300px; height:180px; z-index:8; left: 190px; top: 200px; visibility: hidden;">
+  <p><b>Special Offer 2!</b></p>
+  <p>Another hidden layer.</p>
+  <p><b>"offers.html#special2"</b> turns this layer on.</p>
+</div>
+  
+</body>
+</html>

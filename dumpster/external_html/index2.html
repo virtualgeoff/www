@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Loading external content into a Div layer</title>
+<script language="JavaScript">
+
+function loadPage(url) {
+    if (document.layers) {
+		document.contentDiv.src = url;
+	} else if (document.all) {
+        parent.bufferFrame.document.location.href = url;
+    } else if (document.getElementById) {
+        parent.bufferFrame.document.location.href = url;
+	}
+}
+
+function loaded() {
+    if (document.all) {
+		document.all['contentDiv'].innerHTML = parent.bufferFrame.document.body.innerHTML;
+	} else if (document.getElementById) {
+		element = document.getElementById('contentDiv');
+		range = document.createRange();
+		range.setStartBefore(element);
+		fragment = range.createContextualFragment(url);
+		while (element.hasChildNodes()) element.removeChild(element.lastChild);
+		element.appendChild(fragment);
+	}
+}
+
+alert(parent.frames);
+
+</script>
+
+</head>
+
+<body bgcolor="#aaaaaa" onload="loadPage('page1.html');">
+
+<p><a href="javascript:loadPage('page1.html');">page 1</a> | 
+	<a href="javascript:loadPage('page2.html');">page 2</a> | 
+	<a href="javascript:loadPage('page3.html');">page 3</a> | 
+	<a href="javascript:loadPage('page4.html');">page 4</a>
+</p>
+
+<div id="contentDiv" style="position: absolute; left: 5px; top: 50px; z-index: 2; width:500px; height:300px; clip: rect(0px, 500px, 300px, 0px);">
+	<p>...</p>
+</div>
+
+<!-- bufferFrame for contentDiv (IE) -->
+<iframe style="display: none" name="bufferFrame"></iframe>
+
+</body>
+</html>

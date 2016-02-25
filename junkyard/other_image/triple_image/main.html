@@ -1,0 +1,201 @@
+<HTML>
+<HEAD>
+<TITLE>The Archibald, Wynne &amp; Sulman Prizes</TITLE>
+
+<script language="JavaScript">
+<!--
+
+var yearNum = 0;
+var delay = 2000;
+
+function changeYear() {
+        yearNum++;
+                if (yearNum > 4) yearNum = 1;
+        displayYear();
+        return;
+}
+
+function displayYear() {
+        lastNum = yearNum - 1;
+        if (lastNum == 0) lastNum = 4;
+
+        currentTarget = "target" + yearNum;
+        currentTimeline = "timeline" + yearNum;
+        currentYear = "year" + yearNum;
+        lastYear = "year" + lastNum;
+
+        if (document.images) {
+
+                document.target.src=eval(currentTarget + "on.src");
+                document.timeline.src=eval(currentTimeline + "on.src");
+
+                document[currentYear].src=eval(currentYear + "on.src");
+                document[lastYear].src=eval(lastYear + "off.src");
+
+        }
+        return;
+}
+
+function Timer() {
+   changeYear();
+   setTimeout("Timer()", delay);
+}
+
+if (document.images) {
+
+        year1on = new Image();
+        year1on.src = "homenavs/1943_on.gif";
+        year1off = new Image();
+        year1off.src = "homenavs/1943.gif";
+
+        year2on = new Image();
+        year2on.src = "homenavs/1993_on.gif";
+        year2off = new Image();
+        year2off.src = "homenavs/1993.gif";
+
+        year3on = new Image();
+        year3on.src = "homenavs/1995_on.gif";
+        year3off = new Image();
+        year3off.src = "homenavs/1995.gif";
+
+        year4on = new Image();
+        year4on.src = "homenavs/1998_on.gif";
+        year4off = new Image();
+        year4off.src = "homenavs/1998.gif";
+
+        timeline1on = new Image();
+        timeline1on.src = "homenavs/r9_43.gif";
+
+        timeline2on = new Image();
+        timeline2on.src = "homenavs/r9_93.gif";
+
+        timeline3on = new Image();
+        timeline3on.src = "homenavs/r9_95.gif";
+
+        timeline4on = new Image();
+        timeline4on.src = "homenavs/r9_98.gif";
+
+        target1on = new Image();
+        target1on.src = "homenavs/r3c3_43.gif";
+
+        target2on = new Image();
+        target2on.src = "homenavs/r3c3_93.gif";
+
+        target3on = new Image();
+        target3on.src = "homenavs/r3c3_95.gif";
+
+        target4on = new Image();
+        target4on.src = "homenavs/r3c3_98.gif";
+
+        nav1on = new Image()
+        nav1on.src = "homenavs/agnsw.gif"
+        nav1off = new Image()
+        nav1off.src = "homenavs/agnsw.gif"
+
+        nav2on = new Image()
+        nav2on.src = "homenavs/intro_on.gif"
+        nav2off = new Image()
+        nav2off.src = "homenavs/intro.gif"
+
+        nav3on = new Image()
+        nav3on.src = "homenavs/history_on.gif"
+        nav3off = new Image()
+        nav3off.src = "homenavs/history.gif"
+
+        nav4on = new Image()
+        nav4on.src = "homenavs/entries_on.gif"
+        nav4off = new Image()
+        nav4off.src = "homenavs/entries.gif"
+
+        nav5on = new Image()
+        nav5on.src = "homenavs/archives_on.gif"
+        nav5off = new Image()
+        nav5off.src = "homenavs/archives.gif"
+
+        nav6on = new Image()
+        nav6on.src = "homenavs/webcast_on.gif"
+        nav6off = new Image()
+        nav6off.src = "homenavs/webcast.gif"
+
+}
+
+function Rollon(img1,text){
+    window.status = text;
+        if (document.images) {
+                document [img1].src=eval(img1 + "on.src");
+        } else {
+       setTimeout("remove()",2000);
+    }
+
+}
+
+function Rolloff(img1){
+    window.status = "";
+        if (document.images) {
+                document [img1].src=eval(img1 + "off.src");
+        }
+}
+
+function remove(){
+        window.status="";
+}
+
+
+//-->
+</script>
+
+</HEAD>
+
+<BODY BACKGROUND="homenavs/bg.gif" BGCOLOR="#6B63AD" MARGINWIDTH="0" MARGINHEIGHT="0" onLoad="Timer()">
+
+<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
+<TR>
+        <TD colspan=4><IMG SRC="homenavs/r1.gif" WIDTH="575" HEIGHT="94" BORDER="0"></TD>
+</TR>
+<TR>
+        <TD width=120><IMG SRC="homenavs/r2c1.gif" WIDTH="120" HEIGHT="18" BORDER="0"></TD>
+<TD colspan=3><A HREF="../index.html" onmouseover="Rollon('nav1','The Art Gallery of New South Wales - Home'); return true;" onmouseout="Rolloff('nav1'); return true;" TARGET="_top"><IMG NAME="nav1" SRC="homenavs/agnsw.gif" ALT="The Art Gallery of New South Wales" WIDTH="455" HEIGHT="18" BORDER="0"></A></TD>
+</TR>
+<TR valign=top>
+        <TD><A HREF="webcast/index.html" onmouseover="Rollon('nav6','Live Webcast'); return true;" onmouseout="Rolloff('nav6'); return true;" TARGET="_top"><IMG NAME="nav6" SRC="homenavs/webcast.gif" ALT="Live Webcast" WIDTH="120" HEIGHT="48" BORDER="0"></A></TD>
+        <TD rowspan=6><IMG SRC="homenavs/r3c2.gif" WIDTH="163" HEIGHT="224" BORDER="0"></TD>
+        <TD rowspan=6><IMG NAME="target" SRC="homenavs/r3c3_95.gif" WIDTH="207" HEIGHT="224" BORDER="0"></TD>
+        <TD rowspan=6><IMG SRC="homenavs/r3c4.gif" WIDTH="85" HEIGHT="224" BORDER="0"></TD>
+</TR>
+<TR>
+        <TD><A HREF="introduction/index.html" onmouseover="Rollon('nav2','Introduction'); return true;" onmouseout="Rolloff('nav2'); return true;" TARGET="_top"><IMG NAME="nav2" SRC="homenavs/intro.gif" ALT="Introduction" WIDTH="120" HEIGHT="27" BORDER="0"></A></TD>
+</TR>
+<TR>
+        <TD><A HREF="history/index.html" onmouseover="Rollon('nav3','History'); return true;" onmouseout="Rolloff('nav3'); return true;" TARGET="_top"><IMG NAME="nav3" SRC="homenavs/history.gif" ALT="History" WIDTH="120" HEIGHT="28" BORDER="0"></A></TD>
+</TR>
+<TR>
+        <TD><A HREF="entries/index.html" onmouseover="Rollon('nav4','1998 Entries'); return true;" onmouseout="Rolloff('nav4'); return true;" TARGET="_top"><IMG NAME="nav4" SRC="homenavs/entries.gif" ALT="1998 Entries" WIDTH="120" HEIGHT="28" BORDER="0"></A></TD>
+</TR>
+<TR>
+        <TD><A HREF="../archibald97/index.html" onmouseover="Rollon('nav5','Archives'); return true;" onmouseout="Rolloff('nav5'); return true;" TARGET="_top"><IMG NAME="nav5" SRC="homenavs/archives.gif" ALT="Archives" WIDTH="120" HEIGHT="27" BORDER="0"></A></TD>
+</TR>
+<TR>
+        <TD><IMG SRC="homenavs/r8c1x.gif" WIDTH="120" HEIGHT="66" BORDER="0"></TD>
+</TR>
+<TR>
+        <TD colspan=4><IMG NAME="timeline" SRC="homenavs/r9_95.gif" WIDTH="575" HEIGHT="19" BORDER="0"></TD>
+</TR>
+<TR>
+        <TD><IMG NAME="year4" SRC="homenavs/1998.gif" WIDTH="120" HEIGHT="30" BORDER="0"></TD>
+        <TD><IMG NAME="year3" SRC="homenavs/1995.gif" WIDTH="163" HEIGHT="30" BORDER="0"></TD>
+        <TD> </TD>
+        <TD><IMG NAME="year1" SRC="homenavs/1943.gif" WIDTH="85" HEIGHT="30" BORDER="0"></TD>
+</TR>
+<TR>
+        <TD> </TD>
+        <TD><IMG NAME="year2" SRC="homenavs/1993.gif" WIDTH="163" HEIGHT="33" BORDER="0"></TD>
+        <TD colspan=2> </TD>
+</TR>
+<TR>
+        <TD><IMG SRC="homenavs/colonial.gif" ALT="Colonial" WIDTH="120" HEIGHT="20" BORDER="0"></TD>
+        <TD colspan=3></TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

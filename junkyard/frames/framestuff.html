@@ -1,0 +1,352 @@
+<html>
+<head>
+
+<title>BUILDER.COM - Web Authoring - Fun with frames - Prevent scripting errors</title>
+
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#006633" vlink="#666666" background="/Content/Builder/Images/backshadow3b.gif">
+
+<a name="top"></a>
+
+
+
+<table width=604 border=0 cellpadding=0 cellspacing=0>
+
+<tr><td colspan=2 valign=top>
+
+<img src="/Images/newbump.gif" border=0 width=50 height=5 align=left>
+
+
+<A HREF="/cgi-bin/acc_clickthru?clickid=0000015770f64adb00000000&edition=CNET&cat=AUTHORING&site=BU" TARGET="_top"><IMG SRC="/Ads/Media/Images/cnet.gcaward.banner.gif" ALT="Check out the best games of '97.  Click here." BORDER="2" HEIGHT="60" WIDTH="468"><BR><CENTER><FONT FACE="Verdana, Arial, Helvetica" SIZE="-2">Check out the best games of '97.  Click here.</FONT></CENTER></A>
+
+<META http-equiv="PICS-Label" content='(PICS-1.1 "http://www.rsac.org/ratingsv01.html" l gen true comment "RSACi North America Server" by "chris_barr@cnet.com" for "http://www.cnet.com/" on "1997.07.14T16:27-0800" r (n 0 s 0 v 0 l 0))'> 
+
+<style type="text/css">
+<!-- 
+
+.space  {line-height: 2pt}
+
+.headline       {font-family: Courier New;
+                 font-size: 12pt;
+                 font-weight: bold;
+                 line-height: 100%;
+                }
+
+.headline2      {font-family: Courier New;
+                 font-size: 11pt;
+                 font-weight: bold;
+                 line-height: 100%;
+                }
+
+.text		{font-family: Times New Roman;
+			font-size: 9pt;
+			font-weight: medium;
+			line-height: 10pt;
+			color: black}
+			
+.jointext	{font-family: Times New Roman;
+			font-size: 12pt;
+			font-weight: bold;
+			line-height: 100%;
+		}
+
+.menuhead       {font-family: Courier New;
+		 color: black;                 
+		 font-size: 12pt;
+                 font-weight: bold;
+                 line-height: 100%;
+                }
+
+.menutext       {font-family: Times New Roman;
+		 color: black;                 
+		 font-size: 9pt;
+                 font-weight: medium;
+                 line-height: 15pt;
+                 }
+
+.menutext2      {font-family: Times New Roman;
+                 color: black;
+		 font-size: 8pt;
+                 font-weight: medium; line-height: 15pt;
+                 
+                }
+
+A:visited       {color: #006342}
+
+A:active        {color: #054BBB}
+
+-->
+
+</style>
+
+
+<!-- the front door (www.cnet.com) uses ss.html for it's styles -->
+
+</td>
+</tr>
+
+<tr><td width=119 valign=top>
+<br>
+
+<br> <a href="/Content/Builder/"><img src="/Content/Builder/Images/logo.pill.bild2.gif" alt="BUILDER.COM" align=top width=115 height=99 border=0  usemap="#logo.pill.bild2"></a> <br>
+
+&nbsp;<br>
+ 
+<map name="logo.pill.bild2">
+<area shape="circle" coords="52,29,28" href="/">
+<area shape="rect" coords="2,61,104,95" href="/Content/Builder/">
+<area shape="default" nohref>
+</map>
+ 
+<a href="/Content/Builder/Authoring/?st.bl.gp.tb.auth"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Web Authoring</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Programming/?st.bl.gp.tb.prog"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Web Programming</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Graphics/?st.bl.gp.tb.graph"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Web Graphics</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Servers/?st.bl.gp.tb.serv"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Web Servers</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Business/?st.bl.gp.tb.bus"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Web Business</font></span></a><font size="+1">&nbsp;</font><br>
+
+<img src="/Content/Builder/Images/bump.gif" width="1" height="6" border="0"><br>
+
+<img src="/Content/Builder/Images/lyelline.gif" width="103" height="1" border="0">
+
+<br>
+
+<img src="/Content/Builder/Images/bump.gif" width="1" height="4" border="0"><br>
+
+<a href="http://buzz.builder.com/"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Builder Buzz</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/News/?st.bl.gp.tb.bldrnews"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Builder news</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Downloads/?st.bl.gp.tb.down"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Builder downloads</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/Resources/?st.bl.gp.tb.res"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Builder resources</font></span></a><font size="+1">&nbsp;</font><br>
+
+<p>
+
+
+<A HREF="/cgi-bin/acc_clickthru?clickid=0000014216b31fe200000000&edition=CNET&cat=AUTHORING&site=BU" TARGET="_top"><IMG SRC="/Ads/Media/Images/builder.wbsf.portal.gif" ALT="Builder.com" BORDER="0" HEIGHT="149" WIDTH="104"></A>
+
+
+
+<p>
+
+<font size="-1" face="Arial, Helvetica" color="#006600"><b>RESOURCES</b></font><font size="+1">&nbsp;</font><br>
+
+<a href="/Content/Builder/web.builder/sf98/?st.bl.gp.tb.conf"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Conferences</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Community/?st.bl.gp.tb.comm"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">CNET Community</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Resources/Info/Glossary/?st.bl.gp.tb.glos"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">CNET Glossary</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Help/?st.bl.gp.tb.help"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Help</font></span></a>
+
+<P>
+
+<font size="-1" face="Arial, Helvetica" color="#006600"><b>CNET SERVICES</b></font><br>
+
+<a href="http://www.cnet.com/?st.bl.gp.tb.cnet"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">CNET.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.news.com/?st.bl.gp.tb.news"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">NEWS.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.computers.com/?st.bl.gp.tb.comp"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">COMPUTERS.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.gamecenter.com/?st.bl.gp.tb.game"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">GAMECENTER.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.download.com/?st.bl.gp.tb.dl"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">DOWNLOAD.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.shareware.com/?st.bl.gp.tb.sw"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">SHAREWARE.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.browsers.com/?st.bl.gp.tb.brows"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">BROWSERS.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.activex.com/?st.bl.gp.tb.ax"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'"onmouseout="this.style.color='black'" size="-2">ACTIVEX.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.search.com/?st.bl.gp.tb.search"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">SEARCH.COM</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="http://www.snap.com/?st.bl.gp.tb.snap"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">SNAP! ONLINE</font></span></a><font size="+1">&nbsp;</font><br>
+ 
+<p>  
+
+<span style="color: #006600"><font face="Arial", "Helvetica" color="#006600" size="-1"><strong>MARKETPLACE</strong></font></span><font size="+1">&nbsp;</font><br>
+<img src="/Content/Builder/Images/bump.gif" width=1 height=5 border=0><br>
+<a href="http://www.buydirect.com/?st.bl.gp.tb.buy"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-2">BUYDIRECT.COM</font></span></a><br>
+
+<a href="/Marketplace/Specials/Software.html?st.bl.gp.tb.spec"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">Specials</font></span></a><font size="+1">&nbsp;</font><br>
+
+<a href="/Marketplace/Sponsors/?st.bl.gp.tb.spons"><span style="color: black"><font face="Arial", "Helvetica" color="#000000" onmouseover="this.style.color='#CC0000'" onmouseout="this.style.color='black'" size="-1">How to advertise</font></span></a><font size="+1">&nbsp;</font><br>
+
+</td>
+
+<td width=485 valign=top>
+
+<br>
+
+
+<div align=right><table width=468 cellpadding=0 cellspacing=0 border=0>
+<tr> <!-- title bar -->
+<td colspan=2 align=left><img src="Images/sstop.gif" width=353 height=20 hspace=0 vspace=0 border=0><!--
+--><a href="index.html"><img src="Images/back.gif" alt="back to intro" width=115 height=20 hspace=0 vspace=0 border=0></a><br><!--
+--><img src="Images/sstitle.gif" alt="Fun with frames" width=380 height=36 hspace=0 vspace=0 border=0></td>
+</tr>
+<tr align=left valign=top>
+<td><img src="Images/ssbot.gif" width=155 height=36 hspace=0 vspace=0 border=0></td>
+<td width=313><font face="Arial,Helvetica" size=+2 color=#000033>Prevent scripting errors</font></td>
+</tr>
+</table>
+
+<table width=485 cellpadding=0 cellspacing=0 border=0>
+
+<tr>
+<td><img src="/Content/Builder/Images/bump.gif" width=40 height=1 hspace=0 border=0><br>&nbsp;</td>
+<td align=left valign=bottom>&nbsp;<br>
+Although HTML frames are a stable specification, frame behavior in the document object model is less well-defined. Particular problems arise with scripts that execute as the frameset page is loading. Fortunately, you can fix them all with a single operation.
+<p>
+The first problem is that the document events <code><font color=#990000>onLoad</font></code> and <code><font color=#990000>onUnload</font></code> are associated with the <code><font color=#990000>&lt;BODY&gt;</font></code> element, which frameset pages normally don't have (and frame-<wbr>capable browsers would ignore anyhow). The most recent browsers let you put these event handlers in the uppermost <code><font color=#990000>&lt;FRAMESET&gt;</font></code> tag, but some of the various 3.0 browsers do not reliably support these handlers.
+<p>
+Many browsers also have problems with frameset page scripts that modify frame contents immediately. This is due to conflicts between loading the document specified in the <code><font color=#990000>&lt;FRAME&gt;</font></code> tag and following scripted instructions to load or write something else. These browsers often execute the JavaScript command, and then proceed to load the initial <code><font color=#990000>src</font></code> page anyhow. And some browsers don't recognize a given frame's existence until its initial <code><font color=#990000>src</font></code> document has loaded. Until it has loaded, any script reference to the frame will produce a JavaScript error.
+</td>
+<!-- menu sidebar -->
+<td align=left valign=top><table border=0 cellpadding=0 cellspacing=0>
+<tr align=left>
+<tr>
+<td rowspan=99>&nbsp;</td>
+<td colspan=2></td>
+<td><img src="/Content/Builder/Images/bump.gif" width=9 height=5 hspace=0 vspace=0 border=0></td>
+<td><img src="/Content/Builder/Images/bump.gif" width=146 height=5 hspace=0 vspace=0 border=0></td>
+<td></td>
+</tr>
+<td colspan=4><img src="Images/mtop.gif" width=153 height=35 alt="go to" hspace=0 vspace=0 border=0></td>
+<td></td>
+</tr>
+<tr valign=middle>
+<td rowspan=11><img src="/Content/Builder/Images/bump.gif" width=9 hspace=0 border=0></td>
+<td rowspan=11 bgcolor=#000033><img src="/Content/Builder/Images/bump.gif" width=1 hspace=0 border=0></td>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss01.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>When to use frames</font></a></th>
+<td><a href="ss01.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss02.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Build a basic frameset</font></a></th>
+<td><a href="ss02.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss03.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Link frames together</font></a></th>
+<td><a href="ss03.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss04.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Beautify your frames</font></a></th>
+<td><a href="ss04.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss05.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Design a framed site</font></a></th>
+<td><a href="ss05.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss06.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Floating frames</font></a></th>
+<td><a href="ss06.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss07.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Script frame navigation</font></a></th>
+<td><a href="ss07.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss08.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Script dynamic frames</font></a></th>
+<td><a href="ss08.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss09.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Script between frames</font></a></th>
+<td><a href="ss09.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><font face="Arial,Helvetica" size=-1 color=#990000>Prevent scripting errors</font></th>
+<td><img src="Images/arroff.gif" width=16 height=18 hspace=0 vspace=0 border=0></td>
+</tr>
+<tr valign=middle>
+<td><font size=+2>&nbsp;</font></td>
+<th align=left nowrap><a href="ss11.html" style="color:#000033;text-decoration:none"><font face="Arial,Helvetica" size=-1 color=#000033>Script floating frames</font></a></th>
+<td><a href="ss11.html"><img src="Images/arron.gif" width=16 height=18 hspace=0 vspace=0 border=0></a></td>
+</tr>
+<tr>
+<td colspan=4><img src="Images/mbot.gif" width=164 height=27 hspace=0 vspace=0 border=0></td>
+<td></td>
+</tr>
+</table></td>
+</tr>
+
+</table></div>
+
+<blockquote>
+<p>
+The solution to all of these problems is to make sure the frame contents are done loading before you mess with them. Therefore, it's a good idea to begin all your frames with HTML pages--very simple ones, if necessary--and have them report to the master frameset. For example, suppose you have a frameset page that needs to load all frames before executing the function <code><font color=#990000>goToIt()</font></code>. Place the following JavaScript in the frameset document:
+<p>
+<table width=400 border=0 cellpadding=2 cellspacing=0>
+<tr align=left bgcolor=#cccc99><td><font face="Arial,Helvetica" size=-1>countDown=frames.length;<br>
+function soundOff() {<br>
+&nbsp;countDown--;<br>
+&nbsp;if (countDown==0) {<br>
+&nbsp;&nbsp;goToIt();<br>
+&nbsp;&nbsp;}<br>
+&nbsp;}</font></td></tr>
+<tr><td><img src="Images/ul.gif" width=400 height=1 hspace=0 vspace=0 border=0></td></tr>
+</table>
+<p>
+Then put <code><font color=#990000>onLoad="parent.soundOff()"</font></code> in the <code><font color=#990000>&lt;BODY&gt;</font></code> of each framed page. As the framed pages load and execute <code><font color=#990000>soundOff()</font></code>, <code><font color=#990000>countDown</font></code> ticks off until all the frames are accounted for.
+<p>
+<table width=400 border=0 cellpadding=1 cellspacing=0>
+<tr valign=top>
+<td width=21 align=left><a href="ss09.html"><img src="/Images/arrowleft.w.gif" height=21 width=21 border=0 hspace=0></a></td>
+<td width=179 align=left>&nbsp;<font size=-1><a href="ss09.html">Script between frames</a></font></td>
+<td width=175 align=right>&nbsp;<font size=-1><a href="ss11.html">Script floating frames</a></font></td>
+<td width=25 align=right><a href="ss11.html"><img src="/Images/arrowright.w.gif" height=21 width=21 border=0 hspace=0></a></td>
+</tr></table>
+</blockquote>
+
+
+<p>
+
+</td>
+</tr>
+
+<tr>
+
+<td valign=bottom>
+<br>
+<a href="#top" target="_self"><font size="-1" face="Arial, Helvetica" color="#000000"><strong>Back to top</strong></font></a>
+</td>
+
+<td valign=bottom>
+<br>
+
+&nbsp; <font face="Arial, Helvetica" size="-1"><strong>
+Go to the <a href="/Content/Builder/">BUILDER.COM</a> home page.
+
+</strong></font>
+
+<p>
+
+&nbsp; <font face="Verdana, Arial, Helvetica" size="-2"><a href="/copyright.text.html">Copyright</a> &#169; 1995-98 CNET, Inc. All rights reserved.</font>
+</td>
+
+</tr>
+
+</table>
+
+
+</body>
+</html>
+
+
+
+

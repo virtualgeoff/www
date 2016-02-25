@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Javascript Junkyard - Rollover X</title>
+<link rel="stylesheet" type="text/css" href="../../junkyardBlack.css">
+
+<script language="JavaScript">
+<!--
+
+/*	by geoff pack
+	geoff@spike.com.au
+
+	Next version:
+	
+	1. make gifs into animated gifs to improve speed
+	   (reduce number of javascript calculations).
+	
+	2. convert this so it is object oriented
+	   - ie make the function a method of an object
+	   that is instantiated by the table loop. 
+	   something along the lines of: rMcN= new(blob);
+		
+*/
+	var type = 'c';
+	
+	if (document.images) {
+		b1 = new Image(); b1.src = "colors/1.gif";
+		b2 = new Image(); b2.src = "colors/2.gif";
+		b3 = new Image(); b3.src = "colors/3.gif";
+		b4 = new Image(); b4.src = "colors/4.gif";
+		b5 = new Image(); b5.src = "colors/5.gif";
+		b6 = new Image(); b6.src = "colors/6.gif";
+		b7 = new Image(); b7.src = "colors/7.gif";
+		b8 = new Image(); b8.src = "colors/8.gif";
+
+		c1 = new Image(); c1.src = "colors/blue.gif";
+		c2 = new Image(); c2.src = "colors/green.gif";
+		c3 = new Image(); c3.src = "colors/yellow.gif";
+		c4 = new Image(); c4.src = "colors/orange.gif";
+		c5 = new Image(); c5.src = "colors/red.gif";
+		c6 = new Image(); c6.src = "colors/pink.gif";
+		c7 = new Image(); c7.src = "colors/purple.gif";
+		c8 = new Image(); c8.src = "colors/8.gif";
+		
+		a1 = new Image(); a1.src = "colors/arrow1.gif";
+		a2 = new Image(); a2.src = "colors/arrow2.gif";
+		a3 = new Image(); a3.src = "colors/arrow3.gif";
+		a4 = new Image(); a4.src = "colors/arrow4.gif";
+		a5 = new Image(); a5.src = "colors/arrow5.gif";
+		a6 = new Image(); a6.src = "colors/arrow6.gif";
+		a7 = new Image(); a7.src = "colors/arrow7.gif";
+		a8 = new Image(); a8.src = "colors/arrow8.gif";
+		
+	}
+
+	function over(img,count){
+	    window.status = count;
+		if (document.images) {
+			document[img].src= eval(type+count+".src");
+			count++;
+			if (count <= 8) {
+				str="over('" + img + "'," + count + ")";
+				setTimeout(str,80);
+				//setTimeout(over, 80, img, count);
+			}
+		}
+	}
+	
+	function changeType(t){
+		type = t;
+	}
+	
+
+// -->
+</script>
+
+</head>
+
+<body bgcolor="#000000" text="#ffffff">
+
+<h3 align="center">Rollover X</h3>
+
+<p align="center"><b><a href="javascript:changeType('c')">color</a> | <a href="javascript:changeType('b')">b&w</a> | <a href="javascript:changeType('a')">arrows</a></b></p>
+
+<center>
+
+<script language="JavaScript">
+<!-- 
+	
+	var i, j = 0;	
+	document.writeln('<table border="0" cellpadding="1" cellspacing="0">');			
+
+	for (i=1; i<=15; i++) {
+		document.writeln('<tr>');		
+		for (j=1; j<=30; j++) {
+			name = "r" + i + "c" + j;
+			document.writeln('<td><a href="#" onMouseOver="over(\'' + name + '\',\'1\');"><img name="'+ name +'" src="colors/8.gif" border="0"></a></td>');
+		}	
+		document.writeln('</tr>');
+	}
+	document.writeln('</table>');			
+							
+
+// -->
+</script>
+
+</center>
+
+</body>
+</html>

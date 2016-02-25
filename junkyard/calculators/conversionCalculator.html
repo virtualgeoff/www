@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Javascript Junkyard - Conversion Caculator</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+// from Netscape world
+	
+function init () {
+	document.calculator.text1.value = 0
+	document.calculator.text2.value = 0
+}
+
+function convert (entryform, from, to) {
+	convertfrom = from.selectedIndex
+	convertto = to.selectedIndex
+	entryform.text2.value = (entryform.text1.value * from[convertfrom].value / to[convertto].value )
+}
+
+
+// -->
+</script>
+
+
+</head>
+<body onLoad="init()">
+
+<h3 align="center">Conversion Calculator</h3>
+
+<br>
+
+<form method="POST" name="calculator">
+<table border="1" cellpadding="5" align="center">
+    <tr align=center>
+        <td><b>Convert from:</b></td>
+        <td><b>Convert to:</b></td>
+    </tr>
+    <tr align=center>
+        <td><input size="15" name="text1" onchange="convert(this.form, form.units1, form.units2)"><br>
+            <select name="units1" onchange="convert(this.form, this, form.units2)">
+                <option value="0.01" selected>cm
+                <option value="1">m
+                <option value="1000">km
+                <option value="">-----
+                <option value="0.0254">inch
+                <option value="0.3048">feet
+                <option value="0.9144">yds
+                <option value="1610">mi
+            </select>
+        </td>
+        <td><input size="15" name="text2" onchange="convert(this.form, form.units2, form.units1)"><br>
+            <select name="units2" onchange="convert(this.form, form.units1, this)">
+                <option value="0.01">cm
+                <option value="1">m
+                <option value="1000">km
+                <option value="">-----
+                <option value="0.0254">inch
+                <option value="0.3048" selected>feet
+                <option value="0.9144">yds
+                <option value="1610">mi
+            </select>
+        </td>
+    </tr>
+</table>
+</form>
+
+</body>
+</html>
+

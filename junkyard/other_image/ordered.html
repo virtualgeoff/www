@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Javascript Junkyard - Ordered Images</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+var count = 0;
+var max = 10;
+target = new Image(); target.src = "numbers/0.gif";
+
+function getRandom(max) {
+	rnumber = Math.round(Math.random()*(max-1)) +1;
+	return rnumber;
+}
+function countImage() {
+	count++;
+	if (count > max) count=1;
+	xx = "numbers/" + count + "." + "gif";
+	img = new Image(); img.src = xx;
+	document.images.target.src = img.src;
+}
+function timer() {
+	countImage();
+	setInterval("countImage()",1000);
+}
+	
+// -->
+</script>
+
+</head>
+<body bgcolor="#ffffff" onload="timer()">
+
+<h3 align="center">Ordered Images</h3>
+
+<br>
+
+<p align="center"><img src="numbers/0.gif" width="96" height="96" name="target"></p>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<TITLE>Netscape JavaScript Field Edits</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+// --------------------------------------------------------------------
+// COMPANY:       Netscape Communications
+// AUTHOR:        Robert W. Husted
+// DATE CREATED:  March 17, 1997
+// MODIFIED BY: 
+// DATE MODIFIED: 
+// --------------------------------------------------------------------
+
+
+
+function checkEmail(checkString)
+{
+    var newstr = "";
+    var at = false;
+    var dot = false;
+
+    // DO SOME PRELIMINARY CHECKS ON THE DATA
+
+    // IF EMAIL ADDRESS HAS A '@' CHARACTER
+    if (checkString.indexOf("@") != -1) {
+      at = true;
+
+    // IF EMAIL ADDRESS HAS A '.' CHARACTER
+    } else if (checkString.indexOf(".") != -1) {
+      dot = true;
+    }
+    // PARSE REMAINDER OF STRING
+    for (var i = 0; i < checkString.length; i++) {
+        ch = checkString.substring(i, i + 1)
+        if ((ch >= "A" && ch <= "Z") || (ch >= "a" && ch <= "z")
+                || (ch == "@") || (ch == ".") || (ch == "_")
+                || (ch == "-") || (ch >= "0" && ch <= "9")) {
+                newstr += ch;
+                if (ch == "@") {
+                    at=true;
+                }
+                if (ch == ".") {
+                    dot=true;
+                }
+        }
+    }
+    if ((at == true) && (dot == true)) {
+        return newstr;
+    }
+    else {
+      // DISPLAY ERROR MESSAGE
+      alert ("Sorry, the email address you\nentered is not in the correct\nformat.");
+      return checkString;
+    }
+}
+
+
+//-->
+</SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" "TEXT=#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#FF0000">
+
+<CENTER>
+<H2>
+<FONT SIZE=+3>E</FONT>MAIL 
+<FONT SIZE=+3>A</FONT>DDRESS 
+<FONT SIZE=+3>C</FONT>HECK
+</H2>
+</CENTER>
+
+<P>
+<HR>
+<P>
+
+<CENTER>
+<FORM NAME="TEST">
+<TABLE>
+<TR>
+<TD align=right>Email address:</TD>
+<TD><INPUT NAME="test" SIZE=30 MAXLENGTH=50 onChange="this.value=checkEmail(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=center colspan=2><input type=submit value="Submit"><input type=reset value="Clear"></TD>
+</TR>
+</TABLE>
+</FORM>
+</CENTER>
+
+<P>
+<HR SIZE=4>
+<P>
+</BODY>
+</HTML>

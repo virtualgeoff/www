@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Javascript Junkyard - Chaser</title>
+<link rel="stylesheet" type="text/css" href="../junkyardBlack.css">
+
+<script language = "JavaScript">
+<!--
+
+var lights = new Array();
+lights[0] = new Array('c4','c8','c12','c16');
+lights[1] = new Array('c1','c5','c9','c13');
+lights[2] = new Array('c2','c6','c10','c14');
+lights[3] = new Array('c3','c7','c11','c15');
+
+var On  = 0;
+var Off = 3;
+
+function chaser() {
+	Off = On;
+	On++; if (On>3) On=0;
+	
+	for (i=0;i<4;i++) {
+		document[lights[On][i]].src = eval(lights[On][i]+".src");
+		document[lights[Off][i]].src = c0.src;
+	}
+	setTimeout("chaser()",500);
+}
+
+if (document.images) {
+	c0 = new Image(); c0.src = "colors/black.gif";
+	c1 = new Image(); c1.src = "colors/red.gif";
+	c2 = new Image(); c2.src = "colors/yellow.gif";
+	c3 = new Image(); c3.src = "colors/orange.gif";
+	c4 = new Image(); c4.src = "colors/pink.gif";
+	c5 = new Image(); c5.src = "colors/red.gif";
+	c6 = new Image(); c6.src = "colors/yellow.gif";
+	c7 = new Image(); c7.src = "colors/orange.gif";
+	c8 = new Image(); c8.src = "colors/pink.gif";
+	c9 = new Image(); c9.src = "colors/red.gif";
+	c10 = new Image(); c10.src = "colors/yellow.gif";
+	c11 = new Image(); c11.src = "colors/orange.gif";
+	c12 = new Image(); c12.src = "colors/pink.gif";
+	c13 = new Image(); c13.src = "colors/red.gif";
+	c14 = new Image(); c14.src = "colors/yellow.gif";
+	c15 = new Image(); c15.src = "colors/orange.gif";
+	c16 = new Image(); c16.src = "colors/pink.gif";
+}
+
+// -->
+</script>
+
+</head>
+<body onLoad="chaser()">
+
+<h3 align="center">Chaser</h3>
+
+<br><br><br>
+
+<table border="0" cellpadding="8" cellspacing="0" align="center">
+<tr>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c1"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c2"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c3"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c4"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c5"></td>
+</tr>
+<tr>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c16"></td>
+	<td align="center" colspan="3" rowspan="3" bgcolor="#ffffff">&nbsp;</td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c6"></td>
+</tr>
+<tr>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c15"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c7"></td>
+</tr>
+<tr>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c14"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c8"></td>
+</tr>
+<tr>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c13"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c12"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c11"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c10"></td>
+	<td align="center"><img src="colors/black.gif" width="20" height="20" name="c9"></td>
+</tr>
+</table>
+
+</body>
+</html>

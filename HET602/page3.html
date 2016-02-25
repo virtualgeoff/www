@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+	<title>HET602 Project: Solar Systems Dynamics</title>
+	<meta name="generator" content="BBEdit 5.0">
+</head>
+<body bgcolor="#ffffff">
+
+<p align="center"><b>HET602 Project: Solar Systems Dynamics</b><br>
+<a href="http://astronomy.swin.edu.au/sao/">Swinburne Astronomy Online</a><br>
+<a href="mailto:geoff@virtualgeoff.com">Geoff Pack</a>, Student ID: 1606948</p>
+
+<h2>3. Numerical Methods</h2>
+
+<h3>Gravitational Forces</h3>
+
+<p>The gravitational attraction between two bodies is given by Newton's universal law of gravitation:</p>
+
+<table align="center" cellpadding="5">
+	<tr>
+		<td><img src="equations/motion1.jpg" alt="equation"></td>
+		<td>or in vector form:<td>
+		<td><img src="equations/motion2.jpg" alt="equation"></td>
+	</tr>
+</table>
+
+<p> - where F is the force between the bodies, m1 and m2 are their masses, and r is the seperation between them.</p>
+
+<p>For a system of many bodies, the total force on each body is simply the sum of the forces between it and each other body individually:</p>
+
+<p align="center"><img src="equations/motion3.jpg" alt="equation"></p>
+
+<p>We can then resolve the forces into components along each axis, and calculate them seperately. In programming code (javascript in this example) this could be written as:</p>
+
+<code>
+<pre>
+
+    for (var i=0; i&lt;N; i++) {
+        for (var j=i+1; j&lt;N; j++) {
+            // calculate dx,dy,dr:
+            dx = px[i] - px[j];
+            dy = py[i] - py[j];
+            dr = Math.sqrt(dx*dx + dy*dy);
+            // calculate forces - add to previous calculations:
+            Fx[i] += -G*m[i]*m[j]/(dr*dr*dr) * dx;
+            Fy[i] += -G*m[i]*m[j]/(dr*dr*dr) * dy;
+            Fx[j] += -Fx[i];
+            Fy[j] += -Fy[i];
+        }
+    }
+
+
+</pre>
+</code>
+
+<p>Once we have calculated all the total force on a particle, we can use it to calculate its acceleration using Newton's 2nd law (F=ma).</p>
+
+<h3>Equations of Motion</h3>
+
+<p>The equations of motion for two bodies attracted by gravity can be solved analytically - this is what Newton did when he derived Kepler's laws from his laws of motion. But in general, it is not possible to solve these eqautions for three of more bodies simultaneously, so numerical methods (and computers) must be used.</p>
+
+<p>We want to find the velocity and position of a body, given its acceleration. We know that acceleration is the rate change of velocity, and velocity is the the rate change of position:</p>
+
+<table align="center" cellpadding="5" border="0">
+	<tr>
+		<td colspan="3" align="center"><img src="equations/motion4.jpg" alt="equation"></td>
+	</tr>
+	<!--<tr>
+		<td colspan="3">in integral form:</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><img src="equations/integral1.jpg" alt="equation"></td>
+	</tr>-->
+	<tr>
+		<td colspan="3">in discrete form:</td>
+	</tr>
+	
+	<tr valign="top">
+		<td><img src="equations/motion5.jpg" alt="equation"></td>
+		<td>&nbsp;&nbsp;</td>
+		<td><img src="equations/motion7.jpg" alt="equation"></td>
+	</tr>
+	<tr>
+		<td colspan="3">re-arranging:</td>
+	</tr>
+	<tr valign="top">
+		<td><br><img src="equations/motion6.jpg" alt="equation"></td>
+		<td>&nbsp;&nbsp;</td>		
+		<td><br><img src="equations/motion8.jpg" alt="equation"></td>
+	</tr>
+</table>
+
+<p>We can now solve this on a computer:</p>
+
+<code>
+<pre>
+
+    // calculate acceleration, velocity, position of each planet:
+    for (var i=0; i&lt;N; i++) {
+        vx[i] += Fx[i]/m[i]*dt;
+        vy[i] += Fy[i]/m[i]*dt;
+        px[i] += vx[i]*dt;
+        py[i] += vy[i]*dt;
+        // plot position:
+        moveDiv(p[i],px[i],py[i]);
+    }
+
+</pre>
+</code>
+
+<p>Here are two simple examples of the above method I wrote in <a href="experiments/euler/orbits.html" target="popup">dynamic html</a> and <a href="experiments/euler/vrml.html" target="popup">vrml</a>.</p>
+
+<p>The integration method above (known as the <i>Euler</i>, or <i>tangent line</i> method) is simple but not very accurate, and errors can accumulate over time. Accuracy can be improved by taking smaller timesteps, but generally it is better to use integrators such as the <i>Runge-Kutta</i> or <i>predictor-corrector</i> methods. [<a href="page8.html#oneil">O'Neil</a>, pp.1067-1074]</p>
+
+<p>That said, I ran the above two programs each overnight (about 9 hours), and after approximately 1.3 million timesteps (of 1 day each ~ 3500 years) and the orbits of the planets had not diverged very much from when first run.</p>
+<hr>
+
+<table width="90%" align="center" border="0">
+	<tr>
+		<td><a href="page2.html"><b>&lt;&lt; back</b></a></td>
+		<td align="center"><a href="index.html"><b>index</b></a></td>
+		<td align="right"><a href="page4.html"><b>next &gt;&gt;</b></a></td>
+	</tr>
+</table>
+
+</body>
+</html>

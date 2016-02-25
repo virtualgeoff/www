@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Javascript Junkyard - Ticker-Tape</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+var displayText = "spike plugged in  . . .  "
+	+ "spike appoints a new chief operating officer for its local services  . . .  "
+    + "former v2 records executive to cast spike's content net globally  . . .  "
+    + "spike fashion going global  . . .  "
+    + "c.chris o'hanlon models internet business at the american film institute  . . .  "
+    + "spike's top designer inducted into 1999 businesswomen's hall of fame  . . .  "
+    + "spike artful webcasts net a worldwide audience  . . .  "
+
+var textOut = " ";
+var tickerLength =30;  //equals length of input text box
+var currentPos = tickerLength;
+
+function scrollText() {
+	if (currentPos >= 0) {
+    	for (var i = 0; i < currentPos; i++) textOut += " ";
+		textOut += displayText;
+	} else {
+		textOut = displayText.substring(-currentPos,displayText.length);
+	}
+	document.js_menu.ticker.value = textOut;
+	textOut = " ";
+	currentPos--;
+	if (currentPos < -(displayText.length)) currentPos = tickerLength;
+	setTimeout('scrollText()',100);
+}
+
+// -->
+</script>
+</head>
+
+<body onload="scrollText()">
+
+<h3 align="center">Ticker-Tape</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<form name="js_menu" align="center">
+	<input type="text" name="ticker" size="30">
+</form>
+	
+</td></tr>
+</table>
+
+</body>
+</html>

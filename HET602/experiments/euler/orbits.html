@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+<head>
+<title>Orbital Simulation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="author" content="Geoff Pack">
+<style type="text/css">
+<!--
+
+body {background-color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #666666}
+#p0	 {position:absolute; z-index:10; left:0px; top:-20px;}
+#p1  {position:absolute; z-index:9; left:0px; top:-20px;}
+#p2  {position:absolute; z-index:8; left:0px; top:-20px;}
+#p3  {position:absolute; z-index:7; left:0px; top:-20px;}
+#p4  {position:absolute; z-index:6; left:0px; top:-20px;}
+#p5  {position:absolute; z-index:5; left:0px; top:-20px;}
+#p6  {position:absolute; z-index:4; left:0px; top:-20px;}
+#p7  {position:absolute; z-index:3; left:0px; top:-20px;}
+#p8  {position:absolute; z-index:2; left:0px; top:-20px;}
+#p9  {position:absolute; z-index:1; left:0px; top:-20px;}
+
+-->
+</style>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+// dhtml stuff:
+var dom = (document.getElementById)? true:false;
+var ns4 = (document.layers)? true:false;
+var ie  = (document.all)? true:false;
+
+// center of window:
+var xcenter = 400;
+var ycenter = 200;
+
+// misc variables
+var N = 9; 				// N = number of planets
+var dx,dy,dr,dt;		// all the deltas
+var timesteps = 0; 		// timestep counter
+var next; 				// timer id
+
+// physical constants:
+var G = 6.67E-11; 		// in N.m^2.kg^2
+var Me = 5.974E24; 		// mass of earth in kg
+var AU = 149.6E9; 		// 1 AU in metres
+
+// scaling factors:
+var scale = AU/50; 		// 1E9 m = 50 pixels on screen
+var day = 86400;		// seconds in a day
+var timescale = 5; 		// days per timestep
+
+// labels for each planet's div:
+var p = new Array('p0','p1','p2','p3','p4','p5','p6','p7','p8','p9');
+
+// planetary data: (from appendix, p.759, Universe, Kaufmann and Freedman.)
+// n.b. planet[0] is the sun!
+var m  = new Array(333000,0.055,0.815,1.000,0.107,317.83,95.16,14.5,17.02,0.002);	// mass in Me
+var Fx = new Array(0,0,0,0,0,0,0,0,0,0); // forces - initialised to zero
+var Fy = new Array(0,0,0,0,0,0,0,0,0,0);
+var vx = new Array(0,0,0,0,0,0,0,0,0,0);
+var vy = new Array(0,47.9,35.0,29.8,24.1,13.1,9.7,6.8,5.5,4.7); // = average orbital speed in km/s
+var px = new Array(0,0.387,0.723,1.000,1.524,5.203,9.554,19.22,30.11,39.54);	// = semimajor axis in AU
+var py = new Array(0,0,0,0,0,0,0,0,0,0);
+
+// convert mass to kg, speed to m/s, and AU to metres:
+for (var i=0; i<=N; i++) {
+	m[i]  *= Me;
+	vx[i] *= 1000;
+	vy[i] *= -1000; 
+	px[i] *= AU;
+	py[i] *= AU;
+}
+
+function movePlanets() {
+	// find dt:
+	dt = day * timescale;  
+	// deleted all forces from last step:
+	for (var i=0; i<=N; i++) {
+		Fx[i] = 0; Fy[i] = 0;
+	}
+    // calculate gravitational force between each pair of planets:
+    for (var i=0; i<=N; i++) {
+		for (var j=i+1; j<=N; j++) {
+			// calculate dx,dy,dr:
+	        dx = px[i] - px[j];
+	        dy = py[i] - py[j];
+	        dr = Math.sqrt(dx*dx + dy*dy);
+			// calculate forces - add to previous calculations:
+			Fx[i] += -G*m[i]*m[j]/(dr*dr*dr) * dx;
+			Fy[i] += -G*m[i]*m[j]/(dr*dr*dr) * dy;
+			Fx[j] += -Fx[i];
+			Fy[j] += -Fy[i];
+		}
+    }
+	// calculate acceleration, velocity, position of each planet:
+	// note that sun is also movable! (loop from i=1 to fix sun in place)
+    for (var i=1; i<=N; i++) {
+		vx[i] += Fx[i]/m[i]*dt;
+		vy[i] += Fy[i]/m[i]*dt;
+        px[i] += vx[i]*dt;
+        py[i] += vy[i]*dt;
+		// plot position:
+		moveDiv(p[i],px[i],py[i]);
+	}
+	// how many time steps have we done?	
+	window.status = 'timesteps: ' + (++timesteps) + ', days: ' + (timesteps*timescale);
+	// do it all again...
+    next = setTimeout("movePlanets()",10); // timeout in millisecs
+}
+
+function moveDiv(id,x,y) {
+	// moves the div layers
+	x = x/scale + xcenter;
+	y = y/scale + ycenter;
+	if (dom) {			// IE5, NS6, DOM
+		var d = document.getElementById(id); 
+        d.style.left = x + 'px';
+        d.style.top  = y + 'px';
+    } else if (ie) {	// IE4
+		var d = document.all[id];
+        d.style.left = x;
+        d.style.top  = y;
+    } else if (ns4) {	// NS4
+        document.layers[id].moveTo(x,y);
+	} 
+}
+
+function init() {
+	// move planets to initial positions
+	for (n=0; n<=N; n++) {
+		moveDiv(p[n],px[n],py[n]);
+	}
+	movePlanets();
+}
+
+// -->
+</script>
+</head>
+
+<body onload="init();" bgcolor="#000000" text="#cccccc" link="#ffffff" vlink="#ffffff" alink="#33dd33">
+	<h3>DHTML Simulation of Planetary Orbits</h3>
+	<p>using simple Euler integration method.</p>
+	<p><i>- runs fastest in Internet Explorer<br>
+	 - moderatley fast in Netscape 4,<br>
+	 - very slow in Mozilla/Netscape 6.</i></p>
+		
+    <div id="p0"><img src="images/yellow.gif" width="10" height="10" alt=""> Sun</div>
+    <div id="p1"><img src="images/orange.gif" width="10" height="10" alt=""> Mercury</div>
+    <div id="p2"><img src="images/yellow2.gif" width="10" height="10" alt=""> Venus</div>
+    <div id="p3"><img src="images/lightblue.gif" width="10" height="10" alt=""> Earth</div>
+    <div id="p4"><img src="images/red.gif" width="10" height="10" alt=""> Mars</div>
+    <div id="p5"><img src="images/green.gif" width="10" height="10" alt=""> Jupiter</div>
+    <div id="p6"><img src="images/darkblue.gif" width="10" height="10" alt=""> Saturn</div>
+    <div id="p7"><img src="images/violet.gif" width="10" height="10" alt=""> Uranus</div>
+    <div id="p8"><img src="images/purple.gif" width="10" height="10" alt=""> Neptune</div>
+    <div id="p9"><img src="images/mauve.gif" width="10" height="10" alt=""> Pluto</div>
+	
+</body>
+</html>

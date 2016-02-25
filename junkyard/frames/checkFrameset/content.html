@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Javascript Junkyard - Check Frameset</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+	
+if ((!top.head)||(!top.nav)) {
+	top.location = "index.html";
+}
+	
+</script>
+
+</head>
+
+<body>
+
+<h3 align="center">Content</h3>
+
+<p>This page cannot be loaded into a window by itself - it checks to see if the head and nav framesets are present, and if not, it will jump to the parent frameset.</p>
+
+<p align="center"><a href="content.html" target="new2">Try it.</a></p>
+
+
+</body>
+</html>

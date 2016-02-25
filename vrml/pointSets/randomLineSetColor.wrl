@@ -1,0 +1,113 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Random indexLineSet"
+   info ["Geoff Pack, Spike, 1999",
+         "partly based on pointset.wrl by Roland Smeenk" ]
+}
+
+NavigationInfo {
+    headlight TRUE
+    speed 0.8
+    type "EXAMINE"
+}
+
+Viewpoint {
+    position 0 0 10
+    description "side"
+}
+
+Viewpoint {
+    position 0 0 3
+    description "inside"
+}
+
+DEF OBJECT1 Transform {
+    rotation     1 0 0 0
+    center       0 1 0
+    children [
+        Shape {
+            geometry DEF LineSet IndexedLineSet {
+                coord DEF LineSetCoords Coordinate {
+                    point [ ]
+                }
+                coordIndex [ ]
+                color DEF LineSetColor Color {
+                    color [ ]
+                }
+                colorIndex [ ]
+            }
+        }
+    ]
+}
+
+DEF TIMER1 TimeSensor {
+    cycleInterval    10
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF ROTATE1 OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF LineSetScript Script {
+    eventOut MFVec3f point_Changed
+    eventOut MFInt32 index_Changed
+    eventOut MFColor color_Changed
+    eventOut MFInt32 colorIndex_Changed
+
+    field    MFVec3f point 0.0 0.0 0.0
+    field    MFInt32 index 0
+    field    MFColor color 1 1 1
+    field    MFInt32 colorIndex 0
+
+    field    SFInt32 PointCount 100
+    field    SFInt32 Size 5
+
+    url "javascript:
+        function initialize() {
+            // Number of points
+            point.length = PointCount;
+
+            for (i=0; i<PointCount; i++) {
+                point[i].x = (Math.random() - 0.5)*Size;
+                point[i].y = (Math.random() - 0.5)*Size;
+                point[i].z = (Math.random() - 0.5)*Size;
+                color[i].r = Math.random();
+                color[i].g = Math.random();
+                color[i].b = Math.random();
+                colorIndex[i] = i;
+                index[i] = i;
+            }
+            // Send the points to the empty geometry
+            point_Changed = point;
+            color_Changed = color;
+
+            colorIndex[PointCount-1] = -1;
+            colorIndex_Changed = colorIndex;
+
+            index[PointCount-1] = -1;
+            index_Changed = index;
+
+            // debug step:
+            //for (i=0; i<PointCount; i++) {
+            //    print('            ');
+            //    print('point coords:  ' + point[i]);
+            //    print('color:         ' + color[i]);
+            //}
+
+        }
+    "
+}
+
+ROUTE LineSetScript.point_Changed TO LineSetCoords.set_point
+ROUTE LineSetScript.color_Changed TO LineSetColor.set_color
+ROUTE LineSetScript.index_Changed TO LineSet.set_coordIndex
+ROUTE LineSetScript.colorIndex_Changed TO LineSet.set_colorIndex
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+
+

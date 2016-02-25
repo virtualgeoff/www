@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Javascript Junkyard - Delayed Loading of Animated Gifs</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language = "JavaScript">
+<!--
+function loadAnimations() {
+	if (document.images) {
+		document.anim1.src = "spike_anim.gif";        
+	}
+}
+// -->
+</script>
+
+</head>
+
+<body onLoad="loadAnimations()">
+
+<h3 align="center">Delayed Loading of Animated Gifs</h3>
+
+<br>
+
+<table width="547" cellpadding="0" align="center">
+	<tr>
+		<td>
+		
+		<p><img src="spike_static.gif" name="anim1" border=0 align="top" width="547" height="92"></p>
+		<p>This one is from Tilley. This page displays a 2.6k static gif first. The 29k animated gif loads only after rest of the page has loaded.</p>
+		
+		<p><pre>
+		HTML:           0.9k
+		Static Gif:     2.6k
+		Animated Gif:  28.6k
+		               -----
+		TOTAL:         32.1k
+		</pre><p></p>
+		
+		
+        <p>Page Sizers will report about 3.5k.</p>
+        
+        <p>Note that this technique does not work on IE3, WebTV, Opera, or any browser without JavaScript. It works fine with IE4, and Netscape 3 & 4 though.</p>
+		
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

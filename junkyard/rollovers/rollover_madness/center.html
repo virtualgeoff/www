@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Javascript Junkyard - Rollover Madness</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+if (document.images) {
+    nav1on = new Image(); nav1on.src = "navs/target_1b.gif";
+    nav1off = new Image(); nav1off.src = "navs/target_offb.gif";
+    nav2on = new Image(); nav2on.src = "navs/target_2b.gif";
+    nav2off = new Image(); nav2off.src = "navs/target_offb.gif";
+    nav3on = new Image(); nav3on.src = "navs/target_3b.gif";
+    nav3off = new Image(); nav3off.src = "navs/target_offb.gif";
+    nav4on = new Image(); nav4on.src = "navs/target_4b.gif";
+    nav4off = new Image(); nav4off.src = "navs/target_offb.gif";
+}
+
+function rollOnExt(img1){
+    if (document.images) {
+        document.target.src=eval(img1 + "on.src");
+    }
+}
+
+function rollOffExt(img1){
+    if (document.images) {
+        document.target.src=eval(img1 + "off.src");
+    }
+}
+
+//-->
+</script>
+
+</head>
+<body>
+
+<br><br>
+
+<center>
+<img name="target" src="navs/target_offb.gif" border="0" width="96" height="96">
+</center>
+
+</body>
+</html>

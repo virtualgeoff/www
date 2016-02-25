@@ -1,0 +1,211 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "spikeVR nav"
+  info  "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  type      "EXAMINE"
+}
+
+Viewpoint {
+  description "Default"
+}
+
+Fog {
+  color           0 0 0
+  visibilityRange 25
+}
+
+#----------------------------------------
+# Leaf Node Proto:
+
+PROTO leafNode [
+  field   MFString  labelText     "text"
+  field   MFString  labelURL      "link.html"
+  field   SFVec3f   labelPosition 2 2 2
+  field   SFColor   labelColor    .3 .3 .3
+  field   MFVec3f   lineCoords    [ 0 0 0, 2 2 2 ]
+  field   SFColor   lineColor     .5 0 0
+]{
+  Group {
+    children [
+      Transform {
+        translation IS labelPosition
+        rotation    0 1 0 0.7854
+        children [
+          Anchor {
+            url IS labelURL
+            children [
+              Billboard {
+                axisOfRotation  0 0 0
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor IS labelColor
+                      }
+                    }
+                    geometry Text {
+                      string IS labelText
+                      fontStyle FontStyle {
+                        family  "SANS"
+                        justify "MIDDLE"
+                      }
+                    }
+                  }
+                  Transform {
+                    translation 0 .1 -.1
+                    children [
+                      Shape {
+                        appearance Appearance {
+                          material Material {
+                            #diffuseColor  .2 .2 .2
+                            #transparency  0
+                            diffuseColor  .7 .7 .7
+                            transparency  .6
+                          }
+                        }
+                        geometry Box {
+                          size 2.5 .6 .01
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      Shape {
+        appearance Appearance {
+          material Material {
+            emissiveColor IS lineColor
+          }
+        }
+        geometry IndexedLineSet {
+          coord Coordinate {
+            point IS lineCoords
+          }
+          coordIndex [ 0 1 -1]
+        }
+      }
+    ]
+  }
+}
+
+#----------------------------------------
+# Center Node:
+
+DEF navMap Transform {
+  children [
+    Billboard {
+      axisOfRotation  0 0 0
+      children [
+        Anchor {
+          url "javascript:redirect('index.html')"
+          children [
+            Transform {
+              translation   0 .2 0
+              children [
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0 .65 .94
+                      shininess  .5
+                    }
+                  }
+                  geometry Cone {
+                    bottomRadius 0.14
+                    height 1.4
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+    #----------------------------------------
+    # Leaf Nodes:
+
+    leafNode {
+      labelText     "Prism"
+      labelURL      "javascript:redirect('prism/search.html')"
+      labelPosition 3 -2 0
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, 3 -2 0 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "Integral Energy"
+      labelURL      "javascript:redirect('integral/index.html')"
+      labelPosition -3 0 3
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, -3 0 3 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "PlayStation"
+      labelURL      "javascript:redirect('playstation/index.html')"
+      labelPosition -2.5 2.5 0
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, -2.5 2.5 0 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "Pong"
+      labelURL      "javascript:redirect('pong/game.html')"
+      labelPosition -1 1 -3
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, -1 1 -3 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "Driving"
+      labelURL      "javascript:redirect('driving/driving.wrl')"
+      labelPosition 3 2 0
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, 3 2 0 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "Sleepy"
+      labelURL      "javascript:redirect('sleepy/sleepy.wrl')"
+      labelPosition -2 -3 0
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, -2 -3 0 ]
+      lineColor     1 0 0
+    }
+    leafNode {
+      labelText     "Rocket"
+      labelURL      "javascript:redirect('rocket/thrust.wrl')"
+      labelPosition 1.5 -1 3
+      labelColor    .7 .7 .7
+      lineCoords    [ 0 0 0, 1.5 -1 3 ]
+      lineColor     1 0 0
+    }
+  ]
+}
+
+#----------------------------------------
+# Motion
+
+DEF timer1 TimeSensor {
+   cycleInterval  15
+   stopTime -1
+   loop   TRUE
+}
+DEF rotator1 OrientationInterpolator {
+   key  [ 0, .25, .5, .75, 1 ]
+   keyValue [ .3 .6 -.2 0, .3 .6 -.2 1.5708, .3 .6 -.2 3.1416, .3 .6 -.2 4.7124, .3 .6 -.2 6.2832 ]
+}
+ROUTE timer1.fraction_changed TO rotator1.set_fraction
+ROUTE rotator1.value_changed TO navMap.set_rotation
+
+#----------------------------------------
+# END
+

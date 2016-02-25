@@ -1,0 +1,24 @@
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+<script language="JavaScript">
+
+top.subnav.location.replace("subnav3.html");
+
+</script>
+</head>
+
+<body>
+
+<h3>Content 3</h3>
+
+<p>The links to sections 3 and 4 are simpler:<br>
+<b><code>&lt;a href="content3.html" target="content"&gt;section 3&lt;/a&gt;</code></b><br>
+but the content pages have a script in the head that loads the correct nav page into the nav frame:<br>
+<b><code>top.nav.location.replace("nav3.html")</code></b>
+
+<p>This method is cleaner and gives better behavior with the browser back button</p>
+
+</body>
+</html>

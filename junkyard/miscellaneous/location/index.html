@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Sending Parameters to an HTML Page</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Sending Parameters to an HTML Page: Test Page</h3>
+
+<table align="center">
+<tr><td>
+
+<p>
+<a href="index2.html">no parameters</a><br>
+<a href="index2.html#anchor1">anchor only</a><br>
+</p>
+
+<p>
+<a href="index2.html?one=1">test 1</a><br>
+<a href="index2.html?one=1&two=2">test 2</a><br>
+<a href="index2.html?one=1&two=2&three=3">test 3</a><br>
+<a href="index2.html?one=1&two=2&three=3&4=4#333">test 4</a><br>
+<a href="index2.html#333?one=1&two=2&three=3&4=4&5=5">test 5</a> - anchor + search string <br>
+</p>
+
+<p>
+<a href="index2.html?one=1&two=2&three=3&4=4&&5=5&six6=!@$%^*()_+<>,.:;'|\#333">test 6</a><br>
+<a href="index2.html?asdf1234!@*$#333">test 7</a> - no '=' in search string (not a name/value pair)<br>
+<a href="index2.html&1234^%&*asdf#333">test 8</a> - bad link - no '?' before search string<br>
+</p>
+
+</td></tr>
+</table>
+
+</body>
+</html>

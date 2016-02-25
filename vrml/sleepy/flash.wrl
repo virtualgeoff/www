@@ -1,0 +1,45 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title  "Flash Movie in Cortona 2.1"
+   info   "Geoff Pack, 1999"
+}
+
+NavigationInfo {
+   headlight  FALSE
+   type       "EXAMINE"
+}
+
+Viewpoint {
+   description "Entry"
+   position 0 0 10
+}
+
+
+Transform {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 1 0.6 0
+          shininess  0
+          transparency 0
+        }
+        texture MovieTexture {
+          url "sleeeepy.swf"
+          loop TRUE
+        }
+      }
+      #geometry Box {
+      #  size 1 1 1
+      #}
+      geometry Sphere {
+        radius 2
+      }
+    }
+  ]
+}
+
+

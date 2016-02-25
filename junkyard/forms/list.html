@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>Javascript Junkyard - Dynamic Lists</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+	topThree = new Array("","","");
+
+	function addPreference(form, genre) {
+		// if already checked then remove from preferences list:
+		if (topThree[0] == genre) { 
+			topThree[0] = topThree[1];
+			topThree[1] = topThree[2];
+			topThree[2] = "";
+		}		
+		else if (topThree[1] == genre) {
+			topThree[1] = topThree[2];
+			topThree[2] = "";
+		}
+		else if (topThree[2] == genre) {
+			topThree[2] = "";
+		}
+		
+		// if not already checked:
+		else {
+			// add preference to first empty space:
+			if (topThree[0] == "") { topThree[0] = genre }
+			else if (topThree[1] == "") { topThree[1] = genre }
+			else if (topThree[2] == "") { topThree[2] = genre }
+			
+			// if no empty spaces, delete first preference and move others up one:
+			else {
+				var oldest = topThree[0];
+				form[oldest].checked = false;
+				topThree[0] = topThree[1];
+				topThree[1] = topThree[2];
+				topThree[2] = genre;
+			}
+		}
+		update(form);
+	}
+
+	function update(form) {
+		// update the list of preferences:
+		form.select_1.value = topThree[0];
+		form.select_2.value = topThree[1];
+		form.select_3.value = topThree[2];
+	}
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Dynamic Lists</h3>
+
+<br>
+
+<p align="center">A script from the AME site</p>
+
+<br>
+
+<form method="POST" action="">
+
+<table cellpadding="8" border="1" align="center">
+
+<tr><td colspan="2"><b>My favourite kind of music is....(please tick up to 3 boxes)</b></td></tr>
+
+<tr valign="top">
+<td><br>
+<input name="easy_listening" type=checkbox value="easy_listening" onclick="addPreference(this.form,this.value);">Easy Listening <p>
+<input name="country" type=checkbox value="country" onclick="addPreference(this.form,this.value);">Country <p>
+<input name="rock" type=checkbox value="rock" onclick="addPreference(this.form,this.value);">Rock <p>
+<input name="pop/soft_rock" type=checkbox value="pop/soft_rock" onclick="addPreference(this.form,this.value);">Pop/Soft Rock<p>
+<input name="hard/rock_metal" type=checkbox value="hard/rock_metal" onclick="addPreference(this.form,this.value);">Hard Rock/metal <p>
+<input name="jazz" type=checkbox value="jazz" onclick="addPreference(this.form,this.value);">Jazz<p>
+<input name="classical" type=checkbox value="classical" onclick="addPreference(this.form,this.value);">Classical<p>
+</td>
+
+<td><br>Order of preference:<p>
+1. <input type=text name="select_1" onchange="update(this.form);" size="15"><p>
+2. <input type=text name="select_2" onchange="update(this.form);" size="15"><p>
+3. <input type=text name="select_3" onchange="update(this.form);" size="15"><p>
+</td>
+</tr>
+</table>
+<!-- end my bit -->
+</form>
+
+</body>
+</html>

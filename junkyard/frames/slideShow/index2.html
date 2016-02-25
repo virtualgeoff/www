@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Javascript Junkyard - Slide Show</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+<script language = "JavaScript">
+<!--
+
+var urlArray = new Array("page1.html","page2.html","page3.html","page4.html","page5.html")
+var n=0;
+
+function rotateFrame() {
+	parent.main.location.href = urlArray[n];
+	n++;
+	if (n>=urlArray.length) n=0;
+	setTimeout('rotateFrame()',3000);
+}
+
+// -->
+</script>
+</head>
+
+<frameset onLoad="rotateFrame()" cols="100%,0">
+    <frame name="main" src="intro.html">
+	<frame name="dummy" src="page1.html">
+</frameset>
+	
+</html>

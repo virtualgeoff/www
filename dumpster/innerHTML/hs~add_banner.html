@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Add Banner</title>
+
+<style type="text/css">
+.b4	{font-family: Arial, Helvetica; font-size: 20pt; font-weight: bold; color: #ff0000;}
+</style>
+<script language="JavaScript">
+
+var i = 0;
+var banners = new Array(
+    "This is a test.",
+    "Do not be alarmed!",
+    "Normal programming will resume shortly...",
+    "After a few messages from our sponsors...",
+    "..................");
+
+function writeText(id, str) {
+	if (document.layers) {
+		with (document[id].document) {
+			open();
+			write('<span class="b4">' + str + '</span>')
+			close();
+		}
+	} else if ((document.all)||(document.getElementById)) {
+		document.all[id].innerHTML = '<span class="b4">' + str + '</span>';
+	}
+}
+
+function count() {
+	writeText('banner',banners[i]);
+	i++;
+	if (i>=banners.length) i=0;
+}
+
+function start() {
+	count();
+	setInterval("count()", 1500);
+}
+
+</script>
+</head>
+
+<body onload="start()">
+
+<div id="banner" style="position: absolute; left: 100; top: 100;"></div>
+
+</body>
+</html>

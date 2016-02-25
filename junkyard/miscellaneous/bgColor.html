@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Javascript Junkyard - Changing Background Color</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript1.2">
+<!-- 
+function setColor(c) {
+	document.bgColor = (c[c.selectedIndex].value)
+}
+// -->
+</script>
+
+</head>
+<body>
+
+<h3 align="center">Changing Background Color</h3>
+
+<br>
+
+<p align="center">Does not work in Netscape 3:</p>
+
+<table align="center">
+<tr><td>
+
+<form name="colorForm">
+<select name="color" onchange="setColor(this)">
+	<option value="red">Red
+	<option value="green">Green
+	<option value="blue">Blue
+	<option value="cyan">Cyan
+	<option value="magenta">Magenta
+	<option value="yellow">Yellow
+	<option value="black">Black
+	<option value="white">White
+	<option value="gray">Gray
+</select>
+</form>
+
+</td></tr>
+</table>
+
+</body>
+</html>

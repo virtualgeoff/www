@@ -1,0 +1,98 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "Spike"
+  info  "Geoff Pack, Spike, March 1998"
+}
+
+NavigationInfo {
+  headlight   TRUE
+  type    "NONE"
+}
+
+DEF Default Viewpoint {
+  description "Default"
+  position 0 0 5
+}
+
+#----------------------------------------
+# S P I K E
+
+DEF SPIKE Transform {
+  translation 0 0 0
+  children [
+
+    Anchor {
+      url  "contents.html"
+      children [
+        DEF Text Transform {
+          translation   0 0 .05
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { }
+                texture ImageTexture {
+                  url "http://o2b.spike.com.au/cgi-bin/sgi-camera/snap"
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [ -2 -2 0, 2 -2 0, 2 2 0, -2 2 0 ]
+                }
+                coordIndex [0, 1, 2, 3, -1]
+                convex  TRUE
+                solid FALSE
+              }
+            }
+          ]
+        }
+        DEF Text2 Transform {
+          translation   0 0 -.05
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { }
+                texture ImageTexture {
+                  url "http://o2a.spike.com.au/cgi-bin/sgi-camera/snap"
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [ -2 -2 0, 2 -2 0, 2 2 0, -2 2 0 ]
+                }
+                coordIndex [0, 3, 2, 1, -1]
+                convex  TRUE
+                solid FALSE
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#----------------------------------------
+# Motion Mechanics
+
+DEF ROTATE1 OrientationInterpolator {
+  key  [ 0, .25, .5, .75, 1 ]
+  keyValue [ 0 1 .1 0, 0 1 .1 1.5708, 0 1 .1 3.1416, 0 1 .1 4.7124, 0 1 .1 6.2832 ]
+}
+
+DEF TIMER1 TimeSensor {
+  cycleInterval  8
+  stopTime -1
+  loop   TRUE
+}
+
+#----------------------------------------
+# Routing
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO SPIKE.set_rotation
+
+
+#----------------------------------------
+# END
+

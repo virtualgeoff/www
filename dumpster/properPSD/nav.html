@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>The Proper PSD Company</title>
+<link rel=stylesheet href="styles/nav.css" type="text/css">
+<script language="JavaScript" src="scripts/show_hide.js"></script>
+<script language="JavaScript">
+
+function showNav(str) {
+	hide('aboutusOn','offersOn','goodstuffOn','linksOn');
+	show(str);
+}
+
+</script>
+
+</head>
+
+<body bgcolor="#4d4d75">
+
+<div id="aboutus"     style="position:absolute; width:54px; height:10px; z-index:9; left: 5px; top: 45px"><img border="0" src="images/aboutus.gif" width="54" height="10"></div>
+<div id="offers"      style="position:absolute; width:35px; height:10px; z-index:10; left: 5px; top: 65px"><img src="images/offers.gif" width="35" height="10"></div>
+<div id="goodstuff"   style="position:absolute; width:85px; height:13px; z-index:11; left: 5px; top: 85px"><img src="images/goodstuff.gif" width="85" height="13"></div>
+<div id="links"       style="position:absolute; width:28px; height:10px; z-index:12; left: 5px; top: 105px"><img src="images/links.gif" width="28" height="10"></div>
+
+<div id="aboutusOver"   style="position:absolute; width:54px; height:10px; z-index:13; left: 5px; top: 45px; visibility: hidden"><img src="images/aboutusOver.gif" width="54" height="10"></div>
+<div id="offersOver"    style="position:absolute; width:35px; height:10px; z-index:14; left: 5px; top: 65px; visibility: hidden"><img src="images/offersOver.gif" width="35" height="10"></div>
+<div id="goodstuffOver" style="position:absolute; width:85px; height:13px; z-index:15; left: 5px; top: 85px; visibility: hidden"><img src="images/goodstuffOver.gif" width="85" height="13"></div>
+<div id="linksOver"     style="position:absolute; width:28px; height:10px; z-index:16; left: 5px; top: 105px; visibility: hidden"><img src="images/linksOver.gif" width="28" height="10"></div>
+
+<div id="aboutusOn"   style="position:absolute; width:54px; height:10px; z-index:17; left: 5px; top: 45px; visibility: hidden"><img src="images/aboutusOn.gif" width="54" height="10"></div>
+<div id="offersOn"    style="position:absolute; width:35px; height:10px; z-index:18; left: 5px; top: 65px; visibility: hidden"><img src="images/offersOn.gif" width="35" height="10"></div>
+<div id="goodstuffOn" style="position:absolute; width:85px; height:13px; z-index:19; left: 5px; top: 85px; visibility: hidden"><img src="images/goodstuffOn.gif" width="85" height="13"></div>
+<div id="linksOn"     style="position:absolute; width:28px; height:10px; z-index:20; left: 5px; top: 105px; visibility: hidden"><img src="images/linksOn.gif" width="28" height="10"></div>
+
+<div id="aboutusX"    style="position:absolute; width:54px; height:10px; z-index:21; left: 5px; top: 45px;"><a href="aboutus.html" target="main" onMouseOver="show('aboutusOver','aboutusTxt')" onMouseOut="hide('aboutusOver','aboutusTxt')"><img src="images/x.gif" width="54" height="10" border="0"></a></div>
+<div id="offersX"     style="position:absolute; width:35px; height:10px; z-index:22; left: 5px; top: 65px;"><a href="offers.html" target="main" onMouseOver="show('offersOver','offersTxt')" onMouseOut="hide('offersOver','offersTxt')"><img src="images/x.gif" width="35" height="10" border="0"></a></div>
+<div id="goodstuffX"  style="position:absolute; width:85px; height:13px; z-index:23; left: 5px; top: 85px;"><a href="goodstuff.html" target="main" onMouseOver="show('goodstuffOver','goodstuffTxt')" onMouseOut="hide('goodstuffOver','goodstuffTxt')"><img src="images/x.gif" width="85" height="13" border="0"></a></div>
+<div id="linksX"      style="position:absolute; width:28px; height:10px; z-index:24; left: 5px; top: 105px;"><a href="links.html" target="main" onMouseOver="show('linksOver','linksTxt')" onMouseOut="hide('linksOver','linksTxt')"><img src="images/x.gif" width="28" height="10" border="0"></a></div>
+
+<div id="aboutusTxt"     style="position:absolute; width:80px; z-index:9; left: 5px; top: 200px; visibility: hidden">About The Proper PSD Company...</div>
+<div id="offersTxt"      style="position:absolute; width:80px; z-index:10; left: 5px; top: 200px; visibility: hidden">Some special offers exclusive to our web site users...</div>
+<div id="goodstuffTxt"   style="position:absolute; width:80px; z-index:11; left: 5px; top: 200px; visibility: hidden">This is the shit. You won't find better stuff than this.</div>
+<div id="linksTxt"       style="position:absolute; width:80px; z-index:12; left: 5px; top: 200px; visibility: hidden">Links to our competitors' sites. And what a lame bunch they are too...</div>
+
+
+
+</body>
+</html>

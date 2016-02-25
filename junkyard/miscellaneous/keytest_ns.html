@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Javascript Junkyard - Keytest</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+function checkEvent(e){	
+	document.keyform.code.value = e.which;
+	document.keyform.character.value = String.fromCharCode(e.which);
+	document.keyform.modifiers.value = e.modifiers;
+	document.keyform.type.value = e.type;
+	document.keyform.target.value = e.target;
+	document.keyform.data.value = e.data;	
+	document.keyform.layer.value = e.layerX + ',' + e.layerY;  // event.x = event.layerX (synonymous)
+	document.keyform.page.value = e.pageX + ',' + e.pageY;
+	document.keyform.screen.value = e.screenX + ',' + e.screenY;
+	document.keyform.size.value = e.width + ',' + e.height;
+	return true;
+}
+
+document.captureEvents(Event.KEYPRESS | Event.KEYDOWN | Event.KEYUP | Event.MOUSEDOWN | Event.MOUSEUP | Event.MOUSEMOVE);
+document.onKeyPress = checkEvent; //comment out this to see onKeyDown event
+document.onKeyDown = checkEvent;
+document.onKeyUp = checkEvent;
+document.onMouseDown = checkEvent;
+document.onMouseUp = checkEvent;
+document.onMouseMove = checkEvent;
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Key and Mouse Test</h3>
+
+<br>
+
+<p align="center">Press a key, click a mouse button...</p>
+
+<center>
+	<form name="keyform">
+		<table>
+		  <tr><td>key code:</td><td><input type="text" name="code"></td></tr>
+		  <tr><td>character:</td><td><input type="text" name="character"></td></tr>
+		  <tr><td>modifiers:</td><td><input type="text" name="modifiers"></td></tr>
+		  <tr><td>event type:</td><td><input type="text" name="type"></td></tr>
+		  <tr><td>target:</td><td><input type="text" name="target"></td></tr>
+		  <tr><td>data:</td><td><input type="text" name="data"></td></tr>
+		  <tr><td>layer x,y:</td><td><input type="text" name="layer"></td></tr>
+		  <tr><td>page x,y:</td><td><input type="text" name="page"></td></tr>
+		  <tr><td>screen x,y:</td><td><input type="text" name="screen"></td></tr>
+		  <tr><td>width, height:</td><td><input type="text" name="size"></td></tr>
+		</table>
+	</form>
+</center>
+
+</body>
+</html>

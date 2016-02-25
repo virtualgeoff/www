@@ -1,0 +1,497 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title       "Rocket Thrust"
+    info        "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+    headlight   FALSE
+    type        ["FLY","EXAMINE","ANY"]
+}
+
+Background {
+    groundAngle [ 1.5708 ]
+    groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+    skyAngle    [ 1.0, 1.5708 ]
+    skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+#------------------------------------------------------------
+# Tracking Camera:
+
+DEF trackingAzimuth Transform {
+    translation     0 10 22
+    rotation        0 1 0 0
+    children [
+        DEF trackingAltitude Transform {
+            translation     0 0 0
+            rotation        1 0 0 0
+            children [
+                 Viewpoint {
+                    description "Tracking Cam"
+                    position 0 0 0
+                    orientation 1 0 0 0
+                }
+            ]
+        }
+    ]
+}
+
+#------------------------------------------------------------
+# Other Viewpoints:
+
+Viewpoint {
+    description "Front"
+    position    0 2 12
+    orientation 0 0 1 0
+}
+
+#----------------------------------------------------------------------------
+# Sounds
+
+Sound {
+    source DEF explosion AudioClip { url ["lexplode.wav"] }
+    maxFront    5000
+    minFront    10
+    maxBack     5000
+    minBack     10
+    spatialize  TRUE
+}
+
+#----------------------------------------------------------------------------
+# Lights
+
+DirectionalLight {
+    color       1 1 1
+    direction   0 -1 -1
+    intensity   1
+    on      TRUE
+}
+
+#----------------------------------------------------------------------------
+# Ground
+
+DEF Ground Shape {
+    appearance  Appearance {
+        material  Material {
+            ambientIntensity    0
+            diffuseColor    0.1 0.1 0.1
+            emissiveColor   0.2 0.2 0.2
+        }
+    }
+    geometry  IndexedFaceSet {
+        coord  Coordinate {
+            point   [ -15 0 -15, 15 0 -15, -15 0 15, 15 0 15 ]
+        }
+        coordIndex  [ 0, 2, 1, -1, 1, 2, 3, -1 ]
+        colorIndex  [ 0, 0, 0, -1, 0, 0, 0, -1 ]
+        solid   TRUE
+        creaseAngle 0.5
+    }
+}
+
+#----------------------------------------------------------------------------
+# Rocket
+
+DEF Rocket Transform {
+    translation 0 0 0
+    rotation    0 0 1 0
+    children [
+    DEF RocketPitch Transform {
+      translation 0 0 0
+      rotation    1 0 0 0
+      children [
+        DEF RocketSensor TouchSensor {}
+        Transform {
+            scale .2 .2 .2
+            children [
+                Inline {
+                    url "rocket.wrl"
+                }
+                DEF plumeLength Transform {
+                    translation 0 0 0
+                    scale 1 1 1
+                    children [
+                        Inline {
+                            url "plume.wrl"
+                        }
+                    ]
+                }
+            ]
+        }
+        DEF thrustSound Sound {
+            source AudioClip {
+                url ["rocket.wav"]
+                stopTime -1
+                loop TRUE
+                pitch 1.0
+            }
+            maxFront    5000
+            minFront    10
+            maxBack     5000
+            minBack     10
+            intensity   0
+            spatialize  TRUE
+        }
+       ]
+     }
+    ]
+}
+
+
+
+#----------------------------------------------------------------------------
+# Shadow
+
+DEF Shadow Transform {
+    translation 0 .01 -0.2
+    scale       1 1 1.4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor    0 0 0
+                }
+            }
+            geometry Cylinder {
+                radius .2
+                height 0.01
+            }
+        }
+    ]
+}
+
+
+#----------------------------------------------------------------------------
+# Timers
+
+DEF Clock TimeSensor {
+   cycleInterval    0.05
+   stopTime -1
+   loop     TRUE
+}
+
+
+#----------------------------------------------------------------------------
+# HUD
+
+DEF HudGroup Collision {
+    collide  FALSE
+    children  [
+        DEF HudProx ProximitySensor {
+            center  0 0 0
+            size  100000 100000 100000
+        }
+        DEF HudXform Transform {
+            translation  0 0 0
+            rotation  0 0 1  0
+            children [
+                     # Info
+
+                     Transform {
+                       translation -3 3 -10
+                       children [
+                           Shape {
+                               appearance DEF InfoAppearance Appearance {
+                                   material Material {
+                                       diffuseColor    1 0 0
+                                   }
+                               }
+                               geometry DEF Labels Text {
+                                   fontStyle DEF InfoFont FontStyle {
+                                       family  "SANS"
+                                       justify "LEFT"
+                                       size        0.8
+                                   }
+                                   string ["height: ", "velocity: ", "acceleration: ", "thrust: "]
+                               }
+                           }
+                       ]
+                    }
+                    Transform {
+                       translation 3 3 -10
+                       children [
+                           Shape {
+                               appearance USE InfoAppearance
+                               geometry DEF Info Text {
+                                   fontStyle USE InfoFont
+                                   string ["0", "0", "0", "0"]
+                               }
+                           }
+                       ]
+                    }
+
+
+                Transform {
+                    translation  3 0 -5
+                    #rotation  1 0 0  1.5708
+                    children [
+
+                    # blue lines
+                    Transform {
+                        children [
+                            Shape {
+                                appearance Appearance {
+                                    material Material { emissiveColor 0 0 1 }
+                                }
+                                geometry IndexedLineSet {
+                                    coord Coordinate {
+                                        point [ -1 0 0, 1 0 0, 0 -1 0, 0 1 0, -6 -1 0, -6 1 0]
+                                    }
+                                    coordIndex [ 0, 1, -1, 2, 3, -1, 4, 5, -1]
+                            }
+                           }
+                       ]
+                    }
+
+                    # X-Y axis
+                    Transform {
+                       translation 0 0 0
+                       children [
+                        DEF sliderXY Transform {
+                            children [
+                             Shape {
+                                 appearance Appearance {
+                                   material Material {
+                                       diffuseColor 1 1 0
+                                   }
+                                 }
+                                 geometry Box { size 0.15 0.15 0.15 }
+                             }
+                            ]
+                        }
+                        DEF mySensorXY PlaneSensor {
+                            maxPosition  1 1
+                            minPosition  -1 -1
+                            offset       0 0 0
+                        }
+                       ]
+                    }
+
+                    # Thrust
+                     Transform {
+                       translation -6 -1 0
+                        children [
+                        DEF sliderZ Transform {
+                            children [
+                             Shape {
+                                 appearance Appearance {
+                                   material Material {
+                                       diffuseColor 1 1 0
+                                   }
+                                 }
+                                 geometry Box { size 0.15 0.15 0.15 }
+                             }
+                             DEF mySensorZ PlaneSensor {
+                                 maxPosition  0 2
+                                 minPosition  0 0
+                                 offset       0 0 0
+                             }
+                            ]
+                        }
+                       ]
+                    }
+
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+ROUTE HudProx.position_changed TO HudXform.set_translation
+ROUTE HudProx.orientation_changed TO HudXform.set_rotation
+
+#----------------------------------------------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+    eventIn     SFTime      moveRocket
+    eventIn     SFTime      resetRocket
+    eventIn     SFVec3f     thrustIn
+    eventIn     SFFloat     yawIn
+    eventIn     SFFloat     pitchIn
+
+    eventOut    SFVec3f     rocketChanged
+    eventOut    SFVec3f     shadowChanged
+    eventOut    MFString    updateInfo
+    eventOut    SFRotation  rotateRocket
+    eventOut    SFRotation  rotateRocketPitch
+
+    field       SFVec3f     rocketPosition      0 0 0
+    field       SFVec3f     shadowPosition      0 0 0
+    field       SFVec3f     rocketVelocity      0 0 0
+    field       SFVec3f     rocketAcceleration  0 -9.8 0
+    field       SFVec3f     rocketThrust        0 0 0
+    field       SFRotation  rocketOrientation   0 0 1 0
+    field       SFRotation  rocketOrientationPitch   1 0 0 0
+    field       SFFloat     dt                  0.05
+    field       SFFloat     damping             0.9
+
+    url "javascript:
+
+        function moveRocket(timeValue) {
+            // determine new position:
+            rocketPosition[0] += rocketVelocity[0] * dt;
+            rocketPosition[1] += rocketVelocity[1] * dt;
+            rocketPosition[2] += rocketVelocity[2] * dt;
+
+            shadowPosition[0] = rocketPosition[0];
+            shadowPosition[1] = 0.0;
+            shadowPosition[2] = rocketPosition[2];
+
+            // check to see if rocket has hit floor:
+            if (rocketPosition[1] < 0) {
+                rocketPosition[1] = 0;
+                rocketVelocity[1] = 0;
+            }
+
+            // determine new velocity:
+            rocketVelocity[0] += (rocketAcceleration[0] + rocketThrust[0]) * dt;
+            rocketVelocity[1] += (rocketAcceleration[1] + rocketThrust[1]) * dt;
+            rocketVelocity[2] += (rocketAcceleration[2] + rocketThrust[2]) * dt;
+
+            // update rocket position:
+            rocketChanged = rocketPosition;
+            shadowChanged = shadowPosition;
+
+            // update info:
+            updateInfo[0] = Math.round(rocketPosition[1]*100)/100;
+            updateInfo[1] = Math.round(rocketVelocity[1]*100)/100;
+            updateInfo[2] = Math.round((rocketAcceleration[1]+rocketThrust[1])*100)/100;
+            updateInfo[3] = Math.round(rocketThrust[1]*100)/100;
+            //updateInfo[4] = Math.round(rocketOrientation[3]*100)/100;
+
+        }
+
+        function yawIn(value) {
+            rocketOrientation[3] = value;
+            rotateRocket = rocketOrientation;
+        }
+
+        function pitchIn(value) {
+            rocketOrientationPitch[3] = value;
+            rotateRocketPitch = rocketOrientationPitch;
+        }
+
+        function resetRocket(timeValue) {
+            // give it a kick:
+            rocketVelocity[0] = 0;
+            rocketVelocity[1] = 10;
+            rocketVelocity[2] = 0;
+        }
+
+        function thrustIn(value) {
+            rocketThrust[0] =  value[1] * -15 * rocketOrientation[3];
+            rocketThrust[1] =  value[1] * 15;
+            rocketThrust[2] =  value[1] * 15 * rocketOrientationPitch[3];
+        }
+
+    "
+}
+
+#----------------------------------------------------------------------------
+# Routing:
+
+ROUTE Clock.cycleTime TO MotionScript.moveRocket
+ROUTE RocketSensor.touchTime TO MotionScript.resetRocket
+
+ROUTE MotionScript.rocketChanged TO Rocket.set_translation
+ROUTE MotionScript.shadowChanged TO Shadow.set_translation
+ROUTE MotionScript.rotateRocket TO Rocket.set_rotation
+ROUTE MotionScript.rotateRocketPitch TO RocketPitch.set_rotation
+
+ROUTE MotionScript.updateInfo TO Info.string
+
+
+#------------------------------------------------------------
+# Tracking Camera Script:
+
+DEF TrackingScript Script {
+  eventIn   SFVec3f     set_position
+  eventOut  SFRotation  azimuthChanged
+  eventOut  SFRotation  altitudeChanged
+
+  field     SFVec3f     pos         0 0 0
+  field     SFVec3f     cameraPos   0 10 20
+
+  url "javascript:
+    function set_position(value) {
+      pos[0] = value[0] - cameraPos[0];
+      pos[1] = value[1] - cameraPos[1];
+      pos[2] = value[2] - cameraPos[2];
+      r = Math.sqrt(pos[0]*pos[0]+pos[2]*pos[2]);
+
+      azimuthChanged[0] = 0;
+      azimuthChanged[1] = 1;
+      azimuthChanged[2] = 0;
+
+      if (pos[0]<=0) azimuthChanged[3] = Math.acos(-pos[2]/r);
+      else azimuthChanged[3] = -Math.acos(-pos[2]/r);
+
+      altitudeChanged[0] = 1;
+      altitudeChanged[1] = 0;
+      altitudeChanged[2] = 0;
+      altitudeChanged[3] = -Math.atan(-pos[1]/r);
+    }
+  "
+}
+
+# Connect motion script outputs to tracking script
+ROUTE MotionScript.rocketChanged TO  TrackingScript.set_position
+
+# Connect tracking script outputs to tracking camera
+ROUTE TrackingScript.azimuthChanged TO trackingAzimuth.set_rotation
+ROUTE TrackingScript.altitudeChanged TO trackingAltitude.set_rotation
+
+
+#-------------------------------------------------------
+# sensors Script
+
+DEF controlsScript Script {
+    eventIn SFVec3f DraggedXY
+    eventIn SFVec3f DraggedZ
+
+    eventOut SFVec3f plumeChanged
+    eventOut SFVec3f setThrust
+    eventOut SFFloat thrustVolume
+    eventOut SFFloat setYaw
+    eventOut SFFloat setPitch
+
+    field SFVec3f thrust    0 0 0
+    field SFVec3f orientation  0 0 0
+
+    url "javascript:
+        function DraggedXY(value) {
+            setYaw   = value[0] * -0.7;
+            setPitch = value[1] * -0.7;
+        }
+        function DraggedZ(value) {
+            thrust[0] = 0;
+            thrust[1] = value[1] / 2;
+            thrust[2] = 0;
+            setThrust = thrust;
+            thrustVolume = value[1];
+            plumeChanged[0] = thrust[1] + 0.01;
+            plumeChanged[1] = thrust[1] + 0.01;
+            plumeChanged[2] = thrust[1] + 0.01;
+        }
+    "
+}
+
+# Connect the sensors to their representing objects
+ROUTE mySensorXY.translation_changed TO sliderXY.set_translation
+ROUTE mySensorZ.translation_changed TO sliderZ.set_translation
+
+# Connect the sensors to script also
+ROUTE mySensorXY.translation_changed TO controlsScript.DraggedXY
+ROUTE mySensorZ.translation_changed TO controlsScript.DraggedZ
+
+# Send the new position to the box
+ROUTE controlsScript.setThrust TO MotionScript.thrustIn
+ROUTE controlsScript.thrustVolume TO thrustSound.set_intensity
+ROUTE controlsScript.plumeChanged TO plumeLength.set_scale
+ROUTE controlsScript.setYaw TO MotionScript.yawIn
+ROUTE controlsScript.setPitch TO MotionScript.pitchIn
+

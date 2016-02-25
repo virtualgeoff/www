@@ -1,0 +1,63 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "Random Buildings"
+  info ["Geoff Pack, Spike, 1999"]
+}
+
+#--------------------------------------
+# Boxes:
+
+DEF OBJECT1 Transform {
+  translation   -450 0 -450
+  rotation     1 0 0 0
+  children [
+  ]
+}
+
+#--------------------------------------
+# Script:
+
+DEF BoxScript Script {
+  eventOut  MFNode    BoxesAdded
+  field     SFVec3f   position    0 0 0
+  field     SFVec3f   scale       1 1 1
+  field     SFVec3f   maxBoxSize  80 1000 80
+  field     SFFloat   separation  100
+  field     SFFloat   boxNumber   100
+  field     MFNode    boxX        []
+
+  #directOutput  TRUE
+
+  url "javascript:
+    function initialize() {
+      AddBox();
+    }
+    function AddBox() {
+      for (var i=0; i<10; i++) {
+        for (var j=0; j<10; j++) {
+          // randomize position and size:
+          scale.x    = maxBoxSize.x * 0.8;
+          scale.y    = Math.random() * maxBoxSize.y;
+          scale.z    = maxBoxSize.z * 0.8;
+          position.x = i * separation;
+          position.y = scale.y / 2;
+          position.z = j * separation;
+
+          // create a new box:
+          vrmlString = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor  .5 .5 .5 shininess     .5 } } geometry Box { size  1 1 1 }}]}';
+          var box1 = new SFNode(vrmlString);
+          box1.translation = position;
+          box1.scale = scale;
+          boxX[10*i+j] = box1;
+          BoxesAdded = boxX;
+        }
+      }
+    }
+  "
+}
+
+ROUTE BoxScript.BoxesAdded TO OBJECT1.addChildren
+
+
+

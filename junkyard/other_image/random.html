@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Javascript Junkyard - Random Images</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+target = new Image(); target.src = "numbers/blank.gif"
+
+function getRandom(max) {
+	rnumber = Math.round(Math.random()*(max-1)) +1;
+	return rnumber;
+}
+function getRandomImage() {
+	num = getRandom(10);	
+	xx = "numbers/" + num + "." + "gif";
+	img = new Image(); img.src = xx;
+	document.images.target.src = img.src;
+}
+function timer() {
+	getRandomImage();
+	setInterval("getRandomImage()",1000);
+}
+
+// -->
+</script>
+
+</head>
+<body onload="timer()">
+
+<h3 align="center">Random Images</h3>
+
+<br>
+
+<p align="center"><img name="target" src="numbers/blank.gif" width="96" height="96"></p>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,85 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Spherical Pointset"
+   info ["Geoff Pack, Spike, Feb 2000"]
+}
+
+NavigationInfo {
+    headlight TRUE
+    speed 0.8
+    type ["EXAMINE","ANY"]
+}
+
+Viewpoint {
+    position 0 0 5
+    description "side"
+}
+
+Viewpoint {
+    position 0 0 1
+    description "inside"
+}
+
+# Transformation node
+DEF OBJECT1 Transform {
+    rotation     1 0 0 0
+    center       0 1 0
+    children [
+        # 1 shape as child node
+        Shape {
+            geometry PointSet {
+                # declare some points (x,y,z)
+                coord DEF PointSetCoords Coordinate {
+                    point [ ]
+                }
+            }
+        }
+    ]
+}
+
+DEF TIMER1 TimeSensor {
+    cycleInterval    10
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF ROTATE1 OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF PointSetScript Script {
+    eventOut MFVec3f  point_Changed
+    field    MFVec3f  point        0.0 0.0 0.0
+    field    SFInt32  radius       1
+    field    SFFloat  Pi           3.1415926
+
+    url "javascript:
+        function initialize() {
+            var i = 0;
+            for (phi=0; phi<=180; phi+=10) {
+                for (theta=0; theta<=360; theta+=10) {
+                    // convert to radians:
+                    thetaR = theta * (2 * Pi / 360);
+                    phiR = phi * (2 * Pi / 360);
+                    point[i].x = radius * Math.sin(thetaR) * Math.cos(1*phiR);
+                    point[i].z = radius * Math.cos(thetaR) * Math.cos(1*phiR);
+                    point[i].y = radius * Math.cos(phiR);
+                    i++;
+
+                    // debugging step
+                    print('Theta = ' + theta + ', Phi = ' + phi);
+                    print('point coords:  ' + point[i]);
+                }
+            }
+            point_Changed = point;
+        }
+    "
+}
+
+ROUTE PointSetScript.point_Changed TO PointSetCoords.set_point
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+
+

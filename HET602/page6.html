@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+	<title>HET602 Project: Solar Systems Dynamics</title>
+	<meta name="generator" content="BBEdit 5.0">
+</head>
+<body bgcolor="#ffffff">
+
+<p align="center"><b>HET602 Project: Solar Systems Dynamics</b><br>
+<a href="http://astronomy.swin.edu.au/sao/">Swinburne Astronomy Online</a><br>
+<a href="mailto:geoff@virtualgeoff.com">Geoff Pack</a>, Student ID: 1606948</p>
+
+<h2>6. Eccentricity</h2>
+
+<p>Orbits with high eccentricity can be unstable if their path takes a body close to another body. As we saw in the last of the resonance plots, a close encounter with another body can result in the orbit being change significantly, with the body beign flung out into a higher orbit or down into a lower one. </p>
+
+<p>I attempted to demonstate that with a series of runs that showed significant instability, but after some reflection I've conluded that they are examples of numerical and not physical instability.</p> 
+
+<p>The following two series of runs were done with six planets (Mercury to Saturn) with default settings for semi-major axis, mass and eccentricity. The stepping parameters were set to the maximum each, to ensure accurate orbits. In the first series, the eccentricity of Mars was varied from 0.5 to 0.95; in the second, the eccentricity of Venus was varied from 0.3 to 0.9.</p>
+
+<table cellpadding="3" align="center" border="1">
+	<tr>
+		<td><b>Planet</b></td>
+		<td><b>Eccentricity</b></td>
+		<td><b>Plot</b></td>
+		<td><b>Data</b></td>
+		<td><b>Comments</b></td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.5</td>
+		<td><a href="experiments/eccentricity/mars_0-5.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-5.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.6</td>
+		<td><a href="experiments/eccentricity/mars_0-6.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-6.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.7</td>
+		<td><a href="experiments/eccentricity/mars_0-7.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-7.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.8</td>
+		<td><a href="experiments/eccentricity/mars_0-8.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-8.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.9</td>
+		<td><a href="experiments/eccentricity/mars_0-90.gif" target="popup">plot</a></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.9</td>
+		<td><a href="experiments/eccentricity/mars_0-90b.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-90b.dat" target="popup">data</a></td>
+		<td>Above plot with only four planets - to show details.</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.95</td>
+		<td><a href="experiments/eccentricity/mars_0-95.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-95.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>		
+	</tr>
+	<tr>
+		<td>Mars</td>
+		<td>0.95</td>
+		<td><a href="experiments/eccentricity/mars_0-95b.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/mars_0-95b.dat" target="popup">data</a></td>
+		<td>Above plot with only four planets - to show details.</td>		
+	</tr>
+	<tr><td colspan="5">&nbsp;</td></tr>	
+	<tr>
+		<td>Venus</td>
+		<td>0.5</td>
+		<td><a href="experiments/eccentricity/venus_0-3.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/venus_0-3.dat" target="popup">data</a></td>
+		<td>four planets only</td>		
+	</tr>
+	<tr>
+		<td>Venus</td>
+		<td>0.6</td>
+		<td><a href="experiments/eccentricity/venus_0-5.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/venus_0-5.dat" target="popup">data</a></td>
+		<td>four planets only</td>		
+	</tr>
+	<tr>
+		<td>Venus</td>
+		<td>0.7</td>
+		<td><a href="experiments/eccentricity/venus_0-7.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/venus_0-7.dat" target="popup">data</a></td>
+		<td>four planets only</td>		
+	</tr>
+	<tr>
+		<td>Venus</td>
+		<td>0.8</td>
+		<td><a href="experiments/eccentricity/venus_0-9.gif" target="popup">plot</a></td>
+		<td><a href="experiments/eccentricity/venus_0-9.dat" target="popup">data</a></td>
+		<td>four planets only</td>		
+	</tr>
+</table>
+
+<p>For both planets, when the eccentricity was over 0.8 the orbits became unstable, with the planets gaining energy (apoapsis altitude increased) and the axis of the ellipse rotating over time.</p>
+
+<p>Initially I thought that this instability was due the effects of the other planets, but in both series the other planets (apart form mercury) show no signs of any disturbance. In the Venus runs, close passes with Mars hould have disturbed Mars' orbit more than Venus's, since it is much lighter. A close pass to Earth would have disturbed Earth's orbit almost as much as Venus's since their masses are so similar. But neither planet was disturbed at all.</p>
+
+<p>When the eccentricity is above 0.8 in both cases, the planet is passing inside the orbit of mercury (which is the planet governing the size of the timesteps) at periapsis. At these times it is travelling faster than Mercury so its orbit is relatively less accurate. I think numerical errors are accumulating with each pass close to the sun. This may well be why the input form specifies a  range 0 - 0.8 for eccentricity.</p>
+
+
+<hr>
+
+<table width="90%" align="center" border="0">
+	<tr>
+		<td><a href="page5.html"><b>&lt;&lt; back</b></a></td>
+		<td align="center"><a href="index.html"><b>index</b></a></td>
+		<td align="right"><a href="page7.html"><b>next &gt;&gt;</b></a></td>
+	</tr>
+</table>
+
+</body>
+</html>

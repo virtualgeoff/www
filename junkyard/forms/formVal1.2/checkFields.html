@@ -1,0 +1,149 @@
+<HTML>
+<HEAD>
+<TITLE>Netscape JavaScript Field Edits</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+// --------------------------------------------------------------------
+// COMPANY:       Netscape Communications
+// AUTHOR:        Robert W. Husted
+// DATE CREATED:  March 17, 1997
+// MODIFIED BY: 
+// DATE MODIFIED: 
+// --------------------------------------------------------------------
+
+
+// CHECK REQUIRED FIELDS - ENSURE THAT A VALUE HAS BEEN ENTERED FOR
+//  EVERY FIELD LISTED IN THE "requiredFields" ARRAY
+function checkRequiredFields(input)
+{
+    // YOU SHOULD ONLY NEED TO CHANGE THE VALUES FOR THE FOLLOWING
+    //  TWO ARRAYS (requiredFields and fieldNames).  ENSURE THAT
+    //  THE VALUES LISTED FOR requiredFields MATCH THE NAMES ASSIGNED
+    //  TO FIELD ELEMENTS IN YOUR FORM.  THE VALUES LISTED FOR
+    //  fieldNames SHOULD BE DESCRIPTIVE OF THE MISSING FIELD...
+    //  A GOOD PRACTICE IS TO USE THE SAME LABEL YOU HAVE USED IN
+    //  YOUR FORM.
+
+    // ENTER THE NAME (OR PARTIAL NAME) OF EVERY FIELD IN YOUR FORM
+    //  THAT MUST HAVE A VALUE (Case-Sensitive)
+    var requiredFields = new Array("last_name",
+                                   "first_name",
+                                   "ll_name");
+
+    // TEXT TO DISPLAY THAT DESCRIBES THE MISSING FIELD(S) TO THE USER
+    var fieldNames = new Array("Last name",
+                               "First name",
+                               "Least liked name");
+
+
+    // YOU SHOULD NOT NEED TO MAKE ANY CHANGES BELOW THIS POINT ------
+
+    var fieldCheck   = true;
+    var fieldsNeeded = "\nA value must be entered in the following field(s):\n\n\t";
+
+    for(var fieldNum=0; fieldNum < requiredFields.length; fieldNum++) {
+        if ((input.elements[requiredFields[fieldNum]].value == "") ||
+            (input.elements[requiredFields[fieldNum]].value == " ")) {
+
+            fieldsNeeded += fieldNames[fieldNum] + "\n\t";
+            fieldCheck = false;
+        }
+    }
+
+    // ALL REQUIRED FIELDS HAVE BEEN ENTERED
+    if (fieldCheck == true)
+    {
+        return true;
+    }
+    // SOME REQUIRED FIELDS ARE MISSING VALUES
+    else
+    {
+        alert(fieldsNeeded);
+        return false;
+    }
+}
+
+
+
+
+// CHECK STRING - ENSURE ALL CHARACTERS ARE LETTERS
+function toAlpha(checkString)
+{
+    newString = "";    // REVISED/CORRECTED STRING
+    count = 0;         // COUNTER FOR LOOPING THROUGH STRING
+
+    // LOOP THROUGH STRING CHARACTER BY CHARACTER
+    for (i = 0; i < checkString.length; i++) {
+        ch = checkString.substring(i, i+1);
+
+        // ENSURE CHARACTER IS AN ALPHA CHARACTER
+        if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z" )) {
+            newString += ch;
+        }
+    }
+
+    return newString;
+}
+
+//-->
+</SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" "TEXT=#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#FF0000">
+
+<CENTER>
+<H2>
+<FONT SIZE=+3>N</FONT>ETSCAPE 
+<FONT SIZE=+3>F</FONT>IELD 
+<FONT SIZE=+3>C</FONT>HECK
+</H2>
+</CENTER>
+
+<P>
+<HR>
+<P>
+
+<P><SUP><FONT SIZE=-1 COLOR="0000ff">*</FONT></SUP> Indicates a required field.
+
+<CENTER>
+<FORM NAME="TEST" onSubmit="return checkRequiredFields(this)">
+<TABLE>
+<TR>
+<TD align=right><SUP><FONT SIZE=-1 COLOR="0000ff">*</FONT></SUP>Last name:</TD>
+<TD><INPUT NAME="last_name" SIZE=30 MAXLENGTH=50 onChange="this.value=toAlpha(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=right><SUP><FONT SIZE=-1 COLOR="0000ff">*</FONT></SUP>First name:</TD>
+<TD><INPUT NAME="first_name" SIZE=30 MAXLENGTH=50 onChange="this.value=toAlpha(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=right>Middle name:</TD>
+<TD><INPUT NAME="middle_name" SIZE=30 MAXLENGTH=50 onChange="this.value=toAlpha(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=right>Nickname:</TD>
+<TD><INPUT NAME="nickname" SIZE=30 MAXLENGTH=50 onChange="this.value=toAlpha(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=right><SUP><FONT SIZE=-1 COLOR="0000ff">*</FONT></SUP>Least liked name:</TD>
+<TD><INPUT NAME="ll_name" SIZE=30 MAXLENGTH=50 onChange="this.value=toAlpha(this.value)"></TD>
+</TR>
+
+<TR>
+<TD align=center colspan=2><input name="submit" type=submit value="Submit"><input name="reset" type=reset value="Clear"></TD>
+</TR>
+</TABLE>
+</FORM>
+</CENTER>
+
+<P>
+<HR SIZE=4>
+<P>
+</BODY>
+</HTML>

@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Dhtml Dumpster - Multiple Scroll</title>
+<style type="text/css">
+.inner	{position:absolute; z-index:20; left:0; top:0; width:260; font-size:10pt; font-family:verdana; background-color: orange; layer-background-color: orange;}
+</style>
+<script language="JavaScript" src="../scripts/show_hide.js"></script>
+<script language="JavaScript" src="../scripts/scrolling.js"></script>
+<script language="JavaScript">
+
+function showScrollLayer(n) {
+	var nMax = 4; // number of scroll layers
+	var str1 = "hide(";
+	// hide other layers:
+	for (var i=1; i<=nMax; i++) {
+		if (i==n) continue;
+		str1 += "'clip"+i+"','up"+i+"','down"+i+"'";
+		if ((i<nMax-1)||((i==nMax-1)&&(n!=nMax))) str1 += ",";
+	}
+	str1 += ");";
+	eval(str1);
+	// return scroll layer to top:
+	eval("scroller"+n+".setTop(0);");
+	// show new layer:
+	eval("show('clip"+n+"','up"+n+"','down"+n+"');");
+}
+
+function scrollInit(){
+    scroller1 = new  makeScrollObj('scroller1','content1','clip1',175);
+    scroller2 = new  makeScrollObj('scroller2','content2','clip2',175);
+    scroller3 = new  makeScrollObj('scroller3','content3','clip3',175);
+    scroller4 = new  makeScrollObj('scroller4','content4','clip4',175);
+}
+
+</script>
+</head>
+
+<body onload="scrollInit()">
+
+<div id="submenu" style="position:absolute; z-index:2; left:100; top:60;">
+<a href="javascript:showScrollLayer(1);">Layer 1</a> |
+<a href="javascript:showScrollLayer(2);">Layer 2</a> |
+<a href="javascript:showScrollLayer(3);">Layer 3</a> |
+<a href="javascript:showScrollLayer(4);">Layer 4</a>
+</div>
+
+<!-- Scroll Layer 1 -->
+
+<div id="clip1" style="position:absolute; z-index:3; left:100; top:100; width:260; height:175; clip:rect(0,260,175,0);">
+   <div id="content1" class="inner">
+   		<p><b>Layer 1</b></p>
+		<p><b>1.1:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>1.2:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>1.3:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+    </div>
+</div>
+<div id="up1" style="position:absolute; z-index:4; left:380; top:250; width:11; height:9;"><a href="#" onMouseOver="scroll(scroller1,5)" onMouseOut="noScroll(scroller1)"><img src="images/up.gif" width="11" height="9" border="0" alt=""></a></div>
+<div id="down1" style="position:absolute; z-index:5; left:380; top:265; width:11; height:9;"><a href="#" onMouseOver="scroll(scroller1,-5)" onMouseOut="noScroll(scroller1)"><img src="images/down.gif" width="11" height="9" border="0" alt=""></a></div>
+
+<!-- Scroll Layer 2 -->
+
+<div id="clip2" style="position:absolute; z-index:6; left:100; top:100; width:260; height:175; clip:rect(0,260,175,0); visibility: hidden;">
+   <div id="content2" class="inner">
+   		<p><b>Layer 2</b></p>
+		<p><b>2.1:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>2.2:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>2.3:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+    </div>
+</div>
+<div id="up2" style="position:absolute; z-index:7; left:380; top:250; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller2,5)" onMouseOut="noScroll(scroller2)"><img src="images/up.gif" width="11" height="9" border="0" alt=""></a></div>
+<div id="down2" style="position:absolute; z-index:8; left:380; top:265; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller2,-5)" onMouseOut="noScroll(scroller2)"><img src="images/down.gif" width="11" height="9" border="0" alt=""></a></div>
+
+<!-- Scroll Layer 3 -->
+
+<div id="clip3" style="position:absolute; z-index:9; left:100; top:100; width:260; height:175; clip:rect(0,260,175,0); visibility: hidden;">
+   <div id="content3" class="inner">
+   		<p><b>Layer 3</b></p>
+		<p><b>3.1:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>3.2:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>3.3:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+    </div>
+</div>
+<div id="up3" style="position:absolute; z-index:10; left:380; top:250; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller3,5)" onMouseOut="noScroll(scroller3)"><img src="images/up.gif" width="11" height="9" border="0" alt=""></a></div>
+<div id="down3" style="position:absolute; z-index:11; left:380; top:265; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller3,-5)" onMouseOut="noScroll(scroller3)"><img src="images/down.gif" width="11" height="9" border="0" alt=""></a></div>
+
+<!-- Scroll Layer 4 -->
+
+<div id="clip4" style="position:absolute; z-index:12; left:100; top:100; width:260; height:175; clip:rect(0,260,175,0); visibility: hidden;">
+   <div id="content4" class="inner">
+   		<p><b>Layer 4</b></p>
+		<p><b>4.1:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>4.2:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>4.3:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+    </div>
+</div>
+<div id="up4" style="position:absolute; z-index:13; left:380; top:250; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller4,5)" onMouseOut="noScroll(scroller4)"><img src="images/up.gif" width="11" height="9" border="0" alt=""></a></div>
+<div id="down4" style="position:absolute; z-index:14; left:380; top:265; width:11; height:9; visibility: hidden;"><a href="#" onMouseOver="scroll(scroller4,-5)" onMouseOut="noScroll(scroller4)"><img src="images/down.gif" width="11" height="9" border="0" alt=""></a></div>
+
+<!-- ***** NOTES ***** -->
+
+<div id="notes" style="position:absolute; z-index:20; left:100; top:350; width:400; height:175;">
+	<p><b>Notes:</b><br>
+	<p><b>1.</b> Do not put inlines styles in the inner content div tags or NS4 will have a fit.</p>
+	<p><b>2.</b> Because NS6, IE5 treat inline styles as seperate from stylesheet styles, you need then to declare "this.style.top=0;" in the makeScollObject for these browsers.</p>
+	<p>Let me know if you have any problems with this script.</p>
+</div>
+
+</body>
+</html>

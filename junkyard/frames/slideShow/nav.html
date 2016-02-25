@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Javascript Junkyard - Slide Show</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+var count=0;
+urlArray = new Array("","page1.html","page2.html","page3.html","page4.html","page5.html")
+
+var maxArray = urlArray.length-1
+function nextSlide() {
+	count++;
+	if (count > maxArray) count=1;
+	parent.frames.main.location=urlArray[count];
+}
+
+function lastSlide() {
+	count--;
+	if (count < 1) count=maxArray;
+	parent.frames.main.location=urlArray[count];
+}
+function lastAuto() {
+	lastSlide();
+	timerID = setTimeout("lastAuto()",1000);
+}
+function nextAuto() {
+	nextSlide();
+	timerID = setTimeout("nextAuto()",1000);
+}
+function stop() {
+	clearTimeout(timerID);
+}
+
+// -->
+</script>
+
+</head>
+<body bgcolor="#ffffff" text="#000044" link="#000044" alink="#000099" vlink="#000099">
+
+<h3 align="center">Slide Show</h3>
+
+<p align="center">
+<a href="javascript:lastAuto()">&lt;&lt;</a> |
+<a href="javascript:lastSlide()">Back</a> |
+<a href="javascript:stop()">Stop</a> |
+<a href="javascript:nextSlide()">Next</a> |
+<a href="javascript:nextAuto()">&gt;&gt;</a>
+</p>
+
+<p align="center">Back to junkyard <a href="../../index.html" target="_parent">contents.</a></p>
+
+</body>
+</html>

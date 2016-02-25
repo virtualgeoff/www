@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+	<title>HET602 Project: Solar Systems Dynamics</title>
+	<meta name="generator" content="BBEdit 5.0">
+</head>
+<body bgcolor="#ffffff">
+
+<p align="center"><b>HET602 Project: Solar Systems Dynamics</b><br>
+<a href="http://astronomy.swin.edu.au/sao/">Swinburne Astronomy Online</a><br>
+<a href="mailto:geoff@virtualgeoff.com">Geoff Pack</a>, Student ID: 1606948</p>
+<h2>5. Resonance</h2>
+
+<p>I looked at the effect of resonance on orbital stability by setting planets in the Kirkwood Gaps. These are orbits with periods that are a simple fraction of the period of Jupiter's orbit. I created a spreadsheet to calculate the semi-major axis for planets with these periods, using Kepler's third law (Period<sup>2</sup> = Semi-major Axis<sup>3</sup>).</p>
+
+<p>The plot for each period is linked from the table below. These plots were all done with Earth, Mars and Jupiter with their default values, with an added low mass planet (m = 0.001 Me) between Mars and Jupiter.</p>
+
+<br>
+
+<table cellpadding="3" align="center" border="1">
+	<tr align="center" valign="top">
+		<td align="left"><b>Planet</b></td>
+		<td>&nbsp;</td>
+		<td><b>Orbital Period<br>(/Pj)</b></td>
+		<td><b>Orbital Period<br>(years)</b></td>
+		<td><b>Orbital Period<br>(days)</b></td>
+		<td><b>P<sup>2</sup></b></td>
+		<td><b>Semi-major<br>Axis (AU)</b></td>
+		<td><b>A<sup>3</sup></b></td>
+	</tr>
+	<!--<tr align="right">
+		<td align="left">Mercury</td>
+		<td>&nbsp;</td>
+		<td>0.0194</td>
+		<td>0.2299</td>
+		<td>83.97</td>
+		<td>0.0528</td>
+		<td>0.387</td>
+		<td>0.0580</td>
+	</tr>
+	<tr align="right">
+		<td align="left">Venus</td>
+		<td>&nbsp;</td>
+		<td>0.0519</td>
+		<td>0.6151</td>
+		<td>224.7</td>
+		<td>0.3784</td>
+		<td>0.638</td>
+		<td>0.2600</td>
+	</tr>-->
+	<tr align="right">
+		<td align="left">Earth</td>
+		<td>&nbsp;</td>
+		<td>0.0843</td>
+		<td>1</td>
+		<td>365.26</td>
+		<td>1</td>
+		<td>1</td>
+		<td>1</td>
+	</tr>
+	<tr align="right">
+		<td align="left">Mars</td>
+		<td>&nbsp;</td>
+		<td>0.1586</td>
+		<td>1.881</td>
+		<td>686.98</td>
+		<td>3.5382</td>
+		<td>1.524</td>
+		<td>3.5396</td>
+	</tr>
+	<tr align="right">
+		<td>1/5</td>
+		<td><a href="experiments/resonance/1_5.gif" target="popup">plot</a> | <a href="experiments/resonance/1_5.dat" target="popup">data</a></td>
+		<td>0.2</td>
+		<td>2.3724</td>
+		<td>866.54</td>
+		<td>5.6283</td>
+		<td>1.779</td>
+		<td>5.6283</td>
+	</tr>
+	<tr align="right">
+		<td>1/4</td>
+		<td><a href="experiments/resonance/1_4.gif" target="popup">plot</a> | <a href="experiments/resonance/1_4.dat" target="popup">data</a></td>
+		<td>0.25</td>
+		<td>2.9655</td>
+		<td>1083.2</td>
+		<td>8.7942</td>
+		<td>2.064</td>
+		<td>8.7942</td>
+	</tr>
+	<tr align="right">
+		<td>1/3</td>
+		<td><a href="experiments/resonance/1_3.gif" target="popup">plot</a> | <a href="experiments/resonance/1_3.dat" target="popup">data</a></td>
+		<td>0.3333</td>
+		<td>3.954</td>
+		<td>1444.2</td>
+		<td>15.634</td>
+		<td>2.500</td>
+		<td>15.634</td>
+	</tr>
+	<tr align="right">
+		<td>2/5</td>
+		<td><a href="experiments/resonance/2_5.gif" target="popup">plot</a> | <a href="experiments/resonance/2_5.dat" target="popup">data</a></td>
+		<td>0.4</td>
+		<td>4.7448</td>
+		<td>1733.1</td>
+		<td>22.513</td>
+		<td>2.824</td>
+		<td>22.513</td>
+	</tr>
+	<tr align="right">
+		<td>3/7</td>
+		<td><a href="experiments/resonance/3_7.gif" target="popup">plot</a> | <a href="experiments/resonance/3_7.dat" target="popup">data</a></td>
+		<td>0.4286</td>
+		<td>5.0837</td>
+		<td>1856.9</td>
+		<td>25.844</td>
+		<td>2.957</td>
+		<td>25.844</td>
+	</tr>
+	<tr align="right">
+		<td>1/2</td>
+		<td><a href="experiments/resonance/1_2.gif" target="popup">plot</a> | <a href="experiments/resonance/1_2.dat" target="popup">data</a></td>
+		<td>0.5</td>
+		<td>5.931</td>
+		<td>2166.4</td>
+		<td>35.177</td>
+		<td>3.277</td>
+		<td>35.177</td>
+	</tr>
+	<tr align="right">
+		<td>3/5</td>
+		<td><a href="experiments/resonance/3_5.gif" target="popup">plot</a> | <a href="experiments/resonance/3_5.dat" target="popup">data</a></td>
+		<td>0.6</td>
+		<td>7.1172</td>
+		<td>2599.6</td>
+		<td>50.655</td>
+		<td>3.700</td>
+		<td>50.655</td>
+	</tr>
+	<tr align="right">
+		<td>2/3</td>
+		<td><a href="experiments/resonance/2_3.gif" target="popup">plot</a> | <a href="experiments/resonance/2_3.dat" target="popup">data</a></td>
+		<td>0.6667</td>
+		<td>7.908</td>
+		<td>2888.5</td>
+		<td>62.536</td>
+		<td>3.969</td>
+		<td>62.536</td>
+	</tr>
+	<tr align="right">
+		<td>3/4</td>
+		<td><a href="experiments/resonance/3_4.gif" target="popup">plot</a> | <a href="experiments/resonance/3_4.dat" target="popup">data</a></td>
+		<td>0.75</td>
+		<td>8.8965</td>
+		<td>3249.5</td>
+		<td>79.148</td>
+		<td>4.294</td>
+		<td>79.148</td>
+	</tr>
+	<tr align="right">
+		<td>4/5</td>
+		<td><a href="experiments/resonance/4_5.gif" target="popup">plot</a> | <a href="experiments/resonance/4_5.dat" target="popup">data</a></td>
+		<td>0.8</td>
+		<td>9.4896</td>
+		<td>3466.2</td>
+		<td>90.053</td>
+		<td>4.482</td>
+		<td>90.053</td>
+	</tr>
+	<tr align="right">
+		<td align="left">Jupiter</td>
+		<td>&nbsp;</td>
+		<td>1</td>
+		<td>11.862</td>
+		<td>4332.7</td>
+		<td>140.70</td>
+		<td>5.203</td>
+		<td>140.85</td>
+	</tr>
+</table>
+
+<p>The plots for planets with periods of 1/5, 1/4, 1/3, 2/5, and 3/7 of the period of Jupiter (Pj) do not show much disturbance, contrary to my expectations. Periods of 1/2, 3/5, 2/3 and 3/4 of Pj show marked instability, increasing the closer the planet gets to Jupiter. The plot of period 4/5 Pj shows the planet perturbed into a highly eccentric orbit with an apoapsis well outside Jupiter's orbit.</p>
+
+<p>An interesting aspect of this plot is that the three outer loops consist of serveral close orbits each - the orbit was (relatively) stable each time until another encounter with Jupiter bumped 
+it into a higher orbit. Each time the apoapsis increased but periapsis stayed the same. This is just as expected for a planetary encounter.</p>
+
+<hr>
+	
+<table width="90%" align="center" border="0">
+	<tr>
+		<td><a href="page4.html"><b>&lt;&lt; back</b></a></td>
+		<td align="center"><a href="index.html"><b>index</b></a></td>
+		<td align="right"><a href="page6.html"><b>next &gt;&gt;</b></a></td>
+	</tr>
+</table>
+
+</body>
+</html>

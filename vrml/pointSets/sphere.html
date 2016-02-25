@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Points on a Sphere</title>
+<head>
+
+<body bgcolor="#ffffff">
+
+<h3>Points on a Sphere</h3>
+
+<p>theta: around axis (~longitude)<br>
+phi: angle between point, center and axis (~latitude)</p>
+
+
+<script language="javascript">
+<!--
+
+// change first two variables to change number of points
+var n = 6;  // every 180/n degrees latitude;
+var m = 6;  // every 360/m degrees longitude;
+
+var pi = 3.14159;
+var radius = 1;
+
+
+// open table
+document.write('<table cellpadding="4" border="1">');
+
+// write first row - headings
+document.write('<tr valign="op"><td><b>theta:<br>phi:</b></td>');
+for (j=0; j<m; j++) {
+    document.write('<td><b>' + (j*360/m) + '&deg;</b></td>');
+}
+document.write('</tr>');
+
+// write table body
+for (i=0; i<=n; i++) {
+    // beginning of row with heading
+    document.write('<tr><td><b>' + (i*180/n) + '&deg;</b></td>');
+    for (j=0; j<m; j++) {
+        // find angle in degrees
+        phi   = i * 180/n;
+        theta = j * 360/m;
+        // convert to radians
+        thetaR = theta * (2*pi/360);
+        phiR   = phi   * (2*pi/360);
+        // find co-ordinates
+        x = Math.round((radius * Math.sin(thetaR) * Math.sin(phiR))*1000)/1000;
+        z = Math.round((radius * Math.cos(thetaR) * Math.sin(phiR))*1000)/1000;
+        y = Math.round((radius * Math.cos(phiR))*100)/100;
+        // write into table cell
+        document.write('<td>' + x + ', ' + y + ', ' + z + '</td>');
+        //only calculate once at poles:
+        if ((i==0)||(i==n)) break;
+    }
+    document.write('</tr>');
+}
+document.write('</table>');
+
+
+// -->
+</script>
+
+
+</body>
+</html>

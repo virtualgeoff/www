@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+	<title>HET602 Project: Solar Systems Dynamics</title>
+	<meta name="generator" content="BBEdit 5.0">
+</head>
+<body bgcolor="#ffffff">
+
+<p align="center"><b>HET602 Project: Solar Systems Dynamics</b><br>
+<a href="http://astronomy.swin.edu.au/sao/">Swinburne Astronomy Online</a><br>
+<a href="mailto:geoff@virtualgeoff.com">Geoff Pack</a>, Student ID: 1606948</p>
+<h2>4. Test Runs</h2>
+
+<h3>Establishing Initial Positions of Planets</h3>
+
+<p>The planets are initially lined up along the x-axis,  alternating left and right. This configuration ensures that the gravitational attraction between 'nearby' planets (that is, the planets of closest period) is at a minimum.</p>
+ 
+<p>This plot shows the <a href="experiments/initial_conditions/1.gif" target="popup">initial positions</a> of the planets with the default parameters. Here is a closeup of the <a href="experiments/initial_conditions/2.gif" target="popup">inner planets</a>.<br></p>
+
+<p>This can be over-ridden if desired by re-ordering the planets in the parameter form. For example, here is a <a href="experiments/initial_conditions/5.gif" target="popup">plot</a> [<a href="experiments/initial_conditions/5.dat" target="popup">data</a>] with the five inner-most planets on one side and the outer four on the other side. this was done by filling alternate postions in the parameter form with planets of increasing semi-major axis. Here is a <a href="experiments/initial_conditions/4.gif" target="popup">complete orbit</a> [<a href="experiments/initial_conditions/4.dat" target="popup">data</a>]. Note how in this plot the outer two planets started close together and are now in orbit around each other.</p>
+	
+<h3>Effect of Timestep Parameters</h3>
+
+<p>The timestep parameters govern the accuracy of the plots. 'nmlmax' sets the maximum number of timesteps for the run, and 'nstep' sets the number of timesteps taken to determine the orbit of the first planet on the paramet list. This should be set to the innermost planet.</p>
+
+<p>Here is a series of runs of with the planets set to their default mass and semimajor axis parameters, but with zero eccentricity.  nmlmax is set to 100000 (the maximum) and nstep varies:</p>
+
+<table align="center" cellpadding="3" border="1">
+	<tr>
+		<td><b>nstep</b></td>
+		<td><b>plot</b></td>
+		<td><b>data</b></td>
+		<td><b>comments</b></td>
+	</tr>
+	<tr>
+		<td>20</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/020.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/020.dat" target="popup">data</a></td>
+		<td>all inner orbits unstable</td>
+	</tr>
+	<tr>
+		<td>40</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/040.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/040.dat" target="popup">data</a></td>
+		<td>mercury unstable, other relatively stable</td>
+	</tr>
+	<tr>
+		<td>45</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/045.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/045.dat" target="popup">data</a></td>
+		<td>what the?</td>
+	</tr>
+	<tr>
+		<td>50</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/050.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/050.dat" target="popup">data</a></td>
+		<td>"</td>
+	</tr>
+	<tr>
+		<td>60</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/060.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/060.dat" target="popup">data</a></td>
+		<td>"</td>
+	</tr>
+	<tr>
+		<td>70</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/070.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/070.dat" target="popup">data</a></td>
+		<td>"</td>
+	</tr>
+	<tr>
+		<td>80</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/080.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/080.dat" target="popup">data</a></td>
+		<td>"</td>
+	</tr>
+	<tr>
+		<td>90</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/090.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/090.dat" target="popup">data</a></td>
+		<td>beginning to get better</td>
+	</tr>
+	<tr>
+		<td>100</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/100.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/100.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>200</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/200.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/200.dat" target="popup">data</a></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>300</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/300.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/300.dat" target="popup">data</a></td>
+		<td>stable ?</td>
+	</tr>
+	<tr>
+		<td>400</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/400.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/400.dat" target="popup">data</a></td>
+		<td>stable</td>
+	</tr>
+	<tr>
+		<td>500</td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/500.gif" target="popup">plot</a></td>
+		<td><a href="experiments/timestep/zero-eccentricity/nmlmax_100000/500.dat" target="popup">data</a></td>
+		<td>stable</td>
+	</tr>
+</table>
+
+<p>The simulations don't become stable till nstep is in the hundreds. When nstep is between 45 and 80, mercury spirals into the sun and then is ejected right out of the solar system - out to several thousand AU by the end of the simulation. Obviously, in reality it would crash into the sun first, and would not gain anthing like the energy to do this.</p>
+
+<p>Here is the same settings but with nstep fixed to 43, and nmlmax  varying:</p>
+
+<p align="center"><a href="experiments/timestep/zero-eccentricity/nstep_42/10000.gif" target="popup">10000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/20000.gif" target="popup">20000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/30000.gif" target="popup">30000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/40000.gif" target="popup">40000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/43670.gif" target="popup">43670</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/44000.gif" target="popup">44000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/45000.gif" target="popup">45000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/50000.gif" target="popup">50000</a> |
+<a href="experiments/timestep/zero-eccentricity/nstep_42/100000.gif" target="popup">100000</a></p>
+
+<p>for the rest of my experiments I used a inner timestep nstep of at least 300.</p>
+	
+<hr>
+
+<table width="90%" align="center" border="0">
+	<tr>
+		<td><a href="page3.html"><b>&lt;&lt; back</b></a></td>
+		<td align="center"><a href="index.html"><b>index</b></a></td>
+		<td align="right"><a href="page5.html"><b>next &gt;&gt;</b></a></td>
+	</tr>
+</table>
+
+</body>
+</html>

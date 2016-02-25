@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>fish 4</title>
+<script language="JavaScript">
+
+	// spiral
+
+    var i  = 0;
+    var rx = (screen.width+170)/2;
+    var x0 = (screen.width-170)/2;
+    var y0 = (screen.height-100)/2;
+    var pi = Math.PI;
+    var rev = 3;
+
+    function posWin() {
+        if (i<360*rev) {
+            r = i * rx/(360*rev);
+            x = r * Math.cos(i*2*pi/360);
+            y = -r*0.75 * Math.sin(i*2*pi/360);
+            self.moveTo(x+x0,y+y0);
+            i+=2;
+        } else window.close();
+        setTimeout("posWin()",15);
+    }
+
+</script>
+</head>
+<body bgcolor="#ffffff" onload="posWin()" topmargin="5" leftmargin="5" marginwidth="5" marginheight="5">
+
+<a href="#" onclick="self.close()"><img src="images/fish.gif" width="152" height="83" border="0"></a>
+
+</body>
+</html>

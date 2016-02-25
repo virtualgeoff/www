@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>Javascript Junkyard - Special Characters: by Number</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Special Characters: by Number</h3>
+
+<table width="500" align="center">
+<tr><td>
+
+<p>This script generates the Special Characters automatically.</p>
+
+<p>Note that referring to Special Characters by number is discouraged by the W3 consortium - since it depends on the particular OS character set. Numbers 0 to 127 are standardised in ASCII, but 128 to 255 can and do vary. So refer to them by <a href="specialChars2.html">Name</a> whenever possible.</p>
+
+<p>But it is a nice script anyway - and shows how to generate a table with nested loops.</p>
+</td></tr>
+</table>
+
+<br><br>
+
+<script language="JavaScript">
+<!-- 
+	
+	var i,j = 0;	
+	document.writeln('<table cellpadding="5" border="1" align="center"><tr>');			
+		
+	for (i=1; i<=255; i++) {
+		if (i%10 == 1) {
+			document.write('</tr><tr valign="top"><td align="center">' + i + ':<br>&#' + i + ';</td>');
+		} else {
+			document.write('<td align="center">' + i + ':<br>&#' + i + ';</td>');
+		}	
+	}
+	document.writeln('</tr></table>');						
+
+// -->
+</script>
+
+</body>
+</html>

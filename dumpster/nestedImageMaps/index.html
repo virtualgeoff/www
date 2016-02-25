@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>Nested Image Maps</title>
+<script language="javascript" type="text/javascript" src="show_hide.js"></script>
+<script language="javascript" type="text/javascript">
+
+function showMap(d) {
+	hide('d0','d1','d11','d12','d13','d2','d21','d22','d23','d3','d4','d5');
+	show(d);	
+}
+
+
+</script>
+</head>
+
+<body bgcolor="#bbbbbb">
+
+<h1>Nested Image Maps</h1>
+
+<div id="d0" style="position:absolute; z-index:1; left:200px; top:100px; width:168px; height: 100px;"><img src="images/off.gif" width="168" height="100" alt="" border="0" usemap="#off"></div>
+<div id="d1" style="position:absolute; z-index:2; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/1.gif" width="168" height="100" alt="" border="0" usemap="#one"></div>
+<div id="d2" style="position:absolute; z-index:3; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/2.gif" width="168" height="100" alt="" border="0" usemap="#two"></div>
+<div id="d3" style="position:absolute; z-index:4; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/3.gif" width="168" height="100" alt="" border="0" usemap="#off"></div>
+<div id="d4" style="position:absolute; z-index:5; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/4.gif" width="168" height="100" alt="" border="0" usemap="#off"></div>
+<div id="d5" style="position:absolute; z-index:6; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/5.gif" width="168" height="100" alt="" border="0" usemap="#off"></div>
+
+<div id="d11" style="position:absolute; z-index:7; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/1a.gif" width="168" height="100" alt="" border="0" usemap="#one"></div>
+<div id="d12" style="position:absolute; z-index:8; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/1b.gif" width="168" height="100" alt="" border="0" usemap="#one"></div>
+<div id="d13" style="position:absolute; z-index:9; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/1c.gif" width="168" height="100" alt="" border="0" usemap="#one"></div>
+
+<div id="d21" style="position:absolute; z-index:10; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/21.gif" width="168" height="100" alt="" border="0" usemap="#two"></div>
+<div id="d22" style="position:absolute; z-index:11; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/22.gif" width="168" height="100" alt="" border="0" usemap="#two"></div>
+<div id="d23" style="position:absolute; z-index:12; left:200px; top:100px; width:168px; height: 100px; visibility:hidden;"><img src="images/23.gif" width="168" height="100" alt="" border="0" usemap="#two"></div>
+
+<map name="off">
+	<area alt="one" shape="RECT" coords="12,14,36,43" href="#" onmouseover="showMap('d1')">
+	<area alt="two" shape="RECT" coords="42,12,65,43" href="#" onmouseover="showMap('d2')">
+	<area alt="three" shape="RECT" coords="73,11,95,43" href="#" onmouseover="showMap('d3')">
+	<area alt="four" shape="RECT" coords="102,13,125,43" href="#" onmouseover="showMap('d4')">
+	<area alt="five" shape="RECT" coords="131,13,157,43" href="#" onmouseover="showMap('d5')">
+</map>
+
+<map name="one">
+	<area alt="one" shape="RECT" coords="12,14,36,43" href="#" onmouseover="showMap('d1')">
+	<area alt="two" shape="RECT" coords="42,12,65,43" href="#" onmouseover="showMap('d2')">
+	<area alt="three" shape="RECT" coords="73,11,95,43" href="#" onmouseover="showMap('d3')">
+	<area alt="four" shape="RECT" coords="102,13,125,43" href="#" onmouseover="showMap('d4')">
+	<area alt="five" shape="RECT" coords="131,13,157,43" href="#" onmouseover="showMap('d5')">
+	<area alt="1a" shape="RECT" coords="22,56,57,91" href="#" onmouseover="showMap('d11')">
+	<area alt="1b" shape="RECT" coords="66,56,100,91" href="#" onmouseover="showMap('d12')">
+	<area alt="1c" shape="RECT" coords="110,56,144,91" href="#" onmouseover="showMap('d13')">
+</map>
+
+<map name="two">
+	<area alt="one" shape="RECT" coords="12,14,36,43" href="#" onmouseover="showMap('d1')">
+	<area alt="two" shape="RECT" coords="42,12,65,43" href="#" onmouseover="showMap('d2')">
+	<area alt="three" shape="RECT" coords="73,11,95,43" href="#" onmouseover="showMap('d3')">
+	<area alt="four" shape="RECT" coords="102,13,125,43" href="#" onmouseover="showMap('d4')">
+	<area alt="five" shape="RECT" coords="131,13,157,43" href="#" onmouseover="showMap('d5')">
+	<area alt="2.1" shape="RECT" coords="9,43,78,59" href="#" onmouseover="showMap('d21')">
+	<area alt="2.2" shape="RECT" coords="47,60,116,79" href="#" onmouseover="showMap('d22')">
+	<area alt="2.3" shape="RECT" coords="82,80,163,97" href="#" onmouseover="showMap('d23')">
+</map>
+
+</body>
+</html>
+

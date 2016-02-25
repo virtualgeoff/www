@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>Radio Button Matrix</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="javascript" type="text/javascript">
+<!--
+
+var columns = new Array('first','second','third','forth','fifth');
+
+function getSelectedIndex(array) {
+	for (var i=0; i<array.length; i++) {
+		if (array[i].checked) return i;
+	}
+}
+
+function checkMatrixRow(input) {
+	//alert(input + ', ' + input.name + ', ' + input.value + ', ' + input.form.name);
+	
+	var n = getSelectedIndex(input.form[input.name]); // index of selected button in a radio group (= row number)
+	//alert(n);
+
+	// selecting a radio button will remove any other entries in the same row
+	// I've grouped buttons by column, so I only need to loop through rows to remove any checked buttons
+	
+	for (var i=0; i<columns.length; i++) {
+		if (columns[i] != input.name) {
+			input.form[columns[i]][n].checked = false;
+		}
+	}
+}
+
+function checkColumn(form,n) {
+	// for each radio button in column - if one is checked return true
+
+	for (var i=0; i<form[columns[n]].length; i++) {	
+		if (form[columns[n]][i].checked == true) return true;
+	}
+	
+	alert('Please enter a selection for column ' + (n+1));
+	return false;
+}
+
+function checkMatrixForm(form) {
+	// check that all columns are filled in: if any column return false, the form fails
+	// don't check rows - may have more rows than columns - i.e. non-square matrix
+
+	for (var i=0; i<columns.length; i++) {
+		if (!checkColumn(form,i)) return false;
+	}
+	
+	// everthing checked OK
+	return true;
+}
+
+
+// -->
+</script>
+</head>
+<body>
+
+<h3>Radio Button Matrix</h3>
+
+<p>Radio buttons allow you to choose one of several options. This script allows a choice of one option from each row 
+and each column of a matrix of options. Selecting a radio button will remove any other entries in the same row or column.</p>
+
+<p>You could use this script to order a group of items:</p>
+
+<p align="center"><b>Rate the following in order of importance to you:&nbsp;&nbsp;</b></p>
+
+<form name="matrixForm" action="radioButtonMatrix2.html" method="get" onsubmit="return(checkMatrixForm(this))">
+	<table cellpadding="8" cellspacing="1" border="0" align="center">
+		<tr>
+			<td></td>
+			<td bgcolor="#cccccc">1st</td>
+			<td bgcolor="#dddddd">2nd</td>
+			<td bgcolor="#cccccc">3rd</td>
+			<td bgcolor="#dddddd">4th</td>
+			<td bgcolor="#cccccc">5th</td>
+		</tr>
+		<tr>
+			<td bgcolor="#dddddd">Fame</td>
+			<td bgcolor="#cccccc"><input type="radio" name="first"  value="Fame" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="second" value="Fame" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="third"  value="Fame" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="forth"  value="Fame" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="fifth"  value="Fame" onclick="checkMatrixRow(this)"></td>
+		</tr>
+		<tr>
+			<td bgcolor="#dddddd">Wealth</td>
+			<td bgcolor="#cccccc"><input type="radio" name="first"  value="Wealth" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="second" value="Wealth" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="third"  value="Wealth" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="forth"  value="Wealth" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="fifth"  value="Wealth" onclick="checkMatrixRow(this)"></td>
+		</tr>
+		<tr>
+			<td bgcolor="#dddddd">Beauty</td>
+			<td bgcolor="#cccccc"><input type="radio" name="first"  value="Beauty" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="second" value="Beauty" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="third"  value="Beauty" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="forth"  value="Beauty" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="fifth"  value="Beauty" onclick="checkMatrixRow(this)"></td>
+		</tr>
+		<tr>
+			<td bgcolor="#dddddd">Wisdom</td>
+			<td bgcolor="#cccccc"><input type="radio" name="first"  value="Wisdom" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="second" value="Wisdom" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="third"  value="Wisdom" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="forth"  value="Wisdom" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="fifth"  value="Wisdom" onclick="checkMatrixRow(this)"></td>
+		</tr>
+		<tr>
+			<td bgcolor="#dddddd">Code that validates &nbsp;</td>
+			<td bgcolor="#cccccc"><input type="radio" name="first"  value="Valid_Code" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="second" value="Valid_Code" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="third"  value="Valid_Code" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#dddddd"><input type="radio" name="forth"  value="Valid_Code" onclick="checkMatrixRow(this)"></td>
+			<td bgcolor="#cccccc"><input type="radio" name="fifth"  value="Valid_Code" onclick="checkMatrixRow(this)"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="5" align="center"><input type="submit"></td>
+		</tr>
+	</table>
+</form>
+
+<p>The script will also work for non-square matrices where there are fewer columns than rows. For example, you could remove
+ the 4th and fifth columns above and request only the top three choices.</p>
+
+</body>
+</html>

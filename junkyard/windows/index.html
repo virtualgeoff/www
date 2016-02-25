@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Javascript Junkyard - Opening New Windows</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Opening New Windows</h3>
+
+<br>
+
+<table width="500" align="center">
+<tr><td>
+
+<p>These links use the window.open method, with various attributes set:</p>
+
+<blockquote>
+	<p><a href="nav.html" onClick="window.open('', 'popup')" target="popup">Open pop-up window</a> - no window attributes set.<p>
+	<p><a href="nav.html" onClick="window.open('', 'popup','width=200,height=400,top=20,left=20,resizable=yes,scrollbars=yes,toolbar=yes,directories=yes,status=yes')" target="popup">Open pop-up window</a> - all window attributes set.</p>	
+	<p><a href="nav.html" onClick="window.open('', 'popup','width=200,height=400,top=20,left=20')" target="popup">Open pop-up window</a> - size and position attributes only set.</p>
+
+</blockquote>
+
+<p>The rule with setting window attributes is they are all defined as on by default, until you set any of them, at which time those not explicitly set on are turned off.</p>
+
+</td></tr>
+</table>
+
+</body>
+</html>

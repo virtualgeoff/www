@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Javascript Junkyard - Automatic Rollovers </title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+var picNum = 0;
+var delay = 1500;
+var maxPic = 4;
+var currentPic;	
+var lastPic;
+var pause = false;
+
+
+function changePic() {
+	picNum++;
+		if (picNum > maxPic) picNum = 1;
+	displayPic();
+	return;
+}
+
+function displayPic() {
+	lastNum = picNum - 1;
+	if (lastNum == 0) lastNum = maxPic;
+ 	currentPic = "pic" + picNum;	
+	lastPic = "pic" + lastNum;
+
+	if (document.images) {
+		document [currentPic].src=eval(currentPic + "on.src");
+		document [lastPic].src=eval(lastPic + "off.src");
+	}
+	return;
+}
+
+function Timer() {
+	if (pause == false) changePic();
+	setTimeout("Timer()", delay);
+}
+
+function pauseTimer(){
+	pause = true;
+	document [currentPic].src=eval(currentPic + "off.src");
+}
+
+function resumeTimer(){
+	pause = false;
+	displayPic();
+}
+
+if (document.images) {
+	pic1on  = new Image(); pic1on.src  = "images/page2/pic1on.gif";
+	pic1off = new Image(); pic1off.src = "images/page2/pic1off.gif";
+	pic2on  = new Image(); pic2on.src  = "images/page2/pic2on.gif";
+	pic2off = new Image(); pic2off.src = "images/page2/pic2off.gif";
+	pic3on  = new Image(); pic3on.src  = "images/page2/pic3on.gif";
+	pic3off = new Image(); pic3off.src = "images/page2/pic3off.gif";
+	pic4on  = new Image(); pic4on.src  = "images/page2/pic4on.gif";
+	pic4off = new Image(); pic4off.src = "images/page2/pic4off.gif";
+}
+
+function Rollon(img1,text){
+	pauseTimer();
+    window.status = text;
+	if (document.images) {
+		document [img1].src=eval(img1 + "on.src");
+	}
+}
+
+function Rolloff(img1){
+	resumeTimer();
+    window.status = "";	
+	if (document.images) {
+		document [img1].src=eval(img1 + "off.src");
+	}
+}
+//-->
+</script>
+
+</head>
+
+<body onLoad="Timer()">
+
+<h3 align="center">Automatic Rollovers </h3>
+
+<br>
+
+<table align="center" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td align=right valign="top"><img src="images/page2/a1.gif" align=top width="222" height="51" border="0"></td>
+	<td align=left valign="top"><img src="images/page2/a2.gif" align=top width="177" height="51" border="0"></td>
+</tr>
+<tr>
+	<td valign="top"><img name="pic1" src="images/page2/pic1off.gif" align=top width="223" height="71" border="0"></td>
+	<td valign="top"><a href="index2.html" onmouseover="Rollon('pic1',''); return true;" onmouseout="Rolloff('pic1'); return true;"><img src="images/page2/text1.gif" align=top width="175" height="71" border="0"></a></td>
+</tr>
+<tr>
+	<td valign="top"><img name="pic2" src="images/page2/pic2off.gif" align=top width="223" height="138" border="0"></td>
+	<td valign="top"><a href="index2.html" onmouseover="Rollon('pic2',''); return true;" onmouseout="Rolloff('pic2'); return true;"><img src="images/page2/text2.gif" align=top width="175" height="138" border="0"></a></td>
+</tr>
+<tr>
+	<td valign="top"><img name="pic3" src="images/page2/pic3off.gif" align=top width="222" height="72" border="0"></td>
+	<td valign="top"><a href="index2.html" onmouseover="Rollon('pic3',''); return true;" onmouseout="Rolloff('pic3'); return true;"><img src="images/page2/text3.gif" align=top width="175" height="72" border="0"></a></td>
+</tr>
+<tr>
+	<td valign="top"><img name="pic4" src="images/page2/pic4off.gif" align=top width="222" height="87" border="0"></td>
+	<td valign="top"><a href="index2.html" onmouseover="Rollon('pic4',''); return true;" onmouseout="Rolloff('pic4'); return true;"><img src="images/page2/text4.gif" align=top width="175" height="87" border="0"></a></td>
+</tr>
+<tr>
+	<td colspan="2" valign="top" align="center">
+		<form>
+		<input type="button" name="OK" value="Back" align="center" onClick="window.location.href='index.html'">
+		</form>
+	</td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>Netscape JavaScript Field Edits</TITLE>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+// --------------------------------------------------------------------
+// COMPANY:       Netscape Communications
+// AUTHOR:        Robert W. Husted
+// DATE CREATED:  March 17, 1997
+// MODIFIED BY: 
+// DATE MODIFIED: 
+// --------------------------------------------------------------------
+
+
+// RETURN THE TEXT FOR THE CURRENTLY SELECTED ITEM
+function getListText(list) {
+
+   var listText = "";
+
+   if (list.selectedIndex != -1) {
+      listText = list.options[list.selectedIndex].text;
+   }
+
+   return (listText);
+}
+
+
+// RETURN THE VALUE FOR THE CURRENTLY SELECTED ITEM
+function getListValue(list) {
+
+   var listValue = "";
+
+   if (list.selectedIndex != -1) {
+      listValue = list.options[list.selectedIndex].value;
+   }
+
+   return (listValue);
+}
+
+
+// DO THIS WHEN THE USER SELECTS A NEW CATEGORY
+function onListChange(list) {
+
+  // newCategory = getListValue(document.TOC.LIST);
+
+  // SET NAME OF NEXT CATEGORY TO DISPLAY
+  // parent.content.location.href = newCategory;
+  parent.content.location.href = getListValue(document.TOC.LIST);
+}
+
+
+//-->
+</SCRIPT>
+
+</HEAD>
+<BODY BGCOLOR="#ffcc99" "TEXT=#000000" LINK="#0000FF" ALINK="#FF0000" VLINK="#FF0000">
+
+<B>
+T<FONT SIZE=-1>ABLE OF</FONT>
+C<FONT SIZE=-1>ONTENTS</FONT>
+</B>
+
+<FORM NAME=TOC>
+<SELECT NAME=LIST onChange="onListChange(this)">
+<OPTION VALUE="content.html" SELECTED>Instructions
+<OPTION VALUE="checkFields.html">Check Required Fields
+<OPTION VALUE="toAlpha.html">Alpha Check
+<OPTION VALUE="toAlphaNumber.html">Alpha/Number Check
+<OPTION VALUE="toAlphanumeric.html">Alphanumeric Check
+<OPTION VALUE="toNumeric.html">Numeric Check
+<OPTION VALUE="toInteger.html">Integer Check
+<OPTION VALUE="toFloat.html">Float Check
+<OPTION VALUE="singleQuotes.html">Database Check
+<OPTION VALUE="checkEmail.html">Email Address Check
+</SELECT>
+</FORM>
+
+</BODY>
+</HTML>

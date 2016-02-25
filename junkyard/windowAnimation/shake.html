@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Javascript Junkyard - Shake</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+
+function shake(n) {
+	for (i=10; i>0; i--) {
+		for (j=n; j>0; j--) {
+			self.moveBy(0,i);
+			self.moveBy(i,0);
+			self.moveBy(0,-i);
+			self.moveBy(-i,0);
+		}
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Javascript Junkyard - Shake</h3>
+
+<br>
+
+<p align="center"><a href="#" onMouseOver="shake(5)"><img src="images/fish.gif" width="152" height="83" border="0"></a></p>
+
+</body>
+</html>

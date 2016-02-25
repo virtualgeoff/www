@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>fish 6</title>
+<script language="JavaScript">
+
+	// bounce - no gravity
+
+    fish = new Image(); fish.src = "images/fish.gif"
+    fish2 = new Image(); fish2.src = "images/fish_right.gif"
+
+    var i  = 0;
+    var now;
+    var then = new Date();
+    var dt = 1;
+
+    var px = (screen.width-170)/2;
+    var py = (screen.height-100)/2;
+    var vx = Math.random() * 400; // velocity: pixels per second
+    var vy = (Math.random()-0.5) * Math.random() * 500;
+    var xmax = screen.width-170;
+    var ymax = screen.height-100;
+
+    function posWin() {
+        now = new Date();
+        dt = (now.getTime()-then.getTime())/1000; // in seconds
+        px += vx * dt; py += vy * dt;
+        //vx += ax * dt; vy += ay * dt;
+        if (px>xmax) {
+            px = xmax; vx = -vx;
+            document.fishImg.src = fish.src;
+        } else if (px<0) {
+            px = 0; vx = -vx;
+            document.fishImg.src = fish2.src;
+        }
+        if (py>ymax) {
+            py = ymax; vy = -vy;
+        } else if (py<0) {
+            py=0; vy=-vy;
+        }
+        self.moveTo(px,py);
+        then = now;
+        next = setTimeout("posWin()",30);
+    }
+
+</script>
+</head>
+<body bgcolor="#ffffff" onload="posWin()" topmargin="5" leftmargin="5" marginwidth="5" marginheight="5">
+
+<a href="#" onclick="self.close()"><img name="fishImg" src="images/fish_right.gif" width="152" height="83" border="0"></a>
+
+</body>
+</html>

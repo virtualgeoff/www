@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Javascript Junkyard - 3 State Rollover</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+if (document.images) {
+    nav1on   = new Image(); nav1on.src   = "navs/1_on.gif";
+    nav1off  = new Image(); nav1off.src  = "navs/1_off.gif";
+    nav1down = new Image(); nav1down.src = "navs/1_down.gif";
+    nav2on   = new Image(); nav2on.src   = "navs/2_on.gif";
+    nav2off  = new Image(); nav2off.src  = "navs/2_off.gif";
+    nav2down = new Image(); nav2down.src = "navs/2_down.gif";
+    nav3on   = new Image(); nav3on.src   = "navs/3_on.gif";
+    nav3off  = new Image(); nav3off.src  = "navs/3_off.gif";
+    nav3down = new Image(); nav3down.src = "navs/3_down.gif";
+    nav4on   = new Image(); nav4on.src   = "navs/4_on.gif";
+    nav4off  = new Image(); nav4off.src  = "navs/4_off.gif";
+    nav4down = new Image(); nav4down.src = "navs/4_down.gif";
+}
+
+function rollOn(img,text){
+    window.status = text;
+    if ((document.images)&&(img!=imgDown)) {
+        document[img].src=eval(img + "on.src");
+    }
+}
+
+function rollOff(img){
+    window.status = "";
+    if ((document.images)&&(img!=imgDown)) {
+		document[img].src=eval(img + "off.src");
+	}
+}
+
+function clickOn(img,text){
+    window.status = text;
+    if (document.images) {
+		document[imgDown].src=eval(imgDown + "off.src"); // turn off previous down image
+        document[img].src=eval(img + "down.src");
+    }
+	imgDown = img;
+}
+
+var imgDown = 'nav1';
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h3 align="center">3 State Rollover</h3>
+
+<table align="center">
+<tr valign="top">
+<td>
+    <a href="one.html" target="main" onmouseover="rollOn('nav1','nav1 text'); return true;" onClick="clickOn('nav1','nav1 text'); return true;" onmouseout="rollOff('nav1'); return true;"><img name="nav1" src="navs/1_down.gif" border="0" width="100" height="25"></a>
+    <a href="two.html" target="main" onmouseover="rollOn('nav2','nav2 text'); return true;" onClick="clickOn('nav2','nav2 text'); return true;" onmouseout="rollOff('nav2'); return true;"><img name="nav2" src="navs/2_off.gif" border="0" width="100" height="25"></a>
+    <a href="three.html" target="main" onmouseover="rollOn('nav3','nav3 text'); return true;" onClick="clickOn('nav3','nav3 text'); return true;" onmouseout="rollOff('nav3'); return true;"><img name="nav3" src="navs/3_off.gif" border="0" width="100" height="25"></a>
+    <a href="four.html" target="main" onmouseover="rollOn('nav4','nav4 text'); return true;" onClick="clickOn('nav4','nav4 text'); return true;" onmouseout="rollOff('nav4'); return true;"><img name="nav4" src="navs/4_off.gif" border="0" width="100" height="25"></a>
+</td>
+</tr>
+</table>
+<br>
+
+</body>
+</html>

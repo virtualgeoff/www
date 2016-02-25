@@ -1,0 +1,38 @@
+On Fri, 06 Mar 1998 14:14:53 -0700, Matthew Buckle
+<mbuckle@nortel.com> wrote:
+
+>I have a page which uses a frameset with 2 frames, and have JS functions
+>which call functions in the other frames.  The pages can be viewed
+>without the frameset, but then I get JS error that the object I'm trying
+>to reference has no properties (because it and the frame it is in do not
+>exist).  
+>
+>Is there any way to check if the parent or sibling frame exist before I
+>call a function which references them?
+>
+>thanx,
+>Matthew
+
+Yep.
+
+For parent
+
+if (self != parent) {
+        // parent exists
+}
+
+For sibling, you have several options, but here are a few:
+
+if (parent.frames.length > 1) {
+        // more than one frame exists
+}
+
+if (parent.nameOfSibling) {
+        // sibling exists
+}
+
+to show but a few
+
+jason olmsted
+mailto:olmstj@phat-media.com
+http://www.phat-media.com/olm/

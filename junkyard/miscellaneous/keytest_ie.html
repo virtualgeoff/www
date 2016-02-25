@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>Javascript Junkyard - Keytest</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+function checkEvent(){	
+	document.keyform.code.value = event.keyCode;
+	document.keyform.character.value = String.fromCharCode(event.keyCode);
+	document.keyform.shiftKey.value = event.shiftKey;
+	document.keyform.ctrlKey.value = event.ctrlKey;
+	document.keyform.type.value = event.type;
+	document.keyform.srcElement.value = event.srcElement;
+	document.keyform.layer.value = event.x + ',' + event.y;  // event.x = event.layerX (synonymous)
+	document.keyform.offset.value = event.offsetX + ',' + event.offsetY;
+	document.keyform.client.value = event.clientX + ',' + event.clientY;
+	document.keyform.screen.value = event.screenX + ',' + event.screenY;
+	return true;
+}
+
+//window.event.shiftKey
+
+//document.captureEvents(Event.KEYPRESS | Event.KEYDOWN | Event.KEYUP | Event.MOUSEDOWN | Event.MOUSEUP);
+//event name must be all lower case for IE
+document.onkeypress = checkEvent; //comment out this to see onKeyDown event	document.onmousedown = checkEvent;
+document.onmouseup = checkEvent;
+document.onkeydown = checkEvent;
+document.onkeyup = checkEvent;
+document.onmousedown = checkEvent;
+document.onmouseup = checkEvent;
+document.onmousemove = checkEvent;
+
+
+//-->
+</script>
+
+
+</head>
+
+<body>
+
+<h3 align="center">Key and Mouse Test</h3>
+
+<br>
+
+<p align="center">Press a key, click a mouse button...</p>
+
+<center>
+	<form name="keyform">
+		<table>
+		  <tr><td>key code:</td><td><input type="text" name="code"></td></tr>
+		  <tr><td>character:</td><td><input type="text" name="character"></td></tr>
+		  <tr><td>shiftKey:</td><td><input type="text" name="shiftKey"></td></tr>
+		  <tr><td>ctrlKey:</td><td><input type="text" name="ctrlKey"></td></tr>
+		  <tr><td>event type:</td><td><input type="text" name="type"></td></tr>
+		  <tr><td>srcElement:</td><td><input type="text" name="srcElement"></td></tr>
+		  <tr><td>x,y:</td><td><input type="text" name="layer"></td></tr>
+		  <tr><td>offset x,y:</td><td><input type="text" name="offset"></td></tr>
+		  <tr><td>client x,y:</td><td><input type="text" name="client"></td></tr>
+		  <tr><td>screen x,y:</td><td><input type="text" name="screen"></td></tr>
+		</table>
+	</form>
+</center>
+
+</body>
+</html>

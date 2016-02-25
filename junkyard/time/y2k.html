@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Javascript Junkyard - Y2K Countdown</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+    // New Year's Eve countdown Clock
+    // Geoff Pack, Spike, 1999.
+
+    // preload images
+    led0 = new Image(); led0.src = "images/led0.gif";
+    led1 = new Image(); led1.src = "images/led1.gif";
+    led2 = new Image(); led2.src = "images/led2.gif";
+    led3 = new Image(); led3.src = "images/led3.gif";
+    led4 = new Image(); led4.src = "images/led4.gif";
+    led5 = new Image(); led5.src = "images/led5.gif";
+    led6 = new Image(); led6.src = "images/led6.gif";
+    led7 = new Image(); led7.src = "images/led7.gif";
+    led8 = new Image(); led8.src = "images/led8.gif";
+    led9 = new Image(); led9.src = "images/led9.gif";
+
+    var musicPlayed = false;
+
+    function countdown() {
+        // calculate time left
+        var now = new Date();
+        var then = new Date("January 1, 2000");
+        var timeDiff = ((then.getTime()-now.getTime())/1000)+1;
+        if (timeDiff<0) timeDiff = 0;
+
+        // calculate days, hours, etc
+        var days    = Math.floor(timeDiff/(86400));
+        var hours   = Math.floor(timeDiff/(3600));
+        var minutes = Math.floor(timeDiff/(60));
+        var seconds = Math.floor(timeDiff);
+        hours   -= days*24;
+        minutes -= (days*24 + hours)*60;
+        seconds -= ((days*24 + hours)*60 + minutes)*60
+
+        // display
+        ledDisplay(days,'days');
+        ledDisplay(hours,'hours');
+        ledDisplay(minutes,'minutes');
+        ledDisplay(seconds,'seconds');
+
+        // play music if is Jan 01 (once only)
+        if ((now.getDate()==1)&&(now.getMonth()==0)&&(!musicPlayed)) {
+            alert('Happy New Year!');
+            window.open('auldlangsyne.html','popup','width=620,height=400,resizable=yes,scrollbars=yes,toolbar=yes,directories=yes,status=yes')
+            musicPlayed = true;
+        }
+        // do it all again in a sec
+        if (timeDiff>0) timerID = setTimeout("countdown()",1000);
+    }
+
+    // LED display code
+    function ledDisplay(number,img) {
+        var n = parseInt(number);
+        // parseInt causing errors in N4 - use Math.floor
+        var digit3 = Math.floor(n/100);
+        var digit2 = Math.floor(n/10)-digit3*10;
+        var digit1 = n-digit3*100-digit2*10;
+        if (document[img+'3']) document[img+'3'].src=eval('led'+digit3+'.src');
+        document[img+'2'].src=eval('led'+digit2+'.src');
+        document[img+'1'].src=eval('led'+digit1+'.src');
+    }
+
+// -->
+</script>
+</head>
+
+<body onload="countdown();">
+
+<h3 align="center">Y2K Countdown</h3>
+
+<br>
+
+<table border="0" cellpadding="4" align="center">
+    <tr bgcolor="#000000"><td><font face="Arial,Helvetica" color="red"><b>day : hr : min : s</b></font></td></tr>
+    <tr bgcolor="#000000">
+        <td><img name="days3"   src="images/led0.gif" width="13" height="23"><!--
+        --><img name="days2"    src="images/led0.gif" width="13" height="23"><!--
+        --><img name="days1"    src="images/led0.gif" width="13" height="23"><!--
+        --><img name="dash"     src="images/leddots.gif" width="13" height="23"><!--
+        --><img name="hours2"   src="images/led0.gif" width="13" height="23"><!--
+        --><img name="hours1"   src="images/led0.gif" width="13" height="23"><!--
+        --><img name="dash"     src="images/leddots.gif" width="13" height="23"><!--
+        --><img name="minutes2" src="images/led0.gif" width="13" height="23"><!--
+        --><img name="minutes1" src="images/led0.gif" width="13" height="23"><!--
+        --><img name="dash"     src="images/leddots.gif" width="13" height="23"><!--
+        --><img name="seconds2" src="images/led0.gif" width="13" height="23"><!--
+        --><img name="seconds1" src="images/led0.gif" width="13" height="23"></td>
+    </tr>
+</table>
+
+</body>
+</html>

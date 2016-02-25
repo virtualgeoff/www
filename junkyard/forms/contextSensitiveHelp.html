@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Context Sensitive Form Help</title>
+<style type="text/css" media="all">
+	@import "forms.css";
+</style>
+<script type="text/javascript">
+
+var currentField;
+function setCurrentField(input) {currentField = input;}
+
+function contextSensitiveHelp(url) {			
+	//window.location = url + '#' + currentField.id;
+	alert('help.html#' + currentField.id);
+	currentField.focus();
+	return true;
+}
+function init() {
+	currentField = document.forms['experiment-form'].title1;
+}
+
+</script>
+</head>
+
+<body onload="init();">
+
+<h1>Context Sensitive Form Help</h1>
+<p align="right"><strong><a href="help.html" onclick="return !contextSensitiveHelp(this.href)">Form Help</a></strong></p>
+<p>Use tab to select input fields, then click on the 'form help' link - the help URL changes as the selected fields change.			</p>
+
+<form id="experiment-form" action="">
+	<fieldset>
+		<legend>Name</legend>
+		<div class="row">
+			<label class="first" for="title1">Title</label>
+			<select id="title1" name="title1" onfocus="setCurrentField(this)">
+	
+				<option selected="selected">Mr.</option>
+				<option>Mrs.</option>
+				<option>Ms.</option>
+				<option>Dr.</option>
+				<option>Viscount</option>
+			</select>
+		</div>
+		<div class="row-odd">
+			<label for="firstName1">First name</label>
+			<input id="firstName1" name="firstName1" value="First name" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row">
+			<label for="lastName1">Last name</label>
+			<input id="lastName1" name="lastName1" value="Last name" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Address</legend>
+		<div class="row">
+			<label class="first" for="street1">Street</label>
+			<input id="street1" name="street1" value="Street" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row-odd">
+			<label for="city1">City</label>
+			<input id="city1" name="city1" value="City" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row">
+			<label for="state1">State</label>
+			<input id="state1" name="state1" value="State" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row-odd">
+			<label for="postcode1">Postcode</label>
+			<input id="postcode1" name="postcode1" value="Postcode" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row">
+			<label for="country1">Country</label>
+			<input id="country1" name="country1" value="Country" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+	</fieldset>
+		
+	<fieldset>
+		<legend>Payment details</legend>
+		
+		<fieldset class="radio">
+			<legend>Credit card</legend>
+			<label for="cardType1A"><input id="cardType1A" name="card1" type="radio" onfocus="setCurrentField(this)"> American Express</label>
+			<label for="cardType1B"><input id="cardType1B" name="card1" type="radio" onfocus="setCurrentField(this)"> Mastercard</label>
+			<label for="cardType1C"><input id="cardType1C" name="card1" type="radio" onfocus="setCurrentField(this)"> Visa</label>
+			<label for="cardType1D"><input id="cardType1D" name="card1" type="radio" onfocus="setCurrentField(this)"> Blockbuster Card</label>
+		</fieldset>
+		<div class="row">
+			<label for="cardNum1">Card number</label>
+			<input id="cardNum1" name="cardNum1" value="Card number" type="text" onfocus="setCurrentField(this)">
+	
+		</div>
+		<div class="row-odd">
+			<label for="expiry1">Expiry date</label>
+			<input id="expiry1" name="city1" value="City" type="text" onfocus="setCurrentField(this)">
+	
+		</div>	
+	</fieldset>
+		
+	<hr>
+	
+	<input class="submit" value="Submit my details" type="submit">
+	
+</form>
+	
+</body>
+</html>
+

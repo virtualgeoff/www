@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>IE5 Compatible Detection Script</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+	
+<script language="javascript">
+
+var browserAgent  = navigator.userAgent;
+var browserName   = navigator.appName;
+var browserVer    = navigator.appVersion;
+var browserVerNum = parseFloat(navigator.appVersion);
+var majorVer      = parseInt(navigator.appVersion);
+var minorVer      = browserVer.charAt(2);
+
+if (navigator.appName=="Microsoft Internet Explorer") {
+	// workaround - IE screws up navigator.appVersion
+	majorVer = navigator.appVersion.charAt(navigator.appVersion.indexOf("MSIE")+5);
+	minorVer = navigator.appVersion.charAt(navigator.appVersion.indexOf("MSIE")+7);
+	browserVerNum = parseInt(majorVer) + parseInt(minorVer)/10;
+}
+		
+</script>
+</head>
+
+<body>
+
+<h3>IE5 Compatible Detection Script</h3>
+
+<p><b>You are using:</b><p>
+
+<script language="JavaScript">
+	
+	document.write('<table>');
+	document.write('<tr><td>navigator.userAgent:    </td><td>' + browserAgent + '</td></tr>');
+	document.write('<tr><td>navigator.appName:      </td><td>' + browserName + '</td></tr>');
+	document.write('<tr><td>navigator.appVersion:   </td><td>' + browserVer + '</td></tr>');
+	document.write('<tr><td>browserVerNum:          </td><td>' + browserVerNum + '</td></tr>'); 
+	document.write('<tr><td>majorVer:   			</td><td>' + majorVer + '</td></tr>');
+	document.write('<tr><td>minorVer:   			</td><td>' + minorVer + '</td></tr>');
+	document.write('</table>');
+
+</script>
+
+<br><br>
+
+<p>This detection script correctly detects IE 5</p>
+
+</body>
+</html>

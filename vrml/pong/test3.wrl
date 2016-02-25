@@ -1,0 +1,89 @@
+#VRML V2.0 utf8
+
+Group {
+  children [
+    DEF Touch TouchSensor {}
+    DEF Object Transform {
+      children [
+        Shape {
+          appearance Appearance {
+            material DEF myMaterial Material {
+              diffuseColor  0 .5 0
+              emissiveColor 0 .5 0
+              transparency  .5
+            }
+          }
+          geometry Sphere {}
+        }
+      ]
+    }
+  ]
+}
+
+DEF Timer TimeSensor {
+  enabled               FALSE
+  loop                  TRUE
+  cycleInterval         5
+  startTime             0
+  stopTime              1
+}
+
+
+DEF Mover PositionInterpolator {
+  key           [0 .25 .5 .75 1.]
+  keyValue      [0 0 0, -2 0 0, 0 0 0, 2 0 0, 0 0 0]
+}
+
+
+#       Respond to the mouse click (button down) on the
+#       sphere.  Each event is time stamped and that time
+#       is available as the second argument on any eventIn
+#       function.  A mouse click generates 3 events, the
+#       animation starting time (startTime), the ending
+#       time (stopTime), and one to enable the timer to
+#       run (enable).
+
+DEF SetTime Script {
+  eventIn       SFBool  startAnimation
+  eventIn       SFBool  stopAnimation
+  eventOut      SFTime  startTime
+  eventOut      SFTime  stopTime
+  eventOut      SFBool  enable
+  eventOut      SFColor changeColor
+
+  url   "javascript:
+     function startAnimation (value, time) {
+        if (value) {
+          startTime = time;
+          stopTime  = time + 3;
+          enable    = true;
+        }
+     }
+     function stopAnimation (value) {
+       // use isActive = false to set delay end!
+       if (value) {
+         changeColor[0] = 1;
+         changeColor[1] = 0;
+         changeColor[2] = 0;
+       } else {
+         changeColor[0] = 0;
+         changeColor[1] = 0;
+         changeColor[2] = 1;
+       }
+     }
+  "
+}
+
+
+ROUTE   Touch.isActive          TO      SetTime.startAnimation
+ROUTE   SetTime.enable          TO      Timer.enabled
+ROUTE   SetTime.startTime       TO      Timer.startTime
+ROUTE   SetTime.stopTime        TO      Timer.stopTime
+
+ROUTE   Timer.fraction_changed  TO      Mover.set_fraction
+ROUTE   Mover.value_changed     TO      Object.translation
+
+ROUTE   Timer.isActive          TO      SetTime.stopAnimation
+ROUTE   SetTime.changeColor     TO      myMaterial.diffuseColor
+
+

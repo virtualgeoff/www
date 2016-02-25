@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Javascript Junkyard - Time and Date</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!-- 
+
+function displayDate() {		
+	now = new Date();
+	window.status = "The Date is:  " + now;		
+	document.timeform.datefull.value = now;
+}
+
+function Timer() {
+	displayDate()
+	setTimeout("Timer()", 100);
+}
+
+// -->
+</script>	
+
+</head>
+
+<body onLoad="Timer()">
+
+<h3 align=center>Time and Date</h3>
+
+<br>
+
+<table width="500" align="center">
+<tr><td>
+
+<p>Simple script that displays the time. To get it to update continuously in version 3 browsers, the time must be displayed in the status bar or a form element. To diplay the date once on load, use document.write.</p>
+
+<form name="timeform">
+	<p>The Date is: <input type=text name="datefull" size=30></p>
+</form>
+
+<p>Getting parts of the date:</p>
+
+<blockquote>
+<pre>
+<script language = "JavaScript">
+<!--
+	var now2 = new Date();
+	var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+	document.write('The date is:   ' + now2 + '<br>');
+	document.write('getSeconds:    ' + now2.getSeconds() + '<br>');
+	document.write('getMinutes:    ' + now2.getMinutes() + '<br>');
+	document.write('getHours:      ' + now2.getHours() + '<br>');
+	document.write('getDate:       ' + now2.getDate() + '<br>');
+	document.write('getMonth:      ' + now2.getMonth() + '    (January=0)<br>');
+	document.write('getYear:       ' + now2.getYear() + '<br>');
+	document.write('getDay:        ' + now2.getDay() + '    (' + dayNames[now2.getDay()] + ')<br>');		
+// -->
+</script>
+</pre>
+</blockquote>
+
+<p>Can also automatically add the modifaction date to a document: (flakey dates on mac)</p>
+
+
+<script language = "JavaScript">
+<!-- 
+	lastmod = document.lastModified 		// get string of last modified date
+	lastmoddate = Date.parse(lastmod)   	// convert modified string to date
+	
+	if(lastmoddate == 0){               	// unknown date (or January 1, 1970 GMT)
+	   document.writeln("This page was last updated on: <B>Unknown</B>")
+	} else {
+	   document.writeln("This page was last updated on: <B>" + lastmod + "</B>")
+	}
+// -->
+</script>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Javascript Junkyard - Simple Quiz Script - Version 3</title> 
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script type="text/javascript">
+<!--
+
+var questions = new Array('q1','q2','q3','q4','q5'); // names of quiz questions
+
+function getRadioValue(radioGroup) {
+	// returns the value of the selected radio button 
+	//for (var i in radioGroup) - does not work in IE, so:
+	for (var i=0; i<radioGroup.length; i++) {
+		if (radioGroup[i].checked) return radioGroup[i].value;
+	}
+	return null;
+}
+
+function calculateScore(form) {
+	var score = 0;
+	
+	for (var i in questions) {
+		// any null values will cause score to be NaN
+		score += parseInt(getRadioValue(form.elements[questions[i]]));
+	}
+	if (isNaN(score)) {
+		alert('Please answer all questions');
+	} else {
+		if (score < 5)        alert('Your Score: ' + score + '\n\n Huh?');
+		else if (score < 8)   alert('Your Score: ' + score + '\n\n Negative bastard, aren\'t you!');
+		else if (score < 13)  alert('Your Score: ' + score + '\n\n Bit of a fence sitter, Eh?');
+		else if (score <= 15) alert('Your Score: ' + score + '\n\n Smug bastard, aren\'t you!');
+		else                  alert('Your Score: ' + score + '\n\n Impossible!');
+
+	}
+}
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3>Simple Quiz Script v3</h3>
+
+<form name="simpleQuizForm">
+	<ol>
+
+		<li>Question 1:<br>
+		<input type="radio" name="q1" value="3">Yes<br>
+		<input type="radio" name="q1" value="1">No<br>
+		<input type="radio" name="q1" value="2">Maybe<br><br></li>
+		
+		<li>Question 2:<br>
+		<input type="radio" name="q2" value="3">Yes<br>
+
+		<input type="radio" name="q2" value="1">No<br>
+		<input type="radio" name="q2" value="2">Maybe Not<br><br></li>
+		
+		<li>Question 3:<br>
+		<input type="radio" name="q3" value="3">Yes<br>
+		<input type="radio" name="q3" value="1">No<br>
+		<input type="radio" name="q3" value="2">Not Sure<br><br></li>
+
+		
+		<li>Question 4:<br>
+		<input type="radio" name="q4" value="3">Yes<br>
+		<input type="radio" name="q4" value="1">No<br>
+		<input type="radio" name="q4" value="2">Sometimes<br><br></li>
+		
+		<li>Question 5:<br>
+		<input type="radio" name="q5" value="3">Yes<br>
+
+		<input type="radio" name="q5" value="1">No<br>
+		<input type="radio" name="q5" value="2">Why do you ask?<br><br></li>
+	</ol>
+	
+	<input type="button" name=calcquiz value="Calculate" onClick="calculateScore(this.form)">&nbsp;&nbsp;
+	<input type="reset" value="Clear">
+</form>
+
+<div id="comment">
+	<h3>Note:</h3>
+
+	<p>I think this has nailed it. We'll see...</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+#VRML V2.0 utf8
+
+		DEF bedside Transform {
+			children [
+						Shape {
+							appearance Appearance {
+								material Material {
+									diffuseColor 0.784 0.784 0.29
+									shininess    0
+								}
+							}
+							geometry IndexedFaceSet {
+								coord Coordinate {
+									point [
+										10 -2.25 10.15,
+										10 -1.6 10.15,
+										10 -1.6 10.25,
+										10 -2.25 10.25,
+										8.9 -2.25 10.25,
+										8.9 -2.25 10.15,
+										8.9 -1.6 10.25,
+										8.9 -1.6 10.15
+									]
+								}
+								coordIndex [
+									0, 1, 2, 3, -1,
+									3, 4, 5, 0, -1,
+									2, 6, 4, 3, -1,
+									1, 7, 6, 2, -1,
+									0, 5, 7, 1, -1,
+									5, 4, 6, 7, -1
+								]
+								solid           TRUE
+								convex		TRUE
+								creaseAngle     0
+							}
+						}
+						Shape {
+							appearance Appearance {
+								material Material {
+									diffuseColor 0.694 0.686 1
+									shininess    0
+								}
+							}
+							geometry IndexedFaceSet {
+								coord Coordinate {
+									point [
+										10.1 -2.35 10.2,
+										10.1 -1.5 10.2,
+										10.1 -1.5 11.1,
+										10.1 -2.35 11.1,
+										8.8 -2.35 11.1,
+										8.8 -2.35 10.2,
+										8.8 -1.5 11.1,
+										8.8 -1.5 10.2
+									]
+								}
+								coordIndex [
+									0, 1, 2, 3, -1,
+									3, 4, 5, 0, -1,
+									2, 6, 4, 3, -1,
+									1, 7, 6, 2, -1,
+									0, 5, 7, 1, -1,
+									5, 4, 6, 7, -1
+								]
+								solid           TRUE
+								convex		TRUE
+								creaseAngle     0
+							}
+						}
+			]
+		}

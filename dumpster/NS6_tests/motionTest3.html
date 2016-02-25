@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>Object Test</title>
+
+<script language="JavaScript" src="scripts/stylesheet.js"></script>
+<style type="text/css">
+<!--
+
+#blacklines     {position:absolute; z-index:2;  left: 0px;   top: 218px;}
+#whitelines     {position:absolute; z-index:5;  left: 0px;   top: 207px;}
+#orange         {position:absolute; z-index:6;  left: 409px; top: 212px;}
+#blackcross     {position:absolute; z-index:7;  left: 53px;  top: 393px;}
+#whitecross     {position:absolute; z-index:8;  left: 680px; top: 91px;}
+#whitedots      {position:absolute; z-index:12; left: 31px;  top: 208px;}
+#ripcurl        {position:absolute; z-index:13; left: 0px;   top: 217px;}
+#logo1          {position:absolute; z-index:14; left: 625px; top: 28px;}
+#logo2          {position:absolute; z-index:15; left: 625px; top: 28px;}
+#sectionHeading {position:absolute; z-index:16; left: 218px; top: 219px;}
+
+-->
+</style>
+
+<script language="JavaScript">
+<!--
+
+// created by Geoff Pack
+// geoff@spike.com.au
+
+var logoObj11, logoObj12;
+
+// scroll object:
+// makes a browser-independent object for easy scrolling
+// makeScrollObj is partly inspired by DFORM1.
+
+function makeScrollObj(objId,layerId){	
+    this.id   = objId;
+	this.style  = document.getElementById(layerId).style;
+    this.top  = getTop;
+    this.left = getLeft;
+	this.sTop = setTop;
+	this.sLeft = setLeft;
+	this.moveTo = setPosition;
+}
+function getTop() { return parseInt(this.style.top);}
+function getLeft() { return parseInt(this.style.left);}
+function setTop(y) { this.style.top=y+"px"; }
+function setLeft(x) { this.style.left=x+"px"; }
+function setPosition(x,y) { this.style.left = x + "px"; this.style.top = y + "px";}
+
+// scroll scripts:
+// a collection a functions to move scrollObjects
+// velocity in pixels per millisecond - independent of frame rate
+// therefore position += velocity * deltaT
+
+var scrollTimer=new Array(); // timeouts for each object using these fns
+var fps=20, deltaT=1000/fps; // fps = frames per second; deltaT in millisecs
+var contHeight = 100;
+var contWidth  = 100;
+
+function scrollToDuration(obj,destX,destY,duration){
+    vx=(destX-obj.left())/duration;
+    vy=(destY-obj.top())/duration;
+    scrollTo(obj,destX,destY,vx,vy);
+}
+
+function scrollTo(obj,destX,destY,vX,vY){
+    // moves object to destination at given velocity
+    var px,py;
+    var vx=(vX)?vX:5; var vy=(vY)?vY:5;
+    // clear other scrolls for this object
+    if (scrollTimer[obj.id]) clearTimeout(scrollTimer[obj.id]);
+    // find position
+	px=obj.left(); py=obj.top();
+    // set velocity
+    if (destX<px) vx=-Math.abs(vx); if (destY<py) vy=-Math.abs(vy);
+    px+=vx*deltaT; py+=vy*deltaT;
+    // test to see if reached destination
+    if (vx<0) {if (px<=destX) {px=destX; vx=0;}}
+    else  {if (px>=destX) {px=destX; vx=0;}}
+    if (vy<0) {if (py<=destY) {py=destY; vy=0;}}
+    else {if (py>=destY) {py=destY; vy=0;}}
+    // move layer and do it all again
+	obj.sLeft(px); obj.sTop(py);
+    if (vx!=0 || vy!=0) scrollTimer[obj.id]=setTimeout("scrollTo("+obj.id+","+destX+","+destY+","+vx+","+vy+")",deltaT);
+}
+
+function moveLogo1() {
+    var x = Math.random(1)*600;
+    var y = Math.random(1)*400;
+    scrollToDuration(logoObj1,x,y,500);
+	// nb: too many setTimeouts will crash browser
+    setTimeout('moveLogo1()',800);
+}
+function moveLogo2() {
+    var x = Math.random(1)*600;
+    var y = Math.random(1)*400;
+    scrollToDuration(logoObj2,x,y,500);
+	// nb: too many setTimeouts will crash browser
+    setTimeout('moveLogo2()',500);
+}
+
+function init() {
+    logoObj1 = new  makeScrollObj('logoObj1','logo1');
+    logoObj2 = new  makeScrollObj('logoObj2','logo2');
+	moveLogo1();
+	moveLogo2();
+}
+
+// -->
+</script>
+
+</head>
+
+<body onload="init()" link="#ffffff" alink="#ff9900">
+
+<div id="blacklines"><img src="images/blacklines.gif" width="770" height="20" alt=""></div>
+<div id="whitelines"><img src="images/whitelines.gif" width="770" height="30" alt=""></div>
+<div id="orange"><img src="images/orangething.jpg" width="361" height="5" alt=""></div>
+<div id="blackcross"><img src="images/blackcross.gif" width="9" height="9" alt=""></div>
+<div id="whitecross"><img src="images/whitecross.gif" width="9" height="9" alt=""></div>
+<div id="whitedots"><img src="images/whitedots.gif" width="216" height="2" alt=""></div>
+<div id="ripcurl"><img src="images/ripcurl_dark.gif" width="216" height="19" alt="Rip Curl Home" border="0"></div>
+<div id="sectionHeading"><b>MOTION TEST</b></div>
+
+<div id="logo1" style="position:absolute; z-index:14; left: 625px; top: 28px;"><img src="images/ripcurl_logo.gif" width="119" height="47"></div>
+<div id="logo2" style="position:absolute; z-index:15; left: 625px; top: 28px;"><img src="images/ripcurl_logo.gif" width="119" height="47"></div>
+
+<a href="javascript:alert(logoObj1.id);">object.id</a><br>
+<a href="javascript:alert(logoObj1.style);">object.style</a><br>
+<a href="javascript:alert(logoObj1.left());">object.left</a><br>
+<a href="javascript:alert(logoObj1.top());">object.top</a><br>
+<a href="javascript:logoObj1.moveTo(200,100);">logoObj1.moveTo(200,100)</a><br>
+<a href="javascript:logoObj1.moveTo(625,28);">logoObj1.moveTo(625,28));</a><br>
+<a href="javascript:logoObj1.sTop(150);">logoObj1.sTop(150)</a><br>
+<a href="javascript:logoObj1.sLeft(300);">logoObj1.sLeft(300);</a><br>
+<br>
+
+</body>
+</html>
+

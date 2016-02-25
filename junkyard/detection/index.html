@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Simple Detection Script</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3>Simple Browser Detection Script</h3>
+
+<p><b>You are using:</b><p>
+
+<script language="JavaScript">
+
+document.write('<table>'
+	+ '<tr><td>navigator.userAgent: 				</td><td>' + navigator.userAgent + '</td></tr>'
+	+ '<tr><td>navigator.appName: 					</td><td>' + navigator.appName + '</td></tr>'
+	+ '<tr><td>navigator.appVersion:  				</td><td>' + navigator.appVersion + '</td></tr>'
+	+ '<tr><td>parseFloat(navigator.appVersion):  	</td><td>' + parseFloat(navigator.appVersion) + '</td></tr>'
+	+ '<tr><td>parseInt(navigator.appVersion):  	</td><td>' + parseInt(navigator.appVersion) + '</td></tr>'
+	+ '</table>');
+
+</script>
+
+<br><br>
+
+<p><b>Note:</b> parseFloat(navigator.appVersion) returns 4.0 for IE5.0</p>
+
+<p>Check out the <a href="results.html">results</a> file.</p>
+
+</body>
+</html>
+

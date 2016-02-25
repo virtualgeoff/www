@@ -1,0 +1,416 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Prism, v0.3"
+  info    [ "Copyright Spike, 1999",
+            "author: Geoff Pack",
+            "geoff@spike.com.au",
+            "This version: April 1999" ]
+}
+
+NavigationInfo {
+  avatarSize  [ 0 0 0 ]
+  headlight   TRUE
+  speed       1
+  type        "NONE"
+}
+
+Viewpoint {
+  position    0 0 4
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 1 1 1, 1 1 1 ]
+  skyAngle    [ 1.5708 ]
+  skyColor    [ 1 1 1, 1 1 1 ]
+}
+
+# ---------- prism ----------
+
+Transform {
+  rotation     0 0 1 0.49
+  translation  0 0 0
+  children [
+
+    DEF prismSensor CylinderSensor {}
+    DEF prism Transform {
+      children [
+        Shape {
+          appearance DEF prismAppearance Appearance {
+            material Material {
+              diffuseColor    0.8 0.851 0.882
+              emissiveColor   0 0 0
+              shininess       0.5
+              transparency    0
+            }
+            texture ImageTexture {
+              url ["images/texture3.jpg"]
+            }
+          }
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord DEF prismCoord Coordinate {
+              point [ 0.83 -0.7 0.76,
+                      0.83 0.7 0.76,
+                      0 1.15 0.76,
+                      -0.83 0.7 0.76,
+                      -0.83 -0.7 0.76,
+                      0 -1.15 0.76,
+                      0.83 -0.7 -0.76,
+                      0.83 0.7 -0.76,
+                      0 1.15 -0.76,
+                      -0.83 0.7 -0.76,
+                      -0.83 -0.7 -0.76,
+                      0 -1.15 -0.76 ]
+            }
+            coordIndex [ 0, 1, 2, 3, 4, 5, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 6, 11, 10, 9, 8, 7 -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 0, 6, 7, 1, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 1, 7, 8, 2, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 2, 8, 9, 3, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 3, 9, 10, 4, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 4, 10, 11, 5, -1 ]
+          }
+        }
+        Shape {
+          appearance USE prismAppearance
+          geometry IndexedFaceSet {
+            solid TRUE
+            coord USE prismCoord
+            coordIndex [ 5, 11, 6, 0, -1 ]
+          }
+        }
+      ]
+    }
+  ]
+}
+
+# ---------- prism script ----------
+
+DEF motionScript Script {
+    eventIn     SFRotation   rotationIn
+    eventIn     SFRotation   sensorIn
+    eventOut    SFRotation   rotationOut
+    field       SFRotation   prismAngle    0 1 0 0
+    field       SFRotation   sensorAngle    0 1 0 0
+
+    url "javascript:
+        function rotationIn(angle) {
+            prismAngle = angle;
+            calculateRotation();
+        }
+        function sensorIn(angle) {
+            sensorAngle = angle;
+            calculateRotation();
+        }
+        function calculateRotation(angle) {
+            rotationOut[0] = prismAngle[0] + sensorAngle[0];
+            rotationOut[1] = prismAngle[1] + sensorAngle[1];
+            rotationOut[2] = prismAngle[2] + sensorAngle[2];
+            rotationOut[3] = prismAngle[3] + sensorAngle[3];
+        }
+    "
+}
+
+# ---------- text proto ----------
+
+PROTO TextRollover [
+    field    MFString    string        "some text"
+    field    SFString    style         "NORMAL"
+    field    SFFloat     size          0.13
+    field    MFString    url           "results.html"
+    field    MFString    parameter     "target=new"
+    field    SFVec3f     translation   0 0 0
+    field    SFRotation  rotation      0 1 0 0
+]
+{
+    Transform {
+      rotation     IS rotation
+      translation  0 0 0
+      children [
+
+        DEF textSensor TouchSensor {}
+        DEF text Transform {
+          children [
+            Transform {
+              translation  -0.8 0.9 0.9
+              children [
+                Transform {
+                  translation  IS translation
+                  rotation     0 0 1 -0.49
+                  children [
+                    DEF backing Shape {
+                      appearance Appearance {
+                        material DEF backingMaterial Material {
+                          diffuseColor    0.8 0.851 0.882
+                          shininess       0.5
+                            transparency    0
+                        }
+                      }
+                      geometry IndexedFaceSet {
+                        solid FALSE
+                        coord Coordinate {
+                          point [ -0.2 0.1 -0.05,
+                                  -0.09 -0.1 -0.05,
+                                  1.41 -0.1 -0.05,
+                                  1.3 0.1 -0.05 ]
+                        }
+                        coordIndex [ 0, 1, 2, 3, -1 ]
+                      }
+                    }
+                    Shape {
+                      appearance DEF blackText Appearance {
+                        material DEF blackTextMaterial Material {
+                          diffuseColor      0.3 0.3 0.3
+                        }
+                      }
+                      geometry Text {
+                        fontStyle FontStyle {
+                          family  "SANS"
+                          justify ["BEGIN","MIDDLE"]
+                          style IS style
+                          size IS size
+                        }
+                        string IS string
+                      }
+                    }
+                  ]
+                }
+
+              ]
+            }
+          ]
+        }
+
+      ]
+    }
+
+
+
+    # ---------- text script ----------
+
+    DEF textScript Script {
+        eventIn     SFTime    touchText
+        eventIn     SFBool    overText
+        eventOut    SFColor   colorOut
+        eventOut    SFColor   backColorOut
+
+        field       SFColor   highlightedText      0.2 0.2 0.4
+        field       SFColor   lowlightedText       0.3 0.3 0.3
+        field       SFColor   highlightedTextBack  0.9 0.951 0.982
+        field       SFColor   lowlightedTextBack   0.8 0.851 0.882
+        field       MFString  the_url              IS url
+        field       MFString  the_parameter        IS parameter
+
+        url "javascript:
+            function touchText(timeValue) {
+                Browser.loadURL (the_url,the_parameter);
+            }
+            function overText(over) {
+                if (over) {
+                    colorOut = highlightedText;
+                    backColorOut = highlightedTextBack;
+                } else {
+                    colorOut = lowlightedText;
+                    backColorOut = lowlightedTextBack;
+                }
+            }
+        "
+    }
+
+    ROUTE textSensor.isOver TO textScript.overText
+    ROUTE textSensor.touchTime TO textScript.touchText
+
+    ROUTE textScript.colorOut TO blackTextMaterial.diffuseColor
+    ROUTE textScript.backColorOut TO backingMaterial.diffuseColor
+}
+
+# ---------- end proto ---------
+
+# ---------- instantiated protos ----------
+
+Transform {
+  rotation     0 0 1 0.49
+  translation  0 0 0
+  children [
+    DEF text Transform {
+      rotation     0 0 1 0.49
+      translation  0 0 0
+      children [
+
+
+        # --------- face 1 ----------
+        TextRollover {
+            string        "Search by Keyword"
+            style         "BOLD"
+            url           "#"
+            size          0.14
+        }
+        TextRollover {
+            string        "text only"
+            url           "results.html"
+            translation   0 -0.35 0
+        }
+        TextRollover {
+            string        "additional media"
+            url           "results.html"
+            translation   0 -0.7 0
+        }
+        TextRollover {
+            string        ""
+            url           "#"
+            translation   0 -1.05 0
+        }
+
+        # --------- face 2 ----------
+        TextRollover {
+            string        "Search - Other"
+            style         "BOLD"
+            url           "#"
+            size          0.14
+            translation   0 0 0
+            rotation      0 1 0 -1.5708
+        }
+        TextRollover {
+            string        "title"
+            url           "results.html"
+            translation   0 -0.35 0
+            rotation      0 1 0 -1.5708
+        }
+        TextRollover {
+            string        "author"
+            url           "results.html"
+            translation   0 -0.7 0
+            rotation      0 1 0 -1.5708
+        }
+        TextRollover {
+            string        "ISBN"
+            url           "results.html"
+            translation   0 -1.05 0
+            rotation      0 1 0 -1.5708
+        }
+
+        # --------- face 3 ----------
+        TextRollover {
+            string        "Intranet"
+            style         "BOLD"
+            url           "#"
+            size          0.14
+            translation   0 0 0
+            rotation      0 1 0 -3.1416
+        }
+        TextRollover {
+            string        "courseware"
+            url           "results.html"
+            translation   0 -0.35 0
+            rotation      0 1 0 -3.1416
+        }
+        TextRollover {
+            string        "resources"
+            url           "results.html"
+            translation   0 -0.7 0
+            rotation      0 1 0 -3.1416
+        }
+        TextRollover {
+            string        "bulletin boards"
+            url           "#"
+            translation   0 -1.05 0
+            rotation      0 1 0 -3.1416
+        }
+
+        # --------- face 4 ----------
+        TextRollover {
+            string        "Internet"
+            style         "BOLD"
+            url           "#"
+            size          0.14
+            rotation      0 1 0 -4.7124
+        }
+        TextRollover {
+            string        "world wide web"
+            url           "results.html"
+            translation   0 -0.35 0
+            rotation      0 1 0 -4.7124
+        }
+        TextRollover {
+            string        "newsgroups"
+            url           "results.html"
+            translation   0 -0.7 0
+            rotation      0 1 0 -4.7124
+        }
+        TextRollover {
+            string        "IRC"
+            url           "results.html"
+            translation   0 -1.05 0
+            rotation      0 1 0 -4.7124
+        }
+
+      ]
+    }
+  ]
+}
+
+# ---------- motion mechanics ----------
+
+DEF rotate1 OrientationInterpolator {
+   key  [ 0, .25, .5, .75, 1 ]
+   keyValue [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF timer1 TimeSensor {
+   cycleInterval    25
+   stopTime -1
+   loop     TRUE
+}
+
+# ---------- wiring ----------
+
+ROUTE timer1.fraction_changed TO rotate1.set_fraction
+ROUTE rotate1.value_changed TO motionScript.rotationIn
+ROUTE prismSensor.rotation_changed TO motionScript.sensorIn
+ROUTE motionScript.rotationOut TO prism.set_rotation
+ROUTE motionScript.rotationOut TO text.set_rotation
+

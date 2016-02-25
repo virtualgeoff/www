@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Untitled</title>
+<script language="JavaScript">
+
+state = 0;
+
+function changeState(n) {
+	state = n;
+	window.status = "state: " + n;
+	//document.form1.state[n].checked = true;
+}
+
+function click(n) {
+	document.form1.info.value = "state: " + state + ', n: ' + n;
+}
+
+function checkKey(e) {
+	if (document.layers) {
+		if (e.which == 122) changeState(1); // z key
+		else if (e.which == 120) changeState(2); // x key
+	} else if (document.all) {
+		//alert(event.keyCode);
+		if (event.keyCode == 90) changeState(1);
+		else if (event.keyCode == 88) changeState(2);
+	}
+}
+
+function cancelKey(e) {
+	changeState(0);
+}
+
+if (document.layers) document.captureEvents(Event.KEYDOWN | Event.KEYUP);
+document.onkeydown = checkKey;
+document.onkeyup = cancelKey;
+
+</script>
+</head>
+
+<body>
+
+
+<p><a href="javascript:click(0)"><b>Do Something 0</b></a><br>
+<a href="javascript:click(1)"><b>Do Something 1</b></a><br>
+<a href="javascript:click(2)"><b>Do Something 2</b></a></p>
+
+
+<form name="form1">
+    <table border=1 cellpadding="3">
+      <tr>
+        <td>
+            <input name="state" type=radio value="0" selected onclick="changeState(this.value);"><font face="arial" size="-1">left click</font><br>
+            <input name="state" type=radio value="1" onclick="changeState(this.value);"><font face="arial" size="-1">right click - Ctrl click</font><br>
+            <input name="state" type=radio value="2" onclick="changeState(this.value);"><font face="arial" size="-1">both click - shift click</font>
+        </td>
+      </tr>
+	  <tr><td><input type="text" name="info"></td></tr>
+    </table>
+	
+</form>
+
+
+</body>
+</html>

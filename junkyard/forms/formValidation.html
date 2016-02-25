@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Javascript Junkyard - Form Validation</title>
+<script language="JavaScript" src="checkForm.js"></script>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Form Validation</h3>
+
+<br>
+
+<form method="post" onSubmit="return checkRequiredFields(this)" name="form1">
+    <table cellspacing="0" cellpadding="4" border="0" align="center">
+       <tr>
+            <td>Name: *</td>
+            <td><input name="Name" size="40" maxlength="50" onChange="checkText(this)"></td>
+        </tr>
+        <tr>
+            <td>Email: *</td>
+            <td><input name="Email" size="40" maxlength="50" onBlur="checkEmail(this)"></td>
+        </tr>
+        <tr>
+            <td>Postcode: </td>
+            <td><input name="Postcode" size="40" maxlength="25" onBlur="checkNumeric(this)"></td>
+        </tr>
+        <tr>
+            <td>Phone: </td>
+            <td><input name="Phone" size="40" maxlength="25" onChange="checkNumeric(this)"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><i>* required fields</i></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type=submit value="Submit"> <input type=reset value="Clear"></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>
+
+

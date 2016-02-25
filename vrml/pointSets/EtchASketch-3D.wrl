@@ -1,0 +1,250 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Etch-a-Sketch-3D"
+   info ["Geoff Pack, Spike, 2000" ]
+}
+
+NavigationInfo {
+    headlight TRUE
+    speed 0.8
+    type "EXAMINE"
+}
+
+Viewpoint {
+    position 0 0 10
+    description "side"
+}
+
+Viewpoint {
+    position 0 0 3
+    description "inside"
+}
+
+# ------------------------------------------------------------
+# Transparent Box
+
+Transform {
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {transparency 0.7}
+            }
+            geometry Box {size  4 3 3}
+        }
+    ]
+}
+
+# ------------------------------------------------------------
+# Left Knob - x axis
+
+Transform {
+    translation     -1.75 -2 1.5
+    rotation        1 0 0 1.57
+    children [
+        DEF mySensorX CylinderSensor {
+            maxAngle    2
+            minAngle    -2
+        }
+        DEF mySphereX Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {diffuseColor 1 0 0 }
+                    }
+                    geometry Cylinder {
+                        radius  0.3
+                        height  0.2
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+# ------------------------------------------------------------
+# Right Knob - y axis
+
+Transform {
+    translation     1.75 -2 1.5
+    rotation        1 0 0 1.57
+    children [
+        DEF mySensorY CylinderSensor {
+            maxAngle    1.5
+            minAngle    -1.5
+        }
+        DEF mySphereY Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {diffuseColor 1 0 0 }
+                    }
+                    geometry Cylinder {
+                        radius  0.3
+                        height  0.2
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+# ------------------------------------------------------------
+# Centre Knob - z axis
+
+Transform {
+    translation     0 -2 1.5
+    rotation        1 0 0 1.57
+    children [
+        DEF mySensorZ CylinderSensor {
+            maxAngle    1.5
+            minAngle    -1.5
+        }
+        DEF mySphereZ Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {diffuseColor 1 0 0 }
+                    }
+                    geometry Cylinder {
+                        radius  0.3
+                        height  0.2
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+#-------------------------------------------------------
+# Moving Box
+
+DEF myBox Transform {
+    children [
+     Shape {
+         appearance Appearance {
+          material Material {
+              diffuseColor 0 1 .1
+          }
+         }
+         geometry Box { size 0.05 0.05 0.05 }
+     }
+    ]
+}
+
+#-------------------------------------------------------
+# Line Object
+
+DEF OBJECT1 Transform {
+    rotation     1 0 0 0
+    center       0 1 0
+    children [
+        Shape {
+            geometry DEF LineSet IndexedLineSet {
+                coord DEF LineSetCoords Coordinate {
+                    point [ ]
+                }
+                coordIndex [ ]
+                color DEF LineSetColor Color {
+                    color [ ]
+                }
+                colorIndex [ ]
+            }
+        }
+    ]
+}
+
+#-------------------------------------------------------
+# Convert knob rotation to pointer position
+
+DEF myMoverScript Script {
+    eventIn     SFRotation  DraggedX
+    eventIn     SFRotation  DraggedY
+    eventIn     SFRotation  DraggedZ
+    eventOut    SFVec3f     NewBoxPosition
+    field       SFVec3f     currentPosition 0.0 0.0 0.0
+
+    url "javascript:
+        function DraggedX(value) {
+            currentPosition[0] = value[3];
+            NewBoxPosition = currentPosition;
+        }
+        function DraggedY(value) {
+            currentPosition[1] = value[3];
+            NewBoxPosition = currentPosition;
+        }
+        function DraggedZ(value) {
+            currentPosition[2] = value[3];
+            NewBoxPosition = currentPosition;
+        }
+    "
+}
+
+#-------------------------------------------------------
+# Generate the Line Set
+
+DEF LineSetScript Script {
+    eventIn     SFVec3f     newLinePosition
+    eventOut    MFVec3f     point_Changed
+    eventOut    MFInt32     index_Changed
+    eventOut    MFColor     color_Changed
+    eventOut    MFInt32     colorIndex_Changed
+
+    field       MFVec3f     point 0.0 0.0 0.0
+    field       MFInt32     index 0
+    field       SFInt32     count 0
+    field       MFColor     color 1 1 1
+    field       MFInt32     colorIndex 0
+
+    url "javascript:
+        function newLinePosition(value) {
+            count++;
+            point[count].x = value[0];
+            point[count].y = value[1];
+            point[count].z = value[2];
+            point_Changed = point;
+
+            color[count].r = 0; //Math.random();
+            color[count].g = 0; //Math.random();
+            color[count].b = 1; //Math.random();
+            color_Changed = color;
+
+            index[count] = count;
+            index[count+1] = -1;
+            index_Changed = index;
+
+            colorIndex[count] = count;
+            colorIndex[count+1] = -1;
+            colorIndex_Changed = colorIndex;
+
+            // debug step:
+            print ('points: ' + count);
+        }
+    "
+}
+
+#-------------------------------------------------------
+# The Wiring
+
+# Connect the sensors to their representing objects
+ROUTE mySensorX.rotation_changed TO mySphereX.set_rotation
+ROUTE mySensorY.rotation_changed TO mySphereY.set_rotation
+ROUTE mySensorZ.rotation_changed TO mySphereZ.set_rotation
+
+# Connect the sensors to script
+ROUTE mySensorX.rotation_changed TO myMoverScript.DraggedX
+ROUTE mySensorY.rotation_changed TO myMoverScript.DraggedY
+ROUTE mySensorZ.rotation_changed TO myMoverScript.DraggedZ
+
+# Send the new position to the box and line script
+ROUTE myMoverScript.NewBoxPosition TO myBox.set_translation
+ROUTE myMoverScript.NewBoxPosition TO LineSetScript.newLinePosition
+
+# Connect LineSetScript to the Line Object
+ROUTE LineSetScript.point_Changed TO LineSetCoords.set_point
+ROUTE LineSetScript.index_Changed TO LineSet.set_coordIndex
+ROUTE LineSetScript.color_Changed TO LineSetColor.set_color
+ROUTE LineSetScript.colorIndex_Changed TO LineSet.set_colorIndex
+
+#-------------------------------------------------------
+# End

@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Dhtml Dumpster - 2D Scroll</title>
+<style type="text/css">
+.inner	{position:absolute; z-index:20; left:0; top:0; width:260; font-size:10pt; font-family:verdana; background-color: orange; layer-background-color: orange;}
+</style>
+<script language="JavaScript" src="../scripts/scrolling2D.js"></script>
+<script language="JavaScript">
+
+function scrollInit(){
+    scroller1 = new  makeScrollObj('scroller1','content1','clip1',100,175);
+}
+
+</script>
+</head>
+
+<body onload="scrollInit()">
+
+<div id="clip1" style="position:absolute; z-index:3; left:100; top:100; width:260; height:175; clip:rect(0,260,175,0); background-color: white; layer-background-color: white;">
+   <div id="content1" class="inner">
+		<p><b>1:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>2:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+		<p><b>3:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd dereud facilis est er expedit distinct. Nam liber te conscient to factor tum poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam dignissum qui blandit est praesent. </p>
+    </div>
+</div>
+
+<div id="button1" style="position:absolute; z-index:25; left:381; top:245; width:9;  height:9;"><a href="#" onMouseOver="scroll(scroller1,0,5)" onMouseOut="noScroll(scroller1)"><img src="images/up.gif" width="11" height="9" border="0"></a></div>
+<div id="button2" style="position:absolute; z-index:25; left:381; top:269; width:9;  height:9;"><a href="#" onMouseOver="scroll(scroller1,0,-5)" onMouseOut="noScroll(scroller1)"><img src="images/down.gif" width="11" height="9" border="0"></a></div>
+<div id="button3" style="position:absolute; z-index:25; left:370; top:256; width:9;  height:9;"><a href="#" onMouseOver="scroll(scroller1,5,0)" onMouseOut="noScroll(scroller1)"><img src="images/left.gif" width="9" height="11" border="0"></a></div>
+<div id="button4" style="position:absolute; z-index:25; left:394; top:256; width:9;  height:9;"><a href="#" onMouseOver="scroll(scroller1,-5,0)" onMouseOut="noScroll(scroller1)"><img src="images/right.gif" width="9" height="11" border="0"></a></div>
+<div id="button5" style="position:absolute; z-index:25; left:373; top:190; width:10; height:10;"><a href="#" onMouseOver="scroll(scroller1,2,2)" onMouseOut="noScroll(scroller1)"><img src="images/upleft.gif" width="10" height="10" border="0"></a></div>
+<div id="button6" style="position:absolute; z-index:25; left:391; top:190; width:10; height:10;"><a href="#" onMouseOver="scroll(scroller1,-2,2)" onMouseOut="noScroll(scroller1)"><img src="images/upright.gif" width="10" height="10" border="0"></a></div>
+<div id="button7" style="position:absolute; z-index:25; left:373; top:206; width:10; height:10;"><a href="#" onMouseOver="scroll(scroller1,2,-2)" onMouseOut="noScroll(scroller1)"><img src="images/downleft.gif" width="10" height="10" border="0"></a></div>
+<div id="button8" style="position:absolute; z-index:25; left:391; top:206; width:10; height:10;"><a href="#" onMouseOver="scroll(scroller1,-2,-2)" onMouseOut="noScroll(scroller1)"><img src="images/downright.gif" width="10" height="10" border="0"></a></div>
+
+</body>
+</html>

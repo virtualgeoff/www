@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Dragable Layers</title>
+
+<style type="text/css">
+<!--
+    body {background-color: #006b88; background-image: url(images/rchome_off.jpg); background-repeat: no-repeat; color: #ffffff; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt;}
+
+    #xxLayer          {position:absolute; width:770px; height:1px; z-index:200; left: 0; top: 0;}
+    #yyLayer          {position:absolute; width:1px; height:450px; z-index:201; left: 0; top: 0;}
+
+    #mapLayer         {position:absolute; width:156px; height:92px; z-index:202; left: 100; top: 300;}
+    #xxMapLayer       {position:absolute; width:156px; height:1px; z-index:203; left: 100; top: 300;}
+    #yyMapLayer       {position:absolute; width:1px;   height:92px; z-index:204; left: 100; top: 300;}
+    #mapCoords1       {position:absolute; width:156px; height:20px; z-index:202; left: 100; top: 280;}
+    #mapCoords2       {position:absolute; width:156px; height:20px; z-index:202; left: 170; top: 280;}
+    .b4               {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; color: #ffffff;}
+
+-->
+</style>
+
+<script language="JavaScript1.2">
+<!--
+
+var dragging = 0;       // is 1 if a layer is beeing draged
+var xVar = 0;           // x pos from the layerleft to mousex
+var yVar = 0;           // y pos from the layertop to mousey
+
+function mouseMove(e) {
+	if (document.all) {
+        var xto = event.x
+        var yto = event.y
+        crossHair(xto,yto);
+    } else if (document.layers || document.getElementById) {
+        var xto = e.pageX;
+        var yto = e.pageY;
+        crossHair(xto,yto);
+    }
+	window.status = xto + ", " + yto;
+}
+
+function crossHair(mX,mY) {
+    //var mX, mY;
+    var nX, nY;
+    nX = parseInt(100 + mX/770*156); nY = parseInt(300 + mY/450*92);
+	if (document.getElementById) {
+    	document.getElementById('xxLayer').style.top = mY +'px';
+        document.getElementById('yyLayer').style.left = mX +'px';
+        document.getElementById('xxMapLayer').style.top = nY +'px';
+        document.getElementById('yyMapLayer').style.left = nX +'px';
+    } else if (document.layers) {
+        document.layers.xxLayer.moveTo(0,mY);
+        document.layers.yyLayer.moveTo(mX,0);
+        document.layers.xxMapLayer.moveTo(100,nY);
+        document.layers.yyMapLayer.moveTo(nX,300);
+    } else if (document.all) {
+        document.all.xxLayer.style.top  = mY;
+        document.all.yyLayer.style.left = mX;
+        document.all.xxMapLayer.style.top  = nY;
+        document.all.yyMapLayer.style.left = nX;
+    }
+    str1 = "(" + mX + "," + mY + "),";
+    str2 = "(" + nX + "," + nY + ")";
+    writeText('mapCoords1',str1);
+    writeText('mapCoords2',str2);
+}
+
+function writeText(id,str) {
+	if (document.getElementById) {
+		document.getElementById(id).innerHTML = '<span class="b4">' + str + '</span>';
+	} else if (document.all) {
+		document.all[id].innerHTML = '<span class="b4">' + str + '</span>';
+	} else if (document.layers) {
+		with (document[id].document) {
+			open();
+			write('<span class="b4">' + str + '</span>');
+			close();
+		}
+	}
+}
+
+function init() {
+    document.onmousemove = mouseMove;
+    // captures mouseMove, mouseDown and mouseUp in Netscape
+    if (document.layers) document.captureEvents(Event.MOUSEMOVE);
+}
+
+// -->
+</script>
+</head>
+
+<body onload="init()">
+
+<div id="xxLayer"><img src="images/xx.gif" width="770" height="1" border="0"></div>
+<div id="yyLayer"><img src="images/yy.gif" width="1" height="450" border="0"></div>
+
+<div id="mapLayer"><img src="images/mini_map.gif" width="156" height="92" border="0"></div>
+<div id="xxMapLayer"><img src="images/xx.gif" width="156" height="1" border="0"></div>
+<div id="yyMapLayer"><img src="images/yy.gif" width="1" height="92" border="0"></div>
+<div id="mapCoords1">(0,0)</div>
+<div id="mapCoords2">(0,0)</div>
+
+</body>
+</html>

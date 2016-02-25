@@ -1,0 +1,12 @@
+
+body        {background-color: #666666; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #333333}
+td       	{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #000000}
+h1          {font-size: 20pt; font-weight: normal;}
+h2          {font-size: 16pt; font-weight: normal;}
+h3          {font-size: 14pt; font-weight: normal;}
+h4          {font-size: 12pt;}
+
+a           {color:#ffffff;text-decoration:none;}
+a:Visited   {color:#ffffff;}
+a:Active    {color:#33dd33;}
+a:Hover     {color:orange;}

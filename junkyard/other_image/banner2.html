@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Javascript Junkyard - Banner Add with Links</title>
+<meta http-equiv ="Refresh" content = "2; URL=banner2.html">
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Banner Add with Links</h3>
+
+<br>
+
+<script language="JavaScript">
+<!-- 
+
+// banner-add script
+// generates random banner add with link, and alt text
+
+// find  link, src, alt text:
+var imgSrc = new Array("banner0.gif","banner1.gif","banner2.gif","banner3.gif","banner4.gif","banner5.gif","banner6.gif","banner7.gif");
+var linkURL = new Array("page0.html","page1.html","page2.html","page3.html","page4.html","page5.html","page6.html","page7.html");
+var altText = new Array("banner 0","banner 1","banner 2","banner 3","banner 4","banner 5","banner 6","banner 7");
+var n = Math.floor(Math.random()*imgSrc.length);
+
+// Write the gif and link
+document.write('<p align="center"><a href="'+linkURL[n]+'"><img src="banners/'+imgSrc[n]+'" alt="'+altText[n]+'" border="0"></a></p>');
+
+// for testing
+document.write('<table align="center">');
+document.write('<tr><td>text: </td><td>' + altText[n] + '</td></tr>');
+document.write('<tr><td>url:  </td><td>' + linkURL[n] + '</td></tr>');
+document.write('<tr><td>src:  </td><td>' + imgSrc[n]  + '</td></tr>');
+document.write('</table>');
+
+// -->
+</script>
+
+</body>
+</html>

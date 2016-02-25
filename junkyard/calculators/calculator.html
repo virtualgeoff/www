@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>Javascript Junkyard - Simple Calculator</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script>
+<!--
+
+	var one = '1';
+	var two = '2';
+	var three = '3';
+	var four = '4';
+	var five = '5';
+	var six = '6';
+	var seven = '7';
+	var eight = '8';
+	var nine = '9';
+	var zero = '0';
+	var plus = '+';
+	var minus = '-';
+	var multiply = '*';
+	var divide = '/';
+	var decimal = '.';
+	
+	function enter(form, string) {
+		form.expr.value += string;
+	}
+	
+	function compute(form) {
+		form.expr.value = eval(form.expr.value);
+	}
+	
+	function clr(form) {
+		form.expr.value = '';
+	}
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Simple Calculator</h3>
+
+<br>
+
+<form name="calc">
+<table border="1" align="center">
+    <tr>
+        <td colspan="4"><input type="text" name="expr" size=20 action="compute(this.form)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="  7  " onClick="enter(this.form, seven)"></td>
+        <td><input type="button" value="  8  " onClick="enter(this.form, eight)"></td>
+        <td><input type="button" value="  9  " onClick="enter(this.form, nine)"></td>
+        <td><input type="button" value="   /  " onClick="enter(this.form, divide)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="  4  " onClick="enter(this.form, four)"></td>
+        <td><input type="button" value="  5  " onClick="enter(this.form, five)"></td>
+        <td><input type="button" value="  6  " onClick="enter(this.form, six)"></td>
+        <td><input type="button" value="   *  " onClick="enter(this.form, multiply)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="  1  " onClick="enter(this.form, one)"></td>
+        <td><input type="button" value="  2  " onClick="enter(this.form, two)"></td>
+        <td><input type="button" value="  3  " onClick="enter(this.form, three)"></td>
+        <td><input type="button" value="   -  " onClick="enter(this.form, minus)"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="button" value="       0       " onClick="enter(this.form, zero)"></td>
+        <td><input type="button" value="   .  " onClick="enter(this.form, decimal)"></td>
+        <td><input type="button" value="  +  " onClick="enter(this.form, plus)"></td>
+    </tr>
+    <tr>
+        <td colspan="2">&nbsp;</td>
+        <td><input type="button" value="AC" size= 3 onClick="clr(this.form)"></td>
+        <td><input type="button" value="  =  " onClick="compute(this.form)"></td>
+    </tr>
+</table>
+</form>
+
+</body>
+</html>

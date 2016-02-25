@@ -1,0 +1,89 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Simple pointset"
+   info ["Description: Shows how to generate points from a script.",
+         "Programming by Roland Smeenk, may 1998",
+         "Colors added by Geoff Pack, 1999"]
+}
+
+NavigationInfo {
+    headlight TRUE
+    speed 0.8
+    type "EXAMINE"
+}
+
+Viewpoint {
+    position 0 0 10
+    description "side"
+}
+
+Viewpoint {
+    position 0 0 3
+    description "inside"
+}
+
+DEF OBJECT1 Transform {
+    rotation     1 0 0 0
+    center       0 1 0
+    children [
+        Shape {
+            geometry PointSet {
+                coord DEF PointSetCoords Coordinate {
+                    point [ ]
+                }
+                color DEF PointSetColor Color {
+                    color [ ]
+                }
+            }
+        }
+    ]
+}
+
+DEF TIMER1 TimeSensor {
+    cycleInterval    10
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF ROTATE1 OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF PointSetScript Script {
+    eventOut MFVec3f point_Changed
+    eventOut MFColor color_Changed
+
+    field    MFVec3f point 0.0 0.0 0.0
+    field    MFColor color 1 1 1
+
+    field    SFInt32 PointCount 1000
+    field    SFInt32 Size 5
+    url "javascript:
+        function initialize() {
+            // Number of points
+            point.length = PointCount;
+
+            for (i=0; i<PointCount; i++) {
+                point[i].x = (Math.random() - 0.5)*Size;
+                point[i].y = (Math.random() - 0.5)*Size;
+                point[i].z = (Math.random() - 0.5)*Size;
+                color[i].r = Math.random();
+                color[i].g = Math.random();
+                color[i].b = Math.random();
+            }
+            // Send the points to the empty geometry
+            point_Changed = point;
+            color_Changed = color;
+        }
+    "
+}
+
+ROUTE PointSetScript.point_Changed TO PointSetCoords.set_point
+ROUTE PointSetScript.color_Changed TO PointSetColor.set_color
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+
+

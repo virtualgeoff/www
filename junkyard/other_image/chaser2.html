@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>Javascript Junkyard - Chaser 2</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language = "JavaScript">
+<!--
+
+if (document.images) {
+	year1on  = new Image(); year1on.src  = "graphics/1946on.gif";
+	year1off  = new Image(); year1off.src = "graphics/1946off.gif";
+	year2on  = new Image(); year2on.src  = "graphics/1991on.gif";
+	year2off = new Image(); year2off.src = "graphics/1991off.gif";
+	year3on  = new Image(); year3on.src  = "graphics/1996on.gif";
+	year3off = new Image(); year3off.src = "graphics/1996off.gif";
+	year4on  = new Image(); year4on.src  = "graphics/1997on.gif";
+	year4off = new Image(); year4off.src = "graphics/1997off.gif";
+	year5on  = new Image(); year5on.src  = "graphics/1998on.gif";
+	year5off = new Image(); year5off.src = "graphics/1998off.gif";
+
+	picoff = new Image(); picoff.src = "graphics/picoff.gif";
+	pic1on = new Image(); pic1on.src = "graphics/pic01.gif";
+	pic2on = new Image(); pic2on.src = "graphics/pic02.gif";
+	pic3on = new Image(); pic3on.src = "graphics/pic03.gif";
+	pic4on = new Image(); pic4on.src = "graphics/pic04.gif";
+	pic5on = new Image(); pic5on.src = "graphics/pic05.gif";
+}
+
+var yearNum = 0;
+
+function changeYear() {
+	yearNum++; if (yearNum>5) yearNum=1;
+	lastNum = yearNum-1; if (lastNum==0) lastNum=5;
+	currentYear = "year" + yearNum;
+	currentPic = "pic" + yearNum;
+	lastYear = "year" + lastNum;
+	lastPic = "pic" + lastNum;
+
+	if (document.images) {
+		document[currentYear].src=eval(currentYear + "on.src");
+		document[currentPic].src=eval(currentPic + "on.src");
+		document[lastYear].src=eval(lastYear + "off.src");
+		document[lastPic].src=eval("picoff.src");
+	}
+}
+
+function Rollon2(img1,img2,text){
+    window.status = text;
+	if (document.images) {
+		document[img1].src=eval(img1 + "on.src");
+	    document[img2].src=eval(img2 + "on.src");
+	}
+	// pause
+	//clearTimeout(timerID);
+}
+function Rolloff2(img1,img2){
+    window.status = "";	
+	if (document.images) {
+		document[img1].src=eval(img1 + "off.src");
+		document[img2].src=eval("picoff.src");
+	}
+	// resume
+	//timer();
+}
+function timer() {
+	changeYear();
+	timerID = setInterval("changeYear()", 800);
+}
+
+// -->
+</script>
+
+</head>
+<body onLoad="timer()">
+
+<h3 align="center">Chaser 2</h3>
+
+<br><br>
+
+<table border="0" cellpadding="0" cellspacing="0" width="500" align="center">
+<tr>
+	<td align="center" width="100"><a href=".html"><img src="graphics/picoff.gif" width="80" height="100" border="0" name="pic1"></a></td>
+	<td align="center" width="100"><a href=".html"><img src="graphics/picoff.gif" width="80" height="100" border="0" name="pic2"></a></td>
+	<td align="center" width="100"><a href=".html"><img src="graphics/picoff.gif" width="80" height="100" border="0" name="pic3"></a></td>
+	<td align="center" width="100"><a href=".html"><img src="graphics/picoff.gif" width="80" height="100" border="0" name="pic4"></a></td>
+	<td align="center" width="100"><a href=".html"><img src="graphics/picoff.gif" width="80" height="100" border="0" name="pic5"></a></td>
+</tr>
+<tr>
+	<td colspan="5"><br></td>
+</tr>
+<tr>
+	<td align="center"><a href=".html" onmouseover="Rollon2('year1','pic1','1946'); return true;" onmouseout="Rolloff2('year1','pic1'); return true;"><img name="year1" src="graphics/1946off.gif" width="100" height="15" border="0"></a></td>
+	<td align="center"><a href=".html" onmouseover="Rollon2('year2','pic2','1991'); return true;" onmouseout="Rolloff2('year2','pic2'); return true;"><img name="year2" src="graphics/1991off.gif" width="100" height="15" border="0"></a></td>
+	<td align="center"><a href=".html" onmouseover="Rollon2('year3','pic3','1996'); return true;" onmouseout="Rolloff2('year3','pic3'); return true;"><img name="year3" src="graphics/1996off.gif" width="100" height="15" border="0"></a></td>
+	<td align="center"><a href=".html" onmouseover="Rollon2('year4','pic4','1997'); return true;" onmouseout="Rolloff2('year4','pic4'); return true;"><img name="year4" src="graphics/1997off.gif" width="100" height="15" border="0"></a></td>
+	<td align="center"><a href=".html" onmouseover="Rollon2('year5','pic5','1998'); return true;" onmouseout="Rolloff2('year5','pic5'); return true;"><img name="year5" src="graphics/1998off.gif" width="100" height="15" border="0"></a></td>
+</tr>
+</table>
+
+</body>
+</html>

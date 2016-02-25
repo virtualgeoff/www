@@ -1,0 +1,10 @@
+
+#leader     {position: absolute; z-index: 5; left: 400px; top: 100px; width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: orange; layer-background-color: orange; color: white;}
+#follower1  {position: absolute; z-index: 4; left: 100px; top: 50px;  width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower2  {position: absolute; z-index: 3; left: 200px; top: 50px;  width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower3  {position: absolute; z-index: 2; left: 300px; top: 50px;  width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower4  {position: absolute; z-index: 1; left: 400px; top: 50px;  width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower5  {position: absolute; z-index: 4; left: 150px; top: 150px; width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower6  {position: absolute; z-index: 3; left: 250px; top: 150px; width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower7  {position: absolute; z-index: 2; left: 350px; top: 150px; width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}
+#follower8  {position: absolute; z-index: 1; left: 450px; top: 150px; width: 10px; height: 10px; clip: rect(0 10 10 0); background-color: white;  layer-background-color: white; color: orange;}

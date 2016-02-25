@@ -1,0 +1,44 @@
+#VRML V2.0 utf8 CosmoWorlds V1.0
+
+Transform {
+  translation 2.13 -2.44 2
+  children [
+    Shape {
+      appearance  Appearance {
+        material  Material {
+          ambientIntensity  0.244898
+          diffuseColor  0.3 0.10 0
+          emissiveColor 0 0 0
+          shininess 0.25
+          transparency  0
+        }
+        texture NULL
+        textureTransform  NULL
+      }
+      geometry Box {
+        size 16.6 .05 19
+      }
+    }
+  ]
+}
+Transform {
+  translation -1.98 -2.44 14.65
+  children [
+    Shape {
+      appearance  Appearance {
+        material  Material {
+          ambientIntensity  0.244898
+          diffuseColor  0.7 0.5 0.2
+          emissiveColor 0 0 0
+          shininess 0.25
+          transparency  0
+        }
+        texture NULL
+        textureTransform  NULL
+      }
+      geometry Box {
+        size 8.3 .05 6.3
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Javascript Junkyard - Status Bar Status Bar Ticker-Tape</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+var width = 120;
+var pos = 1 - width;
+
+function scroll(){
+    var theText = "This is Some Text in the Status Bar... " + newText;
+    var scroll = ""; 
+                  
+    pos++;  
+    if (pos == theText.length)  
+        pos = 1 - width; 
+    if (pos<0) {                     
+        for (var i=1; i<=Math.abs(pos); i++) 
+		scroll = scroll + " ";
+        scroll = scroll + theText.substring(0, width - i + 1);
+    }
+    else
+        scroll = scroll + theText.substring(pos, pos + width);
+    window.status = scroll;     
+    setTimeout("scroll()",50);   
+}
+</script>
+
+</head>
+
+<body>
+
+<h3 align="center">Status Bar Text Ticker</h3>
+
+<br>
+
+<p align="center">Check below...</p>
+
+<script language="JavaScript">
+	var newText = "Hello World !";
+	scroll();
+</script>
+
+</body>
+</html>

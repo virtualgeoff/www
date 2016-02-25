@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Radio Button Matrix</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+</head>
+
+<body>
+
+<h3>Radio Button Matrix</h3>
+
+<br>
+
+<p align="center"><b>You choices:&nbsp;</b></p>
+
+<script language="JavaScript">
+
+var searchStr = location.search;
+var section = location.hash.substring(1,location.hash.length);
+var searchArray = new Array();
+var matrixOptions = new Array('first','second','third','forth','fifth');
+
+while (searchStr!='') {
+	var name, value;
+	// strip off leading ? or &
+	if ((searchStr.charAt(0)=='?')||(searchStr.charAt(0)=='&')) searchStr = searchStr.substring(1,searchStr.length);
+	// find name
+	name = searchStr.substring(0,searchStr.indexOf('='));
+	// find value
+	if (searchStr.indexOf('&')!=-1) value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.indexOf('&'));
+	else value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.length);
+	// add pair to an associative array
+	searchArray[name] = value;
+	// cut first pair from string
+	if (searchStr.indexOf('&')!=-1) searchStr =  searchStr.substring(searchStr.indexOf('&')+1,searchStr.length);
+	else searchStr = '';
+	// debug step
+	//document.write(name + ': ' + value + ': ' + searchStr + '<br>');
+}
+
+// write table of pairs and hash value
+document.write('<table cellpadding="8" cellspacing="1" border="0" align="center">');
+for (var name in matrixOptions) {
+	document.write('<tr><td bgcolor="#cccccc">' + matrixOptions[name] + ': <\/td><td bgcolor="#cccccc">' + searchArray[matrixOptions[name]] + '<\/td><\/tr>');	
+}
+if (section!='') document.write('<tr><td>#: <\/td><td>' + section + '<\/td><\/tr>');
+document.write('<\/table>');
+
+</script>
+
+</body>
+</html>

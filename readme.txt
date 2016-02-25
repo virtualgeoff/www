@@ -1,1 +1,1 @@
-July 1997. Just a holding page.
+As of June 2006.

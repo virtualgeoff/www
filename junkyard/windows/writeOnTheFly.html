@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>Javascript Junkyard - Writing To a Window</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+<script language="JavaScript">
+<!--
+
+function popup(str) {
+	popupWindow = window.open();
+	popupWindow.document.writeln('<html><link rel="stylesheet" type="text/css" href="../junkyard.css"><head></head>');
+	popupWindow.document.writeln('<body><h3>Javascript Junkyard</h3>');
+	popupWindow.document.writeln('<p>' + str + '</p>');
+	popupWindow.document.writeln('</body></html>');
+}
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Writing To a Window On The Fly</h3>
+
+<br>
+
+<form name="myForm">
+    <p align="center">Enter some text: <input type=text size=12 name="myText">
+	<input type="button" value="Build" onClick="popup(myForm.myText.value)"></p>
+</form>
+
+</body>
+</html>

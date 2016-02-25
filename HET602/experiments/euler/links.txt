@@ -1,0 +1,26 @@
+
+The Earth companion asteroid 3753 Cruithne
+Earth Lagrange point asteroids (Earth Trojan asteroids)
+Retrograde Satellites (Quasi-satellites)
+
+all at:
+http://www.astro.queensu.ca/~wiegert/
+http://www.astro.queensu.ca/~wiegert/etrojans/etrojans.html
+
+Gravity simulations:
+http://www.princeton.edu/~rvdb/JAVA/astro/galaxy/Galaxy.html
+
+lagrange points:
+http://math.ucr.edu/home/baez/lagrange.html
+
+3 body problem - no analytical solution:
+http://www.physics.cornell.edu/sethna/teaching/sss/jupiter/Web/bye_bye.htm
+
+JPL basics of spaceflight
+http://www.jpl.nasa.gov/basics/index.html
+
+more lagrange stuff:
+http://math.ucr.edu/home/baez/lagrange.html
+
+http://www.merlyn.demon.co.uk/gravity.htm
+http://www.merlyn.demon.co.uk/gravity.htm#L15

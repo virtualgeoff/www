@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Mac/IE5 stylesheet fix</title>
+	
+<script language="javascript">
+
+Mac = (navigator.appVersion.indexOf("Mac")!=-1)?1:0;
+
+if (document.getElementById) {	// ie5, ns6 +
+	document.writeln('<LINK REL=stylesheet HREF="styles/default.css" TYPE="text/css">');
+} else if (document.all) { // ie4
+	if (Mac) document.writeln('<LINK REL=stylesheet HREF="styles/mac.css" TYPE="text/css">');
+	else document.writeln('<LINK REL=stylesheet HREF="styles/default.css" TYPE="text/css">');
+} else if (document.layers) { // ns4
+	if (Mac) document.writeln('<LINK REL=stylesheet HREF="styles/mac.css" TYPE="text/css">');
+	else document.writeln('<LINK REL=stylesheet HREF="styles/ns4pc.css" TYPE="text/css">');
+} else { 
+	// Not CSS compliant - No Stylesheet???
+}
+	
+</script>
+</head>
+
+<body>
+
+<p><b>You are using:</b><p>
+
+<script language="JavaScript">
+	
+	document.write('<table>');
+	document.write('<tr><td>document.getElementById:	</td><td>' + document.getElementById + '</td></tr>');
+	document.write('<tr><td>document.all:      			</td><td>' + document.all + '</td></tr>');
+	document.write('<tr><td>document.layers:   			</td><td>' + document.layers + '</td></tr>');
+	document.write('<tr><td>mac:          				</td><td>' + (navigator.appVersion.indexOf("Mac")!=-1) + '</td></tr>'); 
+	document.write('</table>');
+
+</script>
+
+<br><br>
+
+<p><b>This page uses one of three stylesheets:</b></p>
+
+<table>
+	<tr><td><b>default.css </b></td><td>(blue background)</td><td>- for NS6 (all platforms), IE5 (all platforms), and IE4(pc)</td></tr>	
+	<tr><td><b>mac.css </b></td><td>(red background)</td><td>- for Mac versions of IE4, IE4.5, NS4</td></tr>
+	<tr><td><b>ns4pc.css </b></td><td>(green background)</td><td>- for NS4 on PC</td></tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>Javascript Junkyard -  Energy Calculator</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+<!--
+    // JavaScript Energy Calculator
+    // by Geoff Pack, geoff@spike.com.au
+	
+	// These values must match default of checkbox or first calculation will be eroneous.
+	var powerUse = 1000;
+	var powerMultiplier = 1;
+	var timeMultiplier = 3600;
+	var energyMultiplier = 3600000;
+	var rateMultiplier = 360000000;
+	var baseEnergy = 1;
+
+	function setAppliance(form, appliancePower) {
+		form.powerUnit[0].checked = true;		
+		powerMultiplier = 1;
+		form.power.value = appliancePower;
+        computeForm(form);
+	}
+
+	function setPowerUnit(form, measure) {
+        if (measure == "W") powerMultiplier = 1;
+        else if (measure == "kW") powerMultiplier = 1000;
+        else if (measure == "hp") powerMultiplier = 746;
+        else powerMultiplier =1;
+        computeForm(form);
+	}
+
+	function setTimeUnit(form, measure) {
+        if (measure == "s") timeMultiplier = 1;
+        else if (measure == "min") timeMultiplier = 60;
+        else if (measure == "h") timeMultiplier = 3600;
+        else if (measure == "d") timeMultiplier = 86400;
+        else timeMultiplier =1;
+        computeForm(form);
+	}
+
+	function setEnergyUnit(form, measure) {
+        if (measure == "kWh") energyMultiplier = 3600000;
+        else if (measure == "J") energyMultiplier = 1;
+        else if (measure == "kJ") energyMultiplier = 1000;
+        else if (measure == "MJ") energyMultiplier = 1000000;
+        else energyMultiplier =1;
+        computeForm(form);
+	}
+
+	function setRateUnit(form, measure) {
+		//base unit is dollars per joule, hence large mulitpliers
+		if (measure == "peak") {
+			rateMultiplier = 360000000;
+			form.rate.value = 11;
+		}
+		else if (measure == "offpeak1") {
+			rateMultiplier = 360000000;
+			form.rate.value = 4;
+		}
+		else if (measure == "offpeak2") {
+			rateMultiplier = 360000000;
+			form.rate.value = 7;
+		}
+        else if (measure == "gas") {
+			rateMultiplier = 100000000;
+			form.rate.value = 20;
+		}
+        computeForm(form);
+	}
+
+ 	function checkField(input) {
+		var msg = "Field must contain numerical value."    
+		var str = input.value;
+		var ok = true;
+        
+		for (var i = 0; i < str.length; i++) {
+			var ch = str.substring(i, i + 1)
+			if ((ch < "0" || "9" < ch) && ch != '.') {
+				ok = false;
+			}
+		}
+		if (!ok) {
+			alert(msg);
+			input.value = "0"
+		}
+		computeForm(input.form);
+	}
+    
+	function checkRange(input, min, max, field) {
+		msg = field + " out of range!\r";
+		var str = input.value;
+		var num = 0 + str
+		if (num < min || max < num) {
+			alert(msg + "Please enter a value between  " + min + " and " + max + ".");
+			return false;
+		}
+		input.value = str;
+		return true;
+	}
+    
+	function computeForm(form) {
+		if ((form.time.value == null || form.time.value.length == 0) ||
+		(form.power.value == null || form.power.value.length == 0)) {
+		return;
+		}
+
+		if (!checkRange(form.time, 0, 1000000, "Time") ||
+			!checkRange(form.power, 0, 1000000, "Power") ||
+			!checkRange(form.rate, 0, 100, "Rate")) {
+			form.cost.value = "Invalid";
+			return;
+		}
+
+		baseEnergy = form.power.value * powerMultiplier * form.time.value * timeMultiplier;
+		form.energy.value = baseEnergy / energyMultiplier;
+		form.cost.value = baseEnergy * form.rate.value / rateMultiplier;
+
+	}
+
+
+// -->
+</script>
+
+</head>
+
+<body>
+
+<h3 align="center">Energy Calculator</h3>
+
+<br>
+
+<form method="post">
+
+	<table cellpadding=6 cellspacing=0 border=1 align="center">
+	<tr align=center>
+		<td><b>Power</b></td>
+		<td><b>Time</b></td>
+		<td><b>Energy</b></td>
+		<td><b>Rate</b></td>
+		<td><b>Cost</b></td>
+	</tr>
+
+	<tr valign=top align=center>
+		<td><input type=text name=power value=1000 size=8 onchange="checkfield(this)"></td>
+		<td>&times;&nbsp;<input type=text name=time value=1 size=8 onchange="checkfield(this)"></td>
+		<td>=&nbsp;<input type=text name=energy size=8 onchange="checkfield(this)"></td>
+		<td>@&nbsp;<input type=text name=rate value=11 size=4 onchange="checkfield(this)">&nbsp;&cent;</td>
+		<td>=&nbsp;$<input type=text name=cost size=8 onchange="checkfield(this)"></td>
+	</tr>
+
+	<tr valign=top>
+		<td><!-- base power unit = Watts -->
+			<input type="radio" name="powerUnit" value="W" checked onclick="setPowerUnit(this.form,this.value);"> Watts (W)<br> 
+			<input type="radio" name="powerUnit" value="kW" onclick="setPowerUnit(this.form,this.value);"> kiloWatts (kW)<br> 	
+			<input type="radio" name="powerUnit" value="hp" onclick="setPowerUnit(this.form,this.value);"> Horsepower (hp)<br> 	
+			<br>
+			<select name="appliance" size="1" onchange="setAppliance(this.form, this.options[selectedIndex].value);">
+				<option value=200>TV</option>
+				<option value=60>Light - 60W</option>
+				<option value=2400>Heater</option>
+				<option value=1000 selected>Other...</option>
+			</select>
+		</td>
+		<td><!-- base time unit = Seconds -->
+			<input type="radio" name="timeUnit" value="s" onclick="setTimeUnit(this.form,this.value);"> Seconds (s)<br> 
+			<input type="radio" name="timeUnit" value="min" onclick="setTimeUnit(this.form,this.value);"> Minutes (min)<br> 	
+			<input type="radio" name="timeUnit" value="h" checked onclick="setTimeUnit(this.form,this.value);"> Hours (h)<br> 	
+			<input type="radio" name="timeUnit" value="d" onclick="setTimeUnit(this.form,this.value);"> Days (d)<br> 	
+		</td>
+		<td><!-- base energy unit = Joules -->
+			<input type="radio" name="energyUnit" value="kWh" checked onclick="setEnergyUnit(this.form,this.value);"> kiloWatt hours (kWh)<br> 
+			<input type="radio" name="energyUnit" value="J" onclick="setEnergyUnit(this.form,this.value);"> Joules (J)<br> 	
+			<input type="radio" name="energyUnit" value="kJ" onclick="setEnergyUnit(this.form,this.value);"> kiloJoules (kJ)<br> 	
+			<input type="radio" name="energyUnit" value="MJ" onclick="setEnergyUnit(this.form,this.value);"> megaJoules (MJ)<br> 	
+		</td>
+		<td><!-- base rate unit = Cents per Joule -->
+			<input type="radio" name="rateUnit" value="peak" checked onclick="setRateUnit(this.form,this.value);"> Peak: &cent; per kWh<br> 
+			<input type="radio" name="rateUnit" value="offpeak1" onclick="setRateUnit(this.form,this.value);"> Off-Peak 1: &cent; per kWh<br> 
+			<input type="radio" name="rateUnit" value="offpeak2" onclick="setRateUnit(this.form,this.value);"> Off-Peak 2: &cent; per kWh<br> 
+			<input type="radio" name="rateUnit" value="gas" onclick="setRateUnit(this.form,this.value);"> Gas: &cent; per MJ<br> 	
+		</td>
+		<td align=right><input type="button" value="Calculate" onClick="computeform(this.form)"></td>
+	</tr>
+
+	<tr>
+		<td align=center colspan=5>
+			<input type="reset" value="Reset Form">
+		</td>
+	</tr>
+	</table>
+</form>
+
+</body>
+</html>
+

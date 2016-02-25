@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>Javascript Junkyard - Upper Management Bingo</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+    var phraseList, yourSelection;
+
+    function makeArray(len) {
+        for (var i = 0; i < len; i++) this[i] = null;
+        this.length = len;
+    }
+    function getRandom(max) {
+        // random number between 0 and max
+        rnumber = Math.round(Math.random()*max)
+        return rnumber
+    }
+
+    phraseList = new makeArray(19);
+    phraseList[0]  = "youth market";
+    phraseList[1]  = "digital lifestyle";
+    phraseList[2]  = "joint venture";
+    phraseList[3]  = "global youth audience";
+    phraseList[4]  = "share price";
+    phraseList[5]  = "Spike Radio";
+    phraseList[6]  = "Biggest in the Asia Pacific region";
+    phraseList[7]  = "market capitalization";
+    phraseList[8]  = "new office/premises";
+    phraseList[9]  = "Disney of the web";
+    phraseList[10] = "cutting edge";
+    phraseList[11] = "e-commerce";
+    phraseList[12] = "WAP technology";
+    phraseList[13] = "broadband";
+    phraseList[14] = "new [insert city] office";
+    phraseList[15] = "business silos";
+    phraseList[16] = "aggressive cycle of growth";
+    phraseList[17] = "digital architecture";
+    phraseList[18] = "[x] employees by the end of the year";
+    phraseList[19] = "NASDAQ";
+
+    // Takes a selection from the phrase list
+    yourSelection =  new makeArray(3);
+    for (i=0; i<=yourSelection.length; i++) {
+        // generate a random number until
+        // you find a phrase not already taken:
+        do  {
+            x = getRandom(phraseList.length);
+        } while (phraseList[x]== null);
+        yourSelection[i] = phraseList[x];
+        // remove that phase from the phrase list
+        phraseList[x] = null;
+    }
+
+
+// -->
+</script>
+
+</head>
+<body>
+
+<h3 align="center">Upper Management Bingo:</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<script language="JavaScript">
+<!--
+
+    // Your Selection:
+    document.write("<p><b>Your Selection:</b><br><br>");
+    for (i=0; i<=yourSelection.length; i++) {
+        document.write(yourSelection[i] + "<br>");
+    }
+    document.write("</p>");
+
+    // for debugging purposes - delete form final:
+    // Phrase List:
+    document.write("<p><b>PhraseList:</b><br><br>");
+    for (i=0; i<=phraseList.length; i++) {
+        document.write(phraseList[i] + "<br>");
+    }
+    document.write("</p>");
+
+// -->
+</script>
+
+</td></tr>
+</table>
+
+</body>
+</html>

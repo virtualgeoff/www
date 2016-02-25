@@ -1,0 +1,77 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title       "Timer test"
+    info        "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        "EXAMINE"
+}
+
+Transform {
+  translation 0 0 0
+  children [
+    DEF mySensor TouchSensor {}
+    DEF myBox  Transform {
+      translation 0 0 0
+      children [
+        Shape {
+          appearance Appearance {
+            material DEF myMaterial Material {
+              diffuseColor  0 .5 0
+              emissiveColor 0 .5 0
+              transparency  .5
+            }
+          }
+          geometry Box {
+            size 2 2 2
+          }
+        }
+      ]
+    }
+  ]
+}
+
+DEF myDelay TimeSensor {
+  enabled               FALSE
+  loop                  TRUE
+  cycleInterval         3
+  startTime             0
+  stopTime              1
+}
+
+
+DEF myScript Script {
+    eventIn     SFTime     sensorTouched
+    eventIn     SFTime     delayEnd
+
+    eventOut    SFTime     delayStart
+    eventOut    SFBool     enableDelay
+    eventOut    SFTime    delayStop
+    eventOut    SFColor    changeBox
+    field       SFTime     delayDuration  2.0
+
+    url "javascript:
+        function sensorTouched(timeValue) {
+            delayStart = timeValue;
+            delayStop = timeValue + delayDuration;
+            enable = true
+            //print(delayStart, delayStart)
+        }
+        function delayEnd(timeValue) {
+            changeBox[0] = 1;
+            changeBox[1] = 0;
+            changeBox[2] = 0;
+        }
+    "
+}
+
+ROUTE mySensor.touchTime TO myScript.sensorTouched
+ROUTE myScript.delayStart TO myDelay.startTime
+ROUTE myScript.delayStop TO myDelay.stopTime
+ROUTE myScript.enableDelay TO myDelay.enabled
+
+ROUTE myDelay.stopTime TO myScript.delayEnd
+ROUTE myScript.changeBox TO myMaterial.diffuseColor

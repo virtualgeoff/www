@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Location Properties and Methods</title>
+</head>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<body>
+
+<h3 align="center">Location Properties and Methods</h3>
+
+<script language="JavaScript">
+
+document.writeln('<table border="1">');
+
+document.writeln('<tr><td colspan="2"><b>Properties</b></td></tr>');
+document.writeln('<tr><td>document.URL:      </td><td>'+ document.URL      +'</td></tr>');
+document.writeln('<tr><td>document.referrer:      </td><td>'+ document.referrer      +'</td></tr>');
+document.writeln('<tr><td>location.hash:     </td><td>'+ location.hash     +'</td></tr>');
+document.writeln('<tr><td>location.host:     </td><td>'+ location.host     +'</td></tr>');
+document.writeln('<tr><td>location.hostname: </td><td>'+ location.hostname +'</td></tr>');
+document.writeln('<tr><td>location.href:     </td><td>'+ location.href     +'</td></tr>');
+document.writeln('<tr><td>location.pathname: </td><td>'+ location.pathname +'</td></tr>');
+document.writeln('<tr><td>location.port:     </td><td>'+ location.port     +'</td></tr>');
+document.writeln('<tr><td>location.protocol: </td><td>'+ location.protocol +'</td></tr>');
+document.writeln('<tr><td>location.search:   </td><td>'+ location.search   +'</td></tr>');
+
+document.writeln('<tr><td colspan="2"><b>Methods</b></td></tr>');
+document.writeln('<tr><td>location.assign(sURL)</td><td></td></tr>');
+document.writeln('<tr><td>location.reload([bReloadSource])</td><td>bReloadSource Optional. Boolean that specifies one of the following possible values:<br><b>false (Default)</b> Reloads the page from the browser cache.<br><b>true</b> Reloads the page from the server.</td></tr>');
+document.writeln('<tr><td>location.replace(sURL)</td><td></td></tr>');
+
+document.writeln('</table>');
+
+</script>
+
+<p>The href property contains the entire URL, while the other properties contain portions of the URL. The default property for the location object is location.href. For example, setting location='http://microsoft.com' is equivalent to setting location.href='http://microsoft.com'. 
+The browser immediately navigates to the specified URL when any of the properties listed below are set.</p>
+<p>This object is available in script as of Microsoft Internet Explorer 3.0.</p>
+
+
+
+
+</body>
+</html>

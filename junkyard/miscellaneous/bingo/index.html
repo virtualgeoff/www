@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Javascript Junkyard - Upper Management Bingo</title>
+
+<style type="text/css">
+<!--
+
+body {background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #000000}
+td   {font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #000000}
+-->
+</style>
+<script language="JavaScript">
+<!--
+
+    var phraseList, yourSelection;
+
+    function makeArray(len) {
+        for (var i = 0; i < len; i++) this[i] = null;
+        this.length = len;
+    }
+    function getRandom(max) {
+        // random number between 0 and max
+        rnumber = Math.round(Math.random()*max)
+        return rnumber
+    }
+
+    phraseList = new makeArray(19);
+    phraseList[0]  = '\"youth market\"';
+    phraseList[1]  = '\"digital lifestyle\"';
+    phraseList[2]  = '\"joint venture\"';
+    phraseList[3]  = '\"global youth audience\"';
+    phraseList[4]  = '\"share price\"';
+    phraseList[5]  = '\"Spike Radio\"';
+    phraseList[6]  = '\"Asia Pacific region\"';
+    phraseList[7]  = '\"market capitalization\"';
+    phraseList[8]  = '\"new office/premises\"';
+    phraseList[9]  = '\"consulting solutions\"';
+    phraseList[10] = '\"cutting edge\"';
+    phraseList[11] = '\"e-commerce/e-business\"';
+    phraseList[12] = '\"Arthur Anderson\"';
+    phraseList[13] = '\"broadband\"';
+    phraseList[14] = '\"new [insert city here] office\"';
+    phraseList[15] = '\"exciting announcement\"';
+    phraseList[16] = '\"aggressive growth\"';
+    phraseList[17] = '\"digital architecture\"';
+    phraseList[18] = '\"[X] employees by Christmas/New Year\"';
+    phraseList[19] = '\"NASDAQ\"';
+    phraseList[20] = '\"due dilligence\"';
+    phraseList[21] = '\"back end [solution]\"';
+
+    // Takes a selection from the phrase list
+    yourSelection =  new makeArray(3);
+    for (i=0; i<=yourSelection.length; i++) {
+        // generate a random number until
+        // you find a phrase not already taken:
+        do  {
+            x = getRandom(phraseList.length);
+        } while (phraseList[x]== null);
+        yourSelection[i] = phraseList[x];
+        // remove that phase from the phrase list
+        phraseList[x] = null;
+    }
+
+
+// -->
+</script>
+
+</head>
+<body bgcolor="#ffffff">
+
+<center>
+
+<img src="title.jpg" width=393 height=271 border=0 alt="Upper Management Bingo">
+
+<br>
+
+<img src="lucky.jpg" width=179 height=27 border=0 alt="your LUCKY phrases are:">
+<script language="JavaScript">
+<!--
+
+    // Your Selection:
+    document.write("<table cellpadding='6' cellspacing='5' border='0'>");
+    for (i=0; i<=yourSelection.length; i++) {
+        document.write("<tr><td bgcolor='#cccccc' align='center'>" + yourSelection[i] + "</td></tr>");
+    }
+    document.write("</table>");
+
+// -->
+</script>
+
+<br>
+
+<img src="bottom.jpg" width=357 height=28 border=0 alt="Attendence is compulsory">
+
+</center>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Javascript Junkyard - Stopwatch</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script language="JavaScript">
+
+var time = 0;  // tenths of a second
+var updateDisplay = true;
+var counting = false;
+
+function timer(state) {
+	switch (state) {
+		case 'start':	// start clock (or resume after lap)
+				if (!counting) timerID=setInterval("timerX()", 100);
+				updateDisplay=true;
+				counting=true;
+				break;
+		case 'lap':	    // keep counting, but don't update display
+				updateDisplay=false;
+				document.timerform.time.value = time/10;
+				break;
+		case 'stop':	// stop counting, print last value
+				clearInterval(timerID);
+				counting=false;
+				document.timerform.time.value = time/10;
+				break;
+		case 'reset':	// reset
+				clearInterval(timerID);
+				counting=false;
+				time = 0;
+				document.timerform.time.value = 0;
+				break;
+	}
+}
+function timerX() {
+	time++;
+	if (updateDisplay) document.timerform.time.value = time/10;
+}
+
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Stopwatch</h3>
+
+<br>
+
+<table align="center">
+<tr><td  align="center">
+
+<form name="timerform">
+	<input name="time" size="5" value="0"> secs<br><br>
+
+	<input type="button" value="Start"  onClick="timer('start')">
+	<input type="button" value=" Lap "  onClick="timer('lap')">
+	<input type="button" value="Stop "  onClick="timer('stop')">
+	<input type="button" value="Clear"  onClick="timer('reset')">
+</form>
+
+</td></tr>
+</table>
+
+</body>
+</html>

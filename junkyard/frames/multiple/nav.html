@@ -1,0 +1,21 @@
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+</head>
+
+<body>
+
+<h3 align="center">Updating Multiple Frames - Nav</h3>
+
+<p align="center">
+<a href="content1.html" target="content" onclick="top.subnav.location.href='subnav1.html'">section 1</a> | 
+<a href="content2.html" target="content" onclick="top.subnav.location.href='subnav2.html'">section 2</a> | 
+<a href="content3.html" target="content">section 3</a> |
+<a href="content4.html" target="content">section 4</a>
+</p>
+
+<!-- NB: can use "top.subnav.location.replace('url')" instead of "top.subnav.location.href='url'" - but it behaves differently with browser back button -->
+
+</body>
+</html>

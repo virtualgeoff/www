@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Javascript Junkyard - Rollovers and Frames</title>
+<link rel="stylesheet" type="text/css" href="../../junkyard.css">
+
+<script language="JavaScript">
+<!--
+
+if (document.images) {
+	nav1on  = new Image(); nav1on.src  = "navs/target_1.gif";
+	nav1off = new Image(); nav1off.src = "navs/target_off.gif";
+	nav2on  = new Image(); nav2on.src  = "navs/target_2.gif";
+	nav2off = new Image(); nav2off.src = "navs/target_off.gif";
+	nav3on  = new Image(); nav3on.src  = "navs/target_3.gif";
+	nav3off = new Image(); nav3off.src = "navs/target_off.gif";
+	nav4on  = new Image(); nav4on.src  = "navs/target_4.gif";
+	nav4off = new Image(); nav4off.src = "navs/target_off.gif";
+}
+
+function rollOn(img1){
+	if (document.images) {
+		document.target.src=eval(img1 + "on.src");
+	}
+}
+
+function rollOff(img1){
+    window.status = "";	
+	if (document.images) {
+		document.target.src=eval(img1 + "off.src");
+	}
+}
+//-->
+</script>
+
+</head>
+<body>
+
+<center>
+<img name="target" src="navs/target_off.gif" border="0" width="120" height="25">
+</center>
+
+<br>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>The Proper PSD Company</title>
+</head>
+
+<script language="JavaScript">
+
+var searchStr = location.search;
+var section = location.hash;
+var searchArray = new Array();
+
+while (searchStr!='') {
+	var name, value;
+	// strip off leading ? or &
+	if ((searchStr.charAt(0)=='?')||(searchStr.charAt(0)=='&')) searchStr = searchStr.substring(1,searchStr.length);
+	// find name
+	name = searchStr.substring(0,searchStr.indexOf('='));
+	// find value
+	if (searchStr.indexOf('&')!=-1) value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.indexOf('&'));
+	else value = searchStr.substring(searchStr.indexOf('=')+1,searchStr.length);
+	// add pair to search array
+	searchArray[name] = value;
+	// cut first pair from string
+	if (searchStr.indexOf('&')!=-1) searchStr =  searchStr.substring(searchStr.indexOf('&')+1,searchStr.length);
+	else searchStr = '';
+}
+
+document.writeln('<frameset  rows="75,*">');
+document.writeln('    <frame name="top" src="head.html" marginwidth="0" marginheight="0" scrolling="no" frameborder="0">');
+document.writeln('    <frameset  cols="96,*">');
+document.writeln('        <frame name="left" src="nav.html" marginwidth="0" marginheight="0" scrolling="no" frameborder="0">');
+document.writeln('        <frame name="main" src="'+searchArray["main"]+'.html'+section+'" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0">');
+document.writeln('    </frameset>');
+document.writeln('</frameset>');
+
+</script>
+
+</html>

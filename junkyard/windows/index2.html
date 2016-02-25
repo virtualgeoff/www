@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>Javascript Junkyard - Popup Navigation Window</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+<script language="javascript">
+<!--
+
+var remoteWin = null;
+
+function startRemote() {
+	remoteWin = window.open("", "text1", 'width=200,height=400,,top=20,left=20,resizable=0');
+	if (remoteWin != null) {
+		remoteWin.rootWin = self;
+		remoteWin.location = "nav.html";
+	}
+}
+
+startRemote();
+
+// -->
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Popup Navigation Window</h3>
+
+<br>
+
+<table align="center">
+<tr><td>
+
+<p>Opens Nav window on loading...</p>
+
+</td></tr>
+</table>
+
+</body>
+</html>

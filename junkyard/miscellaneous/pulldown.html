@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>Javascript Junkyard - Pulldown Menus</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+</head>
+
+<body>
+
+<h3 align=center>Pulldown Menus</h3>
+
+<br>
+
+<table width="500" align="center">
+<tr><td>
+
+<p>Here's a simple JavaScript pulldown menu. Note that the URLs can be relative (to the current page) or absolute.</p>
+
+<form name="js_menu">
+	<select name="url" onchange="if (this.options[this.selectedIndex].value != 'null') top.location=this.options[this.selectedIndex].value">
+		<option selected value=null>Choose One:
+		<option value="http://www.spike.com.au">Spike Home
+		<option value="http://i.spike.com.au">Spike Intranet
+		<option value="http://i.spike.com.au/smarts/">Smart Site
+		<option value="../index.html">Javascript Junkyard
+	</select>
+</form>
+
+<hr>
+<br><br>
+
+<p>Browsers without javascript need a cgi-driven pulldown menu. Note that URLs are relative to the location of the cgi script, not the page. You can use the hidden 'path' variable to define a common root for all the links. For example, you could use relative URLs in the option values, and set the path between the cgi script and the page.</p>
+
+<form name="cgi_menu" method="POST" action="http://www.spike.com.au/scripts/redirect.cgi">
+	<input type="hidden" name="path" value="">
+	<select name="url">
+		<option selected value="#">Choose One:
+		<option value="http://www.spike.com.au">Spike Home
+		<option value="http://i.spike.com.au">Spike Intranet
+		<option value="http://i.spike.com.au/smarts/">Smart Site
+		<option value="http://i.spike.com.au/smarts/index.html">Javascript Junkyard
+	</select>
+	<input type="submit" value="Go">
+</form>
+
+<hr>
+<br><br>
+
+<p>The two can be combined in the one form. If JavaScript is enabled the user will be redirected when they select an item; if JavaScript is not enabled, then the cgi is called when the user clicks on the submit/go button. Be careful with URLs - they will be treated differently depending on which method is used: the best method is to use relative URLs with the path set so the cgi script can find them. You can put the 'submit' button tag inside 'noscript' tags so it doesn't show if the user has javascript.</p>
+
+<form name="menuform" method="POST" action="http://www.spike.com.au/scripts/redirect.cgi">
+	<input type="hidden" name="path" value="">
+	<select name="url" onchange="if (this.options[this.selectedIndex].value != 'null') top.location=this.options[this.selectedIndex].value">
+		<option selected value="null">Choose One:
+		<option value="http://www.spike.com.au">Spike Home
+		<option value="http://i.spike.com.au">Spike Intranet
+		<option value="http://i.spike.com.au/smarts/">Smart Site
+		<option value="http://i.spike.com.au/smarts/index.html">Javascript Junkyard
+	</select>
+	<input type="submit" value="Go">
+</form>
+
+</td></tr>
+</table>
+
+<br>
+
+</body>
+</html>

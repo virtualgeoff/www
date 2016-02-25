@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>Time Use Survey</title>
+<script language="JavaScript" type="text/javascript" src="timeUse.js"></script>
+</head>
+<body>
+
+<form name="surveyForm">
+
+
+<h2>Time Use Survey</h2>
+
+<p><i>This script adds the numbers in the <b>'Time'</b> column and adjusts the <b>'other'</b> amount to make the sum 100%. Non-numerical answers are converted to 0. Answers must be between zero and the remaining <b>'other'</b> amount.</i></p>
+
+<p class="q">Q1: Listed below are a number of tasks which many computer users perform on a regular basis. During the last month approximately what percentage of your computer usage was spent on each of these tasks?</p>
+
+<table cellspacing="1" cellpadding="3" align="center">
+	<tr>
+		<th bgcolor="#cccccc" align="left">Task</th>
+		<th bgcolor="#cccccc" align="center">% Time</th>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd">Checking email</td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-1" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc">Checking the news or weather</td>
+		<td bgcolor="#cccccc" align="center"><input type="text" name="1-2" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd">Online shopping</td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-3" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc">Reading blogs</td>
+		<td bgcolor="#cccccc" align="center"><input type="text" name="1-4" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd">Instant messaging</td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-5" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc">Downloading porn</td>
+		<td bgcolor="#cccccc" align="center"><input type="text" name="1-6" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd">Doing your finances</td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-7" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc">Changing desktop backgrounds</td>
+		<td bgcolor="#cccccc" align="center"><input type="text" name="1-8" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd">Re-arranging icons on your desktop &nbsp;</td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-9" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc">Doing useful work</td>
+		<td bgcolor="#cccccc" align="center"><input type="text" name="1-10" value="0" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#dddddd"><b>Other:</b> &nbsp; <input type="text" name="1-11b" size="20" maxlength="50" value="Please specify"></td>
+		<td bgcolor="#dddddd" align="center"><input type="text" name="1-11" value="100" size="3" maxlength="3" onChange="addTime(this)"></td>
+	</tr>
+	<tr>
+		<td bgcolor="#cccccc"><b>TOTAL</b></td>
+		<td bgcolor="#cccccc" align="center"><b>100%</b></td>
+	</tr>
+</table>
+
+</body>
+</html>

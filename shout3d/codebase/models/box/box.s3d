@@ -1,0 +1,31 @@
+Background{color 1 1 1}NavigationInfo{}Group{children[DEF Rectangle Transform{
+children[Shape{appearance Appearance{texture DEF TEXRectangle ImageTexture{url
+"box0000.jpg"}}geometry IndexedFaceSet{coord Coordinate{point[8.0107 .0012 4.765
+3.6728 .0012 7.8181 -.232 .0012 2.2701 4.106 .0012 -.783]}coordIndex[3 2 1 0 -1]
+texCoord TextureCoordinate{point[0 0 0 1 1 1 1 0]}}}Shape{appearance Appearance{
+texture USE TEXRectangle}geometry IndexedFaceSet{coord Coordinate{point[8.0107
+.0012 4.765 4.106 .0012 -.783 -.232 .0012 2.2701 3.6728 .0012 7.8181]}coordIndex
+[3 2 1 0 -1]texCoord TextureCoordinate{point[1 0 0 0 0 1 1 1]}}}]}DEF Box
+Transform{children[Shape{appearance Appearance{texture DEF TEXBox ImageTexture{
+url "box0001.jpg"}}geometry IndexedFaceSet{coord Coordinate{point[4.6739 2.6234
+2.3569 2.5428 2.6234 2.7444 2.5428 0 2.7444 4.6739 0 2.3569]}coordIndex[3 2 1 0
+-1]texCoord TextureCoordinate{point[0 1 1 1 1 0 0 0]}}}Shape{appearance
+Appearance{texture USE TEXBox}geometry IndexedFaceSet{coord Coordinate{point[
+4.8259 2.6234 3.1929 4.8259 0 3.1929 2.6948 0 3.5804 2.6948 2.6234 3.5804]}
+coordIndex[3 2 1 0 -1]texCoord TextureCoordinate{point[1 1 1 0 0 0 0 1]}}}Shape{
+appearance Appearance{texture USE TEXBox}geometry IndexedFaceSet{coord Coordinate
+{point[2.6948 2.6234 3.5804 2.6948 0 3.5804 2.5428 0 2.7444 2.5428 2.6234 2.7444
+]}coordIndex[3 2 1 0 -1]texCoord TextureCoordinate{point[1 1 1 0 0 0 0 1]}}}
+Shape{appearance Appearance{texture USE TEXBox}geometry IndexedFaceSet{coord
+Coordinate{point[4.8259 2.6234 3.1929 4.6739 2.6234 2.3569 4.6739 0 2.3569 4.8259
+0 3.1929]}coordIndex[3 2 1 0 -1]texCoord TextureCoordinate{point[0 1 1 1 1 0 0 0
+]}}}Shape{appearance Appearance{texture USE TEXBox}geometry IndexedFaceSet{coord
+Coordinate{point[4.8259 0 3.1929 4.6739 0 2.3569 2.5428 0 2.7444 2.6948 0 3.5804
+]}coordIndex[3 2 1 0 -1]texCoord TextureCoordinate{point[0 1 1 1 1 0 0 0]}}}
+Shape{appearance Appearance{texture USE TEXBox}geometry IndexedFaceSet{coord
+Coordinate{point[4.8259 2.6234 3.1929 2.6948 2.6234 3.5804 2.5428 2.6234 2.7444
+4.6739 2.6234 2.3569]}coordIndex[3 2 1 0 -1]texCoord TextureCoordinate{point[0 0
+0 1 1 1 1 0]}}}]}]}DEF current_view Viewpoint{description "current_view"
+fieldOfView .42292 orientation -.895 -.405 -.187 .936 position -.3716 12.0045
+13.567}DEF tutorial1_jpg Viewpoint{description "tutorial1_jpg" fieldOfView .42292
+orientation -.895 -.405 -.187 .936 position -.3716 12.0045 13.567}

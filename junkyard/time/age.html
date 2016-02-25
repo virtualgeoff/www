@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Javascript Junkyard - Age Calculator</title>
+<link rel="stylesheet" type="text/css" href="../junkyard.css">
+
+<script>
+
+function calc(form) {
+	var today= new Date();
+	var birthday= new Date(form.bday.value);
+	secold=(today.getYear()-birthday.getYear())*31557600+(today.getMonth()-birthday.getMonth())*2629800+(today.getDay()-birthday.getDay())*86400+today.getHours()*3600+today.getMinutes()*60+today.getSeconds()
+	form.sec.value=secold;
+	form.minu.value=secold/60;
+	form.hour.value=secold/3600;
+	form.day.value=form.hour.value/24;
+	form.year.value=form.day.value/365.25;
+}
+</script>
+</head>
+
+<body>
+
+<h3 align="center">Age Calculator</h3>
+
+<br>
+
+<form>
+
+<table align="center">
+<tr><td>Birthdate:  </td><td><input type=text name="bday"> (mm/dd/yy)</td></tr>
+<tr><td colspan="2"><br><b>You have been alive for:</b></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td>Seconds: </td><td><input type=text name=sec onFocus="this.blur()"></td></tr>
+<tr><td>Minutes: </td><td><input type=text name=minu onFocus="this.blur()"></td></tr>
+<tr><td>Hours: </td><td><input type=text name=hour onFocus="this.blur()"></td></tr>
+<tr><td>Days: </td><td><input type=text name=day onFocus="this.blur()"></td></tr>
+<tr><td>Years: </td><td><input type=text name=year onFocus="this.blur()"></td></tr>
+<tr><td>&nbsp; </td><td><input type=button name=this value="Calculate" onClick="calc(this.form);"></td></tr>
+</table>
+
+</form>
+
+<p align="center">IE gives a Y2K error after 1/1/2000. Netscape is fine.</p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

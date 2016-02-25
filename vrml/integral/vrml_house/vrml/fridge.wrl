@@ -1,0 +1,131 @@
+#VRML V2.0 utf8 CosmoWorlds V1.0
+
+Group {
+  children	  DEF fridgewrl Transform {
+    children	Anchor {
+      children	[
+	Shape {
+	  appearance	Appearance {
+	    material	Material {
+	      diffuseColor	0.439 0.431 0.573
+	      shininess	0
+	    }
+
+	  }
+
+	  geometry	IndexedFaceSet {
+	    coord	Coordinate {
+	      point	[ -4.18 -0.5 9.94,
+		        -4.18 -0.54 9.94,
+		        -4.18 -0.54 10.02,
+		        -4.18 -0.5 10.02,
+		        -3.66 -0.5 9.94,
+		        -3.66 -0.54 9.94,
+		        -3.66 -0.54 10.02,
+		        -3.66 -0.5 10.02,
+		        -4.18 -0.34 9.94,
+		        -4.18 -0.34 10.02,
+		        -4.18 -0.3 10.02,
+		        -4.18 -0.3 9.94,
+		        -3.66 -0.34 9.94,
+		        -3.66 -0.3 9.94,
+		        -3.66 -0.3 10.02,
+		        -3.66 -0.34 10.02 ]
+	    }
+
+	    coordIndex	[ 0, 1, 2, 3, -1, 4, 5, 1,
+		      0, -1, 5, 6, 2, 1, -1, 6,
+		      7, 3, 2, -1, 7, 4, 0, 3,
+		      -1, 4, 7, 6, 5, -1, 8, 9,
+		      10, 11, -1, 12, 8, 11, 13, -1,
+		      13, 11, 10, 14, -1, 14, 10, 9,
+		      15, -1, 15, 9, 8, 12, -1, 12,
+		      13, 14, 15, -1 ]
+	    solid	TRUE
+	    convex	TRUE
+	    creaseAngle	0
+	  }
+
+	}
+	Shape {
+	  appearance	Appearance {
+	    material	Material {
+	      diffuseColor	1 0.631 0.718
+	      shininess	0
+	    }
+
+	  }
+
+	  geometry	IndexedFaceSet {
+	    coord	Coordinate {
+	      point	[ -4.3 -0.4 10,
+		        -4.3 -0.4 10.08,
+		        -4.3 0.4 10.08,
+		        -4.3 0.4 10,
+		        -2.7 -0.4 10,
+		        -2.7 0.4 10,
+		        -2.7 0.4 10.08,
+		        -2.7 -0.4 10.08 ]
+	    }
+
+	    coordIndex	[ 0, 1, 2, 3, -1, 4, 0, 3,
+		      5, -1, 5, 3, 2, 6, -1, 6,
+		      2, 1, 7, -1, 7, 1, 0, 4,
+		      -1, 4, 5, 6, 7, -1 ]
+	    solid	TRUE
+	    convex	TRUE
+	    creaseAngle	0
+	  }
+
+	}
+	Shape {
+	  appearance	Appearance {
+	    material	Material {
+	      diffuseColor	1 1 1
+	      shininess	0
+	    }
+
+	  }
+
+	  geometry	IndexedFaceSet {
+	    coord	Coordinate {
+	      point	[ -4.3 -2.38 10,
+		        -4.3 -2.38 10.08,
+		        -4.3 -0.44 10.08,
+		        -4.3 -0.44 10,
+		        -2.7 -2.38 10,
+		        -2.7 -0.44 10,
+		        -2.7 -0.44 10.08,
+		        -2.7 -2.38 10.08,
+		        -4.3 -2.5 10.1,
+		        -4.3 -2.5 11.4,
+		        -4.3 0.4 11.4,
+		        -4.3 0.4 10.1,
+		        -2.7 -2.5 10.1,
+		        -2.7 0.4 10.1,
+		        -2.7 0.4 11.4,
+		        -2.7 -2.5 11.4 ]
+	    }
+
+	    coordIndex	[ 0, 1, 2, 3, -1, 4, 0, 3,
+		      5, -1, 5, 3, 2, 6, -1, 6,
+		      2, 1, 7, -1, 7, 1, 0, 4,
+		      -1, 4, 5, 6, 7, -1, 8, 9,
+		      10, 11, -1, 12, 8, 11, 13, -1,
+		      13, 11, 10, 14, -1, 14, 10, 9,
+		      15, -1, 15, 9, 8, 12, -1, 12,
+		      13, 14, 15, -1 ]
+	    solid	TRUE
+	    convex	TRUE
+	    creaseAngle	0
+	  }
+
+	}
+      ]
+      url	"../html/fridge.html"
+      parameter	"target=top"
+    }
+
+  }
+
+}

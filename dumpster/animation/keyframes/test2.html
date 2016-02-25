@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>3 Fish</title>
+<script language="JavaScript">
+<!--
+
+var i  = 0;
+var j  = 15;
+var k  = 50;
+var fps = 40;
+var fps2 = 30;
+var fps3 = 20;
+
+var positions = new Array();
+positions.x = new Array(0,12,23,34,45,57,69,82,95,110,122,132,139,146,153,159,166,174,183,195,208,219,228,238,247,256,265,275,287,300,313,324,334,342,351,359,367,377,387,400,412,422,431,438,445,453,461,470,481,495,510,524,537,549,562,574,587,600,614,630,644,656,666,675,683,692,700,710,721,735,750,763,776,788,799,810,821,832,843,854);
+positions.y = new Array(10,21,33,45,56,68,78,88,96,100,96,87,77,66,55,44,34,23,14,10,14,23,33,44,55,66,77,87,96,100,96,87,77,66,55,44,33,23,14,10,14,23,33,44,55,66,77,87,96,100,96,88,78,67,55,43,32,22,14,10,14,23,34,46,58,69,81,92,101,105,102,95,86,76,65,54,43,32,21,10);
+
+function playTimeline() {
+    moveIt('fishLayer1',positions.x[i],positions.y[i]);
+    if (i>=positions.x.length-1) i=0;
+    else i++;
+    setTimeout("playTimeline()",1000/fps);
+}
+function playTimeline2() {
+    moveIt('fishLayer2',positions.x[j],positions.y[j]);
+    if (j>=positions.x.length-1) j=0;
+    else j++;
+    setTimeout("playTimeline2()",1000/fps2);
+}
+function playTimeline3() {
+    moveIt('fishLayer3',positions.x[k],positions.y[k]);
+    if (k>=positions.x.length-1) k=0;
+    else k++;
+    setTimeout("playTimeline3()",1000/fps3);
+}
+function moveIt(layerID,mLeft,mTop){
+	if (document.getElementById) {	// IE5, NS6, DOM
+        document.getElementById(layerID).style.left = mLeft + 'px';
+        document.getElementById(layerID).style.top  = mTop + 'px';
+    } else if (document.all) {		// IE4
+        document.all[layerID].style.left = mLeft;
+        document.all[layerID].style.top  = mTop;
+    } else if (document.layers) {	// NS4
+        document.layers[layerID].moveTo(mLeft,mTop);
+	}
+}
+function init(){
+    playTimeline()
+    playTimeline2()
+    playTimeline3()
+}
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" onLoad="init()">
+
+<div id="fishLayer1" style="position:absolute; width:152px; height:83px; z-index:1; left: 0px; top: 10px"><img name="fishImg1" src="images/fish_right.gif" width="152" height="83"></div>
+<div id="fishLayer2" style="position:absolute; width:152px; height:83px; z-index:2; left: 0px; top: 10px"><img name="fishImg2" src="images/fish_right.gif" width="152" height="83"></div>
+<div id="fishLayer3" style="position:absolute; width:152px; height:83px; z-index:3; left: 0px; top: 10px"><img name="fishImg3" src="images/fish_right.gif" width="152" height="83"></div>
+
+</body>
+</html>
