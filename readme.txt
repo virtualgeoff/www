@@ -1,1 +1,1 @@
-My web site as it was about January 1997.
+July 1997. Just a holding page.
