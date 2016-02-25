@@ -1,0 +1,28 @@
+The META Tag.
+-------------
+
+<HEAD>
+<TITLE>Use a Globally Meaningful Title</TITLE>
+<META name="resource-type" content=document>
+<META name="description" content="Blurb goes here - dont' just restate title.">
+<META name="keywords" content="WWW, KWUIG, Search Engines, user groups">
+<META name=distribution content=global>
+<META HTTP-EQUIV=REFRESH CONTENT=60 URL=http://... >
+<!-- loads URL (reloads same page if no URL) after 60 seconds -->
+</HEAD>
+
+resource-type 
+This contains the template type to use in classifying this item. The only one currently 
+supported is "document"; others don't really make sense in this context. This is the only 
+tag which is required for indexing; the others are optional but generally a good idea. 
+
+description 
+Re-stating the title is not very helpful. 
+
+keywords 
+A set of keywords, delimited by commas, pertinent to the item. 
+
+distribution 
+The appropriate distribution for the item. The values are "global", "iu" (Internal Use) 
+and "local" are the most common.
+
