@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Circles 2</title>
+	<style type="text/css">
+
+		body {background:#999;}
+
+		#main {
+			position:absolute;
+			left:50vw;
+			top:50vh;
+			width:0;
+			height:0;
+			animation:spin 15s linear infinite normal;			
+		}
+		.circle {
+			position:absolute;
+			left:-20vh;
+			top:-20vh;
+			width:40vh;
+			height:40vh;
+			border-radius:100%;
+			transform: rotate(30deg);
+			background:hsla(0,100%,50%,0.3);
+			animation:nudge 3s ease-in-out infinite alternate;
+		}
+
+		@keyframes spin {
+			0%   {}
+			100% {transform: rotate(360deg);}
+		}
+		@keyframes nudge {
+			0%   {transform:translate(0vh, 0) rotate(0);}  
+			100% {transform:translate(30vh, 0) rotateX(180deg);}
+		}
+
+
+	</style>
+	<script type="text/javascript">
+		var track, circle, N=12;			
+	
+		function init() {
+			for (var i=0; i<N; i++) {
+				track = document.createElement('DIV');
+				track.className = 'track';
+				track.style.transform = "rotate(" + (i*360/N) + "deg)";
+
+				circle = document.createElement('DIV');
+				circle.className = 'circle';
+				circle.style.background = "hsla("+ (i*360/N) + ",100%,50%,0.3)";
+				
+				track.appendChild(circle);
+				document.getElementById('main').appendChild(track);
+			}		
+		}	
+	
+		window.onload = init;
+	
+	</script>
+</head>
+<body>
+
+	<div id="main"></div>
+
+	<p>After <a href="https://beesandbombs.tumblr.com/post/151633109649/beesandbombs-flower-from-the-archive">Bees and Bombs</a></p>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>To Do List</title>
+	<link rel="stylesheet" href="main.css">	
+	<script src="main.js"></script>	
+</head>
+<body>
+
+	<h1>To Do</h1>
+
+	<ul id="ToDoList">
+		<li class="template">
+			<input type="checkbox" onclick="ToDo.checkItem(this)">
+			<span class="title"></span>
+			<div class="right">
+				<button class="edit"   onclick="ToDo.editItem(this)">Edit</button>
+				<button class="delete" onclick="ToDo.deleteItem(this)">Delete</button>
+			</div>
+		</li>
+		<li id="addNew">
+			<form onsubmit="ToDo.addItem(this)">
+				<input type="text" name="title" class="title" value="" placeholder="task description">
+				<input type="submit" value="Add item">
+			</form>		
+		</li>
+	</ul>
+
+	<p>
+		<span id="listStatus"></span>
+		<button onclick="ToDo.showHideCompleted(this)">Hide completed items</button>
+	<p>
+
+</body>
+</html>

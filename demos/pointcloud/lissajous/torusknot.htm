@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Torus Knot</title>
+	<link rel="stylesheet" type="text/css" media="all" href="pointcloud.css">
+	<script type="text/javascript" src="pointcloud.js"></script>
+	<script type="text/javascript">
+
+		function setPoints() {
+			// torus knot
+			// http://en.wikipedia.org/wiki/Torus_knot
+			
+			var n = 360;  	// every 360/n degrees longitude
+			var radius = 0.5;
+			var theta, i;
+			
+			for (i=0; i<n; i++) {
+				theta = i/n * 2 * pi;
+				
+				p[i] = {};
+				p[i].x = radius * (4 + Math.cos(12 * theta)) * Math.cos(theta);
+				p[i].z = radius * (4 + Math.cos(12 * theta)) * Math.sin(theta);
+				p[i].y = radius * Math.sin(12 * theta);
+			}
+		}
+
+	</script>
+</head>
+<body>
+
+	<!--#include virtual="nav.htm" -->
+	
+</body>
+</html>

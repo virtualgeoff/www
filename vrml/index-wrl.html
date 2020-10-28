@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
+    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/x3dom/release/x3dom.css'></link>
+    <script type='text/javascript' src='http://www.x3dom.org/x3dom/release/x3dom.js'></script>
+  </head>
+  <body>
+    <x3d id='someUniqueId' showStat='false' showLog='false' x='0px' y='0px' width='400px' height='400px'>
+      <scene DEF='scene'>
+        <worldInfo info='"Geoff Pack, Spike, 1999"' title='spikeVR'></worldInfo>
+        <navigationInfo type='"NONE"'></navigationInfo>
+        <viewpoint description='Default' position='0 0 5'></viewpoint>
+        <transform DEF='SPIKE'>
+          <anchor url='"javascript:openNavWindow()"'>
+            <transform>
+              <shape>
+                <appearance>
+                  <material></material>
+                  <imageTexture url='"spike.gif"'></imageTexture>
+                </appearance>
+                <indexedFaceSet solid='false' coordIndex='0 1 2 3 -1'>
+                  <coordinate point='-2 -2 0 2 -2 0 2 2 0 -2 2 0'></coordinate>
+                </indexedFaceSet>
+              </shape>
+            </transform>
+            <transform translation='0 0.2 0'>
+              <shape>
+                <appearance>
+                  <material diffuseColor='0 0.45 0.64' shininess='0.5'></material>
+                </appearance>
+                <cone bottomRadius='0.07' height='0.7'></cone>
+              </shape>
+            </transform>
+          </anchor>
+        </transform>
+        <orientationInterpolator DEF='ROTATE1' key='0 0.25 0.5 0.75 1' keyValue='0 1 0.1 0 0 1 0.1 1.5708 0 1 0.1 3.1416 0 1 0.1 4.7124 0 1 0.1 6.2832'></orientationInterpolator>
+        <timeSensor DEF='TIMER1' cycleInterval='8' loop='true' stopTime='-1'></timeSensor>
+        <ROUTE fromNode='TIMER1' fromField='fraction_changed' toNode='ROTATE1' toField='set_fraction'></ROUTE>
+        <ROUTE fromNode='ROTATE1' fromField='value_changed' toNode='SPIKE' toField='set_rotation'></ROUTE>
+      </scene>
+    </x3d>
+  </body>
+</html>

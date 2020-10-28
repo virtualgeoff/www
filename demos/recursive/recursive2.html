@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>recurved 2</title>
+	<style type="text/css">
+
+		body {background:#fff;}
+		div {position:absolute; left:0; top:0; width:100%; height:100%; background:rgba(255,0,255,0.4); border-radius:50%; opacity:1; animation: show 1s ease-in;}
+		.p {left:0;   top:25%; background:rgba(255,0,0,0.4);}
+		.q {left:50%; top:25%; background:rgba(0,0,255,0.4);}
+		.p, .q {width:50%; height:50%;}
+
+		@keyframes show {
+			0%   {opacity:0;}
+			100% {opacity:1;}
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		function drawBox(obj, n) {
+			var p, q;
+			
+			p = document.createElement('div');
+			obj.appendChild(p);
+			p.className = 'p';
+
+			q = document.createElement('div');
+			obj.appendChild(q);
+			q.className = 'q';
+
+			if (--n > 0) {
+				window.setTimeout(function(){
+					drawBox(p, n);
+					drawBox(q, n);
+				},1000);
+			}
+		}
+		function doStuff() {
+			var N = 7; // max level of recursion			
+			//drawBox(document.body, N);
+			window.setTimeout(function(){drawBox(document.getElementById('div0'), N);},1000);
+		}
+			
+		window.onload = doStuff;
+
+	</script>
+</head>
+<body>
+
+	<div id="div0"></div>
+
+</body>
+</html>

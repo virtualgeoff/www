@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>recurved 1</title>
+	<style type="text/css">
+
+		body {background:#fff;}
+		div {position:absolute; left:0; top:0; width:50%; height:50%; background:rgba(0,0,32,0.06); opacity:1; animation: show 1s ease-in;}
+		div.alt {left:50%; top:50%;}
+
+		@keyframes show {
+			0%   {opacity:0;}
+			100% {opacity:1;}
+		}
+		
+	</style>
+	<script type="text/javascript">
+
+		function drawBox(obj, n) {
+			var p, q;
+			
+			p = document.createElement('div');
+			obj.appendChild(p);
+
+			q = document.createElement('div');
+			obj.appendChild(q);
+			q.className = 'alt';
+
+			if (--n > 0) {
+				window.setTimeout(function(){
+					drawBox(p, n);
+					drawBox(q, n);
+				},1000);
+			}
+		}
+		function doStuff() {
+			var N = 10; // max level of recursion			
+			drawBox(document.body, N);
+		}
+			
+		window.onload = doStuff;
+
+	</script>
+</head>
+<body>
+
+
+</body>
+</html>

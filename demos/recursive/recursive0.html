@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>recurved</title>
+	<style type="text/css">
+
+		body {background:#fff;}
+		div {position:absolute; left:5%; top:5%; width:90%; height:90%; background:rgba(0,0,0,0.05); opacity:1; animation: show 0.5s ease-in;}
+
+		@keyframes show {
+			0%   {opacity:0;}
+			100% {opacity:1;}
+		}
+		
+	</style>
+	<script type="text/javascript">
+
+		function drawBox(obj, n) {
+			var p, q;
+			
+			p = document.createElement('div');
+			obj.appendChild(p);
+
+			q = document.createElement('div');
+			obj.appendChild(q);
+			q.className = 'alt';
+
+			if (--n > 0) {
+				window.setTimeout(function(){
+					drawBox(p, n);
+				},500);
+			}
+		}
+		function doStuff() {
+			var N = 28; // max level of recursion			
+			drawBox(document.body, N);
+		}
+			
+		window.onload = doStuff;
+
+		/*
+		
+		Do next:
+			√ nested circles along a line
+			√ add timeout to recursive draw steps to animate
+			√ fade in child nodes using CSS
+			• make script more general: create any number of child elements
+			• rotate colors around spectrum, not just transparency
+			• use CSS3D transforms to rotate child elements
+			• slider or mouse interaction to interactively modify all elements (use Document.querySelector)
+			• do with boxes in X3D / three.js / ...
+			
+
+		*/
+
+	</script>
+</head>
+<body>
+
+
+</body>
+</html>

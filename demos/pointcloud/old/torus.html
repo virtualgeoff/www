@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title>virtualgeoff . torus</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/main.css">
+	<script language="JavaScript" type="text/javascript" src="../../scripts/scrollObject.js"></script>
+	<script language="JavaScript" type="text/javascript" src="torus.js"></script>
+</head>
+
+<body onload="init();">
+
+	<h1>virtualgeoff</h1>
+	
+	<!--#include virtual="/includes/nav.inc" -->
+
+	<h2>.torus</h2>
+
+	<div id="content">
+	
+		<script language="javascript">
+		// write all the div layers:
+		for (i=0; i<numpoints; i++){
+			document.write('<div id="p'+i+'"><img src="../../images/1.gif" width="2" height="2"></div>');
+		}
+		</script>
+	
+	</div>
+
+</body>
+</html>

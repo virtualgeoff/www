@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+<title>Pong 0.2</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="generator" content="BBEdit 6.5.2">
+
+<script type="text/javascript" language="javascript">
+
+// ------------------------------------------------------------
+//
+// Pong 0.2
+// Geoff Pack, geoff@virtualgeoff.com
+// from: http://www.virtualgeoff.com/demos/pong/
+//
+// v0.2, October 2004
+// added 'blocky' score, message
+// added mouse click to serve
+// made it winnable ?
+//
+// v0.1, October 2004
+// got it working!
+//
+// ------------------------------------------------------------
+
+// screen size:
+var screenW = 600;
+var screenH = 400;
+
+// ball variables:
+var ballW  = 10;		// ball size
+var ballH  = 10;
+var ballX  = ballW;		// position
+var ballY  = 200;
+var ballVX = 20;		// velocity
+var ballVY = 0;
+
+// paddle (mouse) variables:
+var paddle1Y = 160;		// paddle position
+var paddle2Y = 160;
+var paddle1Y_old = 160;	// old paddle position - use to calculate velocity
+var paddle2Y_old = 160;
+var paddle1VY;			// paddle velocity
+var paddle2VY;
+var paddleW = 10;		// paddle width
+var paddleH = 80;		// paddle height
+
+// score variables:
+var scoreLeft = 0;
+var scoreRight = 0;
+var scoreTotal = 0;
+
+var ballInPlay = true;
+var ballServed = false;
+var serviceLeft = true;
+var gameOver = false;
+
+// ------------------------------------------------------------
+// animation loop:
+
+function updatePostion() {
+	if (ballInPlay) {
+		// calculate paddle velocities:
+		paddle1VY = paddle1Y - paddle1Y_old;
+		paddle2VY = paddle2Y - paddle2Y_old;
+		paddle1Y_old = paddle1Y;
+		paddle2Y_old = paddle2Y;
+	
+		// paddle2 tracks ball when not in play:
+		paddle2Y = ballY - paddleH/2 + ballH/2;
+
+		if (ballServed) {	
+			// euler integration:
+			ballX += ballVX;
+			ballY += ballVY;
+			
+			// paddle2 motion
+			//paddle2Y = ballY - paddleH/2 + ballH/2; // tracks ball (unbeatable)
+			paddle2Y = paddle2Y_old + ballVY * 0.8; // moves towards ball
+			
+			// detect collision with top and bottom walls:
+			if (ballY < 0) {
+				ballY = 0;
+				ballVY = -ballVY;
+			} else if (ballY > screenH - ballH) {
+				ballY = screenH - ballH;
+				ballVY = -ballVY;
+			} 
+		
+			// detect collision with ends & paddles:
+			if (ballX <= 0) {
+				// left end
+				if ((ballY >= (paddle1Y-ballH)) && (ballY <= (paddle1Y+paddleH))) {
+					// hit!
+					ballX  = ballW;
+					ballVX = -ballVX; 		// bounce
+					ballVY += paddle1VY/2;	// add paddle velocity to ball
+				} else {
+					// miss!
+					ballX  = 0;
+					ballVX = 0;
+					ballVY = 0;
+					ballInPlay = false;
+					scoreRight++; updateScores();
+				}
+			} else if (ballX >= screenW - ballW) {			
+				// right end
+				if ((ballY >= (paddle2Y-ballH)) && (ballY <= (paddle2Y+paddleH))) {
+					// hit!
+					ballX  = screenW - ballW - paddleW;
+					ballVX = -ballVX;
+					ballVY += paddle2VY/2;	
+				} else {
+					// miss!			
+					ballX  = screenW - ballW;
+					ballVX = 0;	
+					ballVY = 0;
+					ballInPlay = false;
+					scoreLeft++; updateScores();
+				}
+			}
+		} else {
+			// ball in play but not served yet
+			if (serviceLeft) {
+				// left serves
+				ballX  = paddleW;
+				ballY = paddle1Y + paddleH/2 - ballH/2;
+				ballVX = 20;
+				ballVY = paddle1VY/2;
+			} else {
+				// right serves
+				ballX  = screenW - paddleW - ballW;
+				ballY = paddle2Y + paddleH/2 - ballH/2;
+				ballVX = -20;
+				ballVY = 0;
+			}
+		}
+		
+		// draw ball:
+		var d = document.getElementById('ball').style; 
+		d.left = (ballX) + 'px';
+		d.top  = (ballY) + 'px';
+	
+		// draw paddles:
+		document.getElementById('paddle1').style.top  = paddle1Y + 'px';
+		document.getElementById('paddle2').style.top  = paddle2Y + 'px';
+					
+		// do it all again in 20 millisecs (~50 fps):
+		next = setTimeout("updatePostion()",20);
+		
+	} else if (!gameOver) {
+		// ball not in play, so wait 1 second and play it again...
+		next = setTimeout("playBall()",1000);
+	} else {
+		// game over!
+		document.getElementById('gameMessage').innerHTML = "GAME OVER";
+	}
+}
+
+function playBall() {
+	// play again
+	ballInPlay = true;
+	ballServed = false;
+	// if serviceLeft, then ball served on mouseup, otherwise:
+	if (!serviceLeft) setTimeout("rightServe()",1000);
+	updatePostion();
+}
+function rightServe() {
+	// serve ball when right's turn to serve
+	ballServed = true;
+}
+
+// ------------------------------------------------------------
+// score handlers:
+
+function updateScores() {
+	// some tricky stuff to show the correct digits
+	document.getElementById('img10').style.left  = -40*(parseInt(scoreLeft/10)) + 'px';
+	document.getElementById('img01').style.left  = -40*(scoreLeft - parseInt(scoreLeft/10)*10) + 'px';
+	document.getElementById('img20').style.left  = -40*(parseInt(scoreRight/10)) + 'px';
+	document.getElementById('img02').style.left  = -40*(scoreRight - parseInt(scoreRight/10)*10) + 'px';
+
+	//determine who serves
+	if (((scoreLeft+scoreRight)% 10) < 5) serviceLeft = true;
+	else serviceLeft = false;
+	
+	// end game if at least one player's score is over 21, and they're at least two points ahead	
+	if (((scoreLeft >= 21) || (scoreRight >= 21)) && (Math.abs(scoreLeft-scoreRight) >= 2)) gameOver = true;
+}
+
+// ------------------------------------------------------------
+// mouse handlers:
+
+function mouseMove(e) {
+	if (document.all) my = event.y
+	else if (document.layers || document.getElementById) my = e.pageY;
+
+	// keep paddle on screen
+	if (my<0) my = 0;
+	else if (my>screenH) my = screenH;
+	paddle1Y = my-40;
+}
+
+function mouseUp(e) {
+	if (ballInPlay && serviceLeft) ballServed = true;
+}
+
+// ------------------------------------------------------------
+// get going!:
+
+function init() {
+    // captures mouseMove and mouseUp in Netscape
+    if (document.layers) document.captureEvents(Event.MOUSEMOVE || Event.MOUSEUP);
+    document.onmousemove = mouseMove;
+    document.onmouseup = mouseUp;
+	
+	updatePostion();
+}
+
+// ------------------------------------------------------------
+
+</script>
+<style type="text/css">
+
+body {
+	margin:0;
+	color:#fff; 
+	background-color:#666;
+}
+
+#content {
+	position:relative; 
+	width:600px;
+	height:400px;
+	margin:auto;
+	background-color:#000;
+	overflow:auto;
+}
+.score {
+	position:absolute;
+	left:320px; top:10px; width:30px; height:50px;
+	overflow:hidden;
+}
+#score10 {left:210px; top:10px;}
+#score01 {left:250px; top:10px;}
+#score20 {left:320px; top:10px;}
+#score02 {left:360px; top:10px;}
+.img {position:absolute; left:0px; top:0px;}
+
+#gameMessage {
+	position:absolute; 
+	left:0px; top:200px; width:100%;
+	text-align:center;
+	font-family:Arial, Helvetica, sans serif;
+	font-size:24px;
+	color:#fff;
+}
+
+#paddle1 {
+	position:absolute; 
+	left:0px; top:160px; width: 10px; height:80px; 
+	background-color:#fff;
+}
+#paddle2 {
+	position:absolute; 
+	left:590px; top:160px; width: 10px; height:80px; 
+	background-color:#fff;
+}
+#ball {
+	position:absolute; 
+	left:10px; top:195px; width: 10px; height:10px; 
+	background-color:#fff;
+}
+
+</style>
+</head>
+
+<body onload="init();">
+
+<div id="content">
+	<div id="background"></div>
+	<div id="score10" class="score"><img id="img10" class="img" src="images/numbers.gif" alt="" width="440" height="50"></div>
+	<div id="score01" class="score"><img id="img01" class="img" src="images/numbers.gif" alt="" width="440" height="50"></div>
+	<div id="score20" class="score"><img id="img20" class="img" src="images/numbers.gif" alt="" width="440" height="50"></div>
+	<div id="score02" class="score"><img id="img02" class="img" src="images/numbers.gif" alt="" width="440" height="50"></div>
+	<div id="gameMessage"></div>
+
+	<div id="paddle1"></div>
+	<div id="paddle2"></div>
+	<div id="ball"></div>	
+</div>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas Test - Noise</title>
+	<style type="text/css">
+
+		html, body {margin:0; padding:0;}
+		body {font-family:sans-serif; color:#fff; background:#666;}
+
+		#wrapper {position:relative; margin:0 auto; width:800px; height:500px; background:#000;}
+		#wrapper div {display:block; position:absolute; top:0; left:0; width:10px; height:10px; background:#000;}
+		
+		.data {position:absolute; max-width:50%; padding:3px; background:rgba(0,0,0,0.5);}
+		#data1 {top:0.5em; left:1em; padding:0;}
+		#data2 {top:0.5em; right:1em; text-align:right;}
+		#data3 {bottom:0.5em; left:1em;}
+		#data4 {bottom:0.5em; right:1em; padding:0; text-align:right;}
+
+	</style>
+	<script>
+
+		var canvas,
+			ctx,
+			board = [],
+			boardDivs = [],
+			boardWidth,
+			boardHeight,
+			canvasWidth = 800,
+			canvasHeight = 500,
+			blockSize = 20,
+			lastTimestamp = null,
+			deltaT = null;
+
+		function getRandomColor() {
+			var r, g, b;
+			r = Math.floor(Math.random() * 255);
+			g = Math.floor(Math.random() * 255);
+			b = Math.floor(Math.random() * 255);
+			return 'rgb(' + r + ',' + g + ',' + b + ')';
+		}
+				
+		function setUpBoard() {
+			boardDivs = new Array(boardWidth).fill(0).map(()=>new Array(boardHeight).fill(0));
+
+			for (var i=0; i<boardWidth; i++) {
+				for (var j=0; j<boardHeight; j++) {
+					// create new div and append to the canvas
+					boardDivs[i][j] = document.createElement("div");
+					canvas.append(boardDivs[i][j]);
+					boardDivs[i][j].style.position = 'absolute';
+					boardDivs[i][j].style.top = j*blockSize + 'px';
+					boardDivs[i][j].style.left = i*blockSize + 'px';
+					boardDivs[i][j].style.height = blockSize + 'px';
+					boardDivs[i][j].style.width = blockSize + 'px';
+					boardDivs[i][j].innerHTML = '';
+				}
+			}
+		}
+		
+		function drawBoard() {	
+			for (var i=0; i<boardWidth; i++) {
+				for (var j=0; j<boardHeight; j++) {
+					boardDivs[i][j].style.backgroundColor = getRandomColor();
+				}
+			}
+		}
+
+		function upDateBoard(timestamp) {
+			drawBoard();
+			deltaT = timestamp - lastTimestamp;			
+			lastTimestamp = timestamp;
+			document.getElementById('data3').innerText = '∆t: ' + deltaT + ' ms';
+			console.log('∆t: ' + deltaT + ' ms');
+			
+			// again!
+			window.requestAnimationFrame(upDateBoard);
+		}
+
+		function getWindowSize() {
+			boardWidth  = Math.floor(window.innerWidth/blockSize);
+			boardHeight = Math.floor(window.innerHeight/blockSize);
+
+			canvasWidth  = boardWidth  * blockSize;
+			canvasHeight = boardHeight * blockSize;
+
+			// set width and height of canvas wrapper
+			canvas.style.width = canvasWidth;
+			canvas.style.height = canvasHeight;
+			
+			data2.innerHTML = 'window: ' + window.innerWidth + ' x ' + window.innerHeight + ' px<br>'
+				+ 'canvas: ' + canvasWidth + ' x ' + canvasHeight + ' px<br>'
+				+ 'board: ' + boardWidth + ' x ' + boardHeight + '<br>'
+				+ 'cells: ' + (boardWidth * boardHeight) + '';
+			
+			// reset board sizes
+			setUpBoard();			
+		}
+
+		function init() {
+			canvas = document.getElementById('canvas');
+
+			getWindowSize();
+			upDateBoard();
+		}
+		
+		window.onload = init;
+		window.onresize = getWindowSize;
+	
+	</script>
+</head>
+<body>
+
+	<div id="canvas"></div>
+	
+	<p id="data1" class="data"></p>
+	<p id="data2" class="data"></p>
+	<p id="data3" class="data"></p>
+	<p id="data4" class="data"></p>
+
+</body>
+</html>

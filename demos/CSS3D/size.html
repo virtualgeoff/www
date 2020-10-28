@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Size Test</title>
+	<style type="text/css">
+	
+		div {position:absolute; top:0; left:0; width:1000px; height:200px;}
+		div:nth-child(odd) {background: #ccc;}
+
+	</style>
+	<script type="text/javascript">
+	
+		var i,
+			N = 1000,
+			allTheDivs = [],
+			contentText,
+			body;
+
+		function makeDivs() {
+			body = document.getElementsByTagName('BODY')[0];
+
+			for (i=0; i<N; i++) {
+				allTheDivs[i] = document.createElement("div");
+				allTheDivs[i].style.left = i * 1000 + 'px';
+				contentText = document.createTextNode("Div " + i);
+				allTheDivs[i].appendChild(contentText);
+				body.appendChild(allTheDivs[i]);
+			}
+		}
+		window.onload = makeDivs;
+		
+	</script>
+	<meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+
+<h1>Size Test</h1>
+
+</body>
+</html>

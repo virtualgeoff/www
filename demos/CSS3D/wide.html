@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Go wide!</title>
+	<style type="text/css">
+
+		#info  {position:fixed; left:1em; top:1em;}
+	
+	</style>
+	<script>
+
+		var N = 0;
+			
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min) + min);
+		}
+		function drawRandomBox(id) {
+			var div = document.createElement('div');
+			div.style.position = "absolute";
+			div.style.left   = getRandomInt(-window.innerWidth*10, window.innerWidth*10) + "px";
+			div.style.top    = getRandomInt(0, window.innerHeight) + "px";
+			div.style.width  = getRandomInt(0, window.innerWidth/5) + "px";
+			div.style.height = getRandomInt(0, window.innerHeight/5) + "px";
+			div.style.background = "rgba(" + getRandomInt(0,255) + "," + getRandomInt(0,255) + "," + getRandomInt(0,255) + "," + Math.random() + ")";
+			document.body.appendChild(div);
+			document.getElementById('numboxes').innerHTML = N++;
+		}
+		function resize() {
+			var width  = window.innerWidth,
+    			height = window.innerHeight;
+			document.getElementById('size').innerHTML = "size: " + width + " × " + height + " px";
+		}
+		function scroll() {
+			var top  = window.pageYOffset || document.documentElement.scrollTop,
+    			left = window.pageXOffset || document.documentElement.scrollLeft;
+			document.getElementById('scoll').innerHTML = "scroll: " + left + ", " + top + " px";
+		}
+		function init() {
+			resize();
+			scroll();
+			
+			// draw random boxes
+			window.setInterval(drawRandomBox, 100);
+		}
+	
+		window.onload = init;
+		window.onresize = resize;
+		window.onscroll = scroll;
+
+	</script>	
+</head>
+<body>
+
+	<div id="info">
+		<h1>Go wide!</h1>
+		<p id="size"></p>
+		<p id="scoll"></p>
+		<p id="numboxes"></p>
+	</div>
+
+</body>
+</html>

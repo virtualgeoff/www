@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 100% 100%"
+	xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+	<title>Random Boxes</title>
+	<script type="text/ecmascript">
+	//<![CDATA[
+		
+		var svgXLink = "http://www.w3.org/1999/xlink";
+		var svgNS = "http://www.w3.org/2000/svg";
+		var svgRoot = document.documentElement;
+		
+		var windowWidth  = self.innerWidth;
+		var windowHeight = self.innerHeight;
+		//alert(windowWidth + ', ' + windowHeight);
+		
+		function rand(max) {
+			return Math.floor(Math.random()*max);
+		}		
+		
+		function makeBoxes(N){
+			var x, y, r, color, opacity;			
+			var here = document.getElementById("here");
+			
+			for (var i=0; i<N; i++) {
+				w = rand(windowWidth/4); 
+				h = rand(windowHeight/4);
+				x = rand(windowWidth) - w/2;
+				y = rand(windowHeight) - h/2;
+				//rx = rand(w/2);
+				//ry = rand(h/2);
+		
+				//color = "hsl("+rand(360)+","+rand(100)+"%,"+rand(100)+"%)";
+				color = "rgb("+rand(256)+","+rand(256)+","+rand(256)+")";		
+				opacity = rand(100)/100;
+
+				var rectangle = document.createElementNS(svgNS,"rect");
+				rectangle.setAttributeNS(null, "x", x);
+				rectangle.setAttributeNS(null, "y", y);
+				rectangle.setAttributeNS(null, "width", w);
+				rectangle.setAttributeNS(null, "height", h);
+				//rectangle.setAttributeNS(null, "rx", rx);
+				//rectangle.setAttributeNS(null, "ry", ry);
+				rectangle.setAttributeNS(null, "stroke", "#000");
+				rectangle.setAttributeNS(null, "stroke-width", "1px");
+				rectangle.setAttributeNS(null, "fill", color);
+				rectangle.setAttributeNS(null, "opacity", opacity);
+				rectangle.setAttributeNS(null, "onmouseover", "changeBackground('"+color+"')");
+				
+				here.appendChild(rectangle);
+			}
+		}
+		
+		function changeBackground(color) {
+			svgRoot.style.backgroundColor = color;			
+		}
+		
+		function init() {
+			makeBoxes(rand(100));
+		}
+		
+		window.onload = init;
+	
+	// ]]>
+	</script>
+
+ 	<g id='here' transform="translate(0,0)"></g>
+
+</svg>

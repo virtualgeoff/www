@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Lunar Lander 0.3</title>
+	<meta charset="utf-8" />
+	<script type="text/javascript">
+
+	// ------------------------------------------------------------
+	//
+	// Lunar Lander 0.3
+	// Geoff Pack, geoff@virtualgeoff.com
+	//
+	// v0.3, October 2018 !
+	// modernising the code, making full screen, but otherwise unchanged
+	//
+	// v0.2, September 2004
+	// simplified image strip code, added splash screens
+	// 
+	// v0.1, August 2004
+	// basic basic physics, controls, image strip code
+	//
+	// ------------------------------------------------------------
+
+	// load images and sound:
+
+	if (document.images) {
+		engineOn  = new Image(); engineOn.src  = "images/lander_on.gif";
+		engineOff = new Image(); engineOff.src = "images/lander_off.gif";
+	}
+
+	// ------------------------------------------------------------
+	// get screen size:
+
+	var W = window.innerWidth;
+	var H = window.innerHeight;
+
+	// ------------------------------------------------------------
+	// lander variables:
+
+	var px = 0+20;		// position
+	var py = H-20;
+	var vx = 10;		// velocity
+	var vy = 0;
+	var ax = 0;			// acceleration
+	var ay = 0;
+	var f  = 0;			// thrust
+	var fx = 0;			
+	var fy = 0;
+	var m  = 1;			// mass
+	var theta = 0;		// orientation
+	var h = 14;			// height of lander cg from base of legs
+	var g = -0.5;		// acceleration due to gravity	
+
+	// ------------------------------------------------------------
+	// animation loop:
+
+	function updatePostion() {
+		// calculate thrust components:
+		// only really need to do if (f != 0), but avoid the conditional
+		fx = f * Math.sin(theta*Math.PI/180);  // convert degrees to radians
+		fy = f * Math.cos(theta*Math.PI/180);
+
+		// euler integration:
+		ax = fx/m;
+		ay = fy/m + g;
+		vx += ax;
+		vy += ay;
+		px += vx;
+		py += vy;
+
+		// detect collision with ground:
+		if (py <= h) {
+			py = h;
+			vx = 0;
+			vy = 0;		
+			// if velocity is low >> landing
+			// else crash!
+		} else if (py > (H-h)) {
+			// bounce off ceiling
+			py = H-h;
+			vy = - vy/2;
+		}
+		// wrap left and right edges:
+		if (px > W) px -= W;
+		else if (px < 0) px += W;
+	
+		// draw lander and HUD:
+		drawLander();
+		drawDisplay();
+	
+		// do it all again in 50 millisecs (~20 fps):
+		next = setTimeout("updatePostion()",50);
+	}
+
+	// ------------------------------------------------------------
+	// drawing functions:
+
+	function drawLander() {
+		var d = document.getElementById('lander'); 
+		d.style.left = (px-50) + 'px';
+		d.style.top  = (H-py-50) + 'px';
+	}
+
+	function drawDisplay() {
+		document.getElementById('position').innerHTML 		= "<pre>Altitude:     " + parseInt(py-h) + "<\/pre>";
+		document.getElementById('velocity').innerHTML 		= "<pre>Velocity:     " + parseInt(vx*10)/10 +", " + parseInt(vy*10)/10 + "<\/pre>";
+		//document.getElementById('acceleration').innerHTML 	= "<pre>Acceleration: " + parseInt(10*ax)/10 +", " + parseInt(10*ay)/10 + "<\/pre>";
+		//document.getElementById('orientation').innerHTML 	= "<pre>Orientation:  " + theta + " degrees<\/pre>";
+	}
+
+	// ------------------------------------------------------------
+	// keypress handlers:
+
+	function thrust(T) {
+		// originally resolved thrust components here (i.e. when thrust is changed),
+		// but this causes problems if orientation changed while engine kept on. So:
+		f = T;
+		// swap image if thrust changes 
+		if (f==0) document.landerImg.src = "images/lander_off.gif";
+		else      document.landerImg.src = "images/lander_on.gif";
+	}
+	
+	function rotate(w) {
+		// increment angle:
+		theta += w;
+		// limit angle to between 0 and 360 degrees:
+		if (theta >= 360) theta -= 360;
+		if (theta < 0) theta += 360;
+	
+		// move landerImg to display correct subimage:
+		var d = document.getElementById('landerImg'); 
+		//d.style.left = -100*((theta-(parseInt(theta/90))*90)/15) + 'px';
+		//d.style.top = -100*parseInt(theta/90) + 'px';
+		d.style.left = -100*(theta/15) + 'px';
+		d.style.top = 0 + 'px';
+	}
+
+	// ------------------------------------------------------------
+	// keypress detection code:
+
+	var NS = (window.Event) ? 1 : 0;
+
+	function checkKey(e) {
+		var code = (NS) ? e.which : event.keyCode;
+		var key = String.fromCharCode(code);
+	
+		if      (key == ' ') thrust(2); 
+		else if (key == ',') rotate(-15);
+		else if (key == '.') rotate(+15);
+	}
+
+	function checkKeyUp(e) {
+		var code = (NS) ? e.which : event.keyCode;
+		var key = String.fromCharCode(code);
+
+		if (key == ' ') thrust(0);	
+	}
+
+	if (NS) document.captureEvents(Event.KEYPRESS)
+	document.onkeypress = checkKey;
+	document.onkeyup = checkKeyUp;
+
+	// ------------------------------------------------------------
+	// show/hide script for splashscreens:
+
+	function show(div) {
+		//document.getElementById(div).style.display = 'block';
+		document.getElementById(div).style.visibility = 'visible';
+	}
+	function hide(div) {
+		//document.getElementById(div) .style.display = 'none';
+		document.getElementById(div).style.visibility = 'hidden';
+	}
+
+	// ------------------------------------------------------------
+	// get going!:
+
+	function init() {
+		show('splash1');
+	}
+
+	function start() {
+		//document.getElementById('splashscreen').style.display = 'none';
+		hide('splash2');
+		drawLander();
+		drawDisplay();
+		updatePostion();
+	}
+
+	// ------------------------------------------------------------
+
+	</script>
+	<style type="text/css">
+
+		body {}
+		a:link {color:#f00;}
+		a:visited {color:#f00;}
+		a:hover {color:#ff0;}
+
+		#content {
+			position:absolute; left:0px; top:0px; background-color:#000;
+			margin:auto;
+			width:100%;
+			height:100%;
+			overflow:hidden;
+		}
+
+		#lander {
+			position:absolute; 
+			z-index:6; 
+			left:250px; top:50px; width:100px; height:100px; 
+			overflow:hidden;
+		}
+		#landerImg {
+			position:absolute; 
+			left:0px; top:0px;
+		}
+
+		#position		{position:absolute; z-index:1; left:10px; top:20px; color:#f00;}
+		#velocity 		{position:absolute; z-index:2; left:10px; top:40px; color:#0f0;}
+		#acceleration	{position:absolute; z-index:3; left:10px; top:60px; color:#00f;}
+		#orientation	{position:absolute; z-index:4; left:10px; top:80px; color:#f0f;}
+
+		#splash1, #splash2 {
+			position:absolute;
+			left:0px; top:0px; width: 100%; 
+			visibility: hidden;
+			color:#0f0; 
+			text-align:center;
+			font-family: Verdana, Arial, Helvetica, san-serif;
+			margin-top: 130px;
+		}
+
+	</style>
+</head>
+<body onload="init();">
+
+<div id="content">
+	<div id="lander"><img name="landerImg" id="landerImg" src="images/lander_off.gif" alt="lander image" width="2400" height="100"></div>
+	<div id="position"></div>
+	<div id="velocity"></div>
+	<div id="acceleration"></div>
+	<div id="orientation"></div>
+	
+	<div id="splash1">
+		<p>Lunar Lander 0.3</p>
+		<p><small>by virtualGeoff</small></p>
+		<br>
+		<p><a href="javascript:	hide('splash1');show('splash2');">continue</a></p>
+	</div>
+
+	<div id="splash2">
+		<p>Controls:</p>
+		<p><small>Spacebar = thrust<br>
+		&lt; = rotate left<br>
+		&gt; = rotate right</small></p>
+		<p><small>Note: if the controls do not respond,<br> 
+		try clicking within frame/window<br><br>
+		<br></small></p>
+		<p><a href="javascript:start()">Start</a></p>
+	</div>
+</div>
+
+</body>
+</html>

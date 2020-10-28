@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>virtualgeoff . random</title>
+	<style>
+	
+		body {margin:0; background:#000;}
+		div {position:absolute; top:0; left:0; width:2px; height:2px; background: #ccc;}
+	
+	</style>
+	<script>
+
+		var N = 2000;
+		var W = window.innerWidth;
+		var H = window.innerHeight;
+		var p = [];
+
+		function moveThem() {
+			for (i=1; i<N; i++) {
+				p[i].style.left = W * Math.random(); 
+				p[i].style.top = H * Math.random();
+			}
+			setTimeout('moveThem()',50);
+		}
+
+		function init() {
+			for (i=0; i<N; i++) {
+				p[i] = document.createElement('div');
+				document.getElementsByTagName('body')[0].appendChild(p[i]);
+			}
+			moveThem();
+		}
+
+		window.onload = init;
+			
+	</script>
+</head>
+
+<body>
+
+
+</body>
+</html>

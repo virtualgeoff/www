@@ -1,0 +1,27 @@
+
+body {margin:0; padding:1em; font:1em 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight:300; background:#ccc;}
+div {margin:0; padding:0;}
+
+h1 {margin:1rem; font-size:1.75rem; text-align:center;}
+p {margin:1em; text-align:center; line-height:1.4;}
+small {font-size:0.6em;}
+
+.right {float:right; font-size:0.7em;}
+.hide {display:none;}
+
+
+/* list */
+ul {list-style:none; max-width:30em; margin:1em auto; padding:0.5em 0;}
+li {clear:both; margin:0.2em 0; overflow:auto; padding:0.2em 0.5em; line-height:1.4em; background:#f7f7f7;}
+li input[type="checkbox"] {margin-right:0.6em; font:1em;}
+li span {}
+li button {display:none;}
+li:hover button {display:inline;}
+li.done {color:#999;}
+li.done > span {text-decoration:line-through; color:#999;}
+li.template {display:none;}
+
+/* form */
+li form {margin-left:1.2em;}
+li form input[type="text"] {padding:0.2em; font:1.0em 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight:300;}
+li form input.title {width:70%;}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>To Do 3D</title>
+	<link rel="stylesheet" href="main.css">	
+	<link rel="stylesheet" href="cube.css">	
+	<script src="main.js"></script>	
+	<script src="cube.js"></script>	
+	<script src="mouse.js"></script>	
+</head>
+<body>
+
+	<p id="info"></p>
+
+	<div id="wrapper">
+		<div id="wrapper2">
+			<div id="field"></div>
+		</div>
+	</div>
+
+	<div id="main">
+		<h1>To Do 3D</h1>
+
+		<ul id="ToDoList">
+			<li class="template">
+				<input type="checkbox" onclick="ToDo.checkItem(this)">
+				<span class="title"></span>
+				<div class="right">
+					<button class="edit"   onclick="ToDo.editItem(this)">Edit</button>
+					<button class="delete" onclick="ToDo.deleteItem(this)">Delete</button>
+					<span class="importance"></span>,
+					<span class="urgency"></span>,
+					<span class="effort"></span>
+				</div>
+			</li>
+			<li id="addNew">
+				<form onsubmit="ToDo.addItem(this)">
+					<input type="text" name="title" class="title" value="" placeholder="task description">
+					<input type="submit" value="Add item">
+					<p class="itemRanges">
+						<label for="importance">Importance: </label><input type="range" name="importance" id="importance" value="5" min="0" max="10" step="0.5" onchange="ToDo.rangeChanged(this)"><span>5</span><br>
+						<label for="urgency">Urgency:       </label><input type="range" name="urgency"    id="urgency"    value="5" min="0" max="10" step="0.5" onchange="ToDo.rangeChanged(this)"><span>5</span><br>
+						<label for="effort">Effort:         </label><input type="range" name="effort"     id="effort"     value="5" min="0" max="10" step="0.5" onchange="ToDo.rangeChanged(this)"><span>5</span>
+					</p>
+				</form>		
+			</li>
+		</ul>
+	
+		<p>
+			<span id="listStatus"></span>
+			<button onclick="ToDo.showHideCompleted(this)">Hide completed items</button>
+		<p>
+	</div>
+
+</body>
+</html>

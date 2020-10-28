@@ -1,0 +1,19 @@
+
+Touch Drawing Demo:
+-------------------
+
+Next:
+	√ clean up code
+	√ separate drawing code from touch code
+
+	√ make work with mouse also
+		√ make colors work with mouse also
+
+	√ make the canvas full window (minus area for palette?)
+		√ add resize handler
+
+	- fix offset bug?
+
+	- add buttons for different colors
+	- add buttons for different line widths
+	

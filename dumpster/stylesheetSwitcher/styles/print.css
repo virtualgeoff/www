@@ -1,0 +1,41 @@
+
+/* ----- text styles ----- */
+
+body {}
+h1 {}
+h2 {}
+h3 {}
+h4 {}
+p {}
+ul {}
+
+/* ----- link styles ----- */
+
+a[href^="http:"] {}
+a:link {}
+a:visited {}
+a:hover {}
+
+#footer a:link {}
+#footer a:visited {}
+#footer a:hover {}
+
+/* ----- positioning ----- */
+
+#header {}
+#nav {display: none;}
+#content {}
+#footer {}
+#styleswitcher {}
+
+/* ----- nav menu styles ----- */
+
+#nav h3 {}
+#nav ul {}
+#nav ul ul {}
+#nav li {}
+
+/* ----- miscellaneous ----- */
+
+.comment {}
+.alert {}

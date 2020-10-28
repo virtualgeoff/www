@@ -1,0 +1,46 @@
+
+Next:
+-----
+
+• check Tierion demo https://tierion.com/ and see if the script library has a homepage
+	• otherwise copy the code and set up a stand alone demo
+
+√︎ improve randomisation of velocity:
+	√ random speed @ random angle
+	√ then take sine and cosine
+
+√ better random colors:
+	√ use HSLA instead of RGBA ???
+
+√ fix background gradient
+	√ randomise
+
+• add attractions and repulsion between dots
+	• collisions (= v.short range repulsion)
+
+• user interaction
+	• attraction to / repulsion from cursor
+	• add more or remove dots on the fly ?
+	• sliders for setting properties
+
+• do versions in SVG also
+
+
+
+More generally:
+---------------
+
+• general particle emitter script
+	• particle source and sinks?
+	• finite lifespan
+	• continuous addition and removal
+
+etc...
+
+• create versions in SVG and compare performance!
+• do a 3D version with three.js? (or CSS3D ??)
+
+
+More on Canvas animation:
+----------------------
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations

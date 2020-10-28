@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Dynamically Changing the Viewport</title>
+
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+
+		function setViewportWidth(width) {
+			var vp = document.getElementById('viewport');
+			var str = 'width=' + width;
+			//var str = 'width=' + width + ', initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0';
+			vp.setAttribute('content',str);
+			getScreenData();
+			return false;
+		}
+		function setViewportScale(scale) {
+			var vp = document.getElementById('viewport');
+			var str = 'initial-scale=' + scale + ', maximum-scale=' + scale +  ', minimum-scale=' + scale + ', user-scalable=no';
+			
+			vp.setAttribute('content',str);
+
+			var str2 = 'initial-scale=' + scale;
+			vp.setAttribute('content',str2);
+			getScreenData();
+			return false;
+		}
+		function setViewport(width, scale) {
+			var vp = document.getElementById('viewport');
+	 		var str = 'width=' + width + ', initial-scale=' + scale;
+			vp.setAttribute('content',str);
+			getScreenData();
+			return false;
+		}
+var onorientationchange = function()    {
+    document.getElementById('contents').className =
+      Math.abs(window.orientation == 90)? "landscape" : "portrait";
+}
+
+		function getScreenData() {
+			var vp = document.getElementById('viewport');
+			var str = '<b>viewport content:</b> ' + vp.getAttribute('content');
+			document.getElementById('viewportData').innerHTML = str;
+			
+			str = '<b>screen orientation:</b> ' + window.orientation + ' = ' + ((Math.abs(window.orientation) == 90)? "landscape" : "portrait");
+			document.getElementById('screenOrientation').innerHTML = str;
+
+			document.getElementById('zoom').innerHTML = "<b>zoom:</b> " + (screen.width/window.innerWidth);
+
+			document.getElementById('screenWidth').innerHTML = screen.width;
+			document.getElementById('screenHeight').innerHTML = screen.height;
+			document.getElementById('screenRatio').innerHTML = (screen.width/screen.height);
+
+			document.getElementById('windowInnerWidth').innerHTML = window.innerWidth;
+			document.getElementById('windowInnerHeight').innerHTML = window.innerHeight;
+			document.getElementById('windowInnerRatio').innerHTML = (window.innerWidth/window.innerHeight);
+
+			document.getElementById('windowOuterWidth').innerHTML = window.outerWidth;
+			document.getElementById('windowOuterHeight').innerHTML = window.outerHeight;
+			document.getElementById('windowOuterRatio').innerHTML = (window.outerWidth/window.outerHeight);
+		
+			document.getElementById('clientWidth').innerHTML = document.documentElement.clientWidth;
+			document.getElementById('clientHeight').innerHTML = document.documentElement.clientHeight;
+			document.getElementById('clientRatio').innerHTML = (document.documentElement.clientWidth/document.documentElement.clientHeight);
+
+			document.getElementById('offsetWidth').innerHTML = document.documentElement.offsetWidth;
+			document.getElementById('offsetHeight').innerHTML = document.documentElement.offsetHeight;
+			document.getElementById('offsetRatio').innerHTML = (document.documentElement.offsetWidth/document.documentElement.offsetHeight);
+		}
+		
+		function addEvent(elem, type, eventHandle) {
+			if (elem == null || elem == undefined) return;
+			if (elem.addEventListener) {
+				elem.addEventListener(type, eventHandle, false);
+			} else if (elem.attachEvent) {
+				elem.attachEvent("on" + type, eventHandle);
+			} else {
+				elem["on"+type]=eventHandle;
+			}
+		}
+
+		addEvent(window, 'resize', getScreenData);
+		addEvent(window, 'load', getScreenData);
+		addEvent(window, 'orientationchange', getScreenData);
+		addEvent(window, 'touchend', getScreenData);
+
+	</script>
+
+	<style type="text/css">
+	
+		html			{width: 100%;}
+		body			{width: 100%; background: #fff;}	
+		table           {border-collapse:collapse; border-spacing:0;}
+		table, td, th   {vertical-align:top; text-align:left; border:1px solid rgba(0,0,0,0.2);}
+		td, th			{padding:0.3em 10px;}
+
+		@media only screen and (min-width:320px) {
+			body {background: #7f0;}		
+		}
+		@media only screen and (min-width:480px) {
+			body {background: #ff0;}		
+		}
+		@media only screen and (min-width:768px) {
+			body {background: #f70;}		
+		}
+		@media only screen and (min-width:1024px) {
+			body {background: #f00;}		
+		}
+	
+	</style>
+</head>
+<body>
+
+	<h1>Dynamically Changing the Viewport</h1>
+
+	<p id="viewportData"></p>
+	<p id="screenOrientation"></p>
+	<p id="zoom"></p>
+	<table>
+		<tr>
+			<th>Current sizes</th>
+			<th>width</th>
+			<th>height</th>
+			<th>width/height</th>
+		</tr>
+		<tr>
+			<td>screen</td>
+			<td id="screenWidth">–</td>
+			<td id="screenHeight">–</td>
+			<td id="screenRatio">–</td>
+		</tr>
+		<tr>
+			<td>window.inner</td>
+			<td id="windowInnerWidth">–</td>
+			<td id="windowInnerHeight">–</td>
+			<td id="windowInnerRatio">–</td>
+		</tr>
+		<tr>
+			<td>window.outer</td>
+			<td id="windowOuterWidth">–</td>
+			<td id="windowOuterHeight">–</td>
+			<td id="windowOuterRatio">–</td>
+		</tr>
+		<tr>
+			<td>documentElement.client</td>
+			<td id="clientWidth">–</td>
+			<td id="clientHeight">–</td>
+			<td id="clientRatio">–</td>
+		</tr> 
+		<tr>
+			<td>documentElement.offset</td>
+			<td id="offsetWidth">–</td>
+			<td id="offsetHeight">–</td>
+			<td id="offsetRatio">–</td>
+		</tr> 
+		
+	</table>
+	
+	
+	<h2>Re-size window to change styles</h2>
+	<p></p>
+	<table>
+		<tr>
+			<th>background color</th>
+			<th>window.width</th>
+		</tr>
+		<tr>
+			<td style="background: #fff;">white:</td>
+			<td>&lt;320 (or no support for media queries)</td>
+		</tr>
+		<tr>
+			<td style="background: #7f0;">green</td>
+			<td>320+</td>
+		</tr>
+		<tr>
+			<td style="background: #ff0;">yellow:</td>
+			<td>480+</td>
+		</tr>
+		<tr>
+			<td style="background: #f70;">orange:</td>
+			<td>768+</td>
+		</tr>
+		<tr>
+			<td style="background: #f00;">red:</td>
+			<td>1024+</td>
+		</tr>
+	</table>
+
+
+	<h2>Change viewport width via JS</h2>
+	<p>This doesn't do anything on desktop - try on a mobile device!</p>
+	
+	<table>
+		<tr>
+			<th>set width</th>
+			<th>set scale</th>
+			<th>width, scale</th>
+			<th>width, scale</th>
+			<th>width, scale</th>
+			<th>width, scale</th>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="return setViewportWidth(320)">320</a></td>
+			<td><a href="#" onclick="return setViewportScale(0.5)">0.5</a></td>
+			<td><a href="#" onclick="return setViewport(320,(320/980))">320, (320/980)</a></td>
+			<td><a href="#" onclick="return setViewport(320,0.5)">320, 0.5</a></td>
+			<td><a href="#" onclick="return setViewport(320,1.0)">320, 1.0</a></td>
+			<td><a href="#" onclick="return setViewport(320,2.0)">320, 2.0</a></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="return setViewportWidth(480)">480</a></td>
+			<td><a href="#" onclick="return setViewportScale(1.0)">1.0</a></td>
+			<td><a href="#" onclick="return setViewport(480,(480/980))">480, (480/980)</a></td>
+			<td><a href="#" onclick="return setViewport(480,0.5)">480, 0.5</a></td>
+			<td><a href="#" onclick="return setViewport(480,1.0)">480, 1.0</a></td>
+			<td><a href="#" onclick="return setViewport(480,2.0)">480, 2.0</a></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="return setViewportWidth(768)">768</a></td>
+			<td><a href="#" onclick="return setViewportScale(1.5)">1.5</a></td>
+			<td><a href="#" onclick="return setViewport(768,(768/980))">768, (768/980)</a></td>
+			<td><a href="#" onclick="return setViewport(768,0.5)">768, 0.5</a></td>
+			<td><a href="#" onclick="return setViewport(768,1.0)">768, 1.0</a></td>
+			<td><a href="#" onclick="return setViewport(768,2.0)">768, 2.0</a></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="return setViewportWidth(1024)">1024</a></td>
+			<td><a href="#" onclick="return setViewportScale(2.0)">2.0</a></td>
+			<td><a href="#" onclick="return setViewport(1024,(1024/980))">1024, (1024/980)</a></td>
+			<td><a href="#" onclick="return setViewport(1024,0.5)">1024, 0.5</a></td>
+			<td><a href="#" onclick="return setViewport(1024,1.0)">1024, 1.0</a></td>
+			<td><a href="#" onclick="return setViewport(1024,2.0)">1024, 2.0</a></td>
+		</tr>
+	</table>
+
+	<h2>Resources</h2>	
+	<ul>
+		<li><a href="http://www.quirksmode.org/blog/archives/2011/06/dynamically_cha.html">Dynamically changing the meta viewport (quirksmode.org)</a></li>
+		<li><a href="http://menacingcloud.com/?c=viewport">Dynamic Viewport Modification (menacingcloud.com)</a></li>
+		<li><a href="http://menacingcloud.com/?c=viewportDemo">Dynamic Viewport Demos (menacingcloud.com)</a></li>
+		<li><a href="https://www.google.com/search?q=changing+viewport+meta+tag+dynamically">Google: changing viewport meta tag dynamically</a></li>
+	</ul>
+
+
+</body>
+</html>

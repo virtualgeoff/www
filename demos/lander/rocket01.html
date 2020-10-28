@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Rocket 0.1</title>
+	<style>
+
+		body {margin:0; padding:0; font-family:courier; color:#0f0; background:#000; overflow:hidden;}
+		canvas {margin:0; padding:0;,border:1px solid black;}
+		p {margin:0; padding:0;}
+		#msg  {position:absolute; left:1em; top:1em; text-align:left;}
+		#data {position:absolute; left:1em; top:3em; text-align:left;}
+
+	</style>
+	<script>
+
+		// Geoff Pack
+		// 30 November 2016
+
+		var canvas, ctx,
+			now, then, dt,
+			m = {},
+			data;
+
+		function setSize(){
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+
+		function precise(num, n) {
+			return Number.parseFloat(num).toPrecision(n);
+		}
+		
+		function draw() {
+			now = new Date();
+			dt = now - then;
+
+			ctx.clearRect(0,0,canvas.width,canvas.height); // clear canvas
+			ctx.strokeStyle = "black";
+
+			// move object m
+			m.p.x += m.v.x;
+			m.p.y += m.v.y;
+			m.v.x += m.a.x;
+			m.v.y += m.a.y;
+
+			// wrap around window
+			if (m.p.y > canvas.height) {
+				m.p.y = 0; //canvas.height;
+			} else if (m.p.y < 0) {
+				m.p.y = canvas.height;
+			}
+			if (m.p.x > canvas.width) {
+				m.p.x = 0; //canvas.width;
+			} else if (m.p.x < 0) {
+				m.p.x = canvas.width;
+			}
+
+			// draw box
+			ctx.fillStyle = "rgb(255,125,0)";
+			ctx.fillRect(m.p.x-10,m.p.y-10,20,20);
+
+			// show data
+			data.innerHTML = '∆t = ' + dt+ '<br>' +
+				'p: ' + precise(m.p.x, 5) + ', ' + precise(m.p.y, 5) + '<br>' +
+				'v: ' + precise(m.v.x, 5) + ', ' + precise(m.v.y, 5) + '<br>' +
+				'a: ' + precise(m.a.x, 5) + ', ' + precise(m.a.y, 5) + '<br>';
+
+			// repeat
+			then = now;
+			window.requestAnimationFrame(draw);
+		}
+
+		function keydown(e) {
+			//console.log(e.keyCode + ', ' + e.charCode + ', ' + e.key + ', ' + e.code);
+			switch (e.code) {
+				case 'ArrowLeft':
+				case 'KeyA':
+					m.a.x += -0.1;
+					break;
+				case 'ArrowDown':
+				case 'KeyS':
+					m.a.y += 0.1;
+					break;
+				case 'ArrowRight':
+				case 'KeyD':
+					m.a.x += 0.1;
+					break;
+				case 'ArrowUp':
+				case 'KeyW':
+					m.a.y += -0.1;
+					break;
+				case 'Space':
+					m.v.x = 0;
+					m.v.y = 0;
+					break;
+			}
+		}
+		function keyup(e) {
+			// kill acceleration
+			m.a.x = 0;
+			m.a.y = 0;
+		}
+		function init(){
+			canvas = document.getElementById('canvas1');
+			data =   document.getElementById('data');
+
+			if (canvas.getContext){
+				ctx = canvas.getContext('2d');
+				setSize();
+
+				// initialise object
+				m.p = {x:0, y:canvas.height/2};
+				m.v = {x:2, y:0};
+				m.a = {x:0, y:0};
+
+				window.requestAnimationFrame(draw);
+			}
+		}
+
+		window.addEventListener('load', init);
+		window.addEventListener('resize', setSize);
+		window.addEventListener('keydown', keydown);
+		window.addEventListener('keyup', keyup);
+
+	</script>
+</head>
+<body>
+
+	<canvas id="canvas1"></canvas>
+	<p id="msg">Use WASD or arrow keys to move</p>
+	<p id="data"></p>
+
+</body>
+</html>

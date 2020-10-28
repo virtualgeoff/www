@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Torus 2</title>
+	<link rel="stylesheet" type="text/css" media="all" href="pointcloud.css">
+	<script type="text/javascript" src="pointcloud.js"></script>
+	<script type="text/javascript">
+
+		function setPoints() {
+			// torus
+			var n = 12; 	// every 360/n degrees latitude;
+			var m = 18; 	// every 360/m degrees longitude;
+			var k = 0;		// index
+			var radius1 = 1.6;
+			var radius2 = 0.8;
+			var phi, theta, i, j;
+			
+			for (i = 0; i <= n; i++) {
+				for (j = 0; j < m; j++) {
+					phi   = i/n * 2 * pi;
+					theta = j/m * 2 * pi;
+		
+					// find coords
+					p[k] = {};
+					p[k].x = (radius1 + radius2 * Math.sin(phi)) * Math.sin(theta);
+					p[k].z = (radius1 + radius2 * Math.sin(phi)) * Math.cos(theta);
+					p[k].y = radius2 * Math.cos(phi);
+		
+					k++;
+				}
+			}
+		}
+
+	</script>
+</head>
+<body>
+
+	<!--#include virtual="pointcloud.inc" -->
+	
+</body>
+</html>

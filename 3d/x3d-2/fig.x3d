@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"
+"http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile='Immersive'
+xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance'
+xsd:noNamespaceSchemaLocation=
+'http://www.web3d.org/specifications/x3d-3.0.xsd'>
+
+  <head>
+    <meta name='filename' content='fig.x3d' />
+    <meta name='author' content='Dethe Elza' />
+    <meta name='created' content='2005-10-20' />
+    <meta name='description'
+    content='Prototype of the Fig, a notional handheld computer.' />
+  </head>
+  <Scene>
+  <!-- This NavigationInfo node is added to many scenes, 
+  making examination of objects easier. -->
+  <NavigationInfo type='"EXAMINE" "ANY"' />
+  <Viewpoint description='' position='0 0 .55' />
+  <Background skyColor="1 1 1" groundColor="1 1 1" /> 
+  <Shape DEF="screen">
+    <Appearance>
+      <Material diffuseColor='.8 .8 .8' />
+      <ImageTexture url="hello_world.png" />
+    </Appearance>
+    <Box size='.5 .3 .01' />
+  </Shape>
+  <Transform translation="-.23 -.12 .015">
+    <Shape DEF="logo">
+      <Appearance>
+        <Material diffuseColor=".8 .8 .8" />
+        <ImageTexture url="fig_logo.png" />
+      </Appearance>
+      <Box size=".025 .03 .00001" />
+    </Shape>
+  </Transform>
+  <Transform translation="-.23 .12 .015">
+    <Group DEF="Grille">
+      <Shape>
+        <Appearance DEF="grey_hole">
+          <Material diffuseColor=".2 .2 .2" />
+        </Appearance>
+        <Sphere DEF="Dot" radius=".001" />
+      </Shape>
+      <Transform translation="-.01 -.005 0">
+        <Shape USE="Dot" />
+      </Transform>
+      <Transform translation="-.01 .005 0">
+        <Shape USE="Dot" />
+      </Transform>
+      <Transform translation=".01 -.005 0">
+        <Shape USE="Dot" />
+      </Transform>
+      <Transform translation=".01 .005 0">
+        <Shape USE="Dot" />
+      </Transform>
+      <Transform translation="0 .01 0">
+        <Shape USE="Dot" />
+      </Transform>
+      <Transform translation="0 -.01 0">
+        <Shape USE="Dot" />
+      </Transform>
+    </Group>
+  </Transform>
+  <Transform translation=".23 .12 .015">
+    <Group USE="Grille" />
+  </Transform>
+  <Transform translation="-.23 0 0">
+    <Shape DEF="control_area">
+      <Appearance DEF="white_plastic">
+        <Material diffuseColor='.9 .9 .9' shininess="1" />
+      </Appearance>
+      <Box size=".04 .3 .03" />
+    </Shape>
+  </Transform>
+  <Transform translation=".23 0 0">
+    <Shape USE="control_area" />
+  </Transform>
+  <Transform translation="-.25 0 0">
+    <Shape DEF="vertical_bevel">
+      <Appearance USE="white_plastic" />
+      <Cylinder height=".3" radius=".015" />
+    </Shape>
+  </Transform>
+  <Transform translation=".25 0 0">
+    <Shape USE="vertical_bevel" />
+  </Transform>
+  <Transform translation="-.21 0 0">
+    <Shape USE="vertical_bevel" />
+  </Transform>
+  <Transform translation=".21 0 0">
+    <Shape USE="vertical_bevel" />
+  </Transform>
+  <Transform translation="0 -.15 0" rotation="0 0 1 1.57079632679">
+    <Shape DEF="Horizontal_bevel">
+      <Appearance USE="white_plastic" />
+      <Cylinder height=".5" radius=".015" />
+    </Shape>
+  </Transform>
+  <Transform translation="0 .15 0" rotation="0 0 1 1.57079632679">
+    <Shape USE="Horizontal_bevel" />
+  </Transform>
+  <Transform translation="-.25 -.15 0">
+    <Shape DEF="Corner">
+      <Appearance USE="white_plastic" />
+      <Sphere radius=".015" />
+    </Shape>
+  </Transform>
+  <Transform translation="-.25 .15 0">
+    <Shape USE="Corner" />
+  </Transform>
+  <Transform translation=".25 -.15 0">
+    <Shape USE="Corner" />
+  </Transform>
+  <Transform translation=".25 .15 0">
+    <Shape USE="Corner" />
+  </Transform>
+  <Transform translation="0 .148 .014">
+    <Group DEF="camera_microphone">
+      <Transform rotation="1 0 0 1.57">
+        <Shape>
+          <Appearance USE="white_plastic" />
+          <Cylinder radius=".006" height=".002" />
+        </Shape>
+      </Transform>
+      <Shape DEF="camera">
+        <Appearance>
+          <Material diffuseColor="0 0 0" shininess="1.0" />
+        </Appearance>
+        <Sphere radius=".003" />
+      </Shape>
+      <Transform translation="-.03 -.002 .01">
+        <Shape DEF="microphone">
+          <Appearance USE="grey_hole" />
+          <Box size=".006 .001 .001" />
+        </Shape>
+      </Transform>
+      <Transform translation=".03 -.002 .01">
+        <Shape USE="microphone" />
+      </Transform>
+    </Group>
+  </Transform>
+  <Transform translation="-.23 .02 .015">
+    <Group DEF="buttons">
+      <Transform translation="-.01 0 0">
+        <Shape>
+          <Appearance>
+            <Material diffuseColor="1 0 0" shininess=".4" />
+          </Appearance>
+          <Sphere radius=".006" />
+        </Shape>
+      </Transform>
+      <Transform translation=".01 0 0">
+        <Shape>
+          <Appearance>
+            <Material diffuseColor="1 1 0" shininess=".4" />
+          </Appearance>
+          <Sphere radius=".006" />
+        </Shape>
+      </Transform>
+      <Transform translation="0 .01 0">
+        <Shape>
+          <Appearance>
+            <Material diffuseColor="0 1 0" shininess=".4" />
+          </Appearance>
+          <Sphere radius=".006" />
+        </Shape>
+      </Transform>
+      <Transform translation="0 -.01 0">
+        <Shape>
+          <Appearance>
+            <Material diffuseColor="0 0 1" shininess=".4" />
+          </Appearance>
+          <Sphere radius=".006" />
+        </Shape>
+      </Transform>
+    </Group>
+  </Transform>
+  <Transform translation=".23 .02 .015" rotation="0 1 0 3.15">
+    <Group USE="buttons" />
+  </Transform></Scene>
+</X3D>

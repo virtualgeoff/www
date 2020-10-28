@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Spherical Helix</title>
+	<link rel="stylesheet" type="text/css" media="all" href="pointcloud.css">
+	<script type="text/javascript" src="pointcloud.js"></script>
+	<script type="text/javascript">
+
+		function setPoints() {
+			// spherical helix
+			var n = 72; 	// every 180/n degrees latitude
+			var m = 4; 		// every 360/m degrees longitude
+			var k = 0; 		// index
+			var radius = 1.7;
+			var theta, phi, i, j;
+			
+			for (i = 0; i <= n; i++) {
+				for (j = 0; j < m; j++) {
+					theta   = i/n * pi;
+					phi = (i/n + j/m) * 2 * pi;
+		
+					// find coords
+					p[k] = {};
+					p[k].x = radius * Math.sin(theta) * Math.sin(phi);
+					p[k].y = radius * Math.cos(theta);
+					p[k].z = radius * Math.sin(theta) * Math.cos(phi);
+					
+					k++;
+					if ((i==0)||(i==n)) break; //only calculate once at poles
+				}
+			}
+		}
+	
+	</script>
+</head>
+<body>
+
+	<!--#include virtual="nav.htm" -->
+	
+</body>
+</html>

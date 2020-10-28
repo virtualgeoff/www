@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Random Points on a Sphere</title>
+	<link rel="stylesheet" type="text/css" media="all" href="pointcloud.css">
+	<script type="text/javascript" src="pointcloud.js"></script>
+	<script type="text/javascript">
+
+		function setPoints() {
+			// random points on the surface of a sphere
+			var n = 300; 	// number of points
+			var radius = 2;
+			var phi, theta, i;
+
+			for (i = 0; i <= n; i++) {
+				phi   = Math.random() * pi;
+				theta = Math.random() * 2 * pi;
+	
+				// find coords
+				p[i] = {};
+				p[i].x = radius * Math.sin(phi) * Math.sin(theta);
+				p[i].z = radius * Math.sin(phi) * Math.cos(theta);
+				p[i].y = radius * Math.cos(phi);
+			}
+		}
+	
+	</script>
+</head>
+<body>
+
+	<!--#include virtual="pointcloud.inc" -->
+	
+</body>
+</html>

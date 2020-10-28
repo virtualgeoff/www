@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Rocket 0.2</title>
+	<style>
+
+		body {margin:0; padding:0; font-family:courier; color:#0f0; background:#000; overflow:hidden;}
+		canvas {margin:0; padding:0;,border:1px solid black;}
+		p {margin:0; padding:0;}
+		#msg  {position:absolute; left:1em; top:1em; text-align:left;}
+		#data {position:absolute; left:1em; top:3em; text-align:left;}
+
+	</style>
+	<script>
+
+		// Geoff Pack
+		// 1 December 2016
+
+		var canvas, ctx,
+			now, then, dt,
+			m = {},
+			data;
+
+		function setSize(){
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+
+		function precise(num, n) {
+			return Number.parseFloat(num).toPrecision(n);
+		}
+
+		function draw() {
+			var flame, rocket;
+			now = new Date();
+			dt = now - then;
+
+			ctx.clearRect(0,0,canvas.width,canvas.height); // clear canvas
+			ctx.strokeStyle = "black";
+
+			// move object m
+			m.p.x += m.v.x;
+			m.p.y += m.v.y;
+
+			m.theta += m.omega;
+			m.a.x += Math.sin(m.theta * (Math.PI/180)) * m.f;
+			m.a.y -= Math.cos(m.theta * (Math.PI/180)) * m.f;
+			
+			m.v.x += m.a.x;
+			m.v.y += m.a.y;
+
+
+			// wrap x
+			m.p.x = m.p.x % canvas.width;
+			if (m.p.x < 0) { m.p.x += canvas.width; }
+
+			// wrap y
+			m.p.y = m.p.y % canvas.height;
+			if (m.p.y < 0) { m.p.y += canvas.height; }
+
+			// wrap theta
+			m.theta = m.theta % 360;
+			if (m.theta < 0) { m.theta += 360; }
+
+			// draw rocket
+			ctx.save();
+			ctx.translate(m.p.x, m.p.y);
+			ctx.rotate(m.theta *(Math.PI/180));
+			ctx.translate(-m.p.x, -m.p.y);
+			rocket = new Path2D("m " + m.p.x + " " + m.p.y + " m 0 5 l 10 5 l -10 -30 l -10 30 l 10 -5");
+			ctx.strokeStyle = "rgb(0,255,0)";
+			ctx.stroke(rocket);
+
+			if (m.flame) {
+				flame = new Path2D("m " + m.p.x + " " + m.p.y + " m 0 6 l 3 5 l -3 15 l -3 -15 l 3 -5");
+				ctx.strokeStyle = "rgb(255,125,0)";
+				ctx.stroke(flame);
+			}
+			ctx.restore();
+
+			// draw centre dot
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.fillRect(m.p.x -1,m.p.y-1,2,2);
+
+			// show data
+			data.innerHTML = '∆t = ' + dt+ '<br>' +
+				'p: ' + precise(m.p.x, 5) + ', ' + precise(m.p.y, 5) + '<br>' +
+				'𝛩: ' + m.theta + '<br>' +
+				'v: ' + precise(m.v.x, 5) + ', ' + precise(m.v.y, 5) + '<br>' +
+				'𝛚: ' + precise(m.omega, 2) + '<br>' +
+				'a: ' + precise(m.a.x, 5) + ', ' + precise(m.a.y, 5) + '<br>' +
+				'F: ' + precise(m.f, 3) + '<br>';
+
+			// repeat
+			then = now;
+			window.requestAnimationFrame(draw);
+		}
+
+		function keydown(e) {
+			console.log(e.keyCode + ', ' + e.charCode + ', ' + e.key + ', ' + e.code);
+			switch (e.code) {
+				case 'ArrowLeft':
+				case 'KeyA':
+					m.omega -= 2;
+					if (m.omega < -8) { m.omega = -8 } // set max.rotation
+					break;
+				case 'ArrowDown':
+				case 'KeyS':
+					m.omega = 0; // kill rotation
+					break;
+				case 'ArrowRight':
+				case 'KeyD':
+					m.omega += 2;
+					if (m.omega > 8) { m.omega = 8 } // set max.rotation
+					break;
+				case 'ArrowUp':
+				case 'KeyW':
+					m.f += 0.01;
+					if (m.f > 0.1) { m.f = 0.1 } // set max.force
+					m.flame = true;
+					break;
+				case 'Space':
+					m.v.x = 0;  // stop everything!
+					m.v.y = 0;
+					m.omega = 0;
+					break;
+			}
+		}
+		function keyup(e) {
+			// kill acceleration
+			m.f = 0;
+			m.a.x = 0;
+			m.a.y = 0;
+			m.flame = false
+		}
+
+		function init(){
+			canvas = document.getElementById('canvas1');
+			data =   document.getElementById('data');
+
+			if (canvas.getContext){
+				ctx = canvas.getContext('2d');
+				setSize();
+
+				// initialise object
+				m.p = {x:canvas.width/2, y:canvas.height/2};
+				m.v = {x:0, y:0};
+				m.a = {x:0, y:0};
+				m.f = 0;
+				m.theta = 0;  // orientation in degrees
+				m.omega = 0;  // rotational speed
+				m.flame = false; // flame visible?
+
+				window.requestAnimationFrame(draw);
+			}
+		}
+
+		window.addEventListener('load', init);
+		window.addEventListener('resize', setSize);
+		window.addEventListener('keydown', keydown);
+		window.addEventListener('keyup', keyup);
+
+	</script>
+</head>
+<body>
+
+	<canvas id="canvas1"></canvas>
+	<p id="msg">Use WASD or arrow keys to move</p>
+	<p id="data"></p>
+
+</body>
+</html>

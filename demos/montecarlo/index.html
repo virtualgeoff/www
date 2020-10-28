@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Monte Carlo method</title>
+	<meta name="generator" content="BBEdit 11.1" />
+	<style type="text/css">
+
+		body {font-family:sans-serif; margin:20px;}
+
+		#plot {float:right; border:1px solid #000;}		
+		#results {}
+			
+	</style>
+	<script type="text/javascript">
+
+		function montecarlo(N, canvasSize, canvasID, tableID) {
+			// Monte Carlo method to estimate Pi and compare it to the accepted value
+			
+			var n = 0,
+				N = N,
+				x = 0,
+				y = 0,
+				r2 = 0,
+				R = canvasSize,	// radius of circle - for plotting - use unit circle for calculations
+				c = 0,	// count of points inside circle
+				p = 0,	// estimated value of Pi
+				err = 0, // percent error
+				canvas = document.getElementById(canvasID).getContext("2d"),				
+				results = document.getElementById(tableID),
+				tr; // temp table row
+		
+			// start counting...
+			for (n=0; n<=N; n++) {
+				x = Math.random();  // 0 to 1
+				y = Math.random();	// 0 to 1	
+				r2 = x * x + y * y;
+			
+				if (r2 < 1.0) {
+					// is inside
+					c++;
+					canvas.fillStyle = "#ff0000";
+					canvas.fillRect(x*R-0.5,R-y*R-0.5,1,1); // 0 to R	
+				} else {
+					canvas.fillStyle = "#0000ff";
+					canvas.fillRect(x*R-0.5,R-y*R-0.5,1,1); // 0 to R	
+				}
+
+				// calculate Pi every thousand points
+				if ((n > 0) && (n % (N/20) === 0)) {							
+					// area of quarter circle = π • r2 /4 = π/4
+					// area of square = 1
+					// radio of areas = ratio of counts = π/4
+					p = c/n * 4;
+					err = Math.abs(Math.PI - p) * 100;
+					err = Math.round(err*100) / 100; // 2 sig figs
+
+					// write result
+					tr = document.createElement("tr");
+					tr.innerHTML = "<td>" + n + "</td><td>" + c + "</td><td>" + p + "</td><td>" + err + "</td>";
+					results.appendChild(tr);					
+				}
+			}
+		}		
+	
+		function init() {
+			montecarlo(50000, 500, 'plot', 'results');		
+		}
+
+		window.onload = init;	
+	</script>
+</head>
+<body>
+
+	<h1>Monte Carlo method</h1>
+	<p>Using the Monte Carlo method to calculate Pi. See <a href="https:en.wikipedia.org/wiki/Monte_Carlo_method">Wikipedia</a>.</p>
+
+	<canvas id="plot" width="500" height="500"></canvas>
+	
+	<table id="results">
+		<tr>
+			<th>N</th>
+			<th>Inside</th>
+			<th>Pi (est.)</th>
+			<th>% Error</th>			
+		</tr>
+	</table>
+
+</body>
+</html>

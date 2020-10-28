@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1">
+	<title>Swirly</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+
+		body {font-family:sans-serif; background:#333;}
+		#centre {position:absolute; top:0; left:0; bottom:0; right:0; width:0; height:0; margin:auto; overflow:visible;}
+
+		.branch {position:absolute; top:0; left:0; width:0; height:0; margin:0; overflow:visible;}
+		.leaf {position:absolute; top:-75px; left:-75px; width:150px; height:150px; margin:0; background:#f00; border-radius:50px;}
+
+		/* rotations */
+		#centre, .fork {-webkit-animation:clockwise 16s linear infinite; animation:clockwise 16s linear infinite;}
+		.leaf {-webkit-animation:counterclockwise 9s linear infinite; animation:counterclockwise 9s linear infinite;}
+		.fork .leaf {-webkit-animation:counterclockwise 6s linear infinite; animation:counterclockwise 6s linear infinite;}
+		.fork .fork .leaf {-webkit-animation:counterclockwise 4s linear infinite; animation:counterclockwise 4s linear infinite;}
+		.fork .fork .fork .leaf {-webkit-animation:counterclockwise 3s linear infinite; animation:counterclockwise 3s linear infinite;}
+		.fork .fork .fork .fork .leaf {-webkit-animation:counterclockwise 2s linear infinite; animation:counterclockwise 2s linear infinite;}
+
+		@-webkit-keyframes clockwise {
+			0% {-webkit-transform:rotateZ(0); transform:rotateZ(0));}
+			100% {-webkit-transform:rotateZ(360deg); transform:rotateZ(360deg);}
+		}
+		@-webkit-keyframes counterclockwise {
+			0% {-webkit-transform:rotateZ(0); transform:rotateZ(0));}
+			100% {-webkit-transform:rotateZ(-360deg); transform:rotateZ(-360deg);}
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		function getRandomInteger(min, max) {
+			// get random integer between min and max (inclusive)
+			return Math.floor(Math.random() * (max+1 - min)) + min;
+		}
+		function createBranch(parent, angle) {
+			var branch = document.createElement('DIV');
+			branch.className = 'branch';
+			branch.style.transform = 'rotateZ(' + (angle+60) + 'deg) translate(120px,0) scale(0.93)';
+			branch.style.webkitTransform = 'rotateZ(' + (angle+60) + 'deg) translate(120px,0) scale(0.93)';
+			parent.appendChild(branch);			
+			return branch;
+		}
+		function createFork(parent) {
+			var fork = document.createElement('DIV');
+			fork.className = 'fork';
+			parent.appendChild(fork);			
+			return fork;
+		}
+		function createLeaf(parent, hue) {
+			var leaf = document.createElement('DIV');
+			leaf.className = 'leaf';
+			//leaf.style.backgroundColor = 'hsla(' + (hue+30) + ',90%, 50%, 0.5)';
+			leaf.style.backgroundColor = 'hsla(' + (getRandomInteger(0,360)) + ',80%, 50%, 0.5)';
+			parent.appendChild(leaf);			
+			return leaf;	
+		}
+		function createTreeRecursively(N, parent, branches) {
+			var newParent, i; 
+			N--; // decrement level of recursion
+			branches[N] = (branches[N] || getRandomInteger(3,8)); // save because we want same number of sub-branches for branches at the same level			
+			createLeaf(parent, (360/N));
+			
+			if (N > 0) {
+				// create sub-branches
+				for (i=0; i<branches[N]; i++) {
+					newParent = createFork(createBranch(parent, (i*360/branches[N])));
+					createTreeRecursively(N, newParent, branches);
+				}
+			}
+		}
+		function init() {
+			var i = 0,
+				wrapper = document.getElementById('centre'),			
+				N = getRandomInteger(3,5), // number of levels of recursions
+				branches = []; 
+
+			createTreeRecursively(N, wrapper, branches);
+		}
+
+		window.onload = init;
+
+	</script>
+</head>
+<body>
+	<div id="centre"></div>
+	
+	<!-- Next: 
+			randomise spin direction & speed
+			randomise box size, border radius, ...
+			randomise branch length, scale
+			improve colours
+	-->
+
+</body>
+</html>
