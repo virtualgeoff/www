@@ -3,26 +3,34 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>virtualgeoff . resum&eacute;</title>
-	<link rel="stylesheet" type="text/css" href="styles/main.css">
-	<link rel="stylesheet" type="text/css" href="styles/flocking1.css">
-	
-	<script type="text/javascript" src="scripts/moveit.js"></script>
-	<script type="text/javascript" src="scripts/dragging.js"></script>
-	<script type="text/javascript" src="scripts/index.js"></script>
+	<title>virtualgeoff . resumé</title>
+	<!--#include virtual="/includes/styles.inc" -->
+	<link rel="stylesheet" type="text/css" href="/styles/home.css">	
+	<script language="JavaScript" type="text/javascript" src="/demos/scripts/moveIt.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/demos/scripts/dragging.js"></script>
+	<script language="JavaScript" type="text/javascript" src="/demos/scripts/home.js"></script>
 </head>
+<body id="resume">
 
-<body onload="init();">
+	<!--#include virtual="/includes/header.inc" -->
+	<!--#include virtual="/includes/nav.inc" -->
 
-	<div id="f0"><img src="2.gif" width="10" height="10" alt="" border="0"></div>
+	<main>
+		<h2>.resumé</h2>
+	</main>
+
+	<div id="f0"></div>
 	<div id="f1">This</div>
 	<div id="f2">page</div>
 	<div id="f3">is</div>
 	<div id="f4">not</div>
 	<div id="f5">here</div>
-	<div id="f6"><a href="index.html">back...</a></div>
+	<div id="f6"><a href="/" onmouseover="pauseIt()" onmouseout="resumeIt()">back &gt;&gt;</a></div>
 	<div id="f7">.<br>.<br>.</div>
 	<div id="f8">...</div>
+
+	<!--#include virtual="/includes/footer.inc" -->
+	<!--#include virtual="/includes/scripts.inc" -->
 
 </body>
 </html>

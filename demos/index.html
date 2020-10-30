@@ -4,32 +4,23 @@
 <head>
 	<meta charset="utf-8">
 	<title>virtualgeoff . demos</title>
-	<link rel="stylesheet" type="text/css" href="../styles/main.css">
-	<style>
-	
-		h3 {margin-top:3em;}
-	
-	</style>
+	<!--#include virtual="/includes/styles.inc" -->
 </head>
+<body id="demos">
 
-<body>
-
-	<h1>virtualgeoff</h1>
-	
+	<!--#include virtual="/includes/header.inc" -->
 	<!--#include virtual="/includes/nav.inc" -->
 
-	<h2>.demos</h2>
+	<main>
+		<h2>.demos</h2>
 
-	<div id="content">
 		<p>Just some animation demos. Not very useful.</p>
-
 
 		<h3>Connected Graph Animation</h3>
 		<ul>
 			<li><a href="connectedgraph/connectedgraph.html">Connected Graph</a></li>
 			<li><a href="connectedgraph/connectedgraph2.html">Connected Graph 2</a></li>
 		</ul>
-
 
 		<h3>Recursive Nested HTML divs</h3>
 		<ul>
@@ -57,7 +48,6 @@
 			<li><a href="CSS3D/boxes2.html">Boxes 2</a> - 3D rotation</li>
 		</ul>
 
-
 		<h3>3D Point clouds</h3>
 		<p>These scripts predate CSS-3D and Canvas3D - they just use plain HTML, CSS and JS.</p>
 		<ul>
@@ -74,12 +64,10 @@
 			<li><a href="pointcloud/random.html">Random Points</a></li>
 		</ul>
 
-
 		<h3>SVG clock</h3>
 		<ul>
 			<li><a href="clock/clock.svg">A 24 hr clock</a> with sunrise and sunset times (yes it goes backwards)</li>
 		</ul>
-
 
 		<h3>Lunar Lander</h3>
 		<p>Never finished. Needed terrain and collision detection. The lander flies though.</p>
@@ -88,14 +76,12 @@
 			<li><a href="lander/rocket02.html">Rocket 0.2</a></li>
 		</ul> 
 
-
 		<h3>Pong</h3>
 		<p>A simple version of an old classic, written in plain HTML + JS.</p>
 		<ul>
 			<li><a href="pong/pong03.html">Pong 0.3</a></li>
 		</ul> 
 		
-
 		<h3>Canvas vs SVG Comparison</h3>
 		<p>Create random moving dots until the animation starts to crawl: Canvas is much faster than SVG, but SVG still gives pretty good performance up to thousands of dots, and gives you interaction via DOM events for free.</p>
 		<ul>
@@ -116,7 +102,6 @@
 			<li><a href="randomboxes/boxes_HSL_spectrum.html">Boxes: HSL Colors</a></li>
 		</ul>
 
-
 		<h3>Simple Animations</h3>
 		<ul>
 			<li><a href="flocking/flocking1.html">flocking 1</a></li>
@@ -126,7 +111,6 @@
 			<li><a href="miscellaneous/random-noise.html">random noise</a></li>
 		</ul>
 
-
 		<h3>Miscellaneous stuff</h3>
 		<ul>
 			<li><a href="miscellaneous/mouse-tracking.html">Mouse Tracking</a></li>
@@ -134,13 +118,10 @@
 			<li><a href="miscellaneous/conways_life.html">Conway's Game of Life</a></li>
 			<li><a href="sliderpuzzle/puzzle.html">Slider Puzzle</a></li>
 		</ul>
+	</main>
 
-		<br>
-		<br>
-		<br>
-		<br>
-
-	</div>
+	<!--#include virtual="/includes/footer.inc" -->
+	<!--#include virtual="/includes/scripts.inc" -->
 
 </body>
 </html>

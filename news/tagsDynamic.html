@@ -4,25 +4,27 @@
 <head>
 	<meta charset="utf-8">
 	<title>virtualgeoff . tags</title>
-	<link rel="stylesheet" type="text/css" href="../styles/main.css">
-	<link rel="stylesheet" type="text/css" href="../styles/home.css">
+	<!--#include virtual="/includes/styles.inc" -->
+	<link rel="stylesheet" type="text/css" href="/styles/home.css">
 	<!-- script language="JavaScript" type="text/javascript" src="../demos/scripts/moveIt.js"></script -->	
 </head>
+<body id="news" onload="init();">
 
-<body onload="init();">
-
-	<h1>virtualgeoff</h1>
-	
+	<!--#include virtual="/includes/header.inc" -->
 	<!--#include virtual="/includes/nav.inc" -->
 
-	<h2>.tags</h2>
+	<main>
+		<h2>.tags</h2>
 
-	<div id="content">
 		<h3><a href="http://del.icio.us/virtualgeoff">del.icio.us</a></h3>
 		<!-- script type="text/javascript" src="http://del.icio.us/feeds/js/tags/virtualgeoff?icon;size=12-25;color=cccccc-ffffff;"></script -->
-	</div>
-	<div id="f0"><img src="2.gif" width="10" height="10" alt="" border="0"></div>
+		<div id="f0"></div>
+	</main>
+
 	<script language="JavaScript" type="text/javascript" src="tagsDynamic.js"></script>
-	
+
+	<!--#include virtual="/includes/footer.inc" -->
+	<!--#include virtual="/includes/scripts.inc" -->
+
 </body>
 </html>

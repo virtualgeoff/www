@@ -4,24 +4,25 @@
 <head>
 	<meta charset="utf-8">
 	<title>virtualgeoff . portfolio</title>
-	<link rel="stylesheet" type="text/css" href="../styles/main.css">
+	<!--#include virtual="/includes/styles.inc" -->
 </head>
+<body id="portfolio">
 
-<body>
-
-	<h1>virtualgeoff</h1>
-	
+	<!--#include virtual="/includes/header.inc" -->
 	<!--#include virtual="/includes/nav.inc" -->
 
-	<h2>.portfolio</h2>
-
-	<div id="content">
+	<main>
+		<h2>.portfolio</h2>
 
 		<p>A list of some of the sites I've worked on over the years.</p>
 
-		<br>
+		<h3>Current Projects</h3>
+		<ul>
+			<li><a href="https://todo3d.app">ToDo3D</a></li>
+			<li><a href="https://www.timepasses.net">Time Passes</a></li>
+		</ul>
 
-		<h3>ABC (2004&ndash;)</h3>
+		<h3>ABC (2004&ndash;2020)</h3>
 		<ul>
 			<li><a href="http://www.abc.net.au/">ABC Homepage</a></li>
 			<li><a href="http://www.abc.net.au/bestof/">Best of the ABC</a></li>
@@ -46,8 +47,6 @@
 			<li>and many more...</li>
 		</ul>
 
-		<br>
-
 		<h3>Freelance Work (2002&ndash;)</h3>
 		<ul>
 			<li><a href="http://cubbyhouse.austar.com.au/">Austar Cubbyhouse</a></li>
@@ -64,8 +63,6 @@
 			<li>FTA Innovations in Property</li>
 			<li>NRMA Motoring &amp; Services Intranet</li>
 		</ul>
-
-		<br>
 
 		<h3>with Spike (1997&ndash;2002)</h3>
 		<ul>
@@ -115,8 +112,6 @@
 			<li>Zurich</li>
 		</ul>
 
-		<br>
-
 		<h3>with Scamedia (1996)</h3>
 		<ul>
 			<li>ADC - Australian Design and Coordination</li>
@@ -128,16 +123,14 @@
 			<li>The Production Book</li>
 		</ul>
 
-		<br>
-
 		<h3>Ancient History (1995)</h3>
 		<ul>
 			<li>Sydney University Women's Sports Association</li>
 		</ul>
+	</main>
 
-		<br>
+	<!--#include virtual="/includes/footer.inc" -->
+	<!--#include virtual="/includes/scripts.inc" -->
 
-	</div>
- 
 </body>
 </html>

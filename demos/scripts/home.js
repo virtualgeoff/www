@@ -124,3 +124,5 @@ function init() {
 	dragInit();
 	movefs();
 }
+
+window.onload = init;

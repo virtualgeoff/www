@@ -22,11 +22,11 @@ var k = 300;
 var j = 400000;
 var d = 0.999;
 
-var N = 9; 			// number of squares
-var xmax = 600; 	// width of content area
-var ymax = 400; 	// height of content area
-var mx = 200;		// mouse position
-var my = 200;		
+var N = 9; 						// number of squares
+var xmax = window.innerWidth; 	// width of content area
+var ymax = window.innerHeight; 	// height of content area
+var mx = xmax/2;				// mouse position
+var my = ymax/2;		
 
 // position, velocity, acceleration arrays
 var f = new Array('f0','f1','f2','f3','f4','f5','f6','f7','f8');
@@ -128,3 +128,5 @@ function init() {
     document.onmousemove = mouseMove;
     moveFollowers();
 }
+
+window.onload = init;
