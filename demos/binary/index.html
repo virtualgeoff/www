@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Binary Counting</title>
+	<meta name="author" content="virtualgeoff">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+
+		body {margin:0; padding:0; color:#0f0; background:#000;}
+		div  {margin:0; padding:0; line-height:0;}
+ 		div > div {display:inline-block; background:#00f;}
+		div > div:nth-child(even) {background:#0f0;}
+
+	</style>
+	<script>
+
+		// Geoff Pack, May 2022
+		// inspired by a Show HN post: https://news.ycombinator.com/item?id=31459775
+
+		/* jshint esversion: 6 */
+		'use strict';
+
+		function init() {
+			// there's probably some cool bit-twiddling way to do all this, but it's beyond me
+			const t0 = new Date();
+			const N = 16, H = 20;
+			let row, block, n = 0;
+			let W = Math.pow(2, N) * H;
+
+			for (let i = 0; i < N; i++) {
+				row = document.createElement('div');
+				row.style.width  = W + 'px';
+				row.style.height = H + 'px';
+				document.body.appendChild(row);
+
+				for (let j = 0;  j < Math.pow(2,(N-i)); j++) {
+					// 2^N, 2^N-1, ...
+					block = document.createElement('div');
+					block.style.width = Math.pow(2, i) * H + 'px';
+					block.style.height = H + 'px';
+					row.appendChild(block);
+					n++;
+				}
+			}
+			console.log(`Number of rows:         ${N}`);
+			console.log(`Number of divs:         ${N+n}`);
+			console.log(`body.scrollWidth:       ${document.body.scrollWidth} px`);
+			console.log(`window.innerWidth:      ${window.innerWidth} px`);
+			console.log(`scrollWidth/innerWidth: ${document.body.scrollWidth/window.innerWidth}`);
+			console.log(`Time to draw:           ${(new Date() - t0)} ms`);
+		}
+
+		window.addEventListener('load', init);
+
+	</script>
+</head>
+<body>
+</body>
+</html>
