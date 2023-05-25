@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Unicode Code Points</title>
+	<style>
+
+		body {}
+		textarea {display:block; width:80em;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		function encodeText(form) {
+			// text to unicode codepoints
+			let input = form.text1.value;
+			let output = '';
+
+			for (let codePoint of input) {
+				output += codePoint.codePointAt(0).toString(16) + ' ';
+			}
+			form.text2.value = output.slice(0, -1); // remove the last ' '
+		}
+
+		function decodeText(form) {
+			// unicode codepoints to text
+			let input = form.text2.value.replace(/\s+/g, ',').split(',');
+			let output = '';
+
+			for (let i=0; i<input.length; i++) {
+				if (input[i] === "") { continue; } // trailing whitespace
+				output += String.fromCodePoint(parseInt(input[i],16));
+			}
+			form.text1.value = output;
+		}
+
+		function decodeURL(anchor) {
+			let input = anchor.dataset.address.replace(/\s+/g, ',').split(',');
+			let output = '';
+
+			for (let i=0; i<input.length; i++) {
+				if (input[i] === "") { continue; } // trailing whitespace
+				output += String.fromCodePoint(parseInt(input[i],16));
+			}
+			anchor.href = output;
+		}
+
+		function clearText(form) {
+			form.text1.value = '';
+			form.text2.value = '';
+		}
+
+		window.addEventListener('load', () => {
+			// find all anchor tags with a data-address attribute
+			document.querySelectorAll('a[data-address]').forEach( (a) => { decodeURL(a) });
+		});
+		
+	</script>
+</head>
+<body>
+
+	<h1>Unicode Code Points</h1>
+
+	<p>This script will get the <a href="https://en.wikipedia.org/wiki/Code_point">codepoints</a> (the numerical values that map to specifics characters) for any <a href="https://en.wikipedia.org/wiki/Unicode">Unicode</a> (or <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>) text.
+	Output is a space-separated list of the codepoints in hexadecimal notation.</p>
+	<p>Conversely, a list of codepoints (in hex) can be converted back to text. Values should be separated by a space character (or other whitespace — multiples ignored). Note that not all numerical values correspond to valid or displayable characters.</p>
+
+	<form>
+		<textarea id="text1" width="80" rows="10" placeholder="Any Unicode text"></textarea>
+		<br>
+		<button name="encode" type="button" value="encode" onclick="encodeText(this.form)">↓ Encode ↓</button> &nbsp;
+		<button name="decode" type="button" value="decode" onclick="decodeText(this.form)">↑ Decode ↑</button> &nbsp;
+		<button name="clear"  type="button" value="clear"  onclick="clearText(this.form)">Clear Both</button> &nbsp;
+		<br><br>
+		<textarea id="text2" width="80" rows="10" placeholder="Space separated list of hex numbers"></textarea>
+	</form>
+
+	<p>Uses: one obvious use is to obfuscate <a href="#" data-address="6d 61 69 6c 74 6f 3a 76 69 72 74 75 61 6c 67 65 6f 66 66 40 70 72 6f 74 6f 6e 6d 61 69 6c 2e 63 6f 6d 3f 73 75 62 6a 65 63 74 3d 54 68 69 73 20 69 73 20 61 20 74 65 73 74">email addresses</a> to block harvesting by spambots.<p>
+</body>
+</html>

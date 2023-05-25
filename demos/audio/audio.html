@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>JS Audio</title>
+
+	<script type="text/javascript">
+
+		// code based on https://hatsunearu.github.io/dsp/audio/electronics/software/2018/04/08/missingfundamental.html
+		// heavily modified!
+		
+		var buttons;
+		var audioCtx;
+		var notes = ['C','D','E','F','G','A','B'];
+		var freqs = [
+			/* C */ [16.352, 32.703,  65.406, 130.813, 261.626, 523.251, 1046.502, 2093.005, 4186.009,  8372.018, 16744.036],
+			/* D */ [18.354, 36.708,  73.416, 146.832, 293.665, 587.330, 1174.659, 2349.318, 4698.636,  9397.273, 18794.545],
+			/* E */ [20.602, 41.203,  82.407, 164.814, 329.628, 659.255, 1318.510, 2637.020, 5274.041, 10548.082, 21096.164],
+			/* F */ [21.827, 43.654,  87.307, 174.614, 349.228, 698.456, 1396.913, 2793.826, 5587.652, 11175.303, 22350.607],
+			/* G */ [24.500, 48.999,  97.999, 195.998, 391.995, 783.991, 1567.982, 3135.963, 6271.927, 12543.854, 25087.708],
+			/* A */ [27.500, 55.000, 110.000, 220.000, 440.000, 880.000, 1760.000, 3520.000, 7040.000, 14080.000, 28160.000],
+			/* B */ [30.868, 61.735, 123.471, 246.942, 493.883, 987.767, 1975.533, 3951.066, 7902.133, 15804.266, 31608.532]
+		];
+		var coeff = [100,50,20,0,0,0];
+
+		function playNote(freq) {
+			var oscillator = audioCtx.createOscillator();
+			var gain = audioCtx.createGain();
+
+			oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime); // value in hertz
+
+			var re = new Float32Array(coeff.length + 1);
+			var im = new Float32Array(coeff.length + 1);
+
+			re[0] = im[0] = 0;
+
+			for (var i=0; i<coeff.length; i++) {
+				re[i+1] = coeff[i];
+				im[i+1] = 0;
+			}
+
+			var wave = new PeriodicWave(audioCtx, {real: re, imag: im, disableNormalization: false});
+
+			oscillator.setPeriodicWave(wave);
+			oscillator.connect(gain);
+			gain.connect(audioCtx.destination)
+			oscillator.start(audioCtx.currentTime);
+			oscillator.stop(audioCtx.currentTime + 1.0);
+			gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+			gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.1)
+			gain.gain.setValueAtTime(0.2, audioCtx.currentTime + 0.5);
+			gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.0)
+		}
+
+		function setHarmonic(slider, n) {
+			coeff[n] = slider.value;		
+		}
+
+		function init() {
+			try {
+				window.AudioContext = window.AudioContext||window.webkitAudioContext;
+				audioCtx = new AudioContext();
+			}
+			catch(e) {
+				window.alert("webaudio_not_available")
+			}
+			
+			// create note buttons
+			buttons = document.getElementById('buttons');
+			
+			for (var i=0; i<=10; i++) {
+				for (var j=0; j<notes.length; j++) {
+					buttons.innerHTML += '<button onmousedown="playNote(' + freqs[j][i] + ')">' + notes[j] + '<sub>' + i + '</sub></button>\n';			
+				}
+				buttons.innerHTML += '<br>';		
+			}
+		}
+
+		window.addEventListener('load', init, false);
+		
+	</script>
+</head>
+<body>
+
+	<h1>JS Audio</h1>
+
+	<p id="buttons"</p>
+
+	<h3>Harmonics:</h3>
+	<p>
+		<input onchange="setHarmonic(this, 0)" id="harmonic_0" type="range" min="0" max="100" value="100"><br>
+		<input onchange="setHarmonic(this, 1)" id="harmonic_1" type="range" min="0" max="100" value="50"><br>
+		<input onchange="setHarmonic(this, 2)" id="harmonic_2" type="range" min="0" max="100" value="20"><br>
+		<input onchange="setHarmonic(this, 3)" id="harmonic_3" type="range" min="0" max="100" value="0"><br>
+		<input onchange="setHarmonic(this, 4)" id="harmonic_4" type="range" min="0" max="100" value="0"><br>
+		<input onchange="setHarmonic(this, 5)" id="harmonic_5" type="range" min="0" max="100" value="0"><br>
+	</p>
+
+</body>
+</html>

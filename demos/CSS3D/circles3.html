@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Circles 2</title>
+	<style type="text/css">
+
+		body {width:100vw; height:100vh; margin:0; padding:0; overflow:hidden; font-family:sans-serif; background-image: linear-gradient(#1a237e,#81d4fa); perspective:2000px;}
+
+		p {margin:1em; color:#ccc;}
+
+		#main {
+			position:absolute;
+			left:0;
+			top:0;
+			width:100vw;
+			height:100vw;
+			transform-style:preserve-3d;
+			animation:spin 10s linear infinite normal;
+		}
+		.circle {
+			position:absolute;
+			left:0;
+			top:0;
+			width:50vh;
+			height:50vh;
+			border-radius:100%;
+			border:1px solid #000;
+		}
+
+		@keyframes spin {
+			0%   {}
+			100% {transform: rotateY(360deg);}
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		function init() {
+			var centerX = window.innerWidth/2,
+				centerY = window.innerHeight/2,
+				R = window.innerHeight/5,
+				N = 720,
+				pi = Math.PI,
+				circle, x, y, z;
+
+			for (let i=0; i<N; i+=5) {
+				x = (centerX - R) + R * Math.cos(i * pi/180) + 'px';
+				y = (centerY - R) + R * Math.sin(i * pi/180) + 'px';
+				z = (N/2 - i) * 1.5 + 'px'; // helix
+
+				circle = document.createElement('DIV');
+				circle.className = 'circle';
+				circle.style.width  = 2 * R + 'px';
+				circle.style.height = 2 * R + 'px';
+				circle.style.background = "hsla("+ (i*360/N) + ",100%,50%,0.05)";
+				circle.style.transform = 'translate3d(' + x + ',' + y + ',' + z +')';
+				document.getElementById('main').appendChild(circle);
+			}
+		}
+
+		window.onload = init;
+
+	</script>
+</head>
+<body>
+
+	<div id="main"></div>
+
+	<p>Inspired by <a href="https://twitter.com/ballio/status/1104955801108709376">@ballio</a></p>
+
+</body>
+</html>

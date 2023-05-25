@@ -11,10 +11,10 @@
 		#info   {position:absolute; top:0; right:0; text-align:right; margin:1em; color:#fff; z-index:10;}
 
 	</style>
-	<script type="text/javascript">
+	<script>
 
 		// Geoff Pack, November 2016
-		
+
 		var canvas,
 			ctx,
 			width,
@@ -65,26 +65,26 @@
 			ctx.stroke();
 		}
 
-		function createCanvas() {
-			// get window size
-			width = window.innerWidth;
-			height = window.innerHeight;
-			document.getElementById('info').innerHTML = width + '×' + height + 'px';
-
-			// create canvas element
-			canvas = document.createElement("canvas");
-			canvas.width = width;
-			canvas.height = height;
-			document.body.appendChild(canvas);
-			ctx = canvas.getContext("2d");
+		function createDot() {
+			// create new dot and append to p[]
+			// each dot has a position, a velocity, a radius and a color
+			var i = p.length;
+			p[i] = {};
+			p[i].r = getRandomFloat(0, R);
+			p[i].x = getRandomFloat(0, width-p[i].r);
+			p[i].y = getRandomFloat(0, height-p[i].r);
+			p[i].c = getRandomColor();
+			p[i].v = [getRandomFloat(0, V), getRandomFloat(0,360)]; // [|v|, 𝜭]
+			p[i].vx = p[i].v[0] * Math.cos(p[i].v[1]);
+			p[i].vy = p[i].v[0] * Math.sin(p[i].v[1]);
 		}
 
 		function draw() {
 			// clear canvas
 			ctx.clearRect(0,0,width,height);
 
-			// draw points
-			for (var i=0; i<N; i++) {
+			// move points
+			for (var i=0; i<p.length; i++) {
 				p[i].x += p[i].vx;
 				p[i].y += p[i].vy;
 
@@ -106,70 +106,73 @@
 				} else {
 					if (p[i].x < 0) {
 						p[i].x = width;
-						//p[i].vx = -Math.abs(p[i].vx);
 					} else if (p[i].x > width) {
 						p[i].x = 0;
-						//p[i].vx = Math.abs(p[i].vx);
 					}
 					if (p[i].y < 0) {
 						p[i].y = height;
-						//p[i].vy = -Math.abs(p[i].vy);
 					} else if (p[i].y > height) {
 						p[i].y = 0;
-						//p[i].vy = Math.abs(p[i].vy);
 					}
 				}
-
-				drawDot(p[i].x, p[i].y, p[i].r, p[i].c);
 			}
 
-			// draw lines
-			for (var i=0; i<N; i++) {
-				for (var j=i+1; j<N; j++) {
+			// draw lines and dots
+			for (var i=0; i<p.length; i++) {
+				for (var j=i+1; j<p.length; j++) {
 					// calculate distance (squared)
 					rSquared = Math.pow((p[i].x - p[j].x),2) + Math.pow((p[i].y - p[j].y),2);
 					drawLine(p[i].x, p[i].y, p[j].x, p[j].y, rSquared);
 				}
+				drawDot(p[i].x, p[i].y, p[i].r, p[i].c);
 			}
 
 			// get timing stats
 			then = now;
 			now = new Date();
-			document.getElementById('status').innerHTML = '∆t = ' + (now-then) + ' ms';
+			document.getElementById('status').innerHTML = '∆t = ' + (now-then) + ' ms' + '<br>N = ' + p.length;
 
 			window.requestAnimationFrame(draw);
 		}
 
+		function getSize() {
+			// get window size
+			width = window.innerWidth;
+			height = window.innerHeight;
+			document.getElementById('info').innerHTML = width + ' × ' + height + ' px';
+
+			// resize canvas element
+			canvas.width = width;
+			canvas.height = height;
+		}
+
 		function init() {
 			now = new Date();
-			createCanvas();
 
-			// initialise points
-			// each point has a position, a velocity, a radius and a color
+			canvas = document.querySelector("canvas");
+			ctx = canvas.getContext("2d");
+			getSize();
+
+			// create points
 			for (var i=0; i<N; i++) {
-				p[i] = {};
-				p[i].r = getRandomFloat(0, R);
-				p[i].x = getRandomFloat(0, width-p[i].r);
-				p[i].y = getRandomFloat(0, height-p[i].r);
-				p[i].c = getRandomColor();
-				p[i].v = [getRandomFloat(0, V), getRandomFloat(0,360)]; // [|v|, 𝜭]
-				p[i].vx = p[i].v[0] * Math.cos(p[i].v[1]);
-				p[i].vy = p[i].v[0] * Math.sin(p[i].v[1]);
+				createDot();
 			}
 
 			// calculate rMax (maximum separation)
 			rSquaredMax = Math.pow(width,2) + Math.pow(height,2);
 
 			draw();
+
+			window.addEventListener("resize", getSize);
 		}
 
-		window.addEventListener("DOMContentLoaded", init, false);
-		window.addEventListener("resize", init, false);
+		window.addEventListener("DOMContentLoaded", init);
 
 	</script>
 </head>
 <body>
 
+	<canvas></canvas>
 	<p id="status"></p>
 	<p id="info"></p>
 

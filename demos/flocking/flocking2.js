@@ -14,7 +14,7 @@
 // physics:
 
 var now; var then = new Date();
-var dt = 1;		
+var dt = 1;
 var dx,dy,dr;
 var vmax = 20;
 var rmin = 40;
@@ -26,7 +26,7 @@ var N = 9; 						// number of squares
 var xmax = window.innerWidth; 	// width of content area
 var ymax = window.innerHeight; 	// height of content area
 var mx = xmax/2;				// mouse position
-var my = ymax/2;		
+var my = ymax/2;
 
 // position, velocity, acceleration arrays
 var f = new Array('f0','f1','f2','f3','f4','f5','f6','f7','f8');
@@ -40,7 +40,7 @@ var ay = new Array();
 // initialise positions, etc
 for (i=0; i<N; i++) {
 	//f[i] = "f" + i;
-	px[i] = xmax * Math.random(); 
+	px[i] = xmax * Math.random();
 	py[i] =	ymax * Math.random();
 	vx[i] = 0;
 	vy[i] = 0;
@@ -91,7 +91,7 @@ function moveFollowers() {
             vy[m]+=j*dy/(dr*dr*dr);
         }
     }
-    
+
     // plot positions
     for (n=1; n<N; n++) {
         px[n]+=vx[n]*dt;
@@ -104,10 +104,10 @@ function moveFollowers() {
 }
 
 function moveIt(id,x,y) {
-	var d = document.getElementById(id); 
+	var d = document.getElementById(id);
 	d.style.left = x + 'px';
 	d.style.top  = y + 'px';
-	
+
 }
 
 function mouseMove(e) {

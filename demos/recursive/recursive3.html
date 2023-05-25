@@ -17,20 +17,20 @@
 			100% {opacity:1;}
 		}
 		@keyframes spin {
-			0%   {transform:translate(0, 0) rotateZ(0);}  
-			100% {transform:translate(0, 0) rotateZ(360deg);}
+			0%   {transform:rotateZ(0);}
+			100% {transform:rotateZ(360deg);}
 		}
 
 		/*
 
 		Some trigonometry:
-		
+
 		if:
 			r = radius of 3 small circles
 			R = radius of enclosing big circle
 
 		then:
-			R = 0.5 of side length of enclosing square
+			R = 0.5 * side length of enclosing square
 			r = R / (1 + 1/cos(30°)) ≅ 0.232050807568877
 
 		and the coords of each small div are:
@@ -46,7 +46,7 @@
 
 		function drawBox(obj, n) {
 			var p, q, s;
-			
+
 			p = document.createElement('div');
 			obj.appendChild(p);
 			p.className = 'p';
@@ -68,7 +68,7 @@
 			}
 		}
 		function doStuff() {
-			var N = 7, // max level of recursion
+			var N = 5, // max level of recursion (5 is max that is smooth on my Macbook)
 				W = window.innerWidth,
 				H = window.innerHeight,
 				D0 = document.getElementById('div0');
@@ -80,14 +80,14 @@
 				D0.style.left   = ((W-H)/2) + 'px';
 			} else {
 				D0.style.width  = W + 'px';
-				D0.style.height = W + 'px';			
+				D0.style.height = W + 'px';
 				D0.style.top    = ((H-W)/2) + 'px';
 			}
-						
+
 			//drawBox(document.body, N);
 			window.setTimeout(function(){drawBox(document.getElementById('div0'), N);},1000);
 		}
-			
+
 		window.onload = doStuff;
 
 	</script>

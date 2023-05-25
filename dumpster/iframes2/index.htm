@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Outer Page</title>
+	<script type="text/javascript">
+
+		function ping(id) {
+			alert(document.getElementsByTagName('TITLE')[0].innerHTML + ' says: ' + id + ' just pinged me!');
+		}
+
+		function checkInnerPages() {
+			var framed = document.getElementById('myFrame').contentWindow;
+			framed.ping(document.getElementsByTagName('TITLE')[0].innerHTML); // call script in inner page
+			framed.document.getElementById('p1').style.color='#f00';
+			anchors = framed.document.getElementsByTagName('A');
+
+			for (var i=0, j=anchors.length; i<j; i++) {
+				if (anchors[i].target) {
+					anchors[i].target = '_self';
+				}
+			}
+		}
+
+	</script>
+</head>
+<body>
+
+	<h1>Outer Page</h1>
+
+	<p>Communicating between iframes and their parent page.</p>
+	<p>The inner framed pages have <code>target="_top"</code> on their links. Let's see if we can re-write it to <code>target="_self"</code>!</p>
+
+	<iframe id="myFrame" src="inner1.htm" onload="checkInnerPages();" width="90%" height="400"><iframe>
+
+</body>
+</html>

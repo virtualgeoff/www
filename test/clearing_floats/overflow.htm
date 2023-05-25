@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>overflow:auto</title>
+<meta name="generator" content="BBEdit 9.0">
+<style type="text/css">
+
+html {height:100%; margin-bottom:1px;} /* forces scrollbar in Safari and Firefox */
+body {background:#fff;}
+#header  {background:#ccc;}
+#wrapper {background:#ff7; overflow:auto;}
+* html #wrapper {height:1%;} /* to give IE6 hasLayout (but will break IE 4, 5) */
+#col1    {float:left; width:30%; margin:10px 2%; display:inline; /* IE6 double margin bug */ background:#f77;}
+#col2    {float:left; width:30%; margin:10px 0%; background:#7f7;}
+#col3    {float:left; width:30%; margin:10px 2%; background:#77f;}
+#footer  {clear:both; background:#ccc;} 
+
+</style>
+</head>
+<body>
+
+<div id="header">
+	<h1>overflow:auto</h1>
+</div>
+
+<div id="wrapper">
+	<div id="col1">
+		<p>Without wanting to stray too deeply in Simon and Stuart’s technical CSS territory, I thought this was worth noting.
+For all it’s many advantages, sometimes it’s the little things that CSS layout makes difficult that really get to you. Clearing floated elements is a good example.
+The Problem:
+One of the simple</p>
+	</div>
+	
+	<div id="col2">
+		<p>of ‘#inner’ (let’s say ‘width:20%’), but, being a block level element, the main content will always wrap beneath, unless we float it (either left or right). Here our classic problem begins.
+If ‘#inner’ is shorter than #outer, all is well.
+However, if ‘#inner’ grows taller than it’s wrapping parent, it breaks through the bottom edge of ‘#outer’. It’s as if ‘#outer’ forgets it’s supposed to be keeping tabs on what ‘#inner’ is doing as soon as you float it.</p>
+	</div>
+	
+	<div id="col3">
+		<p>class (:after) to place a hidden, cleared full-stop after the content. Combined with a sprinkling of hacks, this works beautifully - but gives me a headache over my left eye when I think about it.
+c) The Ordered List Method: Last October Steve Smith from Orderlist.</p>
+	</div>
+</div>
+<div id="footer">
+	<p>This is the footer</p>
+</div>
+
+</body>
+</html>

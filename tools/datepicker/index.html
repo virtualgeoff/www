@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+
+		body {margin:1em; font-family:sans-serif;}
+
+		#dateform, #dateform2, input {position:relative;}
+
+		.calendar {display:none; position:absolute; top:0; left:200px; padding:10px; color:#666; background:#f7f7f7; border:1px solid #bbb; z-index:99;}
+		.calendar a {padding:5px; text-decoration:none; color:#00a;}
+		.calendar a:hover {color:#c00; background:#fff;}
+		.calendar h4 {margin-top:.5em; text-align:center; font-weight:normal;}
+		.calendar .prev {float:left; margin-top:-6px;}
+		.calendar .next {float:right; margin-top:-6px;}
+		.calendar table {border-spacing:0; border-collapse:collapse;}
+		.calendar th {padding:0 0 10px 0; font-size:80%; font-weight:normal;}
+		.calendar td {padding:0; text-align:center;}
+		.calendar td a, .calendar td span {display:inline-block; width:2em; padding:5px 0;}
+
+	</style>
+	<script type="text/javascript">
+
+		function openCalendar(input, rules) {
+			// create calendar and append after input field
+			var calendar,
+				now = new Date();
+
+			// if calendar exists, use it, otherwise create one.
+			if (document.getElementById('calendar1')) {
+				calendar = document.getElementById('calendar1');
+			} else {
+				calendar = document.createElement('div');
+				calendar.id = 'calendar1';
+				calendar.className = 'calendar';
+			}
+			calendar.dataset.inputId = input.id;
+
+			input.parentNode.insertBefore(calendar, input.nextSibling );
+			input.value = ""; // erase current input value
+			writeCalendar(calendar, now.getFullYear(), now.getMonth(), rules); // write current month
+			calendar.style.display = 'block'; // show calendar
+			return false;
+		}
+		function writeCalendar(calendar, year, month, rules) {
+			// write the month, year, dates, etc. to the calendar div
+			var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+				monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+				rules = rules,  // JS object, allowable days, date range
+				i = 0,
+				n = 0,
+				str = '',
+				dateString = '',
+				theDay,
+				first = 0;
+
+			// add data to calendar div (so we don't need to send it via links)
+			calendar.dataset.month = month;
+			calendar.dataset.year = year;
+
+			// write back button, current month and year, next button
+			str = '<h4><a href="#" class="prev" onclick="return nextMonth(this)">&lt;</a>' +
+				'<b>' + monthNames[month] + '</b> ' + year +
+				'<a href="#" class="next" onclick="return nextMonth(this)">&gt;</a></h4>';
+
+			// write table and th (days of week)
+			str += '<table><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr>';
+
+			// get day of week of 1st of month, pad table with empty cells
+			theDay = new Date(year, month, 1);
+			first = theDay.getDay();    // 0=sun, 1=mon, etc.
+			if (first === 0) first = 7; // make sunday end of week
+			for (i=0; i<first-1; i++) {
+				str += '<td></td>';
+			}
+
+			// write dates
+			for (n=1; n<=31; n++) {
+				//theDay.setDate(n);
+				// this should work fine, but some versions of Safari were throwing errors on the first Sunday in October (Daylight Savings ???),
+				// causing 2 Saturdays and not wrapping the first week correctly, so instead set the full date including hour (i.e. midday local time), SO:
+				theDay = new Date(year, month, n, 12, 0 , 0);
+				//dateString = theDay.toLocaleDateString('en-AU');
+				dateString = dayNames[theDay.getDay()] + ', ' + theDay.getDate() + ' ' + monthNames[theDay.getMonth()].substr(0,3) + ' ' + theDay.getFullYear();
+				if (theDay.getMonth() !== month) break; // break early if no longer same month!
+
+				// if allowable date
+				//if (!rules || (rules && rules.days && rules.days[theDay.getDay()])) {
+				if (isAvailable(theDay, rules)) {
+					str += '<td><a href="#" onclick="return returnDate(this)" data-date="' + dateString + '">' + n + '</a></td>';
+				} else {
+					str += '<td><span>' + n + '</span></td>';
+				}
+				if (theDay.getDay() === 0) {
+					str += '</tr></tr>'; // new row after sunday
+				}
+			}
+
+			// close table, write into calendar
+			str += '</tr></table>';
+			calendar.innerHTML = str;
+		}
+		function isAvailable(date, rules) {
+			var now = new Date();
+
+			// date range
+			if ((date < now) || (date > new Date( now.getFullYear()+1, now.getMonth(), now.getDate()+1 ))) { return false; }
+
+			// days of week
+			if (!rules || (rules && rules.daysOfWeek && rules.daysOfWeek[date.getDay()])) { return true; }
+
+			// otherwise:
+			//if ((date.getDay() === 1) || (date.getDay() === 2) || (date.getDay() === 3)) { return true; }
+			return false;
+		}
+		function nextMonth(link) {
+			// write next or previous months (update calendar);
+			var calendar = link.parentNode.parentNode,
+				year = calendar.dataset.year,
+				month = calendar.dataset.month;
+
+			if (link.className === 'prev') {
+				if (--month < 0) {
+					month = 11;
+					year--;
+				}
+			} else {
+				if (++month > 11) {
+					month = 0;
+					year++;
+				}
+			}
+			writeCalendar(calendar, year, month);
+			return false;
+		}
+		function returnDate(link) {
+			// return date string to input field
+			var parent = link.parentNode;
+			while (parent.className != 'calendar') parent = parent.parentNode; // climb tree until get to calendar div
+			document.getElementById(parent.dataset.inputId).value = link.dataset.date;
+			closeCalendar(parent);
+			return false;
+		}
+		function closeCalendar(calendar) {
+			// close the calendar
+			calendar.parentNode.removeChild(calendar);
+			return false;
+		}
+
+	</script>
+</head>
+<body>
+	<h1>Date Picker Test</h1>
+
+	<p>A date picker widget.</p>
+
+	<form action="#" name="date" id="dateform">
+		<p>Date 1: <input type="text" id="date1" name="date1" onclick="return openCalendar(this, {daysOfWeek:[0,1,1,1,0,0,0]});"></p>
+		<p>Date 2: <input type="text" id="date2" name="date2" onclick="return openCalendar(this, {daysOfWeek:[0,0,0,0,1,1,0]});"></p>
+		<p>Date 3: <input type="text" id="date3" name="date3" onclick="return openCalendar(this);"></p>
+	</form>
+
+	<h3>Next Steps:</h3>
+	<ol>
+		<li>needs a close button so you don't have to use it<>/li>
+		<li>improve styling!</li>
+		<li>restrict date range</li>
+		<li>restrict days of the week</li>
+		<li>How to store and transfer rules for each date object ???</li>
+	</ol>
+
+</body>
+</html>

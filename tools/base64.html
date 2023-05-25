@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Unicode Text ↔ Base64 Converter</title>
+	<style>
+
+		body {}
+		textarea {display:block; width:80em;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		// Usage:
+		// utf8_to_b64('✓ à la mode'); // "4pyTIMOgIGxhIG1vZGU="
+		// b64_to_utf8('4pyTIMOgIGxhIG1vZGU='); // "✓ à la mode"
+
+
+		function encodeText(form) {
+			// unicode text to base64
+			form.text2.value = window.btoa(unescape(encodeURIComponent( form.text1.value )));
+		}
+
+		function decodeText(form) {
+			// base64 to unicode text
+			form.text1.value = decodeURIComponent(escape(window.atob( form.text2.value )));
+		}
+
+		function decodeURL(anchor) {
+			anchor.href = decodeURIComponent(escape(window.atob( anchor.dataset.address )));
+		}
+
+		function clearText(form) {
+			form.text1.value = '';
+			form.text2.value = '';
+		}
+
+		window.addEventListener('load', () => {
+			// find all anchor tags with a data-address attribute
+			document.querySelectorAll('a[data-address]').forEach( (a) => { decodeURL(a) });
+		});
+		
+	</script>
+</head>
+<body>
+
+	<h1>Unicode Text ↔ Base64 Converter</h1>
+
+	<p>This script will convert between Unicode text and Base64. Base64 is typically used to convert binary data to ASCII characters, but here we use it to convert Unicode.</p>
+	<p>See <a href="https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem">MDN</a> and <a href="https://en.wikipedia.org/wiki/Base64">Wikipedia</a> for more info.</p>
+
+	<form>
+		<textarea id="text1" width="80" rows="10" placeholder="Unicode text"></textarea>
+		<br>
+		<button name="encode" type="button" value="encode" onclick="encodeText(this.form)">↓ Encode ↓</button> &nbsp;
+		<button name="decode" type="button" value="decode" onclick="decodeText(this.form)">↑ Decode ↑</button> &nbsp;
+		<button name="clear"  type="button" value="clear"  onclick="clearText(this.form)">Clear Both</button> &nbsp;
+		<br><br>
+		<textarea id="text2" width="80" rows="10" placeholder="Base64 code"></textarea>
+	</form>
+
+	<p>Uses: one obvious use is to obfuscate <a href="#" data-address="bWFpbHRvOnZpcnR1YWxnZW9mZkBwcm90b25tYWlsLmNvbT9zdWJqZWN0PVRoaXMgaXMgYSB0ZXN0">email addresses</a> to block harvesting by spambots.<p>
+</body>
+</html>

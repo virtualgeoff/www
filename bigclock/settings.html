@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Big Clock: Settings</title>
+	<meta name="description" content="Big clock settings page.">
+	<meta name="keywords" content="clock, big, setting">
+	<meta name="author" content="virtualgeoff">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="light dark">
+	<link rel="icon" href="data:,">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<style>
+
+		html, body {min-height:100%; margin:0; padding:0;}
+		body {font-size:1em; font-family:'Courier', monospace;}
+
+		h1 {margin-top:1em;}
+		h2 {margin:2em 0 0.5em 0; font-size:1.2em;}
+		p {margin:1em 0 1em 2em; line-height:1.4;}
+		small {font-size:0.75em;}
+		label {white-space:nowrap;}
+	 	.note {margin:-0.5em 0 1em 3.0em; font-size:0.75em;}
+	 	ul.note {margin-top:-0.7em;}
+
+		a {text-decoration:none; opacity:60%}
+		a:hover {text-decoration:underline; opacity:100%}
+
+		/* nav */
+		#nav {position:fixed; left:0.5em; top:0; margin:0.6em; z-index:99;}
+		#nav.shifted {top:5.0em;}
+		#nav ul {display:none; width:auto; margin:0; padding:0.5em 1em 0.5em 0.3em; list-style:none; border:1px solid #000;}
+		#nav:hover ul {display:block;}
+		#nav li {margin:0; padding:0; white-space:nowrap;}
+		#nav li a {display:block; margin:0; padding:0.3em;}
+		#nav > a {font-size:1.5em;}
+
+		/* main layout */
+		#main {max-width:30em; margin:0 auto; padding:1em;}
+		#custom {margin:-0.5em 0 0 6em;}
+		#note {display:none; margin-left:0; font-weight:bold;}
+
+		/* colors */
+		body {color:#111; background:#fff;}
+		a {color:#111;}
+		a:visited {color:#111;}
+		#nav ul {background:#fff; border-color:#111;}
+
+		body.Light {color:#111; background:#fff;}
+		body.Light a {color:#111;}
+		body.Light a:visited {color:#111;}
+		body.Light #nav ul {background:#fff; border-color:#111;}
+
+		body.Dark {color:#eee; background:#000;}
+		body.Dark a {color:#ddd;}
+		body.Dark a:visited {color:#ddd;}
+		body.Dark #nav ul {background:#000; border-color:#ddd;}
+
+		@media all and (prefers-color-scheme: dark) {
+			body {color:#eee; background:#000;}
+			a {color:#ddd;}
+			a:visited {color:#ddd;}
+			#nav ul {background:#000; border-color:#ddd;}
+		}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 5 */
+
+		var colors = {};
+		var iPad = false;
+
+		function checkIPad() {
+			// check device
+			if (navigator.userAgent.match(/iPad/i) || ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && !window.MSStream)) {
+				iPad = true;
+			}
+		}
+
+		function toggleNav(e) {
+			var navlist = document.getElementById('navlist');
+			navlist.style.display = (navlist.style.display === 'block') ? 'none' : 'block';
+			return false;
+		}
+
+		function checkFullscreenAvailable() {
+			// check if fullscreen is available, and if so, add a link
+			// note: iPhone does not support fullscreen
+			var dE = document.documentElement;
+			if (dE.requestFullscreen || dE.webkitRequestFullScreen) {
+				document.getElementById('navlist').innerHTML += '<li><a href="#" title="Make full screen" onclick="return toggleFullscreen();">Fullscreen</a></li>';
+			}
+		}
+
+		function checkFullscreen() {
+			// check if currently in fullscreen mode
+			// should be able to do this with CSS : html:fullscreen / html:-webkit-full-screen
+			// or by checking existence of document.fullscreenElement or document.webkitFullscreenElement
+			// but on Safari it doesn't remember if you navigate between pages while in fullscreen
+			// (other browsers don't let you navigate between pages in fullscreen anyway)
+			// BUT... we can check screen and window dimensions!
+
+			if ((window.innerWidth === screen.width) && (window.innerHeight === screen.height) ||
+			  (window.innerWidth === screen.height) && (window.innerHeight === screen.width)) {
+				// add class to #nav to move it away from big x
+				if (iPad) { document.getElementById('nav').className = 'shifted'; }
+			} else {
+				if (iPad) { document.getElementById('nav').className = ''; }
+			}
+		}
+
+		function toggleFullscreen(e) {
+			// toggle fullscreen mode
+			var d = document, dE = d.documentElement;
+
+			if (d.fullscreenElement || d.webkitFullscreenElement) {
+				if (d.exitFullscreen) {
+					d.exitFullscreen();
+				} else if (d.webkitCancelFullScreen) {
+					d.webkitCancelFullScreen();
+				}
+			} else {
+				if (dE.requestFullscreen) {
+					dE.requestFullscreen();
+				} else if (dE.webkitRequestFullScreen) {
+					dE.webkitRequestFullScreen();
+				}
+			}
+			return false;
+		}
+
+		function storageAvailable(type) {
+			// check for Storage API
+			try {
+				var storage = window[type],
+					x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			} catch(e) {
+				return e instanceof DOMException && (
+					e.code === 22 || e.code === 1014 ||
+					e.name === 'QuotaExceededError' ||
+					e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+				) && storage.length !== 0;
+			}
+		}
+
+		function getOptions() {
+			// load options from localStorage on page load, and set colors, font, ...
+			// also for this page, need to set form inputs on load
+			if (!storageAvailable('localStorage')) {
+				document.getElementById('note').innerText = 'LocalStorage not available: settings can not be saved!';
+				document.getElementById('note').style.display = 'block';
+				return;
+			}
+
+			var colorScheme = localStorage.getItem('colorScheme');
+			var fontFamily  = localStorage.getItem('fontFamily');
+			var showHundredths = (localStorage.getItem('showHundredths') == 'true') ? true : false; // convert from string!
+			var radio = null, options, checkbox = null;
+
+			if (colorScheme) {
+				document.body.className = '';
+				document.body.className = colorScheme;
+				radio = document.getElementById('colorScheme'+colorScheme);
+				if (radio) { radio.checked = true; } // set radio button
+
+				if (colorScheme === 'Dynamic') {
+					setDynamicColors(new Date());
+				} else if (colorScheme === 'Custom') {
+					colors.text = localStorage.getItem('colorText') || '#000000';
+					colors.bg   = localStorage.getItem('colorBG')   || '#ff7700';
+					changeColors();
+				} else {
+					clearColors();
+				}
+			}
+			// set color inputs (even if colorScheme is not currently 'custom', or even set)
+			document.getElementById('colorBG').value   = localStorage.getItem('colorBG') || '#ff7700';
+			document.getElementById('colorText').value = localStorage.getItem('colorText') || '#000000';
+
+			if (fontFamily) {
+				document.body.style.fontFamily = fontFamily;
+				options = document.getElementsByTagName('option');
+				for (var i=0; i<options.length; i++) {
+					if (options[i].value == fontFamily) { options[i].selected = 'selected'; }
+				}
+
+			}
+			if (showHundredths) {
+				checkbox = document.getElementById('showHundredths');
+				if (checkbox) { checkbox.checked = (showHundredths) ? true : false; } // set checkbox
+			}
+		}
+
+		function setOption(input) {
+			// handle form inputs and save to localStorage
+			var name = input.name;
+			var value = input.value;
+			if (name === 'showHundredths') { value = input.checked; }
+			console.log(name, value);
+			if (storageAvailable('localStorage')) { localStorage.setItem(name, value); }
+
+			// set colorScheme to custom on color input:
+			if ((name === 'colorBG') || (name === 'colorText')) { document.getElementById('colorSchemeCustom').click(); }
+			getOptions();
+		}
+
+		function setDynamicColors(now) {
+			// set colors based on the current local time
+			colors.h = now.getHours() * 15 + now.getMinutes() * 15/60; // 0-360°
+			colors.s = now.getMinutes() + 40; // 40-100%
+			colors.l = (now.getSeconds() + now.getMilliseconds()/1000) + 20; // 20-80%;
+			colors.bg = 'hsl(' + colors.h + ', ' + colors.s + '%, '+ colors.l + '%)';
+			colors.text = (colors.l > 50) ? '#111' : '#ddd';
+			changeColors();
+		}
+
+		function changeColors() {
+			// change text, link, and background colors
+			document.body.style.backgroundColor = colors.bg;
+			document.body.style.color = colors.text;
+			document.getElementById('navlist').style.backgroundColor = colors.bg;
+			document.getElementById('navlist').style.borderColor = colors.text;
+
+			for (var i=0; i<document.links.length; i++) {
+				document.links[i].style.color = colors.text;
+			}
+		}
+
+		function clearColors() {
+			// clear text, link, and background colors if previously set, so CSS colors are used
+			document.body.style.backgroundColor = '';
+			document.body.style.color = '';
+			document.getElementById('navlist').style.backgroundColor = '';
+			document.getElementById('navlist').style.borderColor = '';
+
+			for (var i=0; i<document.links.length; i++) {
+				document.links[i].style.color = '';
+			}
+		}
+
+		function resize() {
+			// finally, check if fullscreen
+			checkFullscreen();
+		}
+
+		function init() {
+			checkIPad();
+			checkFullscreenAvailable();
+			getOptions();
+			resize();
+		}
+
+		if (window.addEventListener) {
+			window.addEventListener('DOMContentLoaded', init);
+			window.addEventListener('resize', resize);
+		} else {
+			window.onload = init;
+			window.onresize = resize;
+		}
+
+	</script>
+</head>
+<body>
+
+	<div id="nav">
+		<a href="./" onclick="return toggleNav();"><b>☰</b></a><br>
+		<ul id="navlist">
+			<li><a href="./">The time (ISO 8601)</a></li>
+			<li><a href="./local.html">Local time format</a></li>
+			<li><a href="./utc.html">UTC</a></li>
+			<li><a href="./stopwatch.html">Stopwatch</a></li>
+			<li><a href="./timer.html">Timer</a></li>
+			<li><a href="./about.html">About</a></li>
+			<li><a href="./settings.html">Settings</a></li>
+		</ul>
+	</div>
+
+	<div id="main">
+		<h1>Settings</h1>
+
+		<p id="note">Settings are stored in browser localStorage.</p>
+
+		<form>
+			<h2>Color scheme</h2>
+			<p>
+				<label><input type="radio" name="colorScheme" id="colorSchemeAuto"    value="Auto"    onchange="setOption(this)" checked> auto (system)</label><br>
+				<label><input type="radio" name="colorScheme" id="colorSchemeLight"   value="Light"   onchange="setOption(this)"> light</label><br>
+				<label><input type="radio" name="colorScheme" id="colorSchemeDark"    value="Dark"    onchange="setOption(this)"> dark</label><br>
+				<label><input type="radio" name="colorScheme" id="colorSchemeDynamic" value="Dynamic" onchange="setOption(this)"> dynamic</label> (color changes with&nbsp;time)<br>
+				<label><input type="radio" name="colorScheme" id="colorSchemeCustom"  value="Custom"  onchange="setOption(this)"> custom:</label>
+			</p>
+			<p id="custom">
+				<label><input type="color" name="colorText" id="colorText" value="#000000" size="7" onchange="setOption(this)"> text</label><br>
+				<label><input type="color" name="colorBG"   id="colorBG"   value="#ff7700" size="7" onchange="setOption(this)"> background</label>
+			</p>
+
+			<h2>Font</h2>
+			<p>
+				<!-- https://www.cssfontstack.com for font stats -->
+				<select id="fontSelector" name="fontFamily" onchange="setOption(this)">
+					<optgroup label="Monospace">
+						<option value="'Andale Mono', monospace">Andale Mono</option>
+						<option value="Consolas, monospace">Consolas</option>
+						<option value="Courier, monospace" selected>Courier</option>
+						<option value="'Courier New', monospace">Courier New</option>
+						<option value="'Lucida Console', monospace">Lucida Console</option>
+						<option value="'Lucida Sans Typewriter', monospace">Lucida Sans Typewriter</option>
+						<option value="Monaco, monospace">Monaco</option>
+					</optgroup>
+					<optgroup label="Sans-serif">
+						<option value="Helvetica, Arial, sans-serif">Arial / Helvetica</option>
+						<option value="'Arial Black', sans-serif">Arial Black</option>
+						<option value="'Arial Rounded MT Bold', sans-serif">Arial Rounded Bold</option>
+						<option value="'Century Gothic', sans-serif">Century Gothic</option>
+						<option value="'Gill Sans', sans-serif">Gill Sans</option>
+						<option value="Tahoma, sans-serif">Tahoma</option>
+						<option value="'Trebuchet MS', sans-serif">Trebuchet</option>
+						<option value="Verdana, sans-serif">Verdana</option>
+					</optgroup>
+					<optgroup label="Serif">
+						<option value="Baskerville, serif">Baskerville</option>
+						<!-- option value="'Big Caslon', 'Book Antiqua', serif">Big Caslon / Book Antiqua</option -->
+						<option value="Garamond, serif">Garamond</option>
+						<!-- option value="Georgia, serif">Georgia</option -->
+						<option value="'Lucida Bright', serif">Lucida Bright</option>
+						<option value="Palatino, serif">Palatino</option>
+						<option value="Times, serif">Times</option>
+						<option value="'Times New Roman', serif">Times New Roman</option>
+					</optgroup>
+					<optgroup label="Cursive">
+						<option value="'Brush Script MT', cursive">Brush Script</option>
+						<option value="'Comic Sans MS', cursive">Comic Sans</option>
+					</optgroup>
+					<optgroup label="Fantasy">
+						<option value="Copperplate, fantasy">Copperplate</option>
+						<option value="Papyrus, fantasy">Papyrus</option>
+					</optgroup>
+				</select>
+			</p>
+			<p class="note">Note: not all fonts are available on all devices.</p>
+
+			<h2>Time</h2>
+			<p><label><input type="checkbox" name="showHundredths" id="showHundredths" onchange="setOption(this)"> show hundredths of a second</label></p>
+			<p class="note">Note: accuracy is limited by device frame rate:</p>
+			<ul class="note">
+				<li>±17 ms (±0.02 s) at 60 fps</li>
+				<li>±33 ms (±0.03 s) at 30 fps</li>
+			</ul>
+		</form>
+	</div>
+
+	<!-- simple analytics
+	<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+	<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>
+	-->
+
+</body>
+</html>

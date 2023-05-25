@@ -21,7 +21,7 @@
 
 		function drawBox(obj, n) {
 			var p, q;
-			
+
 			p = document.createElement('div');
 			obj.appendChild(p);
 			p.className = 'p';
@@ -38,11 +38,11 @@
 			}
 		}
 		function doStuff() {
-			var N = 7; // max level of recursion			
+			var N = 8; // max level of recursion
 			//drawBox(document.body, N);
 			window.setTimeout(function(){drawBox(document.getElementById('div0'), N);},1000);
 		}
-			
+
 		window.onload = doStuff;
 
 	</script>

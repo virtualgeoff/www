@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Big Clock: Stopwatch</title>
+	<meta name="description" content="A stopwatch, but BIG!">
+	<meta name="keywords" content="clock, stopwatch, big">
+	<meta name="author" content="virtualgeoff">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="light dark">
+	<link rel="icon" href="data:,">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<style>
+
+		html, body {min-height:100%; margin:0; padding:0;}
+		body {font-size:1em; font-family:'Courier', monospace;}
+
+		h1 {}
+		p {}
+		small {font-size:0.667em;}
+		button {width:5em; padding:0.5em; font-size:1em; cursor:pointer;}
+		#lap {display:none;}
+
+		table {margin:0 auto; border:1px solid rgba(128,128,128,0.2); border-collapse:collapse;}
+		th {padding:0.1em 1em; text-align:left;  border:1px solid rgba(128,128,128,0.2);}
+		td {padding:0.1em 1em; text-align:right; border:1px solid rgba(128,128,128,0.2);}
+
+		a {text-decoration:none; opacity:60%}
+		a:hover {text-decoration:underline; opacity:100%}
+
+		/* nav */
+		#nav {position:fixed; left:0.5em; top:0; margin:0.6em; z-index:99;}
+		#nav.shifted {top:5.0em;}
+		#nav ul {display:none; width:auto; margin:0; padding:0.5em 1em 0.5em 0.3em; list-style:none; border:1px solid #000;}
+		#nav:hover ul {display:block;}
+		#nav li {margin:0; padding:0; white-space:nowrap;}
+		#nav li a {display:block; margin:0; padding:0.3em;}
+		#nav > a {font-size:1.5em;}
+
+		/* main layout */
+		#date, #time, #buttons {margin:0; padding:0; font-size:4em; font-weight:normal; text-align:center;}
+		#date {padding-top:2em; line-height:0.75; opacity:0.3;}
+		#time {margin-top:1em; font-size:10em; line-height:0.75;}
+		#buttons {margin-top:2em; font-size:1.5em; line-height:0.9;}
+		#lapTimes {margin:1em auto; text-align:center;}
+
+		/* colors */
+		body {color:#111; background:#fff;}
+		a {color:#111;}
+		a:visited {color:#111;}
+		#nav ul {background:#fff; border-color:#111;}
+
+		body.Light {color:#111; background:#fff;}
+		body.Light a {color:#111;}
+		body.Light a:visited {color:#111;}
+		body.Light #nav ul {background:#fff; border-color:#111;}
+
+		body.Dark {color:#eee; background:#000;}
+		body.Dark a {color:#ddd;}
+		body.Dark a:visited {color:#ddd;}
+		body.Dark #nav ul {background:#000; border-color:#ddd;}
+
+		@media all and (prefers-color-scheme: dark) {
+			body {color:#eee; background:#000;}
+			a {color:#ddd;}
+			a:visited {color:#ddd;}
+			#nav ul {background:#000; border-color:#ddd;}
+		}
+
+		@media all and (max-width:500px) {
+			/* increase button size on small screens */
+			button {font-size:2em;}
+		}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 5 */
+
+		var date, time, buttons, lapTimes;
+		var showHundredths = true; // stopwatch always shows hundredths
+		var colors = {dynamic:false};
+		var iPad = false;
+
+		// Date.now shim
+		if (!Date.now) {
+			Date.now = function() { return new Date().getTime(); };
+		}
+
+		function checkIPad() {
+			// check device
+			if (navigator.userAgent.match(/iPad/i) || ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && !window.MSStream)) {
+				iPad = true;
+			}
+		}
+
+		function toggleNav(e) {
+			var navlist = document.getElementById('navlist');
+			navlist.style.display = (navlist.style.display === 'block') ? 'none' : 'block';
+			return false;
+		}
+
+		function checkFullscreenAvailable() {
+			// check if fullscreen is available, and if so, add a link
+			// note: iPhone does not support fullscreen
+			var dE = document.documentElement;
+			if (dE.requestFullscreen || dE.webkitRequestFullScreen) {
+				document.getElementById('navlist').innerHTML += '<li><a href="#" title="Make full screen" onclick="return toggleFullscreen();">Fullscreen</a></li>';
+			}
+		}
+
+		function checkFullscreen() {
+			// check if currently in fullscreen mode
+			if ((window.innerWidth === screen.width) && (window.innerHeight === screen.height) ||
+			  (window.innerWidth === screen.height) && (window.innerHeight === screen.width)) {
+				// add class to #nav to move it away from big x
+				if (iPad) { document.getElementById('nav').className = 'shifted'; }
+			} else {
+				if (iPad) { document.getElementById('nav').className = ''; }
+			}
+		}
+
+		function toggleFullscreen(e) {
+			// toggle fullscreen mode
+			var d = document, dE = d.documentElement;
+
+			if (d.fullscreenElement || d.webkitFullscreenElement) {
+				if (d.exitFullscreen) {
+					d.exitFullscreen();
+				} else if (d.webkitCancelFullScreen) {
+					d.webkitCancelFullScreen();
+				}
+			} else {
+				if (dE.requestFullscreen) {
+					dE.requestFullscreen();
+				} else if (dE.webkitRequestFullScreen) {
+					dE.webkitRequestFullScreen();
+				}
+			}
+			return false;
+		}
+
+		function storageAvailable(type) {
+			// check for Storage API
+			try {
+				var storage = window[type],
+					x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			} catch(e) {
+				return e instanceof DOMException && (
+					e.code === 22 || e.code === 1014 ||
+					e.name === 'QuotaExceededError' ||
+					e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+				) && storage.length !== 0;
+			}
+		}
+
+		function getOptions() {
+			// load options from localStorage on page load, and set colors, font, ...
+			if (!storageAvailable('localStorage')) { return; }
+
+			var colorScheme = localStorage.getItem('colorScheme');
+			var fontFamily  = localStorage.getItem('fontFamily');
+			var stopwatchData = localStorage.getItem('stopwatchData');
+			var stopwatchLaps = localStorage.getItem('stopwatchLaps');
+
+			if (colorScheme) {
+				document.body.className = colorScheme;
+				if (colorScheme === 'Dynamic') {
+					colors.dynamic = true;
+				} else if (colorScheme === 'Custom') {
+					colors.text = localStorage.getItem('colorText') || '#000000';
+					colors.bg   = localStorage.getItem('colorBG')   || '#ff7700';
+					changeColors();
+				}
+			}
+			if (fontFamily) {
+				document.body.style.fontFamily = fontFamily;
+			}
+			if (stopwatchData) {
+				Stopwatch.setData(stopwatchData);
+				if (stopwatchLaps) {
+					Stopwatch.setLapData(stopwatchLaps);
+				}
+			}
+		}
+
+		function setDynamicColors(now) {
+			// set colors based on the current local time
+			colors.h = now.getHours() * 15 + now.getMinutes() * 15/60; // 0-360°
+			colors.s = now.getMinutes() + 40; // 40-100%
+			colors.l = (now.getSeconds() + now.getMilliseconds()/1000) + 20; // 20-80%;
+			colors.bg = 'hsl(' + colors.h + ', ' + colors.s + '%, '+ colors.l + '%)';
+			colors.text = (colors.l > 50) ? '#111' : '#ddd';
+			changeColors();
+		}
+
+		function changeColors() {
+			// change text, link, and background colors
+			document.body.style.backgroundColor = colors.bg;
+			document.body.style.color = colors.text;
+			document.getElementById('navlist').style.backgroundColor = colors.bg;
+			document.getElementById('navlist').style.borderColor = colors.text;
+
+			for (var i=0; i<document.links.length; i++) {
+				document.links[i].style.color = colors.text;
+			}
+		}
+
+		function resize() {
+			// size and postion the text
+			// could use vw units and display:flex, but want to stick to CSS 2.1
+			var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+				h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+				vw = w/100,
+				fs = 19,	// font size
+				lh = 0.75,	// line height
+				mh;			// margin height
+
+			// set font size and reduce if too wide
+			time.style.fontSize = fs * vw + 'px'; // = 19vw
+			while ((time.scrollWidth > time.clientWidth) && (fs > 9)) {
+				fs--;
+				time.style.fontSize = fs * vw + 'px';
+				console.log('font size: ' + fs + 'vw, ' + (fs * vw) + 'px');
+			}
+			date.style.fontSize = 5 * vw + 'px';
+			buttons.style.fontSize = 2.5 * vw + 'px';
+
+			// calculate margins to space evenly
+			mh = (h - ((fs + 15) * lh * vw)) / 5; // 15 = 3 lines * 5vw
+			date.style.paddingTop = mh + 'px';
+			time.style.marginTop = mh + 'px';
+			buttons.style.marginTop = mh + 'px';
+			lapTimes.style.marginTop = mh + 'px';
+
+			// finally, check if fullscreen
+			checkFullscreen();
+		}
+
+		var Stopwatch = (function() {
+			// stopwatch data and methods
+			var isRunning = false,
+				startTime = null,
+				stopTime = null,
+				elapsedTime = null,
+				lapTimes = [0],
+				timerID = null;
+
+			var timeStr, years, days, hours, minutes, seconds, hundredths, milliseconds, textLength;
+
+			function setData(data) {
+				// set stopwatch data (on page load)
+				// this would be easier with JSON, but IE7
+				var arr = data.split(',');
+				//console.log(arr);
+				isRunning = (arr[0] == 'true') ? true : false;
+				startTime = parseInt(arr[1]) || null;
+				stopTime  = parseInt(arr[2]) || null;
+
+				if (isRunning) {
+					document.getElementById('start').innerText = 'Pause';
+					document.getElementById('lap').style.display = 'inline';
+					document.getElementById('reset').style.display = 'none';
+				}
+				update();
+			}
+
+			function setLapData(data) {
+				// set stopwatch laptimes data (on page load)
+				var arr = data.split(',');
+				//console.log(arr);
+				for (var i=0; i<arr.length; i++) {
+					lapTimes[i] = parseInt(arr[i]);
+				}
+				if (lapTimes.length > 1) { writeLapTimes(); }
+			}
+
+			function saveData() {
+				// save stopwatch data to localStorage
+				if (storageAvailable('localStorage')) {
+					localStorage.setItem('stopwatchData', [isRunning, startTime, stopTime]);
+					localStorage.setItem('stopwatchLaps', lapTimes);
+				}
+			}
+
+			function deleteData() {
+				// delete stopwatch data from localStorage
+				if (storageAvailable('localStorage')) {
+					localStorage.removeItem('stopwatchData');
+					localStorage.removeItem('stopwatchLaps');
+				}
+			}
+
+			function start() {
+				// start/stop stopwatch
+				if (isRunning) {
+					isRunning = false;
+					stopTime = Date.now();
+					document.getElementById('start').innerText = 'Start';
+					document.getElementById('lap').style.display = 'none';
+					document.getElementById('reset').style.display = 'inline';
+
+					// cancel next scheduled update
+					if (showHundredths && window.requestAnimationFram) {
+						cancelAnimationFrame(timerID);
+					} else {
+						clearTimeout(timerID);
+					}
+				} else {
+					isRunning = true;
+					if (!startTime) { startTime = Date.now(); }
+					if (stopTime) {
+						startTime += Date.now() - stopTime; // add stopped (paused) time
+						stopTime = null;
+					}
+					document.getElementById('start').innerText = 'Stop';
+					document.getElementById('lap').style.display = 'inline';
+					document.getElementById('reset').style.display = 'none';
+				}
+				update();
+				//console.log(elapsedTime);
+				saveData();
+			}
+
+			function lap() {
+				// record and show lap time
+				lapTimes.push(elapsedTime);
+				writeLapTimes();
+				saveData();
+			}
+
+			function reset() {
+				// reset stopwatch to zero
+				startTime = null;
+				stopTime = null;
+				elapsedTime = 0;
+				lapTimes = [0];
+				update();
+				writeLapTimes();
+				deleteData();
+			}
+
+			function pad2(n) {
+				// make 2 digits
+				return (n < 10) ? ('0' + n) : n;
+			}
+			function pad3(n) {
+				// make 3 digits
+				return (n < 100) ? ('0' + pad2(n)) : n;
+			}
+
+			function writeLapTimes() {
+				// write all the lap times
+				// IE has problems using innerHTML to update table content, so rewrite the whole table
+				var div = document.getElementById('lapTimes');
+				var tableStr = '<table id="lapTimes"><thead><tr><th>Lap:</th><th>Elapsed time:</th><th>Lap time:</th></tr></thead>';
+
+				// number current lap
+				tableStr += '<tbody><tr id="currentLap"><td id="CL1">' + lapTimes.length + '</td><td id="CL2"></td><td id="CL3"></td></tr>';
+
+				// add rows for previous laps
+				for (var i=lapTimes.length-1; i>0; i--) {
+					tableStr += '<tr><td>' + i + '</td><td>' + formatTime(lapTimes[i]) + '</td><td>' + formatTime(lapTimes[i] - lapTimes[i-1]) + '</td></tr>';
+				}
+				tableStr += '</tbody></table>';
+				div.innerHTML = tableStr;
+			}
+
+			function formatTime(time) {
+				// format the time as yyy:ddd:hh:mm:ss.ss
+				milliseconds = time % 1000;
+				hundredths = Math.floor(milliseconds/10);
+				seconds = Math.floor(time/1000);
+				minutes = Math.floor(seconds/60);
+				hours   = Math.floor(minutes/60);
+				days    = Math.floor(hours/24);
+				years   = Math.floor(days/365);
+
+				timeStr = '&nbsp;';
+				if (years > 0) timeStr += pad3(years) + ':';
+				if (days  > 0) timeStr += pad3(days % 365) + ':';
+				if (hours > 0) timeStr += pad2(hours % 24) + ':';
+				if (minutes > 0) timeStr += pad2(minutes % 60) + ':';
+				timeStr += pad2(seconds % 60) + '<small>.' + pad2(hundredths) + '</small>&nbsp;';
+				return timeStr;
+			}
+
+			function update() {
+				elapsedTime = ((isRunning ? Date.now() : stopTime) - startTime); // in milliseconds
+				time.innerHTML = formatTime(elapsedTime);
+
+				// resize text if length changes
+				if (time.innerText.length !== textLength) {
+					textLength = time.innerText.length;
+					resize();
+				}
+
+				// write current lap
+				document.getElementById('CL2').innerHTML = formatTime(elapsedTime);
+				document.getElementById('CL3').innerHTML = formatTime(elapsedTime - lapTimes[lapTimes.length-1]);
+
+				if (colors.dynamic) { setDynamicColors(new Date(elapsedTime)); }
+
+				if (isRunning) {
+					if (showHundredths && window.requestAnimationFrame) {
+						timerID = window.requestAnimationFrame(update);
+					} else {
+						timerID = setTimeout(update, 1000/30);
+					}
+				}
+			}
+
+			return {
+				setData: setData,
+				setLapData: setLapData,
+				start: start,
+				lap: lap,
+				reset: reset
+			};
+		})();
+
+		function init() {
+			date = document.getElementById('date');
+			time = document.getElementById('time');
+			buttons = document.getElementById('buttons');
+			lapTimes = document.getElementById('lapTimes');
+			checkIPad();
+			checkFullscreenAvailable();
+			getOptions();
+			resize();
+		}
+
+		if (window.addEventListener) {
+			window.addEventListener('DOMContentLoaded', init);
+			window.addEventListener('resize', resize);
+		} else {
+			window.onload = init;
+			window.onresize = resize;
+		}
+
+	</script>
+</head>
+<body>
+
+	<div id="nav">
+		<a href="./" onclick="return toggleNav();"><b>☰</b></a><br>
+		<ul id="navlist">
+			<li><a href="./">The time (ISO 8601)</a></li>
+			<li><a href="./local.html">Local time format</a></li>
+			<li><a href="./utc.html">UTC</a></li>
+			<li><a href="./stopwatch.html">Stopwatch</a></li>
+			<li><a href="./timer.html">Timer</a></li>
+			<li><a href="./about.html">About</a></li>
+			<li><a href="./settings.html">Settings</a></li>
+		</ul>
+	</div>
+
+	<p id="date">Stopwatch</p>
+	<h1 id="time">00<small>.00</small></h1>
+	<p id="buttons">
+		<button type="button" id="start" onclick="Stopwatch.start()">Start</button>
+		<button type="button" id="lap"   onclick="Stopwatch.lap()">Lap</button>
+		<button type="button" id="reset" onclick="Stopwatch.reset()">Reset</button>
+	</p>
+
+	<div id="lapTimes">
+		<table>
+			<thead>
+				<tr>
+					<th>Lap:</th>
+					<th>Elapsed time:</th>
+					<th>Lap time:</th>
+				</tr>
+			</thead>
+			<tbody id="lapTimesTBody">
+				<tr id="currentLap">
+					<td id="CL1">1</td>
+					<td id="CL2">00:00<small>.00</small></td>
+					<td id="CL3">00:00<small>.00</small></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- simple analytics
+	<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+	<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>
+	-->
+
+</body>
+</html>

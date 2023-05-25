@@ -1,0 +1,124 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Black Screen</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+
+        body {margin:1em; font-family:Helvetica, Arial, sans-serif; text-align:center;}
+        p {margin:2em 0;}
+        button {width:100px; height:75px; margin:0.5em; font-size:1em; border:1px solid #666; border-radius:10px; cursor:pointer;}
+
+    </style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		let FS, rainbowHue = 0, rainbowColor, randomColor, currentColor, colorMode, morseMode, morseOn;
+
+		function setRandomColor() {
+			randomColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+			document.querySelector('button.random').style.backgroundColor = randomColor;
+
+			if (colorMode === 'random') {
+				currentColor = randomColor;
+				if (!morseMode || morseOn) { FS.style.backgroundColor = currentColor; }
+			}
+			setTimeout(setRandomColor, 3000); // animate
+		}
+
+		function setRainbowColor() {
+			if (rainbowHue > 360) { rainbowHue = 0; }
+			rainbowColor = `hsl(${rainbowHue++}deg, 100%, 50%)`;
+			document.querySelector('button.rainbow').style.backgroundColor = rainbowColor;
+
+			if (colorMode === 'rainbow') {
+				currentColor = rainbowColor;
+				if (!morseMode || morseOn) { FS.style.backgroundColor = currentColor; }
+			}
+			setTimeout(setRainbowColor, 20); // animate
+		}
+
+		function init() {
+			FS = document.querySelector('#fullscreenElement');
+
+			// set random and rainbow colors
+			setRandomColor();
+			setRainbowColor();
+
+			// buttons
+			document.querySelectorAll('button').forEach((button) => {
+				button.addEventListener('click', () => {
+					// set fullscreen color
+					colorMode = button.className;
+					if (colorMode === 'random') {
+						currentColor = randomColor;
+					} else if (colorMode === 'rainbow') {
+						currentColor = rainbowColor;
+					} else {
+						currentColor = button.style.backgroundColor;
+					}
+					FS.style.backgroundColor = (morseMode) ? 'black' : currentColor;
+
+					// enter fullscreen mode
+					if (FS.requestFullscreen) {
+						FS.requestFullscreen();
+					} else if (FS.webkitRequestFullscreen) { // Safari
+						FS.webkitRequestFullscreen();
+					} else {
+						window.alert('Fullscreen mode not supported');
+					}
+				});
+			});
+
+			// Morse mode
+			document.querySelector('#morseMode').addEventListener('change', (e) => {
+				morseMode = e.target.checked;
+				morseOn = false;
+				if (morseMode) { FS.style.backgroundColor = 'black'; }
+			});
+			document.addEventListener('keydown', (e) => {
+				if (morseMode) {
+					morseOn = true;
+					FS.style.backgroundColor = currentColor;
+				}
+			});
+			document.addEventListener('keyup', (e) => {
+				if (morseMode) {
+					morseOn = false;
+					FS.style.backgroundColor = 'black';
+				}
+			});
+		}
+
+		window.addEventListener('load', init);
+
+    </script>
+</head>
+<body>
+
+	<h1>Black Screen</h1>
+	<p>Inspired by <a href="https://allblackscreen.com">allblackscreen.com<a><br>Does not work on iOS.</p>
+
+	<p>
+		<button style="color:#fff; background:#000;">black</button>
+		<button style="color:#fff; background:#999;">grey</button>
+		<button style="color:#000; background:#fff;">white</button><br>
+		<button style="color:#fff; background:#f00;">red</button>
+		<button style="color:#000; background:#0f0;">green</button>
+		<button style="color:#fff; background:#00f;">blue</button><br>
+		<button style="color:#000; background:#0ff;">cyan</button>
+		<button style="color:#fff; background:#f0f;">magenta</button>
+		<button style="color:#000; background:#ff0;">yellow</button>
+	</p>
+	<p>
+		<button style="color:#fff;" class="random">random</button>
+		<button style="color:#fff;" class="rainbow">rainbow</button>
+	</p>
+
+	<p><label><input id="morseMode" type="checkbox"> Morse Mode (use any key except 'esc')</label></p>
+
+	<div id="fullscreenElement"></div>
+
+</body>
+</html>

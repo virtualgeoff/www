@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Phases of the Moon</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+
+		body {font-family:Verdana, Helvetica, sans-serif; font-size:0.833em; color:#fff; background:#333;}
+		big {position:relative; top:0.25em; font-size:3em;}
+		a {color:#66f;}
+		a:visited {color:#f6f;}
+		a:hover {color:#f66;}
+		svg {display:block; width:50vmin; height:50vmin; margin:3em auto;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+		'use strict';
+
+		let phase = 0;
+
+		function getMoon(phase) {
+			// get moon name and icon from phase
+
+			const moons = [
+				['New Moon',        '🌑'],
+				['Waxing Crescent', '🌒'],
+				['First Quarter',   '🌓'],
+				['Waxing Gibbous',  '🌔'],
+				['Full Moon',       '🌕'],
+				['Waning Gibbous',  '🌖'],
+				['Last Quarter',    '🌗'],
+				['Waning Crescent', '🌘']
+			];
+
+			// more accurate than just rounding to the nearest 1/8 of the phase
+			let d = 0.0167; // ~ ± 0.5 days
+			let i = 0;
+		
+			// there's probably a really elegant way to do this, but...
+			if ((phase > 0.0 + d) && (phase < 0.25 - d)) {
+				i = 1;
+			} else if ((phase >= 0.25 - d) && (phase <= 0.25 + d)) {
+				i = 2;
+			} else if ((phase > 0.25 + d) && (phase < 0.50 - d)) {
+				i = 3;
+			} else if ((phase >= 0.50 - d) && (phase <= 0.50 + d)) {
+				i = 4;
+			} else if ((phase > 0.50 + d) && (phase < 0.75 - d)) {
+				i = 5;
+			} else if ((phase >= 0.75 - d) && (phase <= 0.75 + d)) {
+				i = 6;
+			} else if ((phase > 0.75 + d) && (phase < 1.0 - d)) {
+				i = 7;
+			}
+			return {'name':moons[i][0], 'icon':moons[i][1]};	
+		}
+
+		function tick() {
+			// animation loop
+
+			// get unicode icon of moon phase
+			document.querySelector('#info').innerHTML = `phase: ${phase.toFixed(3)}, &nbsp; icon: <big>${getMoon(phase).icon}</big> (${getMoon(phase).name})`;
+
+			// draw SVG path 
+			// get x radius and sweep direction for each half of the path
+			let ry = 50;
+			let cosX = Math.cos( phase * 2 * Math.PI ); 
+			let rx1 = (phase < 0.50) ? ry * cosX : ry;
+			let rx2 = (phase < 0.50) ? ry : ry * -cosX;
+			let sweep1 = (phase < 0.25) ? 0 : 1;
+			let sweep2 = (phase < 0.75) ? 1 : 0;
+
+			// draw a new path (2 elliptical arcs)
+			document.querySelector('#path').setAttribute('d', `M 0,${ry}
+				A ${rx1} ${ry} 0 1 ${sweep1} 0,${-ry} 
+				A ${rx2} ${ry} 0 1 ${sweep2} 0,${ry} z`);
+
+			// increment and repeat
+			phase += 0.001;
+			if (phase >= 1) { phase = 0; }
+
+			window.requestAnimationFrame(tick);
+		}
+
+		function init() {
+			tick();
+		}
+
+		window.addEventListener('load', init);
+	
+	</script>
+</head>
+<body>
+	<h1>Phases of the Moon</h1>
+
+	<p>It's easy enough to use the <a href="https://unicode.org/charts/nameslist/n_1F300.html#1F310">unicode 
+	icons</a> for the <a href="https://en.wikipedia.org/wiki/Lunar_phase">phases of the Moon</a>. e.g. <span id="info"></span>
+	
+	<p>But I wanted something smoother and more precise (and less yellow).
+	So, SVG <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#elliptical_arc_curve">elliptical arc curves</a>:</p>
+
+	<svg id="moon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+		<g transform="translate(50,50)">
+			<circle cx="0" cy="0" r="50" fill="#000" stroke="#000" stroke-width="0" />
+			<path id="path" fill="#ccc" stroke="#ccc" stroke-width="0" d="M 0,50 A 25 50 0 1 0 0,-50 A 50 50 0 1 1 0,50 z" />
+		</g>
+	</svg>
+</body>
+</html>

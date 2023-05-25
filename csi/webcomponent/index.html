@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Client-Side Includes</title>
+	<style>
+
+		body {}
+		header {}
+		nav {}
+		footer {}
+
+	</style>
+    <script src="html-include.js" defer></script>
+</head>
+<body>
+
+	<html-include src="../includes/header.html"></html-include>
+	<html-include src="../includes/nav.html"></html-include>
+
+	<main>
+		<h1>Client-Side Includes</h1>
+
+		<p>A client-side include script using a custom web component.</p>
+		<p><code>&lt;html-include src="file.html"&gt;&lt;/html-include&gt;</code> is <em>replaced</em> by the content of <code>file.html</code></p>
+	</main>
+
+	<html-include src="../includes/footer.html"></html-include>
+
+</body>
+</html>

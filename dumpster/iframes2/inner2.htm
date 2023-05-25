@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Page 2</title>
+	<script type="text/javascript">
+
+		function ping(id) {
+			alert(document.getElementsByTagName('TITLE')[0].innerHTML + ' says: ' + id + ' just pinged me!');
+		}
+
+		function loaded() {
+			window.parent.ping(document.getElementsByTagName('TITLE')[0].innerHTML);
+		}
+
+		window.onload = loaded;
+
+	</script>
+</head>
+<body>
+
+	<h1>Page 2</h1>
+
+	<p id="p1">Links have <code>target="_top"</code></p>
+
+	<p><a href="inner1.htm" target="_top">Page 1</a> |
+	<a href="inner2.htm" target="_top">Page 2</a> |
+	<a href="inner3.htm" target="_top">Page 3</a></p>
+
+</body>
+</html>

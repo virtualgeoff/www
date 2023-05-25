@@ -12,13 +12,13 @@
 			0%   {opacity:0;}
 			100% {opacity:1;}
 		}
-		
+
 	</style>
 	<script type="text/javascript">
 
 		function drawBox(obj, n) {
 			var p, q;
-			
+
 			p = document.createElement('div');
 			obj.appendChild(p);
 
@@ -33,31 +33,15 @@
 			}
 		}
 		function doStuff() {
-			var N = 28; // max level of recursion			
+			var N = 28; // max level of recursion
 			drawBox(document.body, N);
 		}
-			
+
 		window.onload = doStuff;
-
-		/*
-		
-		Do next:
-			√ nested circles along a line
-			√ add timeout to recursive draw steps to animate
-			√ fade in child nodes using CSS
-			• make script more general: create any number of child elements
-			• rotate colors around spectrum, not just transparency
-			• use CSS3D transforms to rotate child elements
-			• slider or mouse interaction to interactively modify all elements (use Document.querySelector)
-			• do with boxes in X3D / three.js / ...
-			
-
-		*/
 
 	</script>
 </head>
 <body>
-
 
 </body>
 </html>

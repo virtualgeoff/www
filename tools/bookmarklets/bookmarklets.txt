@@ -1,0 +1,45 @@
+960 grid:
+javascript:(function()%7Bdocument.body.appendChild(document.createElement('script')).src='http://gridder.andreehansson.se/releases/latest/960.gridder.js';%7D)();
+
+blah:
+javascript:(function()%7Bdocument.body.appendChild(document.createElement('script')).src='http://localdev.abc.net.au/innovation/tools/bookmarklets/blah.js';%7D)();
+
+img:
+javascript:(function()%7Bdocument.body.appendChild(document.createElement('script')).src='http://localdev.abc.net.au/innovation/tools/bookmarklets/img.js';%7D)();
+
+iframe:
+javascript:(function()%7Bdocument.body.appendChild(document.createElement('script')).src='http://localdev.abc.net.au/innovation/tools/bookmarklets/iframe.js';%7D)();
+
+gNav preview:
+javascript:(function(){window.location=(window.location+((window.location.search)?'&':'?')+'abcbundle=preview')})();
+
+sakura.css:
+javascript:(function()%7B(function()%7B%22use%20strict%22%3Bfunction%20e(e)%7Breturn%20Array.prototype.slice.call(window.document.querySelectorAll(e))%7Dfunction%20t()%7Balert(%22Sorry%2C%20sakura%20styles%20could%20not%20be%20applied%20to%20this%20page.%22)%7Dfunction%20r()%7Bvar%20t%3De(%22link%22).filter(function(e)%7Breturn%22stylesheet%22%3D%3D%3De.getAttribute(%22rel%22)%26%26e!%3D%3Dn%7D)%2Cr%3De(%22style%22)%2Co%3Dt.concat(r)%3Bo.forEach(function(e)%7Be.parentElement.removeChild(e)%7D)%7Dvar%20n%3Dwindow.document.createElement(%22link%22)%3Bn.addEventListener(%22error%22%2Ct)%2Cn.addEventListener(%22load%22%2Cr)%2Cn.setAttribute(%22rel%22%2C%22stylesheet%22)%2Cn.setAttribute(%22href%22%2C%22https%3A%2F%2Funpkg.com%2Fsakura.css%2Fcss%2Fsakura.css%22)%2Cwindow.document.head.appendChild(n)%7D)()%3B%7D)()
+
+KillCSS:
+javascript:(function(){function%20d(a,b){a.setAttribute("data-css-storage",b)}function%20e(a){var%20b=a.getAttribute("data-css-storage");a.removeAttribute("data-css-storage");return%20b}var%20c=[];(function(){var%20a=document.body,b=a.hasAttribute("data-css-disabled");b?a.removeAttribute("data-css-disabled"):a.setAttribute("data-css-disabled","");return%20b})()?(c=document.querySelectorAll("[data-css-storage]"),[].slice.call(c).forEach(function(a){"STYLE"===a.tagName?a.innerHTML=e(a):"LINK"===a.tagName?a.disabled=!1:a.style.cssText=e(a)})):(c=document.querySelectorAll("[style],%20link,%20style"),[].slice.call(c).forEach(function(a){"STYLE"===a.tagName?(d(a,a.innerHTML),a.innerHTML=""):"LINK"===a.tagName?(d(a,""),a.disabled=!0):(d(a,a.style.cssText),a.style.cssText="")}))})();
+javascript:(function%20r(d){for(let%20l%20of%20d.querySelectorAll(`link[rel=stylesheet][href]`)){let%20h=new%20URL(l.href);h.searchParams.set(`forceReload`,Date.now());l.href=h;}for(let%20i%20of%20d.querySelectorAll(`iframe`)){i.contentDocument&&r(i.contentDocument);}})(document)
+
+RefreshCSS:
+javascript:(function%20r(d){for(let%20l%20of%20d.querySelectorAll(`link[rel=stylesheet][href]`)){let%20h=new%20URL(l.href);h.searchParams.set(`forceReload`,Date.now());l.href=h;}for(let%20i%20of%20d.querySelectorAll(`iframe`)){i.contentDocument&&r(i.contentDocument);}})(document)
+
+
+HN:
+javascript:(function(){var n=window.document.createElement("style");n.setAttribute("type","text/css");n.innerText="html{font-size:1.2em!important;line-height:1.2!important;}body,table,tr,td,.default,.comment,.comhead,.pagetop,.c00{font-size:inherit!important;line-height:inherit!important;}.comhead,.pagetop,.title{font-size:1.2em!important;}";window.document.head.appendChild(n)})()
+
+
+javascript:(function(){
+	var n=window.document.createElement("style");
+	n.setAttribute("type","text/css");
+	n.innerText="
+		html{font-size:1.2em!important;line-height:1.2!important;}
+		body,table,tr,td,.default,.comment,.comhead,.pagetop,.c00{font-size:inherit!important;line-height:inherit!important;}
+		.comhead,.pagetop,.title{font-size:1.2em!important;}
+	";
+	window.document.head.appendChild(n)
+})()
+
+
+
+
+

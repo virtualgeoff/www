@@ -60,9 +60,9 @@
 			return leaf;	
 		}
 		function createTreeRecursively(N, parent, branches) {
-			var newParent, i; 
+			var i, newParent; 
 			N--; // decrement level of recursion
-			branches[N] = (branches[N] || getRandomInteger(3,8)); // save because we want same number of sub-branches for branches at the same level			
+			branches[N] = (branches[N] || getRandomInteger(3,5)); // save because we want same number of sub-branches for branches at the same level			
 			createLeaf(parent, (360/N));
 			
 			if (N > 0) {
@@ -76,7 +76,7 @@
 		function init() {
 			var i = 0,
 				wrapper = document.getElementById('centre'),			
-				N = getRandomInteger(3,5), // number of levels of recursions
+				N = getRandomInteger(3,4), // number of levels of recursions
 				branches = []; 
 
 			createTreeRecursively(N, wrapper, branches);

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Blockout</title>
+	<style>
+
+		html, body {margin:0; padding:0; font-family:Courier, monospace; color:#fff; background:#000;}
+
+		a {color:#0f0; text-decoration:none;}
+		a:hover {text-decoration:underline;}
+
+		h1      {position:absolute; left:0; top:300px; width:100vw; padding:0; text-align:center; color:#05f;}
+		#banner {position:absolute; left:0; top:400px; width:100vw; padding:0; text-align:center;}
+		#banner a {padding:0.3em 1.5em; border:1px solid #0f0;}
+
+		#ball   {position:absolute; left:0; top:0; width:10px; height:10px; background:#fff; z-index:8;}
+		#paddle {position:absolute; left:0; top:0; width:100px; height:10px; background:#0f0; z-index:9}
+		.block  {position:absolute; background:#ff0; z-index:10}
+
+		#ballsLeft {position:absolute; right:0;  top:0; padding:1em; color:#0f0;}
+		#score     {position:absolute; left:0; top:0; padding:1em; color:#0f0;}
+		#debug     {position:absolute; left:0; bottom:100px; padding:1em; white-space:pre; color:#ff0;}
+
+	</style>
+	<script>
+
+		// Geoff Pack, November 2020
+
+		var i = 0,
+			frame = {},
+			ball = {x:0, y:0, w:10, h:10, vx:0, vy:0},
+			paddle = {x:0, y:0, w:100, h:10},
+			blocks = [],
+			blockColors = ['#f0f','#f00','#f70','#ff0','#0d0','#05f','#90f','#f0f'],
+			t0 = 0,
+			t1 = 0
+			dt = 0,
+			ballsLeft = 5,
+			score = 0,
+			speed = 0.3,
+			collisionFlag = false,
+			gameInPlay = false;
+			debug = false,
+			autoPlay = false,
+			heading = null,
+			banner = null,
+			bannerLink = null,
+			tan30 = Math.tan(30 * Math.PI / 180), // ~0.577  used for corner hits 
+			tan60 = Math.tan(60 * Math.PI / 180); // ~1.732
+
+		function setBall() {
+			// initial ball position and velocity
+			ball.x = (frame.w - ball.w)/2;
+			ball.y = paddle.y - ball.h;
+			ball.vy = -speed;
+			ball.vx = (Math.random(0) - 0.5) * 2 * speed;
+		}
+
+		function clearBlocks() {
+			// clear the blocks array (e.g. when starting new game)
+			for (k=0; k<blocks.length; k++) {
+				if (blocks[k].dom) { blocks[k].dom.remove(); }
+			}
+			blocks = [];			
+		}
+
+		function createBlocks() {
+			// 6 rows of 10 blocks
+			var i, j, k=0,
+				rows = 6, cols = 10,
+				block, blockHeight = 20,
+				spacing = ball.w * 2;
+			
+			for (i=0; i<rows; i++) {
+				for (j=0; j<cols; j++) {
+					blocks[k] = {};
+					block = blocks[k];
+					block.w = Math.floor((frame.w - spacing * 3) / cols - spacing);
+					block.h = blockHeight;
+					block.x = (spacing * 2) + j * (block.w + spacing);
+					block.y = (spacing * 3) + i * (blockHeight + spacing);
+					block.lives = rows - i;
+					block.dom = document.createElement('div');
+					block.dom.id = 'block' + k;
+					block.dom.className = 'block';
+					block.dom.style.left   = block.x + 'px';
+					block.dom.style.top    = block.y + 'px';
+					block.dom.style.width  = block.w + 'px';
+					block.dom.style.height = block.h + 'px';
+					block.dom.style.background = blockColors[block.lives];
+					document.getElementById('frame').appendChild(block.dom);
+					k++;
+				}
+			}
+		}
+		
+		function testPaddleCollision() {
+			// test for collision of ball with paddle
+			if (ball.y >= paddle.y) {
+				if (((ball.x + ball.w) > paddle.x) && (ball.x < (paddle.x + paddle.w))) {
+					// hit!
+					ball.y = paddle.y - ball.h;
+					if ((ball.x + ball.w) <= (paddle.x + paddle.w/4)) {
+						// left quarter of paddle
+						ball.vx -= 0.2;
+						ball.vy = -ball.vy;										
+					} else if (ball.x >= (paddle.x + paddle.w * 3/4)) {
+						// right quarter of paddle
+						ball.vx += 0.2;
+						ball.vy = -ball.vy;				
+					} else {
+						// middle half of paddle
+						ball.vy = -ball.vy;						
+					}					
+				} else {
+					// miss!
+					updateScore();
+					missedBall();
+				}
+				collisionFlag = true;
+			}
+		}
+
+		function testFrameCollision() {
+			// test for collisions of ball with frame edges
+			if (ball.x <= 0) {
+				// left edge
+				ball.x = 0;
+				ball.vx = -ball.vx;
+				collisionFlag = true;
+				return;
+			} else if (ball.x >= (frame.w - ball.w)) {
+				// right edge
+				ball.x = frame.w - ball.w;
+				ball.vx = -ball.vx;
+				collisionFlag = true;
+				return;
+			}
+			if (ball.y <= 0) {
+				// top edge
+				ball.y = 0;
+				ball.vy = -ball.vy;
+				collisionFlag = true;
+				return;
+			}
+		}
+
+		function testBlockCollision() {
+			// test for collision of ball with blocks
+			var i, j, block, corner, corners, ballCorners, blockCorners, gradient,
+				tan30 = Math.tan(40 * Math.PI / 180),
+				tan60 = Math.tan(50 * Math.PI / 180);
+
+			// skip if no blocks left
+			if (blocks.length === 0) { return; }
+			// skip if ball is below the lowest block			
+			if (ball.y > (blocks[blocks.length - 1].y + blocks[blocks.length - 1].h)) { return; }
+			
+			for (var i=0; i<blocks.length; i++) {
+				block = blocks[i];
+
+				// temp vars
+				ball.x2 = ball.x + ball.w;
+				ball.y2 = ball.y + ball.h;
+				block.x2 = block.x + block.w;
+				block.y2 = block.y + block.h;
+
+				// assumes ball velocity < block size !
+				// otherwise ball can pass completely through block
+				if ((ball.x2 >= block.x) && (ball.x <= block.x2) && (ball.y2 >= block.y) && (ball.y <= block.y2)) {
+					// hit! - ball and block overlap
+					if (debug) { console.log(block.dom.id + ' hit'); }
+
+					// case 0: ball passes completely through block during timestep
+					//	  - initial test above won't detect this, so ignore
+
+					// case 1: all corners are touching or inside block!
+					//	  - ball completely penetrates block
+					//	  - ignore this case for now
+
+					// case 2: two corners of ball are touching or inside block
+					if ((ball.x >= block.x) && (ball.x2 <= block.x2)) {
+						// 2a: ball hits horizontal block edge
+						if (ball.vy > 0) {
+							ball.y = block.y - ball.h;
+						} else {
+							ball.y = block.y2;
+						}
+						ball.vy = -ball.vy;
+					} else if ((ball.y >= block.y) && (ball.y2 <= block.y2)) {
+						// 2b: ball hits vertical block edge
+						if (ball.vx > 0) {
+							ball.x = block.x - ball.w;
+						} else {
+							ball.x = block.x2
+						}
+						ball.vx = -ball.vx;
+					} else {
+						// case 3: one corner of ball is inside block
+						// find which corner of the ball is inside the block, and the gradient of line to corresponding block corner
+						corner = null;
+						ballCorners  = [[ball.x,ball.y], [ball.x2,ball.y], [ball.x2,ball.y2], [ball.x,ball.y2]];  // corners of ball: TL, TR, BR, BL
+						blockCorners = [[block.x2,block.y2], [block.x,block.y2], [block.x,block.y], [block.x2,block.y]];  // corresponding corners of block: BR, BL, TL, TR
+
+						// for each ball corner
+						for (var p=0; p<ballCorners.length; p++) {
+							// if block.x <= x <= block.x2  && block.y <= y <= block.y2
+							if ((ballCorners[p][0] >= block.x) && (ballCorners[p][0] <= block.x2) && (ballCorners[p][1] >= block.y) && (ballCorners[p][1] <= block.y2)) {
+								gradient = (ballCorners[p][1] - blockCorners[p][1]) / (ballCorners[p][0] - blockCorners[p][0]);
+								corner = p;
+							}
+						}
+						if (debug) { console.log(`corner: ${corner}, gradient: ${gradient}, velocity gradient: ${(ball.vy/ball.vx)}`); }
+
+						// this is repetitive and there's probably a more concise way 
+						// to do it, but it seems to work and I've had enough of it!
+						// note: for hits right on the corner between 30° and 60° (ie 45±15°), reflect both velocities
+						switch (corner) {
+						  case 0:
+							if ((ball.vx >= 0) || (gradient < tan30)) {
+								ball.y = block.y2;
+								ball.vy = -ball.vy;
+							} else if ((ball.vy >= 0) || (gradient > tan60)) {
+								ball.x = block.x2;
+								ball.vx = -ball.vx;
+							} else {
+								ball.x = block.x2;
+								ball.y = block.y2;
+								ball.vx = -ball.vx;
+								ball.vy = -ball.vy;						
+							}
+							break;
+						  case 1:
+							if ((ball.vx <= 0) || (gradient > -tan30)) {
+								ball.y = block.y2;
+								ball.vy = -ball.vy;
+							} else if ((ball.vy >= 0) || (gradient < -tan60)) {
+								ball.x = block.x - ball.w;
+								ball.vx = -ball.vx;
+							} else {
+								ball.x = block.x - ball.w;
+								ball.y = block.y2;
+								ball.vx = -ball.vx;
+								ball.vy = -ball.vy;						
+							}
+							break;
+						  case 2:
+							if ((ball.vx <= 0) || (gradient < tan30)) {
+								ball.y = block.y - ball.h;
+								ball.vy = -ball.vy;
+							} else if ((ball.vy <= 0) || (gradient > tan60)) {
+								ball.x = block.x - ball.w;
+								ball.vx = -ball.vx;
+							} else {
+								ball.x = block.x - ball.w;
+								ball.y = block.y - ball.h;
+								ball.vx = -ball.vx;
+								ball.vy = -ball.vy;						
+							}
+							break;
+						  case 3:
+							if ((ball.vx >= 0) || (gradient > -tan30)) {
+								ball.y = block.y - ball.h;
+								ball.vy = -ball.vy;
+							} else if ((ball.vy <= 0) || (gradient < -tan60)) {
+								ball.x = block.x2;
+								ball.vx = -ball.vx;
+							} else {
+								ball.x = block.x2;
+								ball.y = block.y - ball.h;
+								ball.vx = -ball.vx;
+								ball.vy = -ball.vy;						
+							}
+							break;
+						}
+					}
+
+					block.lives--;
+
+					if (block.lives > 0) {
+						block.dom.style.background = blockColors[block.lives];
+					} else {
+						// remove block!
+						blocks[i].dom.remove();
+						blocks.splice(i,1);
+					}
+					collisionFlag = true;
+
+					// update score;
+					score++;
+					updateScore();
+					return;
+				}
+			}
+		}
+
+		function updateScore() {
+			document.getElementById('ballsLeft').innerHTML = 'Balls: ' + ballsLeft;
+			document.getElementById('score').innerHTML = 'Score: ' + score;
+			
+			if (blocks.length === 0) { gameOver(); }
+		}
+
+		function draw() {
+			// plot ball and paddle
+			ball.dom.style.left = ball.x + 'px';
+			ball.dom.style.top  = ball.y + 'px';
+			paddle.dom.style.left = paddle.x + 'px';
+			paddle.dom.style.top  = paddle.y + 'px';
+
+			// debug
+			document.getElementById('debug').innerHTML = (debug) ? (`x:  ${ball.x}<br>y:  ${ball.y}<br>vx: ${ball.vx}<br>vy: ${ball.vy}<br></br>dt: ${dt} ms`) : '';
+		}
+
+		function missedBall() {		
+			if (debug) { console.log('missed ball!'); }
+			gameInPlay = false;
+			ballsLeft--;
+			updateScore();
+			if (ballsLeft === 0) {
+				heading.style.display = 'block';
+				bannerLink.innerHTML = 'New Game?';
+			} else {
+				bannerLink.innerHTML = 'Next Ball?';
+			}
+			banner.style.display = 'block';
+		}
+
+		function gameOver() {
+			gameInPlay = false;
+			bannerLink.innerHTML = 'You Win! — Play Again?';
+			heading.style.display = 'block';
+			banner.style.display = 'block';
+		}
+
+		function newGame() {		
+			ballsLeft = 5;
+			score = 0;
+			clearBlocks();
+			createBlocks();
+			updateScore();			
+		}
+
+		function playGame() {		
+			t0 = Date.now();	
+			gameInPlay = true;
+			setBall();
+			if ((ballsLeft === 0) || (blocks.length === 0)) { newGame(); }
+			heading.style.display = 'none';
+			banner.style.display = 'none';
+			main();	 // start main loop
+		}
+
+		function keyDown(e) {
+			if (e.code === 'KeyD') { debug = !debug; }        // toggle debug mode
+			if (e.code === 'KeyA') { autoPlay = !autoPlay; }  // toggle autoPlay mode
+			if (e.code === 'ArrowUp')   { ball.vx *= 1.5; ball.vy *= 1.5; }  // increase ball speed
+			if (e.code === 'ArrowDown') { ball.vx *= 2/3; ball.vy *= 2/3; }  // decrease ball speed
+		}
+
+		function mouseMove(e) {
+			paddle.x = e.clientX - paddle.w/2;
+		}
+
+		function main() {
+			// update time
+			t1 = Date.now();
+			dt = t1 - t0;
+			t0 = t1;
+
+			// move ball
+			ball.x += ball.vx * dt;
+			ball.y += ball.vy * dt;
+
+			if (autoPlay) {
+				paddle.x = ball.x + ball.w/2 - paddle.w/2;   // paddle tracks ball
+			}
+
+			// test for collisions
+			// assume can only collide with one object at a time, so abort further tests once a collision is detected
+			collisionFlag = false;
+			if (!collisionFlag) { testPaddleCollision(); }
+			if (!collisionFlag) { testFrameCollision(); }
+			if (!collisionFlag) { testBlockCollision(); }
+
+			// finally, update the screen
+			draw();
+
+			// do it again
+			if (gameInPlay) {
+				window.requestAnimationFrame(main);
+			}
+		}
+
+		function init() {
+			frame.w = window.innerWidth;
+			frame.h = window.innerHeight;
+			paddle.x = (frame.w - paddle.w) / 2;
+			paddle.y = frame.h - 3 * paddle.h;
+			ball.dom   = document.querySelector('#ball');
+			paddle.dom = document.querySelector('#paddle');
+			heading    = document.querySelector('h1');
+			banner     = document.querySelector('#banner');
+			bannerLink = banner.querySelector('a');
+
+			setBall();
+			createBlocks();
+			newGame();
+			draw();
+
+			window.addEventListener('mousemove', mouseMove);
+			bannerLink.addEventListener('click', playGame);
+		}
+
+		window.addEventListener('load', init);
+		document.addEventListener('keydown', keyDown);
+
+	</script>
+</head>
+<body id="frame">
+
+	<h1>Blockout</h1>
+	<div id="banner"><a href="#">Start Game</a></div>
+	<div id="ballsLeft"></div>
+	<div id="score"></div>
+	<div id="debug"></div>
+	<div id="ball"></div>
+	<div id="paddle"></div>
+
+</body>
+</html>

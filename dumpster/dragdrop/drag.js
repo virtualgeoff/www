@@ -41,7 +41,7 @@ dragDrop = {
 		element.snapY = parseInt(snapY);
 
 		element.onmousedown = dragDrop.mousedown;		
-		element.callback = (callback) ? callback : function(){}; // callbacks (empty fucntion if no callback)
+		element.callback = (callback) ? callback : function(){}; // callbacks (empty function if no callback)
 		return element;
 	},
   

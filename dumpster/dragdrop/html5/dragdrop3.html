@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Drag-drop 3</title>
+	<style type="text/css">
+
+		body {font-size:1.4em; font-family:Helvetica,Arial,sans-serif;}
+		
+		p {padding:10px; background:#ff0; border:1px dotted red;}
+		div {width:48%; min-height:3em; border:2px dotted lime;}
+		#dz1, #dz3 {float:left;}
+		#dz2, #dz4 {float:right;}
+		
+	</style>
+	<script>
+
+		function dragstartHandler(e) {
+			// Add the target element's id to the data transfer object
+			e.dataTransfer.setData("application/my-app", e.target.id);
+			//e.dataTransfer.setData("text/plain", e.target.innerText);
+			//e.dataTransfer.setData("text/html", e.target.outerHTML);
+			e.dataTransfer.dropEffect = "move";
+		}
+		function dragoverHandler(e) {
+			e.preventDefault();
+			e.dataTransfer.dropEffect = "move"
+		}
+		function dropHandler(e) {
+			e.preventDefault();
+			// Get the id of the target and add the moved element to the target's DOM
+			var data = e.dataTransfer.getData("application/my-app");
+			//var data = e.dataTransfer.getData("text/html");
+			e.target.appendChild(document.getElementById(data));
+		}
+
+		function init() {
+			document.querySelectorAll('[draggable="true"]').forEach(
+				function(item) {
+					//console.log(item.id);
+					item.addEventListener('dragstart', dragstartHandler);
+				}
+			);
+
+			document.querySelectorAll('.droppable').forEach(
+				function(item) {
+					//console.log(item.id);
+					item.addEventListener('dragover', dragoverHandler);
+					item.addEventListener('drop', dropHandler);
+				}
+			);
+		}
+
+	</script>
+</head>
+<body onload="init();">
+
+	<!-- p id="p1" draggable="true" ondragstart="dragstartHandler(event)">This element is draggable 1.</p -->
+	<!-- div id="dz1" ondragover="dragoverHandler(event)" ondrop="dropHandler(event)">Drop Zone 1</div -->
+
+	<p id="p1" draggable="true">This element is draggable 1.</p>
+	<p id="p2" draggable="true">This element is draggable 2.</p>
+	<p id="p3" draggable="true">This element is draggable 3.</p>
+	<p id="p4" draggable="true">This element is draggable 4.</p>
+	<p id="p5" draggable="true">This element is draggable 5.</p>
+	<p id="p6" draggable="true">This element is draggable 6.</p>
+	<p id="p7" draggable="true">This element is draggable 7.</p>
+	<p id="p8" draggable="true">This element is draggable 8.</p>
+	<p id="p9" draggable="true">This element is draggable 9.</p>
+	<p id="p10" draggable="true">This element is draggable 10.</p>
+
+	<div id="dz1" class="droppable">Drop Zone 1</div>
+	<div id="dz2" class="droppable">Drop Zone 2</div>
+	<div id="dz3" class="droppable">Drop Zone 3</div>
+	<div id="dz4" class="droppable">Drop Zone 4</div>
+
+</body>
+</html>

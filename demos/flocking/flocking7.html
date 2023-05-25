@@ -1,0 +1,139 @@
+<html>
+<head>
+	<title>virtualgeoff . flocking7</title>
+	<style>
+
+		body {margin:0; padding:0; font-family:Verdana, Helvetica, Arial, serif; font-size:75%; color:#000; background:#fff;}
+		* {box-sizing: border-box;}
+		.item {position:absolute; left:0; top:0; padding:0.1em; background:#eee; border:1px solid #ccc;}
+		#n0 {background:#fcc; z-index:99;}
+
+		.item {display:block; position:absolute; width:8px; height:8px; margin-left:-4px; background:#9bf; border:1px solid #9bf; border-radius:4px; overflow:visible;}
+		.item div {position:absolute; left:10px; top:-10px; width:auto; border:1px dotted red;}
+		.item h4 {margin:2px 4px; font-size:1.0rem; font-weight:normal; white-space:nowrap; z-index:1;}
+		.item p {display:none; margin:4px; color:#336;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		var avoid = function() {
+			let now;
+			let then = new Date();
+			let dt = 1;
+			let dy, fy;
+			let k = 100;    // j, k found by trial and error
+			let j = 20000;
+			let d = 0.8;    // damping constant
+
+			let screens = 2;
+			let xmax = window.innerWidth * screens;     // width of content area
+			let ymax = window.innerHeight - 50;         // height of content area
+
+			let N = 100; 	            // number of points
+			let Nvis = N / screens;     // number of visible divs (roughly)
+			let p = []; 	            // array of points
+			d = d - N/750;              // increase damping with more points
+
+			function getRandomString(n) {
+				// create a random string of max length n
+				let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+				let output = '';
+				let N = n * Math.random();
+
+				for (let i=0; i<N; i++) {
+					output += characters.charAt( Math.floor(Math.random() * characters.length) );
+				}
+				return output;
+			}
+
+			function create() {
+				// create points, initialise positions, etc.
+				let point, str = '';
+
+				for (let n=0; n<N; n++) {
+					point = {
+						x:  xmax * Math.random(),
+						y:  ymax * Math.random(),
+						y0: ymax/2, // natural position = center
+						w:  0,
+						h:  0,
+						vy: 0,
+						fy: 0,
+						id: "n" + n,
+						txt: getRandomString(30)
+					};
+					p[n] = point;
+					str += `<div id="n${n}" class="item"><div><h4>${p[n].id}&nbsp;${p[n].txt}<h4><p></p></div></div>`;
+				}
+				document.body.innerHTML = str;
+
+				// get width and height
+				for (let n=0; n<N; n++) {
+					console.log( document.querySelector(`#${p[n].id} div h4`).offsetWidth );
+					p[n].w = document.querySelector(`#${p[n].id} div h4`).offsetWidth;
+					p[n].h = document.querySelector(`#${p[n].id} div h4`).offsetHeight;
+					//console.log(p[n].w + ', ' + p[n].h);
+				}
+			}
+
+			function move() {
+				// calculate time
+				now = new Date();
+				dt = (now.getTime() - then.getTime())/1000; // in seconds
+				if (dt > 50/1000) dt = 50/1000; // set max time step (so no jumps after being paused)
+
+				// move blocks
+				for (let n=0; n<N; n++) {
+					// rule one: move towards center
+					dy = p[n].y - p[n].y0;
+					fy = -k * dy;
+
+					// rule two: move away from each other
+					for (let m=0; m<N; m++) {
+						if (m === n) continue;
+
+						// skip if no horizontal overlap
+						if ((p[m].x > (p[n].x + p[n].w)) || ((p[m].x + p[m].w) < p[n].x)) {
+							//console.log(`skipping ${n}, ${m}`);
+							continue;
+						}
+
+						dy = p[n].y - p[m].y;
+						if (dy > 0) { dy = Math.max(dy,  10); }
+						if (dy < 0) { dy = Math.min(dy, -10); }
+						fy += j/Nvis * ymax / dy;
+					}
+
+					// plot positions
+					p[n].vy += fy * dt;
+					p[n].vy *= d; // damping
+					if ((p[n].vy < 2) && (p[n].vy > -2 )) p[n].vy = 0; // stop jiggle
+					p[n].y += p[n].vy * dt;
+					plot(p[n]);
+				}
+
+				// repeat
+				then = now;
+				window.requestAnimationFrame(move);
+			}
+
+			function plot(p) {
+				document.getElementById(p.id).style.left = p.x + 'px';
+				document.getElementById(p.id).style.top  = p.y + 'px';
+			}
+
+			// start
+			create();
+			move();
+		};
+
+		window.addEventListener('load', avoid);
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>

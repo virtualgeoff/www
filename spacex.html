@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>SpaceX Launch Countdown</title>
+	<style type="text/css">
+
+		body {margin:0; padding:0; font-family:Helvetica,Arial,sans-serif; color:#fff; background:#000; overflow:hidden;}
+		h1 {padding-bottom:1em; font-family:'Courier New',Courier,monospace; font-size:4em; font-weight:100;}
+		h2 {font-weight:normal;}
+		p  {line-height:1.4;}
+
+		h1 span {position:relative;}
+		h1 sub {position:absolute; left:2.4em; bottom:-1.5em; font-size:0.25em;}
+
+		#wrapper {display:flex; flex-direction:column; justify-content:space-evenly; align-items:center; width:100vw; height:100vh;}
+
+		#logo {width:45vw; margin-left:90px; color:#fff;}
+		#logo:hover {color:#ccc;}
+
+		#timer {margin:0;}
+		#mission {max-width:45vw; margin:0; border:0px dotted #00f;}
+		#description {max-width:45vw;}
+		#patch {max-width:45vw; text-align:center;}
+
+	</style>
+	<script>
+
+		var timer,
+			mission,
+			description,
+			patch;
+
+		function getRelativeTime(launchTime) {
+			var launch,
+				time,
+				days = 0,
+				hours = 0,
+				minutes = 0,
+				seconds = 0;	
+
+			// 04 D 18 H 44 M 03 S
+
+			time    = (new Date(launchTime)).valueOf() - Date.now();
+			days    = Math.floor(time / 86400000);
+			hours   = Math.floor((time % 86400000) / 3600000);
+			minutes = Math.floor((time % 3600000) / 60000);
+			seconds = Math.floor((time % 60000) / 1000);
+
+			// add leading zeros
+			if (days <=9) { days = '0' + days };
+			if (hours <=9) { hours = '0' + hours };
+			if (minutes <=9) { minutes = '0' + minutes };
+			if (seconds <=9) { seconds = '0' + seconds };
+
+			timer.innerHTML = `<span>${days} <sub>d</sub></span> : 
+				<span>${hours} <sub>h</sub></span> : 
+				<span>${minutes} <sub>m</sub></span> : 
+				<span>${seconds} <sub>s</sub></span>`;
+
+			setTimeout(function() {
+				getRelativeTime(launchTime);	
+			},1000);
+		}
+
+		function init() {
+			timer = document.querySelector('#timer');
+			mission = document.querySelector('#mission');
+			description = document.querySelector('#description');
+			patch = document.querySelector('#patch');
+
+			// get SpaceX feed:
+			fetch('https://api.spacexdata.com/v3/launches/next')
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+					getRelativeTime(data.launch_date_utc);					
+					mission.innerText = data.mission_name;
+					description.innerHTML = `Launch date: ${data.launch_date_utc}<br>
+						Launch vehicle: ${data.rocket.rocket_name}<br>
+						Launch site: ${data.launch_site.site_name_long}<br><br>
+						${data.details}`;
+					patch.innerHTML = `<img src="${data.links.mission_patch_small}" alt="mission patch"></p>`;
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+					mission.innerText = 'Error — see console for details';
+				});
+		}
+
+		window.addEventListener('load', init, false);
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+		<a id="logo" href="https://www.spacex.com">
+			<svg version="1.1" x="0px" y="0px" viewBox="0 0 400 50">
+				<title>SpaceX Logo</title>
+				<g fill="currentColor">
+					<g class="letter_s">
+						<path d="M37.5,30.5H10.9v-6.6h34.3c-0.9-2.8-3.8-5.4-8.9-5.4H11.4c-5.7,0-9,2.1-9,6.7v4.9c0,4,3.4,6.3,8.4,6.3h26.9v7H1.5c0.9,3.8,3.8,5.8,9,5.8h27.1c5.7,0,8.5-2.2,8.5-6.9v-4.9C46.1,33.1,42.8,30.8,37.5,30.5z"></path>
+					</g>
+					<g class="letter_p">
+						<path d="M91.8,18.6H59v30.7h9.3V37.5h24.2c6.7,0,10.4-2.3,10.4-7.7v-3.4C102.8,21.4,98.6,18.6,91.8,18.6z M94.8,28.4c0,2.2-0.4,3.4-4,3.4H68.3l0.1-8h22c4,0,4.5,1.2,4.5,3.3V28.4z"></path>
+					</g>
+					<g class="letter_a">
+						<polygon points="129.9,17.3 124.3,24.2 133.8,37.3 114,37.3 109.1,42.5 137.7,42.5 142.6,49.3 153.6,49.3"></polygon>
+					</g>
+					<g class="letter_c">
+						<path d="M171.4,23.9h34.8c-0.9-3.6-4.4-5.4-9.4-5.4h-26c-4.5,0-8.8,1.8-8.8,6.7v17.2c0,4.9,4.3,6.7,8.8,6.7h26.3c6,0,8.1-1.7,9.1-5.8h-34.8V23.9z"></path>
+					</g>
+					<g class="letter_e">
+						<rect x="219.9" y="18.6" width="41.9" height="5.4"></rect>
+						<polygon points="228.3,43.5 228.3,34.1 247,34.1 247,28.9 218.9,28.9 218.9,49.3 260.4,49.3 260.4,43.5"></polygon>
+					</g>
+					<g class="letter_x">
+						<path d="M287.6,18.6H273l17.2,12.6c2.5-1.7,5.4-3.5,8-5L287.6,18.6z"></path>
+						<path d="M308.8,34.3c-2.5,1.7-5,3.6-7.4,5.4l13,9.5h14.7L308.8,34.3z"></path>
+					</g>
+					<g class="letter_swoosh">
+						<path d="M399,0.7c-80,4.6-117,38.8-125.3,46.9l-1.7,1.6h14.8C326.8,9.1,384.3,2,399,0.7L399,0.7z"></path>
+					</g>
+				</g>
+			</svg>
+		</a>
+		<h1 id="timer"><span>00 <sub>d</sub></span> : <span>00 <sub>h</sub></span> : <span>00 <sub>m</sub></span> : <span>00 <sub>s</sub></span></h1>
+		<h2 id="mission">Loading...</h2>
+		<p id="description"></p>
+		<p id="patch"></p>
+	<div>
+</body>
+</html>

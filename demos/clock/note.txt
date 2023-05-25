@@ -1,6 +1,0 @@
-
-Test the libraries and clock by plotting sunrise, noon, and sunset time vs lattitude
-
-- equation of time plot (solar time vs standard time)
-- hours of daylight plot
-- check plots agains other sources

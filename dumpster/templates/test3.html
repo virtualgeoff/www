@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Template Test 3</title>
+	<style>
+
+		body {font-family:Helvetica, Arial, sans-serif;}
+		h1 {font-size: 1.5em;}
+		nav {font-size: 1.2em;}
+		nav a {padding:0 0.5em; font-weight:bold;}
+		table {border-collapse:collapse;}
+		th, td {text-align:left; padding:0.5em; border:1px solid #ccc;}
+		td.time {text-align:right;}
+		td.importance {text-align:center;}
+	
+	</style>
+	<script src="./timeline/events.js"></script>
+	<script>
+
+		/*
+		var events = [
+			{
+				time: -13.8e9,
+				date: '13.8 billion years ago',
+				title: 'Big Bang',
+				importance: 9
+			},
+			...
+		*/
+
+		function buildTable() {
+			var event, clone, fields
+				template = document.querySelector('#event-template');
+
+			// for each event in events, clone the template, then fill each classed element in the template with the matching data
+			for (let i=0; i<events.length; i++) {
+				clone = template.content.cloneNode(true);
+				fields = clone.querySelectorAll('[class]');
+
+				fields.forEach(function(item) {
+					//console.log(item.className + ': ' + events[i][item.className]);
+					item.textContent = events[i][item.className] || 'n/a';
+				});
+				template.parentNode.appendChild(clone);
+			}
+		}
+
+		function buildList() {
+			var clone, fields,
+				template = document.querySelector('#event-template2');
+
+			// for each event in events, clone the template, then fill each classed element in the template with the matching data
+			for (let i=0; i<events.length; i++) {
+				clone = template.content.cloneNode(true);
+				fields = clone.querySelectorAll('[class]');
+
+				fields.forEach(function(item) {
+					//console.log(item.className + ': ' + events[i][item.className]);
+					item.textContent = events[i][item.className] || 'n/a';
+				});
+				template.parentNode.appendChild(clone);
+			}
+		}
+
+	</script>
+</head>
+<body onload="buildTable(); buildList();">
+
+	<h1>Template Test 3</h1>
+
+	<nav><a href="index.html">1</a> | <a href="test2.html">2</a> | <a href="test3.html">3</a> | <a href="test4.html">4</a> | </nav>
+
+	<p>Testing the HTML Template element.</p>	
+	<p>Using className in elements.</p>
+
+	<h2>Table</h2>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>Title</th>
+				<!-- <th>Importance</th> -->
+			</tr>
+
+		<thead>
+		<tbody>
+			<template id="event-template">
+				<tr>
+					<td class="time"></td>
+					<td class="date"></td>
+					<td class="location"></td>
+					<td class="title"></td>
+					<!-- <td class="importance"></td> -->
+				</tr>
+			</template>
+		</tbody>
+	</table>
+
+	<h2>List</h2>
+
+	<ol>
+		<template id="event-template2">
+			<li>
+				<h3 class="title"></h3>
+				<p>
+					<span class="date"></span> (<span class="time"></span>)<br>
+					<span class="location"></span>
+				</p>
+			</li>
+		</template>
+	</ol>
+
+</body>
+</html>

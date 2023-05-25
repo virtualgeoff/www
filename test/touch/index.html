@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Simple drawing app</title>
+	<meta name="viewport" content="initial-scale=1.0">
+	<style type="text/css">
+
+		body   {width:100vw; height:100vh; margin:0; padding:0; font-family:Helvetica, Arial, san-serif; background:#ccc; overflow:hidden;}
+		canvas {width:100vw; height:100vh; margin:0; padding:0; background:#fff}
+		nav    {position:absolute; left:10px; top:10px; width:90px; height:auto; margin:0; padding:5px; background:rgba(125,125,127,0.9);}
+
+		#menu {display:none;}
+	</style>
+	<script>
+
+		// based on the MDN Touch Events sample code
+		// https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+
+		var ongoingTouches = [],
+			canvas,
+			ctx,
+			nav,
+			menu,
+
+			colors = [],
+			currentColorIndex = 0;
+			currentColor = '',
+
+			mouseDown = false,
+			lastMousePosition = {};
+
+		//
+		// drawing functions
+		//
+
+		function setCanvasSize(){
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+
+		function clearCanvas(e) {
+			ctx.clearRect(0,0,window.innerWidth,window.innerHeight); // clear canvas
+			console.log("clear canvas");
+		}
+
+		function drawDot(x, y, size, color) {
+			ctx.beginPath();
+			// ctx.arc(x, y, radius, startAngle, endAngle [, anticlockwise]);
+			ctx.arc(x, y, size, 0, 2 * Math.PI, false);
+			ctx.fillStyle = color;
+			ctx.fill();
+		}
+
+		function drawLine(x1, y1, x2, y2, width, color) {
+			ctx.lineWidth = width;
+			ctx.strokeStyle = color;
+			ctx.lineCap = "round";
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+		}
+
+		function nextColor() {
+			currentColorIndex++;
+			if (currentColorIndex > 11) { currentColorIndex = 0; }
+			currentColor = colors[currentColorIndex];
+			console.log("currentColor is: " + currentColor);
+		}
+
+		function randomColor() {
+			currentColorIndex = Math.floor(Math.random()*12);
+			currentColor = colors[currentColorIndex];
+			console.log("currentColor is: " + currentColor);
+		}
+
+		function touchColor(touch) {
+			var i = Math.abs(touch.identifier % 12);
+			var color = colors[i];
+			console.log("color for touch " + touch.identifier + ": " + color);
+			return color;
+		}
+
+
+		//
+		// touch functions
+		//
+
+		function handleTouchStart(e) {
+			e.preventDefault();
+			var touches = e.changedTouches;
+
+			for (var i=0; i<touches.length; i++) {
+				ongoingTouches.push(copyTouch(touches[i]));
+				drawDot(touches[i].pageX, touches[i].pageY, 4, touchColor(touches[i]));	// a circle at the start
+				console.log("touchstart:" + touches[i].identifier + " at: " + touches[i].pageX + "," + touches[i].pageY);
+			}
+		}
+
+		function handleTouchMove(e) {
+			e.preventDefault();
+			var touches = e.changedTouches,
+				idx;
+
+			for (var i=0; i<touches.length; i++) {
+				color = touchColor(touches[i]);
+				idx = ongoingTouchIndexById(touches[i].identifier);
+
+				if (idx >= 0) {
+					drawLine(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY, touches[i].pageX, touches[i].pageY, 4, touchColor(touches[i]));
+					ongoingTouches.splice(idx, 1, copyTouch(touches[i]));	// swap in the new touch record
+					console.log("touchmove: " + touches[i].identifier + " to: " + touches[i].pageX + ", " + touches[i].pageY);
+				} else {
+					console.log("can't figure out which touch to continue");
+				}
+			}
+		}
+
+		function handleTouchEnd(e) {
+			e.preventDefault();
+			var touches = e.changedTouches,
+				idx;
+
+			for (var i=0; i<touches.length; i++) {
+				color = touchColor(touches[i]);
+				idx = ongoingTouchIndexById(touches[i].identifier);
+
+				if (idx >= 0) {
+					drawLine(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY, touches[i].pageX, touches[i].pageY, 4, touchColor(touches[i]));
+					drawDot(touches[i].pageX, touches[i].pageY, 4, touchColor(touches[i]));	// and a square at the end
+					ongoingTouches.splice(idx, 1);	// remove it; we're done
+					console.log("touchend: " + touches[i].identifier + " at: " + touches[i].pageX + ", " + touches[i].pageY);
+				} else {
+					console.log("can't figure out which touch to end");
+				}
+			}
+		}
+
+		function handleTouchCancel(e) {
+			e.preventDefault();
+			var touches = e.changedTouches,
+				idx;
+
+			for (var i=0; i<touches.length; i++) {
+				idx = ongoingTouchIndexById(touches[i].identifier);
+				ongoingTouches.splice(idx, 1);	// remove it; we're done
+			}
+			console.log("touchcancel.");
+		}
+
+		function copyTouch(touch) {
+			return { identifier: touch.identifier, pageX: touch.pageX, pageY: touch.pageY };
+		}
+
+		function ongoingTouchIndexById(idToFind) {
+			for (var i = 0; i < ongoingTouches.length; i++) {
+				var id = ongoingTouches[i].identifier;
+
+				if (id == idToFind) {
+					return i;
+				}
+			}
+			return -1;	// not found
+		}
+
+
+		//
+		// mouse functions
+		//
+
+		function handleMouseDown(e) {
+			mouseDown = true;
+			drawDot(e.clientX, e.clientY, 4, currentColor);
+			lastMousePosition = {x:e.clientX, y:e.clientY};
+			console.log("mousedown at: " + e.clientX + ", " + e.clientY);
+		}
+
+		function handleMouseMove(e) {
+			if (mouseDown) {
+				drawLine(lastMousePosition.x, lastMousePosition.y, e.clientX, e.clientY, 4, currentColor);
+				//nextColor();	// rainbow colors
+				//randomColor();
+			}
+			lastMousePosition = {x:e.clientX, y:e.clientY};
+			console.log("mousemove to: " + e.clientX + ", " + e.clientY);
+		}
+
+		function handleMouseUp(e) {
+			mouseDown = false;
+			drawLine(lastMousePosition.x, lastMousePosition.y, e.clientX, e.clientY, 4, currentColor);
+			drawDot(e.clientX, e.clientY, 4, currentColor);
+			lastMousePosition = {x:e.clientX, y:e.clientY};
+			console.log("mouseup at: " + e.clientX + ", " + e.clientY);
+			nextColor();
+		}
+
+
+		//
+		// menus, etc.
+		//
+
+		function toggleMenu() {
+			if (menu.style.display === 'none') {
+				menu.style.display = 'block';
+			} else {
+				menu.style.display = 'none';			
+			}		
+		}
+		
+		//
+		// setup
+		//
+
+		function init() {
+			canvas = document.getElementsByTagName("canvas")[0];
+			ctx = canvas.getContext("2d");
+			setCanvasSize();
+
+			menu = document.getElementById("menu");
+			
+			// set colors
+			for (var i=0; i<12; i++) {
+				colors[i] = "hsl(" + (i*30) + ", 100%, 50%)";	// every 30º
+			}
+			currentColor = colors[currentColorIndex];
+
+			// touch events
+			canvas.addEventListener('touchstart', handleTouchStart, false);
+			canvas.addEventListener('touchmove', handleTouchMove, false);
+			canvas.addEventListener('touchend', handleTouchEnd, false);
+			canvas.addEventListener('touchcancel', handleTouchCancel, false);
+
+			// mouse events
+			window.addEventListener('mousedown', handleMouseDown, false);
+			window.addEventListener('mousemove', handleMouseMove, false);
+			window.addEventListener('mouseup', handleMouseUp, false);
+
+			console.log("initialized.");
+		}
+
+		window.addEventListener('load', init, false);
+		window.addEventListener('resize', setCanvasSize, false);
+
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="600">
+		Your browser does not support canvas element.
+	</canvas>
+	<nav>
+		<a href="#" onclick="toggleMenu()">menu</a>
+		<div id="menu"style="display:none;">
+			<hr>
+			<button onclick="clearCanvas()">Clear</button>		
+		</div>
+	</nav>
+</body>
+</html>

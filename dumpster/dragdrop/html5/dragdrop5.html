@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Drag-drop 5</title>
+	<style type="text/css">
+
+		body {width:100vw; height:100vh; margin:0; padding:0; font-size:1em; font-family:Helvetica,Arial,sans-serif; background:#fff;}
+		p {margin:0.5em 1em;}
+		
+		#msg {position:absolute; right:5vw; top:0vh; width:20vw; height:1em; text-align:right;}
+		#dz  {position:absolute; left:5vw; top:10vh; width:90vw; height:85vh; background:#eee;}		
+		div > div {position:absolute; left:10px; top:10px; width:7em; height:3em; padding: 5px; background:#fff; outline:1px solid green;}
+		div > div:hover {cursor:pointer;}
+
+		div > div.dragging {outline:1px solid purple;}
+		div > div.dragging:hover {cursor:move; z-index:99;}
+		
+		#p2 {width:11em; height:5em;}
+		
+	</style>
+	<script>
+
+		'use strict';
+
+		var msg;
+		var count = 5;
+
+		var dragIt = {
+			id: 'dragIt',
+			obj: null,
+			offsetX: 0,
+			offsetY: 0,
+			
+			mousedown: function(e) {
+				//e.preventDefault(); // using preventDefault will prevent the slider from working
+
+				// n.b. 'this' = the mousedown target - i.e. the LI, so use dragIt. ...
+				console.log('mousedown: ' + this.id);
+
+				msg.innerText = `mousedown: ${e.target.id}`;
+
+				// set object being dragged
+				dragIt.obj = e.target;
+				dragIt.obj.classList.add('dragging');
+
+				// offset = mouse position - object position (at start of drag)
+				dragIt.offsetX = e.clientX - parseInt(getComputedStyle(e.target).left);
+				dragIt.offsetY = e.clientY - parseInt(getComputedStyle(e.target).top);	
+
+				// listen for move and mouseup events
+				window.addEventListener('mousemove', dragIt.mousemove);
+				dragIt.obj.addEventListener('mouseup', dragIt.mouseup);
+			},
+			mousemove: function(e) {
+				//e.preventDefault(); // using preventDefault will prevent the slider from working
+				msg.innerText = `mousemove: ${e.target.id}, (${e.clientX}, ${e.clientY})`;
+
+				// object postion = current mouse position - initial offset
+				dragIt.obj.style.left = (e.clientX - dragIt.offsetX) + 'px';
+				dragIt.obj.style.top  = (e.clientY - dragIt.offsetY) + 'px';
+			},
+			mouseup: function(e) {
+				//e.preventDefault(); // using preventDefault will prevent the slider from working
+				msg.innerText = `mouseup: ${e.target.id}`;
+				
+				// remove event listeners
+				dragIt.obj.removeEventListener('mouseup', dragIt.mouseup);
+				window.removeEventListener('mousemove', dragIt.mousemove);
+
+				// unset object
+				dragIt.obj.classList.remove('dragging');
+				dragIt.obj = null;
+
+				e.stopPropagation(); // otherwise will trigger click event
+			},
+			dummy: function(e) {
+				// stop click on existing item triggering addItem()
+				e.stopPropagation();
+			}
+		}
+
+		function rangeChanged(input) {
+			input.nextSibling.innerText = input.value;
+		}
+
+		function addItem(e) {
+			// create new draggable item
+			var item = document.createElement('div');
+			var dz = document.querySelector('#dz');
+			item.id = 'p' + (++count);
+			item.innerText = 'Item ' + count;
+			dz.appendChild(item);
+			console.log(getComputedStyle(dz).left);
+			item.style.left = (e.clientX - parseInt(getComputedStyle(dz).left) - 10) + 'px';
+			item.style.top  = (e.clientY - parseInt(getComputedStyle(dz).top)  - 10) + 'px';
+			item.addEventListener('mousedown', dragIt.mousedown);
+			item.addEventListener('click', dragIt.dummy);
+		}
+		
+		function init() {
+			msg = document.querySelector('#msg');
+
+			// position the divs, add mousedown handler
+			document.querySelectorAll('div > div').forEach(item => {
+				item.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+				item.style.top  = Math.random() * (window.innerHeight -100) + 'px';
+				item.addEventListener('mousedown', dragIt.mousedown);
+				item.addEventListener('click', dragIt.dummy);
+			});
+			
+			// add click handler to dz
+			document.querySelector('#dz').addEventListener('click', addItem);
+		}
+
+		window.addEventListener('load', init);
+		
+	</script>
+</head>
+<body>
+
+	<h1>Drag-drop 5</h1>
+
+	<p id="msg"></p>
+
+	<div id="dz">
+		<p>Click to add new item.</p>
+		<p>Drag items to reposition.</p>
+		
+		<div id="p1">Item 1<br><a href="#x">a link!</a></div>
+		<div id="p2">Item 2<br>
+			<form>
+				<label for="volume">Volume:</label><br>
+				<input type="range" id="volume" name="volume" min="0" max="100" value="90" step="1" onchange="rangeChanged(this)" oninput="rangeChanged(this)"><span>90</span>
+			</form>		
+		</div>
+		<div id="p3">Item 3</div>
+		<div id="p4">Item 4</div>
+		<div id="p5">Item 5</div>
+	</div>
+
+</body>
+</html>

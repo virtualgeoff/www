@@ -72,8 +72,7 @@
 				
 			// draw daylight arc
 			document.getElementById('daylight').setAttribute("d","M 0,0 L " + sunrisePoint + " " + arc + " " + flags + " " + sunsetPoint + " z");
-			//document.getElementById('daylight').setAttribute("fill","rgba(127,127,255,0.9)");
-			document.getElementById('daylight').setAttribute("fill","#5af");
+			document.getElementById('daylight').setAttribute("fill","rgba(127,127,255,0.9)");		
 		}
 		
 		function tick() {

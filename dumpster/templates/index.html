@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Template Test</title>
+	<style>
+
+		body {font-family:Helvetica, Arial, sans-serif;}
+		h1 {font-size: 1.5em;}
+		nav {font-size: 1.2em;}
+		nav a {padding:0 0.5em; font-weight:bold;}
+		table {border-collapse:collapse;}
+		th, td {padding:0.5em; border:1px solid #ccc;}
+	
+	</style>
+	<script>
+
+		var data = [
+			{ name: 'Pillar', color: 'Tabby',  sex: 'Female (neutered)', legs: 3 },
+			{ name: 'Hedral', color: 'Tuxedo', sex: 'Male (neutered)',   legs: 4 },
+			{ name: 'Felix',  color: 'Tuxedo', sex: 'Male (neutered)',   legs: 4 },
+			{ name: 'Fay',    color: 'White',  sex: 'Female (neutered)', legs: 4 },
+			{ name: 'Thomas', color: 'Black',  sex: 'Male (neutered)',   legs: 4 },
+			{ name: 'Reefer', color: 'Tabby',  sex: 'Male (neutered)',   legs: 4 },
+		];
+
+		function buildTable() {		
+			// the old way to do this:
+			/*
+			var cat,
+				tbody = document.querySelector('tbody');
+
+			for (var i=0; i<data.length; i++) {
+				cat = data[i];
+				tbody.innerHTML += '<tr><td>' + cat.name + '</td><td>' + cat.color + '</td><td>' + cat.sex + '</td><td>' + cat.legs + '</td></tr>';;
+			}
+			/**/
+
+			// using templates:
+			/**/
+			var cat, clone, cells,
+				template = document.querySelector('template');
+
+			for (var i=0; i<data.length; i++) {
+				cat = data[i];
+				clone = template.content.cloneNode(true);
+				cells = clone.querySelectorAll('td');
+				cells[0].textContent = cat.name;
+				cells[1].textContent = cat.color;
+				cells[2].textContent = cat.sex;
+				cells[3].textContent = cat.legs;
+				template.parentNode.appendChild(clone);
+			}
+			/**/
+		}
+
+	</script>
+</head>
+<body onload="buildTable()">
+
+	<h1>Template Test</h1>
+
+	<nav><a href="index.html">1</a> | <a href="test2.html">2</a> | <a href="test3.html">3</a> | <a href="test4.html">4</a> | </nav>
+
+	<p>Testing the HTML Template element.</p>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Color</th>
+				<th>Sex</th>
+				<th>Legs</th>
+			</tr>
+		<thead>
+		<tbody>
+			<template> 
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</template> 
+		</tbody>		
+	</table>
+	
+</body>
+</html>

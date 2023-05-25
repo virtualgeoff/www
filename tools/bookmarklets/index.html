@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>virtualgeoff . bookmarklets</title>
+	<!--#include virtual="/includes/styles.inc" -->
+</head>
+<body id="bookmarklets">
+
+	<!--#include virtual="/includes/header.inc" -->
+	<!--#include virtual="/includes/nav.inc" -->
+
+	<main>
+		<h2>.bookmarklets</h2>
+		<p>A collection of <a href="https://en.wikipedia.org/wiki/Bookmarklet">bookmarklets</a> that I use occasionally</p>
+
+		<p>Strictly speaking, bookmarklets, since they are a URL, should be <a href="https://www.urlencoder.net">encoded</a> to escape all reserved characters (<code>!*'();:@&=+$,/?#[]</code>). In practise only some of the reserved characters cause problems, and browsers auto-convert the problem ones when you create a new bookmark anyway...</p>
+
+
+		<h3>Converting DOM element styles</h3>
+		<ul>
+			<li><a href="javascript:(function(){var i, elements=document.querySelectorAll('body *');for(i=0; i<elements.length; i++) {if (getComputedStyle(elements[i]).position==='fixed'){elements[i].style.position='absolute';}}})();">!fixed</a> - convert <code>position:fixed</code> to <code>position:absolute</code></li>
+			<li><a href="javascript:(function(){var i, elements=document.querySelectorAll('body *');for(i=0; i<elements.length; i++) {if (getComputedStyle(elements[i]).position==='sticky'){elements[i].style.position='absolute';}}})();">!sticky</a> - convert <code>position:sticky</code> to <code>position:absolute</code></li>
+			<li><a href="javascript:(function(){var style=document.createElement('style'); document.head.appendChild(style); style.sheet.insertRule('.r-4gszlv {background-size:contain !important;}');})();">!cover</a> - convert images on Twitter to <code>background-size:contain</code></li>
+			<li><a href=""></a></li>
+		</ul>
+
+		<h3>Removing DOM elements from the page</h3>
+		<ul>
+			<li><a href="javascript:(function(){(function(){var i, elements=document.querySelectorAll('body *');for (i=0; i<elements.length; i++) {if (getComputedStyle(elements[i]).position==='fixed') {elements[i].parentNode.removeChild(elements[i]);}}})()})()">!fixed</a> - delete <code>position:absolute</code></li>
+			<li><a href="javascript:(function(){document.querySelectorAll('a').forEach(item=>{item.style.display='none'})})()">!a</a> - remove &lt;a&gt;</li>
+			<br>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/kill.js';})();">kill</a> - kill any block level element</li>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/kill2.js';})();">kill 2</a> - kill any block level element</li>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/kill3.js';})();">kill 3</a> - kill any block level element</li>
+
+			<li><a href="javascript:(function kill(){var blocks=[];function walk(node, depth){let child;switch (node.nodeType){case 1:if((getComputedStyle(node).display==='block') || (getComputedStyle(node).position==='sticky') || (getComputedStyle(node).position==='fixed')){blocks.push(node);} case 9: case 11: child=node.firstChild;while(child){walk(child,depth++);child=child.nextSibling;}break;}}function addCloseLink(){blocks.forEach(b=>{if(b.querySelector('a.killIt')){b.querySelector('a.killIt').remove();}else{if(getComputedStyle(b).position==='static'){b.style.position='relative';};let a=document.createElement('a');a.className='killIt';a.href='#';a.innerHTML='☒';a.setAttribute('style','display:block;position:absolute;right:0;top:0;line-height:0.7;font-size:1.5em;color:#f00;z-index:99;');a.onclick=function(e){ this.parentNode.remove();e.preventDefault();e.stopPropagation();};b.insertBefore(a,b.firstChild);}});}walk(document.body, 0);addCloseLink();}());">kill 3</a> - kill any block level element</li>
+		</ul>
+
+		<h3>Page styles</h3>
+		<ul>
+			<li><a href="javascript:void(document.body.style.background='#fff')">background:white</a> - set page background to white</li>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/show-head.js';})();">show page head</a></li>
+		</ul>
+
+		<h3>Page info</h3>
+		<ul>
+			<li><a href="javascript:alert(document.title);">Document.title</a> - get page title</li>
+			<li><a href="javascript:void(location.href='//'+location.host+'/robots.txt')">robots.txt</a> for this domain</li>
+		</ul>
+
+		<h3>Wacky stuff</h3>
+		<ul>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/blah.js';})();">blah</a> - this page really gives me the blahs</li>
+			<li><a href="javascript:(function(){var d=0, o=document.getElementsByTagName('img');setInterval(function(){for(var i=0,j=o.length;i<j;i++){o[i].style['-webkit-transform']='rotate('+d+'deg)'};d+=3},30)}());">oh</a></li>
+			<li><a href="javascript:(function(){var d=0, o=document.getElementsByTagName('body');setInterval(function(){for(var i=0,j=o.length;i<j;i++){o[i].style['-webkit-transform']='rotate('+d+'deg)'};d+=3},30)}());">my</a></li>
+			<li><a href="javascript:(function(){var d=0, o=document.getElementsByTagName('div');setInterval(function(){for(var i=0,j=o.length;i<j;i++){o[i].style['-webkit-transform']='rotate('+d+'deg)'};d+=3},30)}());">god</a></li>
+			<li><a href="javascript:(function(){var d=0, m=window.prompt('Enter an html tag:'), o=document.getElementsByTagName(m);setInterval(function(){for(var i=0,j=o.length;i<j;i++){o[i].style['-webkit-transform']='rotate('+d+'deg)'};d+=5},30)}());">!!!</a></li>
+		</ul>
+
+		<!--
+		<h3></h3>
+		<ul>
+			<li><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='//virtualgeoff/tools/bookmarklets/.js';})();"></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
+		</ul>
+		-->
+
+	</main>
+
+	<!--#include virtual="/includes/footer.inc" -->
+	<!--#include virtual="/includes/scripts.inc" -->
+
+</body>
+</html>

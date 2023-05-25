@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>HTML5 DragDrop</title>
+	<style type="text/css">
+
+		body {width:100vw; height:100vh; margin:0; padding:0; font-size:1em; font-family:Helvetica,Arial,sans-serif; background:#ffe; overflow:hidden;}
+		
+		#msg {position:absolute; right:5vw; top:0vh; width:20vw; height:1em; text-align:right;}
+		#dz {position:absolute; left:5vw; top:10vh; width:90vw; height:85vh; background:#ddd; outline:2px dashed red;}		
+		div > div {position:absolute; left:10px; top:10px; width:100px; height:50px; background:#fff; outline:2px dotted green;}
+		
+	</style>
+	<script>
+
+		var status;
+
+		function dragstartHandler(e) {
+			//console.log('dragstart: ' + e.target.id);
+			msg.innerText = 'dragstart: ' + e.target.id;
+
+			// Add the target element's id to the data transfer object
+			//e.dataTransfer.setData("text/plain", e.target.innerText);
+			//e.dataTransfer.setData("text/html", e.target.outerHTML);
+			e.dataTransfer.setData("application/my-app", e.target.id);
+			//e.dataTransfer.setData("application/my-app", e.target);
+			e.dataTransfer.dropEffect = "move";
+		}
+		function dragoverHandler(e) {
+			//console.log('dragover: ' + e.target.id);
+			msg.innerText = 'dragover: ' + e.target.id;
+			e.preventDefault();
+			e.dataTransfer.dropEffect = "move"
+		}
+		function dropHandler(e) {
+			//console.log('drop: ' + e.target.id);
+			msg.innerText = 'drop: ' + e.target.id;
+			e.preventDefault();
+			// Get the id of the target and add the moved element to the target's DOM
+			//var data = e.dataTransfer.getData("text/html");
+			var data = e.dataTransfer.getData("application/my-app");
+			e.target.appendChild(document.getElementById(data));
+			//e.target.appendChild(data);
+		}
+
+		function init() {
+			// position the divs
+			for (var i=1; i<=10; i++) {
+				document.querySelector('#p'+i).style.left = i*30 + 'px';
+				document.querySelector('#p'+i).style.top  = i*20 + 'px';
+			}
+			msg = document.querySelector('#msg');
+			msg.innerHTML = 'heh';
+
+			// add drag handler to all draggable divs
+			document.querySelectorAll('[draggable="true"]').forEach(
+				function(item) {
+					item.addEventListener('dragstart', dragstartHandler);
+				}
+			);
+
+			// add drop handler to the drop zones
+			document.querySelectorAll('.droppable').forEach(
+				function(item) {
+					item.addEventListener('dragover', dragoverHandler);
+					item.addEventListener('drop', dropHandler);
+				}
+			);
+		}
+
+		window.addEventListener('load', init);
+		
+	</script>
+</head>
+<body>
+
+	<h1>HTML5 DragDrop</h1>
+
+	<p id="msg">status...</p>
+
+	<div id="dz" class="droppable">
+		<div id="p1"  draggable="true">item 1</div>
+		<div id="p2"  draggable="true">item 2</div>
+		<div id="p3"  draggable="true">item 3</div>
+		<div id="p4"  draggable="true">item 4</div>
+		<div id="p5"  draggable="true">item 5</div>
+		<div id="p6"  draggable="true">item 6</div>
+		<div id="p7"  draggable="true">item 7</div>
+		<div id="p8"  draggable="true">item 8</div>
+		<div id="p9"  draggable="true">item 9</div>
+		<div id="p10" draggable="true">item 10</div>
+	</div>
+
+</body>
+</html>

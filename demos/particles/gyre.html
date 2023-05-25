@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Gyre</title>
+	<meta name="description" content="a cloud of particles orbiting the center of the window.">
+	<meta name="keywords" content="particles, orbit">
+	<meta name="author" content="virtualgeoff">
+	<meta name="created" content="2022-12-03">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+
+		html, body {margin:0; padding:0;}
+		body {width:100vw; height:100vh; font-family:sans-serif; color:#090; background:#000; overflow:hidden;}
+		#canvas {display:block;}
+
+		body > p {position:absolute; top:0; width:20vw; margin:0; padding:1em; color:#0c0; z-index:99;}
+		#info1 {left:0;    text-align:left;}
+		#info2 {left:40vw; text-align:center;}
+		#info3 {right:0;   text-align:right;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		function particles() {
+			let canvas, ctx, center = {}, radius, W, H;
+			let info1, info2, info3;
+			let previousTimeStamp, deltaT;
+
+			const points = [];
+			const N = 2500; // number of points
+			const GM = 500;
+			const tau = 2 * Math.PI;
+
+			function init() {
+				// info
+				info1 = document.querySelector('#info1');
+				info2 = document.querySelector('#info2');
+				info3 = document.querySelector('#info3');
+
+				// get canvas element
+				canvas = document.querySelector('canvas');
+				ctx = canvas.getContext('2d');
+				setSize();
+
+				// create all the points
+				let point, r, v, θ;
+				for (let i=0; i<N; i++) {
+					r = Math.random() * radius + 10; // random position
+					θ = Math.random() * tau;
+					v = Math.sqrt(GM / r); // v = √(GM/r) for ~circular orbit
+					v *= (0.9 + Math.random() * 0.2); // ±10%
+
+					point = {
+						x: r * Math.cos(θ),
+						y: r * Math.sin(θ),
+						vx: -v * Math.sin(θ), // make velocity ⟂ to r
+						vy: v * Math.cos(θ),
+						ax: 0,
+						ay: 0,
+						r: Math.round(Math.random() * 5) + 1,
+						//c: `hsl(${(Math.random()*360)} 100% 50%)` // random color
+						c: `hsl(${r/radius*280} 100% 50%)` // color according to distance
+					};
+					points.push(point);
+				}
+			}
+
+			function setSize() {
+				// get canvas size and center
+				canvas.width = W = window.innerWidth;
+				canvas.height = H = window.innerHeight;
+				center.x = W/2;
+				center.y = H/2;
+				radius  = Math.max(canvas.width, canvas.height) / 2;
+				info3.innerText = `${W} × ${H} px`;
+			}
+
+			function draw(timestamp) {
+				let p, r, f;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				for (let i=0; i<points.length; i++) {
+					p = points[i];
+					// calculate force
+					r = Math.sqrt(p.x * p.x + p.y * p.y);
+					f = GM / (r * r); // f = GmM/r^2
+					// calculate acceleration, velocity, position
+					p.ax = -p.x/r * f;
+					p.ay = -p.y/r * f;
+					p.vx += p.ax;
+					p.vy += p.ay;
+					p.x += p.vx;
+					p.y += p.vy;
+					// draw the point
+					ctx.fillStyle = p.c;
+					ctx.beginPath();
+					ctx.ellipse(center.x + p.x, center.y + p.y, p.r, p.r, 0, 0, tau);
+					ctx.fill();
+				}
+
+				if (previousTimeStamp) {
+					deltaT = timestamp - previousTimeStamp;
+					info1.innerText = `n: ${N}\nΔt: ${deltaT} ms`;
+				}
+				previousTimeStamp = timestamp;
+
+				requestAnimationFrame(draw);
+			}
+
+			init();
+			draw();
+			window.addEventListener('resize', setSize);
+		}
+
+		document.addEventListener('DOMContentLoaded', particles);
+
+	</script>
+</head>
+<body>
+
+	<canvas></canvas>
+
+	<p id="info1">data</p>
+	<p id="info2"></p>
+	<p id="info3"></p>
+
+</body>
+</html>

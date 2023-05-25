@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Show Link Properties</title>
+	<style type="text/css">
+	
+	a {text-decoration:none;}
+	a:hover {text-decoration:underline;}
+	h2, p {margin:2em 0;}
+	
+	.bookmarklet {padding:5px; background:#eee; border:1px solid #ccc;}
+	
+	</style>
+</head>
+<body>
+
+	<h1>Show Link Properties</h1>
+
+	<p><a class="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://localhost.abc.net.au/innovation/tools/bookmarklets/show-link-properties.js?r='+(new%20Date().getTime());})();">Show Link Properties</a> <big>⟵</big> bookmark this link (drag to bookmarks bar)</p>	
+
+	<h2>Test Links</h2>
+	<ul id="testLinks">
+		<li><a href="http://www.abc.net.au/">http://www.abc.net.au/</a></li>
+		<li><a href="http://www.abc.net.au/somepage/">http://www.abc.net.au/somepage/</a></li>
+		<li><a href="http://search.abc.net.au">http://search.abc.net.au</a></li>
+		<li><a href="http://www.smh.com.au">http://www.smh.com.au</a></li>
+		<li><a href="/some/local/page.html">/some/local/page.html</a></li>
+		<li><a href="/some/local/page.html#fragment">/some/local/page.html#fragment</a></li>
+		<li><a href="/somepage.html">/somepage.html</a></li>
+		<li><a href="some/page.html">some/page.html</a></li>
+		<li><a href="somepage.html">somepage.html</a></li>
+		<li><a href="#pagefragment">#pagefragment</a></li>
+		<li><a href="javascript:void();">javascript:void();</a></li>
+		<li><a href="javascript:;">javascript:;</a></li>
+		<li><a>no href...</a></li>
+		<li><a href="somepage.html?query">somepage.html?query</a></li>
+		<li><a href="somepage.html?query#hash">somepage.html?query#hash</a></li>
+		<li><a href="somepage.html#hash?query">somepage.html#hash?query</a> (incorrect btw)</li>
+		<li><a href="http://www.abc.net.au:81/some/page.html?search#hash">http://www.abc.net.au:81/some/page.html?search#hash"</a></li>		
+	</ul>
+
+</body>
+</html>

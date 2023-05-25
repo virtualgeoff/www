@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>File Download</title>
+	<script>
+
+		const bigData = {
+			'title': 'Hello World!',
+			'text': 'This is some text',
+			'date': (new Date())
+		};
+	
+		function download2() {
+			// Create data and URL on page load
+			//const data = JSON.stringify({ 'message': 'Hello World 2!' });
+			const data = JSON.stringify(bigData);
+			const blob = new Blob([data], { type: 'application/json' });
+			const url = window.URL.createObjectURL(blob);
+
+			// Create a link and trigger the download
+			const link = document.createElement('a');
+			link.download = 'helloworld2.json';
+			link.innerText = 'Download generated data';
+			link.href = url;
+
+			// Append link to the document
+			document.querySelector('#download2').appendChild(link);
+
+			// Free the URL created above
+			// no need to delete since we are only creating once on page load, and we want it to exist until the page unloads
+			//window.URL.revokeObjectURL(url);
+		}
+		
+		function download3(e) {
+			e.preventDefault();
+			var mimetype = e.target.dataset.mimetype
+			//alert(mimetype);
+			
+			var data, blob, url,
+				link = document.createElement('a');
+			
+			// update the date
+			bigData.date = new Date();
+
+			if (mimetype == 'application/json') {
+				// json
+				data = JSON.stringify(bigData);
+				link.download = 'helloworld3.json';			
+			} else if (mimetype == 'text/html') {
+				// html
+				data = `<!DOCTYPE html><html><head><title>${bigData.title}</title></head><body><h1>${bigData.title}</h1><p>${bigData.text}</p><p>${bigData.date}</p></body></html>`;
+				link.download = 'helloworld3.html';			
+			} else {
+				// plain text
+				data = bigData.title + '\n' + bigData.text + '\n' + bigData.date;
+				link.download = 'helloworld3.txt';			
+			}
+
+			link.innerText = '';
+			blob = new Blob([data], { type: mimetype });
+			url = window.URL.createObjectURL(blob);
+			link.href = url;
+				
+			// Add new link, trigger it, remove it
+			e.target.parentNode.appendChild(link);
+			link.click();
+			link.remove(); // not IE - can instead use: link.parentNode.removeChild(link);
+
+			// Free the URL created above
+			// should delete since we are creating a new URL object each time the link is clicked
+			// see: https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL#Memory_management
+			window.URL.revokeObjectURL(url);
+		}
+
+		function init() {
+			download2();
+
+			document.querySelectorAll("#download3 a").forEach(function(link) {
+				link.addEventListener('click', download3);
+			});			
+		}
+		
+		window.addEventListener('load', init);
+
+	</script>
+</head>
+<body>
+
+	<h1>File Download</h1>
+
+	<p>How to get the browser to download a file instead of navigating to the link.<br>
+	See: <a href="https://htmldom.dev/download-a-file/">Download a file (htmldom.dev)</a></p>
+	
+	<h2>1. Use the download attribute</h2>
+	<p>If the document to be downloaded already exists, link to it and add a <code>download</code> attribute to the link.</p>
+	<p>
+		<a href="./download.txt" download>Download file</a> | 
+		<a href="./download.txt" download="helloworld.txt">(alternate filename)</a>
+	</p>
+
+	<h2>2. Download generated data</h2>
+	<p>Generate the file and link on page load.</p>
+	<p id="download2"></p>
+
+	<h2>3. Generate and download data when a link is clicked</h2>
+	<p>Generate a new file each time a link is clicked.</p>
+	<p id="download3">
+		<a href="#" data-mimetype="application/json">JSON</a> |
+		<a href="#" data-mimetype="text/html">HTML</a> | 
+		<a href="#" data-mimetype="text/plain">plain text</a>
+	</p>
+
+</body>
+</html>

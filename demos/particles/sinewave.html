@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas Test</title>
+	<style>
+		p {position:absolute;}
+	</style>
+	<script type="text/javascript">
+
+		var canvas, ctx;
+		var now, then, deltaT;
+		var tScale = 200;
+
+		var width  = window.innerWidth;
+		var height = window.innerHeight;
+
+		function init() {
+			canvas = document.querySelector('canvas');
+			ctx = canvas.getContext('2d');
+			canvas.width = width;
+			canvas.height = height;
+
+			then = new Date();
+			run();
+		}
+
+		function run() {
+			var x, y;
+			now = new Date();
+			deltaT = now - then;
+			ctx.clearRect(0,0,width,height);
+
+			for (var n=1; n<5; n++){
+				for (var i=0, j=width; i<j; i++){
+					x = i;
+					y = height/2 - height*0.4 * Math.sin((i/j) * 2 * Math.PI * n + ((deltaT)/tScale));
+					ctx.fillRect(x,y,3,3);
+				}
+			}
+			document.getElementById("info").innerHTML = deltaT + ' ms';
+
+			window.requestAnimationFrame(run);
+		}
+
+		onload = init;
+
+	</script>
+</head>
+<body>
+
+	<p id="info"></p>
+	<canvas></canvas>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Dots and lines</title>
+	<style type="text/css">
+
+		body {margin:0; padding:0; font-family:sans-serif; text-align:center; background-image: linear-gradient(#127,#001);}
+
+		#status {position:absolute; top:0; left:0;  text-align:left;  margin:1em; color:#fff; z-index:9;}
+		#info   {position:absolute; top:0; right:0; text-align:right; margin:1em; color:#fff; z-index:10;}
+
+	</style>
+	<script>
+
+		// Geoff Pack, August 2022
+
+		/* jshint esversion: 6 */
+
+		let canvas,
+			ctx,
+			width,
+			height,
+			then,
+			now,
+			deltaT = [],
+			p = [],  // dots
+			rSquared,
+			rSquaredMax; // max separation possible (squared)
+
+		const R = 5, // max. radius
+			V = 1.5, // max. velocity
+			cutOff = 0.15,  // cut-off distance for lines as a proportion of max separation (0-1)
+			bounce = false; // false = wrap around
+
+		function getRandomFloat(min, max) {
+			return Math.random() * (max - min) + min;
+		}
+
+		function getLineColor(rSquared, i) {
+			let x = 1 - Math.sqrt(rSquared/rSquaredMax)/cutOff;
+			if (i === 0) {
+				let y = (rSquared < rSquaredMax * 0.02) ? 1 : 0;
+				return "rgba(" + 255 + "," + 0 + "," + 0 + "," + y + ")";
+			}
+			return "rgba(" + 255 + "," + 255 + "," + 255 + "," + x + ")";
+		}
+
+		function drawDot(x, y, r, color) {
+			ctx.fillStyle = color;
+    		ctx.beginPath();
+			ctx.arc(x,y,r,0,Math.PI*2,true);
+    		ctx.fill();
+		}
+
+		function drawLine(x1, y1, x2, y2, rSquared, i) {
+			ctx.strokeStyle = getLineColor(rSquared, i);
+			ctx.lineWidth = 0.5;
+			ctx.beginPath();
+			ctx.moveTo(x1,y1);
+			ctx.lineTo(x2,y2);
+			ctx.stroke();
+		}
+
+		function createDot() {
+			// create new dot and append to p[]
+			// each dot has a position, a velocity, a radius and a color
+			let i = p.length;
+			p[i] = {};
+			p[i].r = (i) ? getRandomFloat(0, R): 5;
+			p[i].x = getRandomFloat(0, width-p[i].r);
+			p[i].y = getRandomFloat(0, height-p[i].r);
+			p[i].c = (i) ? 'rgb(255,255,255)' : 'rgb(255,0,0)';
+			p[i].v = [getRandomFloat(0, V), getRandomFloat(0,360)]; // [|v|, 𝜭]
+			p[i].vx = p[i].v[0] * Math.cos(p[i].v[1]);
+			p[i].vy = p[i].v[0] * Math.sin(p[i].v[1]);
+		}
+
+		function draw() {
+			// clear canvas
+			ctx.clearRect(0,0,width,height);
+
+			// move points
+			for (let i=0; i<p.length; i++) {
+				if (i > 0) {
+					p[i].x += p[i].vx;
+					p[i].y += p[i].vy;
+
+					if (bounce) {
+						if (p[i].x < p[i].r) {
+							p[i].x = p[i].r;
+							p[i].vx = Math.abs(p[i].vx);
+						} else if (p[i].x > width-p[i].r) {
+							p[i].x = width-p[i].r;
+							p[i].vx = -Math.abs(p[i].vx);
+						}
+						if (p[i].y < p[i].r) {
+							p[i].y = p[i].r;
+							p[i].vy = Math.abs(p[i].vy);
+						} else if (p[i].y > height-p[i].r) {
+							p[i].y = height-p[i].r;
+							p[i].vy = -Math.abs(p[i].vy);
+						}
+					} else {
+						if (p[i].x < 0) {
+							p[i].x = width;
+						} else if (p[i].x > width) {
+							p[i].x = 0;
+						}
+						if (p[i].y < 0) {
+							p[i].y = height;
+						} else if (p[i].y > height) {
+							p[i].y = 0;
+						}
+					}
+				}
+			}
+
+			// draw lines and dots
+			for (let i=p.length-1; i>=0; i--) { // count backwards so p[0] is drawn last
+				for (let j=i+1; j<p.length; j++) {
+					// calculate distance (squared)
+					rSquared = Math.pow((p[i].x - p[j].x),2) + Math.pow((p[i].y - p[j].y),2);
+					drawLine(p[i].x, p[i].y, p[j].x, p[j].y, rSquared, i);
+				}
+				drawDot(p[i].x, p[i].y, p[i].r, p[i].c);
+			}
+
+			// get timing stats
+			then = now;
+			now = new Date();
+			deltaT.push(now-then);
+			checkFramerate();
+
+			window.requestAnimationFrame(draw);
+		}
+
+		function checkFramerate() {
+			// average frame rate over last 30 frames and show result
+			let sum = 0, average = 0, fps = 0;
+			if (deltaT.length > 30) { deltaT.shift(); }
+
+			deltaT.forEach(element => { sum += element;} );
+			average = sum/deltaT.length;
+			fps = 1000/average;
+
+			// add or remove points
+			if ((p.length < 50) || (fps > 30)) { createDot(); }
+			if ((p.length > 50) && (fps < 24)) { p.pop(); }
+
+			document.getElementById('status').innerHTML = `∆t =  ${average.toFixed(0)} ms<br>
+				fps = ${fps.toFixed(0)}<br>
+				N = ${p.length}`;
+		}
+
+		function mouseMove(e) {
+			p[0].x = e.clientX;
+			p[0].y = e.clientY;
+		}
+
+		function getSize() {
+			// get window size
+			width = window.innerWidth;
+			height = window.innerHeight;
+			document.getElementById('info').innerHTML = width + ' × ' + height + ' px';
+
+			// resize canvas element
+			canvas.width = width;
+			canvas.height = height;
+		}
+
+		function init() {
+			now = new Date();
+
+			canvas = document.querySelector("canvas");
+			ctx = canvas.getContext("2d");
+			getSize();
+
+			// calculate rMax (maximum separation)
+			rSquaredMax = Math.pow(width,2) + Math.pow(height,2);
+
+			// create first dot and draw it
+			createDot();
+			draw();
+
+			window.addEventListener("resize", getSize);
+			window.addEventListener('mousemove', mouseMove);
+		}
+
+		window.addEventListener("DOMContentLoaded", init);
+
+	</script>
+</head>
+<body>
+
+	<canvas></canvas>
+	<p id="status"></p>
+	<p id="info"></p>
+
+</body>
+</html>

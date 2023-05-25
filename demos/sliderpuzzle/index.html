@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sliding Tile Puzzle</title>
+	<meta charset="utf-8">
+	<style>
+
+		body {background:#ccc;}
+		h1 {font-size: 2em; text-align:center;}
+		p {font-size:1em; text-align:center;}
+		#board {position:relative; width:500px; height:500px; margin:2em auto; background:#999; border:1px solid #000;}
+		#board div {position:absolute; width:125px; height:125px; line-height:1.0; color:#fff; background:#000; cursor:pointer; transition-property:left,top,opacity; transition-duration:0.3s;}
+
+	</style>
+	<script>
+
+		var tiles = [],
+			imgSize  = 500,  // pixels
+			tileSize = imgSize / 4,
+			empty = 16, // the position of the empty cell
+			moves = 0,
+			timer = 6,
+			shuffled = false,
+			solved = false,
+			temp;
+
+		function createTiles() {
+			// create 16 tiles and add to document
+			for (var i=1; i<=16; i++) {
+				tiles[i] = {};
+				tiles[i].position = i;
+				// convert position to x,y coords
+				tiles[i].x = ((tiles[i].position - 1) % 4);
+				tiles[i].y = parseInt((tiles[i].position - 1) / 4);
+				// create divs
+				tiles[i].div = document.createElement('DIV');
+				tiles[i].div.id = 'tile-' + i;
+				tiles[i].div.style.left = tiles[i].x * tileSize + 'px';
+				tiles[i].div.style.top  = tiles[i].y * tileSize + 'px';
+				tiles[i].div.style.background = "#000 url('./moon_500.jpg') -" + ((i-1)%4 * tileSize) + "px -" + (parseInt((i-1)/4)* tileSize) + "px no-repeat";
+				document.getElementById('board').appendChild(tiles[i].div);
+				tiles[i].div.addEventListener('click', clickTile);
+			}
+			countDown();
+			//setTimeout(shuffleTiles, 3000);
+			document.onkeydown = keyDown;
+		}
+
+		function countDown() {
+			document.getElementById('moves').innerText = --timer;
+			if (timer <= 0) {
+				shuffleTiles();
+			} else {
+				setTimeout(countDown, 1000);
+			}
+		}
+
+		function shuffleTiles() {
+			var N = 200,
+				directions = ['Up','Down','Left','Right'];
+
+			if (event) { event.preventDefault(); }
+
+			// reset
+			moves = 0;
+			shuffled = false;
+			solved = false;		
+			tiles[16].div.style.opacity = 0; // hide tile 16 (show again when solved)
+			tiles[16].div.style.display = 'none';			
+			document.getElementById('message').innerHTML = '<b>Click on the tiles or use arrow the keys to move puzzle pieces</b>';
+			document.getElementById('moves').innerHTML = 'Moves: <b>0</b>';
+
+			// shuffle
+			for (var i=0; i<N; i++) {
+				move(directions[Math.floor(Math.random() * directions.length)]);
+			}
+			shuffled = true;
+		}
+
+		function move(direction) {
+			if (!solved) {
+				if ((direction === 'Up') && (empty < 13)) {
+					moveTile(getTileAt(empty+4), 0, -1); // find the tile below the empty cell, move it up
+				} else if ((direction === 'Down') && (empty > 4)) {
+					moveTile(getTileAt(empty-4), 0, 1); // find the tile above the empty cell, move it down
+				} else if ((direction === 'Left') && (empty % 4 !== 0)) {
+					moveTile(getTileAt(empty+1), -1, 0); // find the tile to the right of the empty cell, move it left
+				} else if ((direction === 'Right') && (empty % 4 !== 1)) {
+					moveTile(getTileAt(empty-1), 1, 0); // find the tile to the left of the empty cell, move it right
+				}
+			}
+		}
+
+		function getTileAt(position) {
+			for (var i=1; i<16; i++) {
+				if (tiles[i].position === position) {
+					return i;
+				}
+			}
+		}
+
+		function moveTile(n,x,y) {
+			tiles[n].x += x;
+			tiles[n].y += y;
+			tiles[n].div.style.left = tiles[n].x * tileSize + 'px';
+			tiles[n].div.style.top  = tiles[n].y * tileSize + 'px';
+			// swap tile and empty positions
+			temp = tiles[n].position;
+			tiles[n].position = empty;
+			empty = temp;
+
+			// check if solved only for moves after shuffle is done
+			if (shuffled) {
+				//document.getElementById('moves').innerText = ++moves;
+				document.getElementById('moves').innerHTML = 'Moves: <b>' + (++moves) + '</b>';
+				if (testIfSolved()) {
+					solved = true;
+					tiles[16].div.style.display = 'block';
+					setTimeout( function(){
+						document.getElementById('message').innerHTML = '<b style="color:#d00;">Success!</b>';
+						tiles[16].div.style.opacity = 1;
+					}, 300);
+				}
+			}
+		}
+
+		function testIfSolved() {
+			for (var i=1; i<16; i++) {
+				if (tiles[i].position !== i) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function clickTile(e) {
+			var n = (e.target.id).substr(5),
+				pos = tiles[n].position;
+				
+			if (pos === (empty+4)) {				
+				moveTile(n, 0, -1); // tile is below empty cell - move up
+			} else if (pos === (empty-4)) {
+				moveTile(n, 0, 1); // tile is above empty cell - move down			
+			} else if ((pos === empty+1) && (pos % 4 !== 1)) {
+				moveTile(n, -1, 0); // tile is right of empty cell - move left
+			} else if ((pos === empty-1) && (pos % 4 !== 0)) {
+				moveTile(n, 1, 0); // tile is left of empty cell - move right
+			}
+		}
+
+		function keyDown(e) {
+			if ((e.key === 'ArrowUp') || (e.key === 'ArrowDown') || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight')) {
+			  	move((e.key).substr(5));
+			}
+		}
+
+		window.onload = createTiles;
+
+	</script>
+</head>
+<body>
+
+	<h1>Sliding Tile Puzzle</h1>
+	<p id="message"><b>Memorise this image:</b></p>
+	<p id="moves">5</p>
+	<div id="board"></div>
+	<p><button type="button" onclick="shuffleTiles()">Shuffle tiles</button></p>
+
+</body>
+</html>

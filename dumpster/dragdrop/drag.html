@@ -1,93 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>Virtualgeoff Drag and Drop Script 2 - with Callbacks</title>
+	<meta charset="utf-8" />
+	<title>Virtualgeoff Drag and Drop Script 2 - with Callbacks</title>
+	<style type="text/css">
 
-<style type="text/css">
+		body {background:#fff;}
+		.drag {position:relative; float:left; width:100px; height:100px; margin:10px; background:#ccc; border:1px solid #000;}
 
-body {background:#fff;}
-.drag {position:relative; float:left; width:100px; height:100px; margin:10px; background:#ccc; border:1px solid #000;}
+		#draggable4  {position:absolute; left:500px; top:140px; width:100px; height:100px;}
+		#draggable5  {position:absolute; left:620px; top:140px; width:100px; height:100px;}
+		#draggable6  {position:fixed;    left:740px; top:140px; width:100px; height:100px;}
+		#draggable10 {position:absolute; left:490px; top:0px;   width:100px; height:100px;}
+		#draggable11 {position:absolute; left:610px; top:0px;   width:100px; height:100px;}
+		#draggable12 {position:fixed;    left:741px; top:301px; width:100px; height:100px;}
 
-#draggable4 {position:absolute; left:500px; top:140px; width:100px; height:100px;}
-#draggable5 {position:absolute; left:620px; top:140px; width:100px; height:100px;}
-#draggable6 {position:fixed;    left:740px; top:140px; width:100px; height:100px;}
-#draggable10 {position:absolute; left:490px; top:0px; width:100px; height:100px;}
-#draggable11 {position:absolute; left:610px; top:0px; width:100px; height:100px;}
-#draggable12 {position:fixed;    left:741px; top:301px; width:100px; height:100px;}
+		#anotherDiv {position:absolute; left:10px; top:300px; width:370px; height:300px; background:#eee; border:1px solid #000;}
+		#info {position:absolute; top:0px; right:0px; width:200px; padding:1em;}
 
-#anotherDiv {position:absolute; left:10px; top:300px; width:370px; height:300px; background:#eee; border:1px solid #000;}
-#info {position:absolute; top:0px; right:0px; width:200px; padding:1em;}
+	</style>
+	<script type="text/javascript" src="drag.js"></script>
+	<script type="text/javascript">
 
-</style>
-<script type="text/javascript" src="drag.js"></script>
-<script type="text/javascript">
+		function doSomething (element, eventID, mouseX, mouseY, elementX, elementY) {
+			document.getElementById('info').style.color = "#00f";
+			document.getElementById('info').innerHTML = '#' + element.id + ' (' + eventID + ')';
+			if (mouseX) {
+				document.getElementById('info').innerHTML += '<br>Mouse: ' + mouseX + ',' + mouseY;
+			}
+			if (elementX) {
+				document.getElementById('info').innerHTML += '<br>Element: ' + elementX + ',' + elementY;
+			}
+		}
+		function doSomethingElse (element, eventID, mouseX, mouseY, elementX, elementY) {
+			document.getElementById('info').style.color = "#f00";
+			document.getElementById('info').innerHTML = '#' + element.id + ' (' + eventID + ')';
+			if (mouseX) {
+				document.getElementById('info').innerHTML += '<br>Mouse: ' + mouseX + ',' + mouseY;
+			}
+			if (elementX) {
+				document.getElementById('info').innerHTML += '<br>Element: ' + elementX + ',' + elementY;
+			}
+		}
 
-function doSomething (element, eventID, mouseX, mouseY, elementX, elementY) {
-	document.getElementById('info').style.color = "#00f";
-	document.getElementById('info').innerHTML = '#' + element.id + ' (' + eventID + ')';
-	if (mouseX) {
-		document.getElementById('info').innerHTML += '<br>Mouse: ' + mouseX + ',' + mouseY;
-	}
-	if (elementX) {
-		document.getElementById('info').innerHTML += '<br>Element: ' + elementX + ',' + elementY;
-	}
-}
-function doSomethingElse (element, eventID, mouseX, mouseY, elementX, elementY) {
-	document.getElementById('info').style.color = "#f00";
-	document.getElementById('info').innerHTML = '#' + element.id + ' (' + eventID + ')';
-	if (mouseX) {
-		document.getElementById('info').innerHTML += '<br>Mouse: ' + mouseX + ',' + mouseY;
-	}
-	if (elementX) {
-		document.getElementById('info').innerHTML += '<br>Element: ' + elementX + ',' + elementY;
-	}
-}
+		function init() {
+			dragDrop.attach('draggable1');
+			dragDrop.attach('draggable2', doSomethingElse, true, false);
+			dragDrop.attach('draggable3', doSomething, false, true, 0, 700, 0, 0);
+			dragDrop.attach('draggable4', doSomething, false, false, 300, null, null, 400);
+			dragDrop.attach('draggable5', doSomething, false, false, 0, (window.innerWidth - 120), 0, (window.innerHeight - 120));
+			dragDrop.attach('draggable6', doSomething, false, false, null, null, null, null, 120, 120);
 
-function init() {
-	dragDrop.attach('draggable1');
-	dragDrop.attach('draggable2', doSomethingElse, true, false);
-	dragDrop.attach('draggable3', doSomething, false, true, 0, 700, 0, 0);
-	dragDrop.attach('draggable4', doSomething, false, false, 300, null, null, 400);
-	dragDrop.attach('draggable5', doSomething, false, false, 0, (window.innerWidth - 120), 0, (window.innerHeight - 120));
-	dragDrop.attach('draggable6', doSomething, false, false, null, null, null, null, 120, 120);
+			dragDrop.attach('draggable7', doSomething);
+			dragDrop.attach('draggable8', doSomething, true, false);
+			dragDrop.attach('draggable9', doSomething, false, true, 0, 700, 0, 0);
+			dragDrop.attach('draggable10', doSomething, false, false, 300, null, null, 400);
+			dragDrop.attach('draggable11', doSomething, false, false, 0, (window.innerWidth - 120), 0, (window.innerHeight - 120));
+			dragDrop.attach('draggable12', doSomething, false, false, null, null, null, null, 120, 120);
+		}
 
-	dragDrop.attach('draggable7', doSomething);
-	dragDrop.attach('draggable8', doSomething, true, false);
-	dragDrop.attach('draggable9', doSomething, false, true, 0, 700, 0, 0);
-	dragDrop.attach('draggable10', doSomething, false, false, 300, null, null, 400);
-	dragDrop.attach('draggable11', doSomething, false, false, 0, (window.innerWidth - 120), 0, (window.innerHeight - 120));
-	dragDrop.attach('draggable12', doSomething, false, false, null, null, null, null, 120, 120);
-}
+		window.onload = init;
 
-window.onload = init;
-
-</script>
-
+	</script>
 </head>
 <body>
 
-<h1>Virtualgeoff Drag and Drop Script - with Callbacks</h1>
+	<h1>Virtualgeoff Drag and Drop Script - with Callbacks</h1>
 
-<p>My own version.</p>
-<p>Works with position:fixed, absolute and relative. Added callbacks, constaints, min and max values, and snap to grid. Works in IE (finally).</p>
-<p id="info"></p>
+	<p>My own version.</p>
+	<p>Works with position:fixed, absolute and relative. Added callbacks, constaints, min and max values, and snap to grid. Works in IE (finally).</p>
+	<p id="info"></p>
 
-<div id="draggable1" class="drag">1<br>position: relative;<br>(no callback)</div>
-<div id="draggable2" class="drag">2<br>position: relative;<br>constain-X</div>
-<div id="draggable3" class="drag">3<br>position: relative;<br>constain-Y<br>min, max</div>
-<div id="draggable4" class="drag">4<br>position: absolute;<br>minX, maxY</div>
-<div id="draggable5" class="drag">5<br>position: absolute;<br>minX, maxX,<br>minY, maxY</div>
-<div id="draggable6" class="drag">6<br>position: fixed;<br>snapX, snapY</div>
+	<div id="draggable1" class="drag">1<br>position: relative;<br>(no callback)</div>
+	<div id="draggable2" class="drag">2<br>position: relative;<br>constain-X</div>
+	<div id="draggable3" class="drag">3<br>position: relative;<br>constain-Y<br>min, max</div>
+	<div id="draggable4" class="drag">4<br>position: absolute;<br>minX, maxY</div>
+	<div id="draggable5" class="drag">5<br>position: absolute;<br>minX, maxX,<br>minY, maxY</div>
+	<div id="draggable6" class="drag">6<br>position: fixed;<br>snapX, snapY</div>
 
-<div id="anotherDiv">
-	<div id="draggable7" class="drag">7<br>position: relative;</div>
-	<div id="draggable8" class="drag">8<br>position: relative;<br>constain-X</div>
-	<div id="draggable9" class="drag">9<br>position: relative;<br>constain-Y<br>min, max</div>
-	<div id="draggable10" class="drag">10<br>position: absolute;<br>minX, maxY</div>
-	<div id="draggable11" class="drag">11<br>position: absolute;<br>minX, maxX,<br>minY, maxY</div>
-	<div id="draggable12" class="drag">12<br>position: fixed;<br>snapX, snapY</div>
-</div>
+	<div id="anotherDiv">
+		<div id="draggable7" class="drag">7<br>position: relative;</div>
+		<div id="draggable8" class="drag">8<br>position: relative;<br>constain-X</div>
+		<div id="draggable9" class="drag">9<br>position: relative;<br>constain-Y<br>min, max</div>
+		<div id="draggable10" class="drag">10<br>position: absolute;<br>minX, maxY</div>
+		<div id="draggable11" class="drag">11<br>position: absolute;<br>minX, maxX,<br>minY, maxY</div>
+		<div id="draggable12" class="drag">12<br>position: fixed;<br>snapX, snapY</div>
+	</div>
 
 </body>
 </html>

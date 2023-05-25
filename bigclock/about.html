@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Big Clock: About</title>
+	<meta name="description" content="About big clock.">
+	<meta name="keywords" content="clock, big, about.">
+	<meta name="author" content="virtualgeoff">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="light dark">
+	<link rel="icon" href="data:,">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<style>
+
+		html, body {min-height:100%; margin:0; padding:0;}
+		body {font-size:1em; font-family:'Courier', monospace;}
+
+		h1 {margin-top:1em;}
+		h2 {margin:2em 0 0.5em 0; font-size:1.2em;}
+		p {margin-bottom:1.5em; line-height:1.4;}
+		small {font-size:0.75em;}
+
+		a {text-decoration:none; opacity:60%}
+		a:hover {text-decoration:underline; opacity:100%}
+
+		#more {margin-top:3em; font-size:0.8em; text-align:center;}
+
+		/* nav */
+		#nav {position:fixed; left:0.5em; top:0; margin:0.6em; z-index:99;}
+		#nav.shifted {top:5.0em;}
+		#nav ul {display:none; width:auto; margin:0; padding:0.5em 1em 0.5em 0.3em; list-style:none; border:1px solid #000;}
+		#nav:hover ul {display:block;}
+		#nav li {margin:0; padding:0; white-space:nowrap;}
+		#nav li a {display:block; margin:0; padding:0.3em;}
+		#nav > a {font-size:1.5em;}
+
+		/* main layout */
+		#main {max-width:40em; margin:0 auto; padding:1em;}
+
+		/* colors */
+		body {color:#111; background:#fff;}
+		a {color:#111;}
+		a:visited {color:#111;}
+		#nav ul {background:#fff; border-color:#111;}
+
+		body.Light {color:#111; background:#fff;}
+		body.Light a {color:#111;}
+		body.Light a:visited {color:#111;}
+		body.Light #nav ul {background:#fff; border-color:#111;}
+
+		body.Dark {color:#eee; background:#000;}
+		body.Dark a {color:#ddd;}
+		body.Dark a:visited {color:#ddd;}
+		body.Dark #nav ul {background:#000; border-color:#ddd;}
+
+		@media all and (prefers-color-scheme: dark) {
+			body {color:#eee; background:#000;}
+			a {color:#ddd;}
+			a:visited {color:#ddd;}
+			#nav ul {background:#000; border-color:#ddd;}
+		}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 5 */
+
+		var colors = {};
+		var iPad = false;
+
+		function checkIPad() {
+			// check device
+			if (navigator.userAgent.match(/iPad/i) || ((navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) && !window.MSStream)) {
+				iPad = true;
+			}
+		}
+
+		function toggleNav(e) {
+			var navlist = document.getElementById('navlist');
+			navlist.style.display = (navlist.style.display === 'block') ? 'none' : 'block';
+			return false;
+		}
+
+		function checkFullscreenAvailable() {
+			// check if fullscreen is available, and if so, add a link
+			// note: iPhone does not support fullscreen
+			var dE = document.documentElement;
+			if (dE.requestFullscreen || dE.webkitRequestFullScreen) {
+				document.getElementById('navlist').innerHTML += '<li><a href="#" title="Make full screen" onclick="return toggleFullscreen();">Fullscreen</a></li>';
+			}
+		}
+
+		function checkFullscreen() {
+			// check if currently in fullscreen mode
+			// should be able to do this with CSS : html:fullscreen / html:-webkit-full-screen
+			// or by checking existence of document.fullscreenElement or document.webkitFullscreenElement
+			// but on Safari it doesn't remember if you navigate between pages while in fullscreen
+			// (other browsers don't let you navigate between pages in fullscreen anyway)
+			// BUT... we can check screen and window dimensions!
+
+			if ((window.innerWidth === screen.width) && (window.innerHeight === screen.height) ||
+			  (window.innerWidth === screen.height) && (window.innerHeight === screen.width)) {
+				// add class to #nav to move it away from big x
+				if (iPad) { document.getElementById('nav').className = 'shifted'; }
+			} else {
+				if (iPad) { document.getElementById('nav').className = ''; }
+			}
+		}
+
+		function toggleFullscreen(e) {
+			// toggle fullscreen mode
+			var d = document, dE = d.documentElement;
+
+			if (d.fullscreenElement || d.webkitFullscreenElement) {
+				if (d.exitFullscreen) {
+					d.exitFullscreen();
+				} else if (d.webkitCancelFullScreen) {
+					d.webkitCancelFullScreen();
+				}
+			} else {
+				if (dE.requestFullscreen) {
+					dE.requestFullscreen();
+				} else if (dE.webkitRequestFullScreen) {
+					dE.webkitRequestFullScreen();
+				}
+			}
+			return false;
+		}
+
+		function storageAvailable(type) {
+			// check for Storage API
+			try {
+				var storage = window[type],
+					x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			} catch(e) {
+				return e instanceof DOMException && (
+					e.code === 22 || e.code === 1014 ||
+					e.name === 'QuotaExceededError' ||
+					e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+				) && storage.length !== 0;
+			}
+		}
+
+		function getOptions() {
+			// load options from localStorage on page load, and set colors, font, ...
+			if (!storageAvailable('localStorage')) { return; }
+
+			var colorScheme = localStorage.getItem('colorScheme');
+			var fontFamily  = localStorage.getItem('fontFamily');
+
+			if (colorScheme) {
+				document.body.className = colorScheme;
+				if (colorScheme === 'Dynamic') {
+					setDynamicColors(new Date());
+				} else if (colorScheme === 'Custom') {
+					colors.text = localStorage.getItem('colorText') || '#000000';
+					colors.bg   = localStorage.getItem('colorBG')   || '#ff7700';
+					changeColors();
+				}
+			}
+			if (fontFamily) {
+				document.body.style.fontFamily = fontFamily;
+			}
+		}
+
+		function setDynamicColors(now) {
+			// set colors based on the current local time
+			colors.h = now.getHours() * 15 + now.getMinutes() * 15/60; // 0-360°
+			colors.s = now.getMinutes() + 40; // 40-100%
+			colors.l = (now.getSeconds() + now.getMilliseconds()/1000) + 20; // 20-80%;
+			colors.bg = 'hsl(' + colors.h + ', ' + colors.s + '%, '+ colors.l + '%)';
+			colors.text = (colors.l > 50) ? '#111' : '#ddd';
+			changeColors();
+		}
+
+		function changeColors() {
+			// change text, link, and background colors
+			document.body.style.backgroundColor = colors.bg;
+			document.body.style.color = colors.text;
+			document.getElementById('navlist').style.backgroundColor = colors.bg;
+			document.getElementById('navlist').style.borderColor = colors.text;
+
+			for (var i=0; i<document.links.length; i++) {
+				if (document.links[i].parentNode.id !== "bmc") { document.links[i].style.color = colors.text; }
+			}
+		}
+
+		function decodeURL(anchor) {
+			// decodes data in data-address attribute of an anchor tag — used to obfuscate mailto link
+			var input = anchor.dataset.address.replace(/\s+/g, ',').split(',');
+			var output = '';
+
+			for (var i=0; i<input.length; i++) {
+				output += String.fromCodePoint(parseInt(input[i],16));
+			}
+			anchor.href = output;
+		}
+
+		function resize() {
+			// finally, check if fullscreen
+			checkFullscreen();
+		}
+
+		function init() {
+			checkIPad();
+			checkFullscreenAvailable();
+			getOptions();
+			resize();
+			decodeURL( document.getElementById('email') ); // decode email
+		}
+
+		if (window.addEventListener) {
+			window.addEventListener('DOMContentLoaded', init);
+			window.addEventListener('resize', resize);
+		} else {
+			window.onload = init;
+			window.onresize = resize;
+		}
+
+	</script>
+</head>
+<body>
+
+	<div id="nav">
+		<a href="./" onclick="return toggleNav();"><b>☰</b></a><br>
+		<ul id="navlist">
+			<li><a href="./">The time (ISO 8601)</a></li>
+			<li><a href="./local.html">Local time format</a></li>
+			<li><a href="./utc.html">UTC</a></li>
+			<li><a href="./stopwatch.html">Stopwatch</a></li>
+			<li><a href="./timer.html">Timer</a></li>
+			<li><a href="./about.html">About</a></li>
+			<li><a href="./settings.html">Settings</a></li>
+		</ul>
+	</div>
+
+	<div id="main">
+		<h1>About</h1>
+		<p>It's just a clock, but BIG. The current time, in your current time zone, in <a href="https://en.wikipedia.org/wiki/ISO_8601" target="_blank">ISO 8601</a>. There's also a <a href="utc.html">UTC Clock</a>, a <a href="stopwatch.html">Stopwatch</a>, and a <a href="timer.html">Timer</a>.</p>
+
+		<h2>Support</h2>
+		<p>Big Clock is free to use, and contains no advertising. If you would like to help support Big Clock, please <a target="_blank" href="http://buymeacoffee.com/virtualgeoff">buy me a coffee ☕️</a></p>
+
+		<h2>Privacy</h2>
+		<p>We collect aggregate user stats only. Your settings are stored in your web browser and are not sent to the server. No cookies are saved or sent.</p>
+
+		<h2>Technical</h2>
+		<p>The clocks are big, but the pages are ultra-minimal: one request and less than 16 kB each. They are coded in plain vanilla JS (ES 5) and CSS (2.1), and designed specifically to work on older devices.</p>
+
+		<p id="more">
+			<a id="email" href="#" data-address="6d 61 69 6c 74 6f 3a 62 69 67 63 6c 6f 63 6b 40 76 69 72 74 75 61 6c 67 65 6f 66 66 2e 63 6f 6d">Feedback</a> &nbsp; 〜 &nbsp;
+			<a href="https://github.com/virtualgeoff/bigclock">Source</a>
+		</p>
+	</div>
+
+	<!-- simple analytics
+	<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+	<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>
+	-->
+
+</body>
+</html>

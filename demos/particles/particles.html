@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas Test</title>
+	<style type="text/css">
+
+		html, body {margin:0; padding:0; width:100vw; height:100vh; font-family:sans-serif; color:#090; background:#000; overflow:hidden;}
+		#canvas {display:block;}
+
+		body > p {position:absolute; top:0; width:20vw; margin:0; padding:1em; color:#0c0; z-index:99;}
+		#info1 {left:0;    text-align:left;}
+		#info2 {left:40vw; text-align:center;}
+		#info3 {right:0;   text-align:right;}
+
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		var canvas, ctx, W, H, CX, CY, info1, info2, info3;
+		const N = 2000;
+		var p = [];
+		var lasttime = 0;
+
+		function getRandom(min, max) {
+			// random number between min and max
+			return (min + Math.random() * (max-min));
+		}
+
+		function init() {
+			// info
+			info1 = document.querySelector('#info1');
+			info2 = document.querySelector('#info2');
+			info3 = document.querySelector('#info3');
+
+			// canvas
+			canvas = document.querySelector('#canvas');
+			ctx = canvas.getContext('2d');
+			getSize();
+
+			// create points
+			for (let i=0; i<N; i++) {
+				let v = getRandom(1, 10); // magnitude
+				let va = getRandom(0, 2 * Math.PI); // angle
+				p[i] = {
+					w:  getRandom(10, 20),
+					//h:  getRandom(10, 20),
+					x:  CX - 50,
+					y:  CY - 50,
+					vx: v * Math.cos(va),
+					vy: v * Math.sin(va),
+					ax: 0,
+					ay: 0,
+					c: `hsl(${getRandom(0, 360)}, ${getRandom(50, 100)}%, ${getRandom(20, 80)}%)`
+					//c: `rgb(${getRandom(0, 255)}, ${getRandom(0, 255)}, ${getRandom(0, 255)})`
+				};
+				p[i].h = p[i].w;
+			}
+			update(0);
+		}
+
+		function getSize() {
+			canvas.width = W = window.innerWidth;
+			canvas.height = H = window.innerHeight;
+			CX = W / 2;
+			CY = H / 2;
+			info3.innerText = `${W}×${H} px`;
+		}
+
+		function update(time) {
+			// clear canvas
+			ctx.clearRect(0, 0, W, H);
+
+			// move blocks
+			for (let i=0; i<N; i++) {
+				p[i].vx += p[i].ax;
+				p[i].vy += p[i].ay;
+				p[i].x  += p[i].vx;
+				p[i].y  += p[i].vy;
+
+				// edge collisions - x,y is center of block
+				if (p[i].x <=  p[i].w / 2) {
+					p[i].x =  p[i].w / 2;
+					p[i].vx = Math.abs(p[i].vx);
+				} else if (p[i].x >= (W - p[i].w / 2)) {
+					p[i].x = W - p[i].w / 2;
+					p[i].vx = - Math.abs(p[i].vx);
+				}
+
+				if (p[i].y <= p[i].h / 2) {
+					p[i].y = p[i].h / 2;
+					p[i].vy = Math.abs(p[i].vy);
+				} else if (p[i].y >= (H - p[i].h / 2)) {
+					p[i].y = H - p[i].h / 2;
+					p[i].vy = - Math.abs(p[i].vy);
+				}
+
+				// draw
+				ctx.fillStyle = p[i].c;
+				ctx.fillRect(p[i].x - p[i].w/2, p[i].y - p[i].h/2, p[i].w, p[i].h);
+
+				// circles
+				//ctx.beginPath();
+				//ctx.arc(p[i].x, p[i].y, p[i].w, 0, 2 * Math.PI);
+				//ctx.ellipse(p[i].x, p[i].y, p[i].w, p[i].h, 0, 0, 2 * Math.PI);
+				//ctx.fill();
+			}
+			info2.innerText = `${(p[0].x).toFixed(1)}, ${(p[0].y).toFixed(1)}`;
+
+			// update
+			info1.innerText = `n: ${N}\nΔt: ${(time-lasttime).toFixed(2)} ms`;
+			lasttime = time;
+			window.requestAnimationFrame(update);
+		}
+
+		window.addEventListener('load', init);
+		window.addEventListener('resize', getSize);
+
+	</script>
+</head>
+<body>
+
+	<p id="info1">xxx</p>
+	<p id="info2">yyy</p>
+	<p id="info3">zzz</p>
+
+	<canvas id="canvas"></canvas>
+
+</body>
+</html>

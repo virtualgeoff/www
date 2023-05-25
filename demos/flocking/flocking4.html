@@ -1,0 +1,128 @@
+<html>
+<head>
+	<title>virtualgeoff . flocking4</title>
+	<style>
+
+		body {margin:0; padding:0; font-family:Verdana, Helvetica, Arial, serif; font-size:100%; color:#000; background:#fff;}
+		div {position:absolute; left:0; top:0; width:10px; height:10px; padding:0.1em; background:#ccc;}
+		#n0 {background:#fcc; z-index:99;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		var avoid = function() {
+			let now;
+			let then = new Date();
+			let dt = 1;
+			let dx, dy, dr, dr3;
+			let k = 200;
+			let j = 400000;
+			let da = 0.85;
+
+			let xmax = window.innerWidth; 	// width of content area
+			let ymax = window.innerHeight; 	// height of content area
+			let mx = xmax/2;				// mouse position
+			let my = ymax/2;
+
+			let N = 100; 					// number of points
+			let p = []; 					// array of points
+
+			function create() {
+				// create points, initialise positions, etc.
+				let point, str = '';
+
+				for (let n=0; n<N; n++) {
+					point = {
+						x:  xmax * Math.random(),
+						y:  ymax * Math.random(),
+						w:  xmax/10 * Math.random(),
+						h:  10,
+						vx: 0,
+						vy: 0,
+						id: "n" + n
+					};
+					p[n] = point;
+					str += '<div id="n' + n + '"></div>';
+				}
+				document.body.innerHTML = str;
+
+				// get width and height
+				for (let n=0; n<N; n++) {
+					document.getElementById(p[n].id).style.width = p[n].w;
+				}
+			}
+
+			function move() {
+				// calculate time
+				now = new Date();
+				dt = (now.getTime() - then.getTime())/1000; // in seconds
+
+				// leader position is set by mouse
+				p[0].x = mx - 5;
+				p[0].y = my - 5;
+				plot(p[0]);
+
+				// move followers
+				for (let n=1; n<N; n++) {
+					// rule one: follow the leader
+					dy = p[n].y - p[0].y;
+					dr = Math.sqrt(dy*dy);
+					if (dr<1) dr=1;
+					p[n].vy = -k * dy/dr;
+
+					// rule two: avoid each other
+					for (let m=0; m<N; m++) {
+						if (m === n) continue;
+						if ((p[m].x > (p[n].x + p[n].w)) || ((p[m].x + p[m].w) < p[n].x)) {
+							continue; // not overlapping
+						}
+
+						//dx = p[n].x - p[m].x;
+						dy = p[n].y - p[m].y;
+						dr = Math.sqrt(dy*dy);
+						if (dr<1) dr=1;
+						dr3 = dr * dr * dr;
+						p[n].vy += j * dy / dr3;
+					}
+
+					// plot positions
+					p[n].vy *= da; // damping
+					if ((p[n].vy < 2) && (p[n].vy > -2 )) p[n].vy = 0; // stop jiggle
+					p[n].y += p[n].vy * dt;
+					if (p[n].y > ymax) p[n].y = ymax; // keep blocks in window
+					if (p[n].y < 0) p[n].y = 0;
+					plot(p[n]);
+				}
+
+				// repeat
+				then = now;
+				window.requestAnimationFrame(move);
+			}
+
+			function plot(p) {
+				//document.getElementById(p.id).innerText = p.id + ': ' + Math.round(p.x) + ', ' + Math.round(p.y);
+				document.getElementById(p.id).style.left = p.x + 'px';
+				document.getElementById(p.id).style.top  = p.y + 'px';
+			}
+
+			function mouseMove(e) {
+				mx = e.pageX;
+				my = e.pageY;
+			}
+
+			// start
+			create();
+			move();
+			window.addEventListener('mousemove', mouseMove);
+		};
+
+		window.addEventListener('load', avoid);
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>

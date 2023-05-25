@@ -13,13 +13,13 @@
 			0%   {opacity:0;}
 			100% {opacity:1;}
 		}
-		
+
 	</style>
 	<script type="text/javascript">
 
 		function drawBox(obj, n) {
 			var p, q;
-			
+
 			p = document.createElement('div');
 			obj.appendChild(p);
 
@@ -35,16 +35,15 @@
 			}
 		}
 		function doStuff() {
-			var N = 10; // max level of recursion			
+			var N = 10; // max level of recursion
 			drawBox(document.body, N);
 		}
-			
+
 		window.onload = doStuff;
 
 	</script>
 </head>
 <body>
-
 
 </body>
 </html>

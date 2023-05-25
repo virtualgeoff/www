@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>URL Decoder/Encoder</title>
+	<style type="text/css">
+
+		body {font-family:Helvetica, Arial, sans-serif; color:#000; background:#fff;}	
+		h1 {font-size:1.8em;}
+		
+		textarea {width:95%; background:#eee;}
+		input:nth-of-type(2) {margin-right:8em;}
+		input[type="reset"] {float:right; margin-right:5%;}
+		ul {margin-top:2em;}
+		
+		#footer {margin-top:4em; padding-top:1em; font:italic 0.75em sans-serif; color:#999; border-top:1px solid #999;}
+		#footer img {float:right; margin:0 0 0.5em 2em;}
+		
+	</style>
+	<script type="text/javascript">
+		// Geoff Pack, March 2014
+		// Adapted and extended from: http://meyerweb.com/eric/tools/dencoder/
+
+		// Changes:
+		//   • added blur and focus events to text area
+		//   • added reset button
+		//   • added JSON formatting
+		//   • general code clean-up
+		
+		function boxFocus(obj) {
+			if (obj.value == "Add text here...") {
+				obj.value = "";	
+			}
+		}
+		function boxBlur(obj) {
+			if (obj.value == "") {
+				obj.value = "Add text here...";	
+			}
+		}
+		function encode() {
+			var textBox = document.getElementById('textBox');
+			var textValue = textBox.value;
+			textBox.value = encodeURIComponent(textValue.replace(/'/g,"%27").replace(/"/g,"%22"));	
+		}
+		function decode() {
+			var textBox = document.getElementById('textBox');
+			var textValue = textBox.value;
+			textBox.value = decodeURIComponent(textValue.replace(/\+/g,  " "));
+		}
+		function tabs(n) {
+			var t = '';
+			for (var i=0; i<n; i++) {
+				t += '\t';
+			}
+			return t;			
+		}
+		function formatJSON() {
+			var textBox = document.getElementById('textBox');
+			var s1 = textBox.value;
+			var i, c, s2 = '', n = 0;
+
+			// loop through text 1 char at a time
+			for (i=0; i<s1.length; i++){
+    			c = s1.charAt(i); 
+
+   				switch (c) {
+					case "{":
+					case "[":
+						s2 += c + "\n" + tabs(++n);
+						break;
+					case "}":
+					case "]":
+						s2 += "\n" + tabs(--n) + c;
+						if ((s1.charAt(i+1) != ",") && (s1.charAt(i+1) != "}") && (s1.charAt(i+1) != "]")) {
+							s2 += "\n";
+						}
+						break;
+					case ";":
+					case ",":
+						s2 += c + "\n" + tabs(n);
+						break;
+					default:
+						s2 += c;
+				}
+ 			}
+ 			textBox.value = s2;
+		}
+	
+	</script>
+</head>
+<body>
+	<h1>URL Decoder/Encoder</h1>
+
+	<form onsubmit="return false;">
+		<textarea id="textBox" rows="40" cols="100" onfocus="boxFocus(this);" onblur="boxBlur(this);">Add text here...</textarea>		
+		<input type="button" onclick="decode()" value="Decode URL" />
+		<input type="button" onclick="encode()" value="Encode URL" />
+		<input type="button" onclick="formatJSON()" value="Format JSON" />
+		<input type="reset" />
+	</form>
+
+	<ul>
+		<li>Input a string of text and encode or decode it as you like.</li>
+		<li>Handy for turning encoded JavaScript URLs from complete gibberish into readable gibberish.</li>
+		<li>Also good for URI encoded cookies</li>
+		<li>Formats JSON too! (e.g. for JSON request results (and some cookies))</li>
+		<li>If you'd like to have the URL Decoder/Encoder for offline use, just save the page locally</li>
+		<li>Adapted and extended from <a href="http://meyerweb.com/eric/tools/dencoder/">meyerweb.com/eric/tools/dencoder/</a> (view source for list of changes)</li>			
+	</ul>
+
+	<div id="footer">
+		<img alt="Creative Commons License" border="0" src="http://creativecommons.org/images/public/somerights.gif">
+		<p>The URL Decoder/Encoder is licensed under a Creative Commons <a href="http://creativecommons.org/licenses/by-sa/2.0/" rel="license">Attribution-ShareAlike 2.0</a> License.</p>
+		<p>This tool is provided without warranty, guarantee, or much in the way of explanation.  Note that use of this tool may or may not crash your browser, lock up your machine, erase your hard drive, or e-mail those naughty pictures you hid in the Utilities folder to your mother.  Don't blame me if anything bad happens to you, because it's actually the aliens' fault.  The code expressed herein is solely that of the author, and he's none too swift with the JavaScript, if you know what we mean, so it's likely to cause giggle fits in anyone who knows what they're doing.  Not a flying toy.  Thank you for playing.  Insert coin to continue.</p>
+	</div>
+</body>
+</html>

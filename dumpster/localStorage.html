@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Local Storage Test</title>
+	<script type="text/javascript">
+
+		function storageAvailable(type) {
+			var x = new Date().getTime(),
+				storage,
+				result;
+			try {
+				storage = window[type];
+				storage.setItem(x, x);
+				result = storage.getItem(x) == x;
+				storage.removeItem(x);
+				return result;// && storage;
+			} catch(e) {
+				return false;
+			}
+		}
+
+		function writeTo(id, string) {
+			document.getElementById(id).innerHTML = string;
+		}
+
+		function doStuff() {	
+			var now = new Date(), sessionAccesses, totalAccesses;
+
+			writeTo('isLocal', '<b>localStorage:</b> ' + storageAvailable('localStorage'));		
+			writeTo('isSession', '<b>sessionStorage:</b> ' + storageAvailable('sessionStorage'));
+	
+			writeTo('now', '<b>Now:</b> ' + now.toString());
+
+			if (storageAvailable('localStorage')) {	
+				writeTo('last1', '<b>Last1:</b> ' + localStorage.getItem('last1'));
+				writeTo('last2', '<b>Last2:</b> ' + localStorage.getItem('last2'));
+				writeTo('last3', '<b>Last3:</b> ' + localStorage.getItem('last3'));
+
+				localStorage.setItem('last3', localStorage.getItem('last2'));
+				localStorage.setItem('last2', localStorage.getItem('last1'));
+				localStorage.setItem('last1', now.toString());
+
+				// total accesses
+				totalAccesses = (parseInt(localStorage.getItem('totalAccesses')) || 0) + 1;
+				localStorage.setItem('totalAccesses', totalAccesses);
+				writeTo('totalAccesses', 'You have accessed this page <b>' + totalAccesses + '</b> times in total.');
+			}
+
+			if (storageAvailable('sessionStorage')) {
+				// accesses this session
+				sessionAccesses = (parseInt(sessionStorage.getItem('sessionAccesses')) || 0) + 1;
+				sessionStorage.setItem('sessionAccesses', sessionAccesses);
+				writeTo('sessionAccesses', 'You have accessed this page <b>' + sessionAccesses + '</b> times this session.');
+			}
+					
+			//localStorage.getItem('bar');
+			//localStorage.setItem('bar', foo);
+			//localStorage.removeItem('bar');
+		}
+
+		window.onload = doStuff;
+
+	</script>
+</head>
+<body>
+
+	<h1>Local Storage Test</h1>
+
+	<p id="isLocal"></p>
+	<p id="isSession"></p>
+	<p id="now"></p>
+	
+	<h2>Last Access</h2>
+	<p id="last1"></p>
+	<p id="last2"></p>
+	<p id="last3"></p>
+
+	<p id="sessionAccesses"></p>
+	<p id="totalAccesses"></p>
+
+</body>
+</html>

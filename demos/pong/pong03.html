@@ -7,7 +7,7 @@
 	<style type="text/css">
 
 		body {width:100vw; height:100vh; margin:0; color:#fff; background:#000; overflow:hidden;}
-		#content {width:100vw; height:100vh; margin:0; background:#666; overflow:auto;}
+		#content {width:100vw; height:100vh; margin:0; background:#222; overflow:auto;}
 
 		.score {position:absolute; left:50vw; top:10px; width:30px; height:50px; overflow:hidden;}
 		#score10 {left:calc(50vw - 90px); top:10px;}
@@ -28,13 +28,13 @@
 		// Pong 0.3
 		// Geoff Pack, geoff@virtualgeoff.com
 		// http://www.virtualgeoff.com/demos/pong/
-		// 
+		//
 		// v0.3	made full screen, updated code a little
 
 		var screenW = window.innerWidth,
 			screenH = window.innerHeight,
 
-			ball, 
+			ball,
 			ballW  = 20,		// ball size
 			ballH  = 20,
 			ballX  = ballW,		// ball position
@@ -43,7 +43,7 @@
 			ballVX = 0,
 			ballVY = 0,
 
-			paddle1,			
+			paddle1,
 			paddle1Y = 0,		// paddle position
 			paddle1Y_old = 0,	// old paddle position - use to calculate velocity
 			paddle1VY,			// paddle velocity
@@ -70,19 +70,19 @@
 				// calculate paddle velocities:
 				paddle1VY = paddle1Y - paddle1Y_old;
 				paddle2VY = paddle2Y - paddle2Y_old;
-	
+
 				// paddle2 tracks ball when not in play:
 				paddle2Y = ballY - paddleH/2 + ballH/2;
 
-				if (ballServed) {	
+				if (ballServed) {
 					// euler integration:
 					ballX += ballVX;
 					ballY += ballVY;
-			
+
 					// paddle2 motion
 					//paddle2Y = ballY - paddleH/2 + ballH/2; // tracks ball (unbeatable)
 					paddle2Y = paddle2Y_old + ballVY * 0.8; // moves towards ball
-			
+
 					// detect collision with top and bottom walls:
 					if (ballY < 0) {
 						ballY = 0;
@@ -90,8 +90,8 @@
 					} else if (ballY > screenH - ballH) {
 						ballY = screenH - ballH;
 						ballVY = -ballVY;
-					} 
-		
+					}
+
 					// detect collision with ends & paddles:
 					if (ballX <= 0) {
 						// left end
@@ -108,17 +108,17 @@
 							ballInPlay = false;
 							scoreRight++; updateScores();
 						}
-					} else if (ballX >= screenW - ballW) {			
+					} else if (ballX >= screenW - ballW) {
 						// right end
 						if ((ballY >= (paddle2Y-ballH)) && (ballY <= (paddle2Y+paddleH))) {
 							// hit!
 							ballX  = screenW - ballW - paddleW;
 							ballVX = -ballVX;
-							ballVY += paddle2VY/2;	
+							ballVY += paddle2VY/2;
 						} else {
-							// miss!			
+							// miss!
 							ballX  = screenW - ballW;
-							ballVX = 0;	
+							ballVX = 0;
 							ballVY = 0;
 							ballInPlay = false;
 							scoreLeft++; updateScores();
@@ -140,20 +140,20 @@
 						ballVY = 0;
 					}
 				}
-		
+
 				// draw ball:
 				ball.style.left = (ballX) + 'px';
 				ball.style.top  = (ballY) + 'px';
-	
+
 				// draw paddles:
 				paddle1.style.top  = paddle1Y + 'px';
 				paddle2.style.top  = paddle2Y + 'px';
 				paddle1Y_old = paddle1Y;
 				paddle2Y_old = paddle2Y;
-					
+
 				// do it all again in 20 millisecs (~50 fps):
 				next = setTimeout("updatePostion()",20);
-		
+
 			} else if (!gameOver) {
 				// ball not in play, so wait 1 second and play it again...
 				next = setTimeout("playBall()",1000);
@@ -187,8 +187,8 @@
 			//determine who serves
 			if (((scoreLeft+scoreRight)% 10) < 5) serviceLeft = true;
 			else serviceLeft = false;
-	
-			// end game if at least one player's score is over 21, and they're at least two points ahead	
+
+			// end game if at least one player's score is over 21, and they're at least two points ahead
 			if (((scoreLeft >= 21) || (scoreRight >= 21)) && (Math.abs(scoreLeft-scoreRight) >= 2)) gameOver = true;
 		}
 
@@ -207,7 +207,7 @@
 			paddle2 = document.getElementById('paddle2');
 
 			window.addEventListener('mousemove', mouseMove, false);
-			window.addEventListener('mouseup', mouseUp, false);	
+			window.addEventListener('mouseup', mouseUp, false);
 			updatePostion();
 		}
 
@@ -228,7 +228,7 @@
 
 		<div id="paddle1"></div>
 		<div id="paddle2"></div>
-		<div id="ball"></div>	
+		<div id="ball"></div>
 	</div>
 
 </body>

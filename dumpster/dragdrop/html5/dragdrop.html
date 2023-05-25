@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Drag and Drop</title>
+	<style type="text/css">
+
+		body {font-size:1.4em; font-family:Helvetica,Arial,sans-serif;}
+		
+	</style>
+	<script>
+
+		var internalDNDType = 'text/x-example'; // set this to something specific to your site
+
+		function dragEnterHandler(event) {
+			var items = event.dataTransfer.items;
+			for (var i=0; i<items.length; ++i) {
+				var item = items[i];
+				if (item.kind == 'string' && item.type == internalDNDType) {
+					event.preventDefault();
+					return;
+				}
+			}
+		}
+
+		function dragOverHandler(event) {
+			event.dataTransfer.dropEffect = 'move';
+			event.preventDefault();
+		}
+
+		function dropHandler(event) {
+			var li = document.createElement('li');
+			var data = event.dataTransfer.getData(internalDNDType);
+			if (data == 'fruit-apple') {
+				li.textContent = 'Apples';
+			} else if (data == 'fruit-orange') {
+				li.textContent = 'Oranges';
+			} else if (data == 'fruit-pear') {
+				li.textContent = 'Pears';
+			} else {
+				li.textContent = 'Unknown Fruit';
+			}
+			event.target.appendChild(li);
+		}
+
+		function dragEndHandler(event) {
+			if (event.dataTransfer.dropEffect == 'move') {
+				// remove the dragged element
+				event.target.parentNode.removeChild(event.target);
+			}
+		}
+
+	</script>
+</head>
+<body>
+
+	<ol ondragenter="dragEnterHandler(event)" ondragover="dragOverHandler(event)" ondrop="dropHandler(event)" ondragend="dragEndHandler(event)">
+		 <li draggable="true" data-value="fruit-apple">Apple</li>
+		 <li draggable="true" data-value="fruit-orange">Orange</li>
+		 <li draggable="true" data-value="fruit-banana">Banana</li>
+		 <li draggable="true" data-value="fruit-pear">Pear</li>
+		 <li draggable="true" data-value="fruit-pineapple">Pineapple</li>
+		 <li draggable="true" data-value="fruit-mango">Mango</li>
+		 <li draggable="true" data-value="fruit-strawberry">Strawberry</li>
+		 <li draggable="true" data-value="fruit-rasberry">Rasberry</li>
+		 <li draggable="true" data-value="fruit-lemon">Lemon</li>
+		 <li draggable="true" data-value="fruit-lime">Lime</li>
+		 <li draggable="true" data-value="fruit-passonfruit">Passonfruit</li>
+		 
+	</ol>
+
+</body>
+</html>

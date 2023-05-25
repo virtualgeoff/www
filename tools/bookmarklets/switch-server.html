@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Switch Server</title>
+</head>
+<body>
+	<h1>Switch Server</h1>
+
+	<p>Switch quickly between the same page on local, dev and live servers.</p>
+	<p>Order is: localhost -> nmdev -> wwwdev -> www</p>
+
+	<p><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://nmdev.abc.net.au/innovation/tools/bookmarklets/switch-server.js?'+Math.floor(new%20Date().getTime()/(2*60*1000));})();">localhost | dev | www</a> - bookmark this link (drag to bookmarks bar)</p>	
+
+	<p><a href="javascript:(function(){str=window.location.toString();str2=str.split('abc.net.au/');if%20(str.indexOf('localhost')!=-1){window.location='http://nmdev.abc.net.au/'+str2[1];}else%20if%20(str.indexOf('nmdev')!=-1){window.location='http://wwwdev.abc.net.au/'+str2[1];}else%20if%20(str.indexOf('wwwdev')!=-1){window.location='http://www.abc.net.au/'+str2[1];}else{window.location='http://localhost.abc.net.au/'+str2[1];}})();">localhost | dev | www</a> - purely local version (doesn't load script from nmdev)</p>	
+
+</body>
+</html>
+
+
+

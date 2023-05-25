@@ -11,10 +11,10 @@
 		#info   {position:absolute; top:0; right:0; text-align:right; margin:1em; color:#fff; z-index:10;}
 
 	</style>
-	<script type="text/javascript">
+	<script>
 
-		// Geoff Pack, 20 November 2016
-		
+		// Geoff Pack, November 2016
+
 		var canvas,
 			ctx,
 			width,
@@ -23,7 +23,6 @@
 			now,
 			deltaT,
 			timer1,
-			N = 80,  // max. no. of dots
 			R = 5,   // max. radius
 			V = 1.5, // max. velocity
 			p = [],  // dots
@@ -67,23 +66,9 @@
 			ctx.stroke();
 		}
 
-		function createCanvas() {
-			// get window size
-			width = window.innerWidth;
-			height = window.innerHeight;
-			document.getElementById('info').innerHTML = width + '×' + height + 'px';
-
-			// create canvas element
-			canvas = document.createElement("canvas");
-			canvas.width = width;
-			canvas.height = height;
-			document.body.appendChild(canvas);
-			ctx = canvas.getContext("2d");
-		}
-
 		function createDot() {
 			// create new dot and append to p[]
-			// each dot has a position, a velocity, a radius and a color			
+			// each dot has a position, a velocity, a radius and a color
 			var i = p.length;
 			p[i] = {};
 			p[i].r = getRandomFloat(0, R);
@@ -94,12 +79,12 @@
 			p[i].vx = p[i].v[0] * Math.cos(p[i].v[1]);
 			p[i].vy = p[i].v[0] * Math.sin(p[i].v[1]);
 		}
-		
+
 		function draw() {
 			// clear canvas
 			ctx.clearRect(0,0,width,height);
 
-			// draw points
+			// move points
 			for (var i=0; i<p.length; i++) {
 				p[i].x += p[i].vx;
 				p[i].y += p[i].vy;
@@ -122,68 +107,78 @@
 				} else {
 					if (p[i].x < 0) {
 						p[i].x = width;
-						//p[i].vx = -Math.abs(p[i].vx);
 					} else if (p[i].x > width) {
 						p[i].x = 0;
-						//p[i].vx = Math.abs(p[i].vx);
 					}
 					if (p[i].y < 0) {
 						p[i].y = height;
-						//p[i].vy = -Math.abs(p[i].vy);
 					} else if (p[i].y > height) {
 						p[i].y = 0;
-						//p[i].vy = Math.abs(p[i].vy);
 					}
 				}
-
-				drawDot(p[i].x, p[i].y, p[i].r, p[i].c);
 			}
 
-			// draw lines
+			// draw lines and dots
 			for (var i=0; i<p.length; i++) {
 				for (var j=i+1; j<p.length; j++) {
 					// calculate distance (squared)
 					rSquared = Math.pow((p[i].x - p[j].x),2) + Math.pow((p[i].y - p[j].y),2);
 					drawLine(p[i].x, p[i].y, p[j].x, p[j].y, rSquared);
 				}
+				drawDot(p[i].x, p[i].y, p[i].r, p[i].c);
 			}
 
 			// get timing stats
 			then = now;
 			now = new Date();
 			deltaT = now-then;
-			document.getElementById('status').innerHTML = '∆t = ' + (deltaT) + ' ms'
-				+ '<br>N = ' + p.length;
+			document.getElementById('status').innerHTML = '∆t = ' + (deltaT) + ' ms' + '<br>N = ' + p.length;
 
-			// keep adding dots until frame rate drops below 50 fps (= 20 ms per frame)
-			if (timer1 && p.length > 10 && deltaT > 25) {
+			// keep adding dots until frame rate drops below 30 fps (= 33.3 ms per frame)
+			if (timer1 && p.length > 10 && deltaT > 33.33) {
 				window.clearInterval(timer1);
 			}
 
 			window.requestAnimationFrame(draw);
 		}
 
+		function getSize() {
+			// get window size
+			width = window.innerWidth;
+			height = window.innerHeight;
+			document.getElementById('info').innerHTML = width + ' × ' + height + ' px';
+
+			// resize canvas element
+			canvas.width = width;
+			canvas.height = height;
+		}
+
 		function init() {
 			now = new Date();
-			createCanvas();
+
+			canvas = document.querySelector("canvas");
+			ctx = canvas.getContext("2d");
+			getSize();
 
 			// calculate rMax (maximum separation)
 			rSquaredMax = Math.pow(width,2) + Math.pow(height,2);
 
-			// add new dot every half second
+			// add new dot every 0.2 seconds
 			createDot();
 			timer1 = setInterval(createDot, 200);
-			
+
 			draw();
+
+			window.addEventListener("resize", getSize);
 		}
 
-		window.addEventListener("DOMContentLoaded", init, false);
-		window.addEventListener("resize", init, false);
+		window.addEventListener("DOMContentLoaded", init);
 
 	</script>
 </head>
 <body>
 
+	<canvas></canvas>
 	<p id="status"></p>
 	<p id="info"></p>
 

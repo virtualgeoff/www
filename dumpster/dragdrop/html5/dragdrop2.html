@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Drag and Drop</title>
+	<style type="text/css">
+
+		body {font-size:1.4em; font-family:Helvetica,Arial,sans-serif;}
+		
+		ol {min-height:3em; border:2px dotted red;}
+		
+	</style>
+	<script>
+
+		function dragStartHandler(event) {
+			// Add the target element's id to the data transfer object
+			event.dataTransfer.setData("application/my-app", event.target.id);
+			//event.dataTransfer.setData("text/plain", event.target.innerText);
+			//event.dataTransfer.setData("text/html", event.target.outerHTML);
+			event.dataTransfer.dropEffect = "move";
+		}
+
+		function dragOverHandler(event) {
+			event.preventDefault();
+			event.dataTransfer.dropEffect = "move";
+		}
+
+		function dropHandler(event) {
+			event.preventDefault();
+			// Get the id of the target and add the moved element to the target's DOM
+			var data = event.dataTransfer.getData("application/my-app");
+			//var data = event.dataTransfer.getData("text/html");
+			event.target.appendChild(document.getElementById(data));
+		}
+
+		function dragEndHandler(event) {
+
+		}
+
+		function init() {
+			document.querySelectorAll('[draggable="true"]').forEach(
+				function(item) {
+					//console.log(item.id);
+					item.addEventListener('dragstart', dragStartHandler);
+				}
+			);
+
+			document.querySelectorAll('.droppable').forEach(
+				function(item) {
+					console.log(item.id);
+					item.addEventListener('dragover', dragOverHandler);
+					item.addEventListener('drop', dropHandler);
+				}
+			);
+		}
+
+	</script>
+</head>
+<body onload="init();">
+
+	<h2>List One:</h2>
+	<ol id="ol1" class="droppable">
+		 <li id="li01" draggable="true">Apple</li>
+		 <li id="li02" draggable="true">Orange</li>
+		 <li id="li03" draggable="true">Banana</li>
+		 <li id="li04" draggable="true">Pear</li>
+		 <li id="li05" draggable="true">Pineapple</li>
+		 <li id="li06" draggable="true">Mango</li>
+		 <li id="li07" draggable="true">Strawberry</li>
+		 <li id="li08" draggable="true">Rasberry</li>
+		 <li id="li09" draggable="true">Lemon</li>
+		 <li id="li10" draggable="true">Lime</li>
+		 <li id="li11" draggable="true">Passonfruit</li>
+	</ol>
+
+	<h2>List Two:</h2>
+	<ol id="ol2" class="droppable">
+	</ol>
+
+	<h2>List Three:</h2>
+	<ol id="ol3" class="droppable">
+	</ol>
+
+</body>
+</html>

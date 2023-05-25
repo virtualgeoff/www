@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Template Test 2</title>
+	<style>
+
+		body {font-family:Helvetica, Arial, sans-serif;}
+		h1 {font-size: 1.5em;}
+		nav {font-size: 1.2em;}
+		nav a {padding:0 0.5em; font-weight:bold;}
+		table {border-collapse:collapse;}
+		th, td {padding:0.5em; border:1px solid #ccc;}
+		td.symbol {font-size:1.5em;}
+	
+	</style>
+	<script>
+
+		//var legend = ['name', 'symbol', 'type', 'equatorial_diameter', 'mass', 'semi-major_axis', 'orbital_period', 'inclination', 'orbital_eccentricity', 'rotation_period', 'moons', 'axial_tilt', 'rings', 'atmosphere'];
+		var planets = [
+			['Mercury',	'☿',	'terrestrial',	0.382,	0.06,	0.39,	0.24,	3.38,	0.206,	58.64,		0,	0.04,	'no',	'minimal'],
+			['Venus',	'♀',	'terrestrial',	0.949,	0.82,	0.72,	0.62,	3.86,	0.007,	'−243.02',	0,	177.36,	'no',	'CO2, N2'],
+			['Earth',	'⊕',	'terrestrial',	1.00,	1.00,	1.00,	1.00,	7.25,	0.017,	1.00,		1,	23.44,	'no',	'N2, O2, Ar'],
+			['Mars', 	'♂',	'terrestrial',	0.532,	0.11,	1.52,	1.88,	5.65,	0.093,	1.03,		2,	25.19,	'no',	'CO2, N2, Ar'],
+			['Jupiter',	'♃',	'gas giant',	11.209,	317.8,	5.20,	11.86,	6.09,	0.048,	0.41,		79,	3.13,	'yes',	'H2, He'],
+			['Saturn',	'♄',	'gas giant',	9.449,	95.2,	9.54,	29.46,	5.51,	0.054,	0.43,		82,	26.73,	'yes',	'H2, He'],
+			['Uranus',	'♅',	'ice giant',	4.007,	14.6,	19.22,	84.01,	6.48,	0.047,	'−0.72',	27,	97.77,	'yes',	'H2, He, CH4'],
+			['Neptune',	'♆',	'ice giant',	3.883,	17.2,	30.06,	164.8,	6.43,	0.009,	0.67,		14,	28.32,	'yes',	'H2, He, CH4'],
+		];
+		
+
+		function buildTable() {
+			var planet, clone, cells,
+				template = document.querySelector('template');
+
+			for (var i=0; i<planets.length; i++) {
+				planet = planets[i];
+				clone = template.content.cloneNode(true);
+				cells = clone.querySelectorAll('td');
+
+				cells[0].textContent = i;
+				for (var j=1; j<cells.length; j++) {
+					cells[j].textContent = planet[j-1];
+				}
+				
+				template.parentNode.appendChild(clone);
+			}
+		}
+
+	</script>
+</head>
+<body onload="buildTable()">
+
+	<h1>Template Test 2</h1>
+
+	<nav><a href="index.html">1</a> | <a href="test2.html">2</a> | <a href="test3.html">3</a> | <a href="test4.html">4</a> | </nav>
+
+	<p>Testing the HTML Template element.</p>	
+	<p>Looping through table cells.</p>
+
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Name</th>
+				<th>Symbol</th>
+				<th>Type</th>
+				<th>Equatorial diameter</th>
+				<th>Mass</th>
+				<th>Semi-major axis (AU)</th>
+				<th>Orbital period (years)</th>
+				<th>Inclination to Sun's equator (°)</th>
+				<th>Orbital eccentricity</th>
+				<th>Rotation period (days)</th>
+				<th>Confirmed moons</th>
+				<th>Axial tilt (°)</th>
+				<th>Rings</th>
+				<th>Atmosphere</th>
+			</tr>
+
+		<thead>
+		<tbody>
+			<template>
+				<tr>
+					<td class="N"></td>
+					<td class="name"></td>
+					<td class="symbol"></td>
+					<td class="type"></td>
+					<td class="equatorial_diameter"></td>
+					<td class="mass"></td>
+					<td class="semi-major_axis"></td>
+					<td class="orbital_period"></td>
+					<td class="inclination"></td>
+					<td class="orbital_eccentricity"></td>
+					<td class="rotation_period"></td>
+					<td class="moons"></td>
+					<td class="axial_tilt"></td>
+					<td class="rings"></td>
+					<td class="atmosphere"></td>
+				</tr>
+			</template>
+		</tbody>
+	</table>
+	<p>Source: <a href="https://en.wikipedia.org/wiki/Planet">en.wikipedia.org/wiki/Planet</a></p>
+
+</body>
+</html>
