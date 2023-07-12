@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Pointer Events Test</title>
+	<style>
+
+		body {margin:0; width:100vw; width:100dvw; height:100vh; height:100dvh;}
+		h1, h2 {margin:1rem;}
+		p {margin:1em;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+		// shortcuts
+
+		const $ = document.querySelector.bind(document);
+		const $All = document.querySelectorAll.bind(document);
+
+		function showPointerProperties(e, touches) {
+			let str = '';
+			let props1 = ['pointerId', 'width', 'height', 'pressure', 'tangentialPressure', 'tiltX', 'tiltY', 'twist', 'pointerType', 'isPrimary'];
+			let props2 = ['altKey', 'button', 'buttons', 'clientX', 'clientY', 'ctrlKey', 'layerX', 'layerY', 'metaKey', 'movementX', 'movementY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'relatedTarget', 'screenX', 'screenY', 'shiftKey', 'mozInputSource', 'webkitForce', 'x', 'y'];
+
+			str += '<b>pointer:</b><br>'
+			for (p in props1) {
+				str += [props1[p]]  + ': ' + e[props1[p]] + '<br>';
+			}
+
+			str += '<br><b>mouse:</b><br>'
+			for (p in props2) {
+				str += [props2[p]]  + ': ' + e[props2[p]] + '<br>';
+			}
+
+			$('#pointer h2').innerHTML = e.type;
+			$('#pointer p').innerHTML = str;
+		}
+
+		function init() {
+			let body = document.body;
+
+			body.addEventListener('pointerover', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointerenter', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointerdown', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointermove', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointerup', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointercancel', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointerout', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('pointerleave', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('gotpointercapture', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+			body.addEventListener('lostpointercapture', e => {
+				//console.log(e);
+				e.preventDefault();
+				showPointerProperties(e);
+			});
+		}
+
+		window.addEventListener('load', init);
+
+</script>
+</head>
+<body>
+	<h1>Pointer Events Test</h1>
+
+	<p>See:<br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events">Pointer events</a><br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Pointer_Events">Using Pointer Events</a></p>
+
+	<div id="pointer">
+		<h2></h2>
+		<p></p>
+	</div>
+
+</body>
+</html>

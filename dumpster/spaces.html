@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Space Characters</title>
+	<style>
+
+		body {font-family:"Times New Roman", Times, serif;}
+
+		table {border-collapse:collapse;}
+		th, td {padding:0.2em 0.5em; border:1px solid #ccc;}
+		th {text-align:left;}
+		td {}
+		td:first-child {font-variant:small-caps;}
+		td:nth-child(3n) {text-align:right;}
+
+	</style>
+</head>
+<body>
+
+<h1>Space Characters</h1>
+
+<!-- turn on "show invisibles" in BBEdit to see these! -->
+
+<h3>Unicode spaces:</h3>
+<p>Unicode has many different space characters:</p>
+
+<table>
+	<tr>
+		<th scope="col">Character name:</th>
+		<th scope="col">Hex</th>
+		<th scope="col">Dec</th>
+		<th scope="col">HTML entity<sup><a href="#entity">1</a><suo></th>
+		<th scope="col">Example</th></tr>
+	<tr>
+		<td>Backspace:</td>
+		<td>U+0008</td>
+		<td>8</td>
+		<td></td>
+		<td>foo,bar,baz,qux,quux</td>
+	</tr>
+	<tr>
+		<td>Character tabulation</td>
+		<td>U+0009</td>
+		<td>9</td>
+		<td>&amp;Tab;</td>
+		<td>foo,bar,baz,qux,quux</td>
+	</tr>
+	<tr>
+		<td>Space:</td>
+		<td>U+0020</td>
+		<td>32</td>
+		<td></td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>No-break space:</td>
+		<td>U+00a0</td>
+		<td>160</td>
+		<td>&amp;nbsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>En space:</td>
+		<td>U+2002</td>
+		<td>8194</td>
+		<td>&amp;ensp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Em space:</td>
+		<td>U+2003</td>
+		<td>8195</td>
+		<td>&amp;emsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Three-per-em space:</td>
+		<td>U+2004</td>
+		<td>8196</td>
+		<td>&amp;emsp13;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Four-per-em space:</td>
+		<td>U+2005</td>
+		<td>8197</td>
+		<td>&amp;emsp14;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Six-per-em space:</td>
+		<td>U+2006</td>
+		<td>8198</td>
+		<td></td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Figure space:</td>
+		<td>U+2007</td>
+		<td>8199</td>
+		<td>&amp;numsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Punctuation space:</td>
+		<td>U+2008</td>
+		<td>8200</td>
+		<td>&amp;puncsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Thin space:</td>
+		<td>U+2009</td>
+		<td>8201</td>
+		<td>&amp;thinsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Hair space:</td>
+		<td>U+200a</td>
+		<td>8202</td>
+		<td>&amp;hairsp;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Zero width space:</td>
+		<td>U+200b</td>
+		<td>8203</td>
+		<td>&amp;ZeroWidthSpace;</td>
+		<td>foo,​bar,​baz,​qux,​quux</td>
+	</tr>
+	<tr>
+		<td>Narrow no-break space:</td>
+		<td>U+202f</td>
+		<td>8239</td>
+		<td></td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>Medium mathematical space:</td>
+		<td>U+205f</td>
+		<td>8287</td>
+		<td>&amp;MediumSpace;</td>
+		<td>foo, bar, baz, qux, quux</td>
+	</tr>
+	<tr>
+		<td>ideographic space:</td>
+		<td>U+3000</td>
+		<td>12288</td>
+		<td></td>
+		<td>foo,　bar,　baz,　qux,　quux</td>
+	</tr>
+</table>
+<p id="entity">1. you can also use  &#xnnnn; (hex) or &#nnnn; (dec) for any unicode character. E.g. &amp;#x2002; or &amp;#8194; for an en space.</p>
+
+<h3>Example for sentence spacing</h3>
+
+<p>En space between sentences: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu ullamcorper mi, id dictum nibh. Pellentesque fermentum efficitur viverra. Ut tincidunt ut nunc non viverra. Nunc accumsan ultrices libero ut efficitur. Vestibulum a eros a urna vestibulum tempor. Ut vel sodales tellus. Aliquam enim velit, varius eget mi ut, blandit dictum nulla. Quisque non malesuada felis. Duis sit amet sapien at risus efficitur fermentum. Aenean posuere tempus elit, nec eleifend tellus bibendum a. Suspendisse potenti.</p>
+
+<p>Em space between sentences: Pellentesque semper sed enim a rutrum. Suspendisse iaculis laoreet leo, a tristique lorem tincidunt id. Ut lacinia, sem a sodales fermentum, leo diam elementum elit, vitae egestas risus velit non magna. Curabitur nec ligula quis sem imperdiet rhoncus sit amet a lorem. Donec ut risus sapien. Aenean et nisl quam. Aenean nec interdum metus, quis vulputate enim. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc pulvinar molestie imperdiet. Etiam non nisi id leo blandit placerat vel ac ligula. Duis in urna quis erat dignissim pellentesque hendrerit sed sapien. Pellentesque tempor magna eu lacus laoreet tempor. Fusce nec tortor sed urna placerat bibendum eu id mi.</p>
+
+
+<h3>See:</h3>
+
+<ul>
+	<li><a href="https://en.wikipedia.org/wiki/Whitespace_character">Whitespace character</a></li>
+	<li><a href="https://en.wikipedia.org/wiki/Space_(punctuation)">Space (punctuation)</a></li>
+	<li><a href="https://en.wikipedia.org/wiki/Sentence_spacing_in_digital_media">Sentence spacing in digital media</a></li>
+</ul>
+
+</body>
+</html>

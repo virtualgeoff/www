@@ -1,31 +1,106 @@
-/* last modified 2020-10-29 */
+/* main.css */
 
-body {margin:0; padding:0; font-family:Courier,'Courier New',sans-serif; font-size:100%; color:#000; background:#eee;}
+html {box-sizing:border-box;}
+*, *:before, *:after {box-sizing: inherit;}
+
+body {margin:0; padding:0; font-size:1em; font-family:Courier,'Courier New',sans-serif; color:#000; background:#eee;}
 
 /* headings */
-h1 {font-size:5em; margin:0; color:#ccc;}
-h2 {font-size:2.5em; text-align:right; margin:0; color:#bbb;}
+h1 {font-size:3em; margin:0; color:#ccc;}
+h2 {font-size:2em; margin:0 0 1em 0; color:#bbb;}
 h3 {font-size:1.167em; margin-top:2em;}
 h4 {font-size:1.0em;}
 
 /* links */
-a         {color:#007; text-decoration:none;}
+a         {color:#00b; text-decoration:none;}
 a:visited {color:#707;}
-a:active  {color:#700;}
-a:hover   {color:#a00; text-decoration:underline;}
+a:active  {color:#c00;}
+a:hover   {color:#c00; text-decoration:underline;}
 
 header a, header a:visited, header a:active  {color:#ccc;}
 header a:hover {color:#bbb;}
 
-/* misc */
-p, td {font-size:1.0em;}
+/* lists */
 li {list-style-type:square;}
+
+/* tables */
+table {margin:1em 0; border-collapse: collapse;}
+th, td {padding:0.2em 0.5em; border:1px solid #ddd;}
+
+/* miscellaneous */
+p {margin:0 0 1em 0;}
 hr {width:90%;}
 
-
 /* layout */
-header 	{position:fixed; bottom:-20px; left:0; z-index:1;}
-nav 	{position:fixed; top:5em; left:0; width:10em; padding:1em;}
-main 	{position:absolute; top:0; left:0; margin:5em 15% 5em 30%; padding:1em 1em 5em 1em; z-index:5;}
-main h2 {position:fixed; top:0; right:0.5em; }
-footer 	{position:fixed; bottom:-20px; right:0;}
+header 	{margin:0;}
+nav 	{margin:0; padding:1rem;}
+main 	{margin:0; padding:1rem;}
+footer 	{margin:0; padding:1rem;}
+
+/* borders
+header, nav, main, footer {outline:1px dotted red;}
+/**/
+
+/* nav */
+nav ul {margin:0; padding:0;}
+body.home nav a[href="/"],
+body.about nav a[href="/about/"],
+body.portfolio nav a[href="/portfolio/"],
+body.tools nav a[href="/tools/"],
+body.demos nav a[href="/demos/"],
+body.junkyard nav a[href="/junkyard/"],
+body.dumpster nav a[href="/dumpster/"],
+body.vrml nav a[href="/vrml/"],
+body.contact nav a[href="/contact/"] {font-weight:bold; color:#000;}
+
+/* footer */
+footer h6 {display:none;}
+
+
+@media (max-width:29.99rem) {
+
+	/* nav */
+	nav ul li {display:inline-block; list-style:none; margin:0.2em 0; padding:0 0.6em 0 0; border-right:1px solid #666;}
+	nav ul li:last-child {border-right:0;}
+
+	/* h2 tweak */
+	h2 {margin-left:-1.3rem;}
+	body#dumpster h2, body#junkyard h2 {margin-left:0;}
+	body#dumpster h2 b, body#junkyard h2 b {margin-left:-1.3rem;}
+}
+
+@media (min-width:30rem) {
+
+	h1 {display:none; font-size:5em;}
+	h2 {font-size:2.5em; text-align:right; margin:0; color:#bbb;}
+	main h2 {position:absolute; top:-4rem; right:1rem; white-space:nowrap;}
+
+	/* layout */
+	header 	{display:none;}
+	nav 	{position:fixed; top:4.5rem; left:0; width:30%;}
+	main 	{position:relative; margin:4.5rem 0 1rem 30%; min-height:calc(100vh - 12.1em); min-height:calc(100dvh - 12.1em);}
+	footer 	{position:relative; margin:0; padding-bottom:0; overflow:hidden}
+
+	/* nav */
+	nav ul {margin:0 1em 1em 1em;}
+
+	/* footer */
+	footer h6 {display:block; position:relative; bottom:-0.25em; left:-1rem; margin:0; font-size:5em; font-weight:bold; color:#ccc;}
+	footer p {margin-left:30%; padding-left:0.5rem;}
+}
+
+@media (min-width:50rem) {
+
+	h1 {display:block;}
+	main h2 {position:fixed; top:0; right:1rem; white-space:nowrap;}
+
+	/* layout */
+	header 	{display:block; position:fixed; bottom:-1.25rem; left:0; z-index:1;}
+	nav 	{position:fixed; top:5rem; left:7%; width:15%; padding:1em; z-index:4;}
+	main 	{position:relative; max-width:40rem; margin:5rem 15% 1rem 30%; padding:1em; z-index:5;}
+	footer 	{max-width:40rem; margin:1rem 15% 5rem 30%; padding:1em; z-index:4;}
+
+	/* footer */
+	footer h6 {display:none;}
+	footer p {margin-left:0; padding-left:0;}
+}

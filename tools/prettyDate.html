@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Prettified Dates</title>
+
+	<style tpye="text/css">
+
+		table {margin:1em 20px 2em 20px; padding:0; border:1px solid #999; border-collapse:collapse;}
+		tr {vertical-align:top;}
+		th, td {padding:5px; border:1px #ccc solid;}
+		th.hah {padding-top:1em; text-align:left;}
+		pre, code {font-size:0.9em;}
+	
+	</style>
+	<script type="Text/javascript">
+
+		var now = new Date(), then, i;
+
+		function getRandom(max) {
+			return Math.random() * max;
+		}
+		function getRandomCentered(max) {
+			// return +/- max
+			return (Math.random() - 0.5) * 2 * max;
+		}
+		function getRandomDate(max) {
+			// return random date now +/- max
+			var then = new Date(now + getRandomCentered(max));
+			return then
+		}
+
+		function getPrettifiedDate(then) {
+			var now = new Date();
+			var deltaT = (now - then) / 1000;  // in seconds
+			var units = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year','decade','century','millenium'];
+			var plurals = ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years','decades','centuries','millenia'];
+			var multipliers = [1, 60, 60, 24, 7, 4.345, 12, 10, 10, 10];
+			var unit, prefix = '', suffix = '', i = 0;
+			
+			if (isNaN(deltaT)) return '';
+			if (Math.abs(deltaT) < 1) return 'now';
+			
+			while ((Math.abs(Math.round(deltaT)) >= multipliers[i+1]) && (i < multipliers.length)) {
+				deltaT /= multipliers[++i];  // if |deltaT| >= the next multiplier, divide by the multiplier and increment the unit			  
+			}
+			
+			if (deltaT < 0) prefix = 'in ';
+			if (deltaT > 0) suffix = ' ago';
+			unit = (Math.abs(Math.round(deltaT)) > 1) ? plurals[i] : units[i];
+				
+			return prefix + Math.abs(Math.round(deltaT)) + ' ' + unit + suffix; //+ ' [' + deltaT + " " + units[i] + ']';
+		}
+	
+	</script>
+</head>
+<body>
+
+<h1>Prettified Dates</h1>
+
+<p>Converts a time difference into an approximate, human readable form.</p>
+
+<code><pre>
+	function getPrettifiedDate(then) {
+		var now = new Date();
+		var deltaT = (now - then) / 1000;  // in seconds
+		var units = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year','decade','century','millenium'];
+		var plurals = ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years','decades','centuries','millenia'];
+		var multipliers = [1, 60, 60, 24, 7, 4.345, 12, 10, 10, 10];
+		var unit, prefix = '', suffix = '', i = 0;
+		
+		if (isNaN(deltaT)) return '';
+		if (Math.abs(deltaT) < 1) return 'now';
+		
+		while ((Math.abs(Math.round(deltaT)) >= multipliers[i+1]) && (i < multipliers.length)) {
+			deltaT /= multipliers[++i];  // if |deltaT| >= the next multiplier, divide by the multiplier and increment the unit			  
+		}
+		
+		if (deltaT < 0) prefix = 'in ';
+		if (deltaT > 0) suffix = ' ago';
+		unit = (Math.abs(Math.round(deltaT)) > 1) ? plurals[i] : units[i];
+			
+		return prefix + Math.abs(Math.round(deltaT)) + ' ' + unit + suffix; //+ ' [' + deltaT + " " + units[i] + ']';
+	}
+</pre></code>
+
+
+<h2>Testing</h2>
+
+<ul>
+	<li>Dates are random within ranges - refresh for new ones.</li>
+	<li>preliminary testing with different timezones - seems to be ok.</li>
+	<li>time difference = now - then</li>
+	<li>i.e. +ve = in past, -ve = in future.</li>
+</ul>
+
+<table>
+	<tr>
+		<th>&nbsp;</th>
+		<th>Date (UTC)</th>
+		<th>Date (local)</th>
+		<th>Time difference (ms)</th>
+		<th>Prettified</th>
+	</tr>
+
+	<tr><th colspan="5" class="hah">Now</th></tr>
+	<script type="text/javascript">
+		then = now;
+		document.write('<tr><td></td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 minute</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 hour</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 day</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 week</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 7)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 month</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 30)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 year</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 decade</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25 * 10)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 century</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25 * 100)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 1 millenia</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25 * 1000)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 10 millenia</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25 * 10000)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">Now ± 273 thousand years</th></tr>
+	<script type="text/javascript">
+		for (i=1; i<=10; i++) {
+			then = new Date((now.getTime() + getRandomCentered(1000 * 60 * 60 * 24 * 365.25 * 1000 * 273)));
+			document.write('<tr><td>' + i + '</td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (now - then) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+		}
+	</script>
+
+	<tr><th colspan="5" class="hah">January 1, 1970, 00:00:00 UTC + 8640 000 000 000 000 milliseconds</th></tr>
+	<script type="text/javascript">
+			then = new Date(8640000000000000); // = ±100 000 000 days		
+			document.write('<tr><td></td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (-then.getTime()) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+	</script>
+
+	<tr><th colspan="5" class="hah">January 1, 1970, 00:00:00 UTC - 8640 000 000 000 000 milliseconds</th></tr>
+	<script type="text/javascript">
+			then = new Date(-8640000000000000); // = ±100 000 000 days
+			document.write('<tr><td></td><td>' + then.toUTCString() + '</td><td>' + then.toString() + '</td><td>' + (-then.getTime()) + '</td><td>' + getPrettifiedDate(then) + '</td></tr>');
+	</script>
+
+</table>
+
+<p>By the way:</p>
+<ul>
+	<li>The JavaScript Date object uses milliseconds since the Unix Epoch: 1970-01-01T00:00:00Z (in ISO 8601)
+	<li>Integers in JS go up to 2<sup><small>53</small></sup>, which is approx. 9.0e15. (= <script>document.write(Math.pow(2,53));</script>).</li>
+	<li>The hard limits for the date object (above) are slightly less than this: 8.64e+15 seconds, or 100 million days. (~273.8 thousand years)</li>
+	<li>The big bang was 13.75 billion years ago = 4.339e+20 milliseconds.</li>
+	<li>∴ not enough milliseconds!</li>
+</ul>
+
+</body>
+</html>

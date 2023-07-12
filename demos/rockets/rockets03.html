@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Rocket 0.3</title>
+	<style>
+
+		body {margin:0; padding:0; font-family:courier; color:#0f0; background:#000; overflow:hidden;}
+		canvas {margin:0; padding:0;,border:1px solid black;}
+		p {margin:0; padding:0;}
+
+		#msg1,  #data1 {position:absolute; left:1em;  top:1em; text-align:left;}
+		#msg2,  #data2 {position:absolute; right:1em; top:1em; text-align:right;}
+		#data1, #data2 {top:3em;}
+
+	</style>
+	<script>
+
+		// Geoff Pack
+		// June 2023
+
+		var canvas, ctx,
+			now, then, dt,
+			m = [{},{}],
+			data = [];
+
+		function setSize(){
+			canvas.width  = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+
+		function precise(num, n) {
+			return Number.parseFloat(num).toPrecision(n);
+		}
+
+		function draw() {
+			var flame, rocket;
+			now = new Date();
+			dt = now - then;
+
+			ctx.clearRect(0,0,canvas.width,canvas.height); // clear canvas
+			ctx.strokeStyle = "black";
+
+			for (let i=0; i<m.length; i++) {
+				// move object m
+				m[i].p.x += m[i].v.x;
+				m[i].p.y += m[i].v.y;
+
+				m[i].theta += m[i].omega;
+				m[i].a.x += Math.sin(m[i].theta * (Math.PI/180)) * m[i].f;
+				m[i].a.y -= Math.cos(m[i].theta * (Math.PI/180)) * m[i].f;
+
+				m[i].v.x += m[i].a.x;
+				m[i].v.y += m[i].a.y;
+
+				// wrap x
+				m[i].p.x = m[i].p.x % canvas.width;
+				if (m[i].p.x < 0) { m[i].p.x += canvas.width; }
+
+				// wrap y
+				m[i].p.y = m[i].p.y % canvas.height;
+				if (m[i].p.y < 0) { m[i].p.y += canvas.height; }
+
+				// wrap theta
+				m[i].theta = m[i].theta % 360;
+				if (m[i].theta < 0) { m[i].theta += 360; }
+
+				// draw rocket
+				ctx.save();
+				ctx.translate(m[i].p.x, m[i].p.y);
+				ctx.rotate(m[i].theta * (Math.PI/180));
+				ctx.translate(-m[i].p.x, -m[i].p.y);
+				rocket = new Path2D("m " + m[i].p.x + " " + m[i].p.y + " m 0 5 l 10 5 l -10 -30 l -10 30 l 10 -5");
+				ctx.strokeStyle = (i === 0) ? "rgb(255,0,0)" : "rgb(0,162,255)";
+				ctx.stroke(rocket);
+
+				if (m[i].flame) {
+					flame = new Path2D("m " + m[i].p.x + " " + m[i].p.y + " m 0 6 l 3 5 l -3 15 l -3 -15 l 3 -5");
+					ctx.strokeStyle = "rgb(255,125,0)";
+					ctx.stroke(flame);
+				}
+				ctx.restore();
+
+				// draw centre dot
+				ctx.fillStyle = (i === 0) ? "rgb(255,0,0)" : "rgb(0,102,255)";
+				ctx.fillRect(m[i].p.x -1,m[i].p.y-1,2,2);
+
+				// show data
+				data[i].innerHTML = '∆t = ' + dt+ '<br>' +
+					'p: ' + precise(m[i].p.x, 5) + ', ' + precise(m[i].p.y, 5) + '<br>' +
+					'𝛩: ' + m[i].theta + '<br>' +
+					'v: ' + precise(m[i].v.x, 5) + ', ' + precise(m[i].v.y, 5) + '<br>' +
+					'𝛚: ' + precise(m[i].omega, 2) + '<br>' +
+					'a: ' + precise(m[i].a.x, 5) + ', ' + precise(m[i].a.y, 5) + '<br>' +
+					'F: ' + precise(m[i].f, 3) + '<br>';
+
+			}
+
+			// repeat
+			then = now;
+			window.requestAnimationFrame(draw);
+		}
+
+		function keydown(e) {
+			console.log(e.keyCode + ', ' + e.charCode + ', ' + e.key + ', ' + e.code);
+			switch (e.code) {
+				// spaceship 1
+				case 'KeyW':
+					m[0].f += 0.01;
+					if (m[0].f > 0.1) { m[0].f = 0.1 } // set max.force
+					m[0].flame = true;
+					break;
+				case 'KeyA':
+					m[0].omega -= 2;
+					if (m[0].omega < -8) { m[0].omega = -8 } // set max.rotation
+					break;
+				case 'KeyS':
+					m[0].omega = 0; // kill rotation
+					break;
+				case 'KeyD':
+					m[0].omega += 2;
+					if (m[0].omega > 8) { m[0].omega = 8 } // set max.rotation
+					break;
+
+				// spaceship 2
+				case 'KeyI':
+					m[1].f += 0.01;
+					if (m[1].f > 0.1) { m[1].f = 0.1 } // set max.force
+					m[1].flame = true;
+					break;
+				case 'KeyJ':
+					m[1].omega -= 2;
+					if (m[1].omega < -8) { m[1].omega = -8 } // set max.rotation
+					break;
+				case 'KeyK':
+					m[1].omega = 0; // kill rotation
+					break;
+				case 'KeyL':
+					m[1].omega += 2;
+					if (m[1].omega > 8) { m[1].omega = 8 } // set max.rotation
+					break;
+
+				//case 'ArrowLeft':
+				//case 'ArrowDown':
+				//case 'ArrowRight':
+				//case 'ArrowUp':
+				//case 'Space':
+			}
+		}
+		function keyup(e) {
+			// kill acceleration
+			switch (e.code) {
+				case 'KeyW':
+					m[0].f = 0;
+					m[0].a.x = 0;
+					m[0].a.y = 0;
+					m[0].flame = false;
+					break;
+
+				case 'KeyI':
+					m[1].f = 0;
+					m[1].a.x = 0;
+					m[1].a.y = 0;
+					m[1].flame = false;
+					break;
+			}
+		}
+
+		function init(){
+			canvas  = document.getElementById('canvas1');
+			data[0] = document.getElementById('data1');
+			data[1] = document.getElementById('data2');
+
+			if (canvas.getContext){
+				ctx = canvas.getContext('2d');
+				setSize();
+
+				// initialise objects
+				for (let i=0; i<m.length; i++) {
+					m[i].p = {x:canvas.width*(i+1)/3, y:canvas.height*0.5};
+					m[i].v = {x:0, y:0};
+					m[i].a = {x:0, y:0};
+					m[i].f = 0;
+					m[i].theta = 0;  // orientation in degrees
+					m[i].omega = 0;  // rotational speed
+					m[i].flame = false; // flame visible?
+				}
+
+				window.requestAnimationFrame(draw);
+			}
+		}
+
+		window.addEventListener('load', init);
+		window.addEventListener('resize', setSize);
+		window.addEventListener('keydown', keydown);
+		window.addEventListener('keyup', keyup);
+
+	</script>
+</head>
+<body>
+
+	<canvas id="canvas1"></canvas>
+
+	<p id="msg1">Use WASD keys to move</p>
+	<p id="data1"></p>
+
+	<p id="msg2">Use IJKL keys to move</p>
+	<p id="data2"></p>
+
+</body>
+</html>

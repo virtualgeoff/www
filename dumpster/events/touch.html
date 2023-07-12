@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Touch Events Test</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=0">
+	<style>
+
+		body {margin:0; width:100vw; width:100dvw; height:100vh; height:100dvh; overflow:hidden;}
+		h1, h2 {margin:1rem;}
+		p {margin:1em;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+		// shortcuts
+
+		const $ = document.querySelector.bind(document);
+		const $All = document.querySelectorAll.bind(document);
+
+		function showTouchProperties(e, touches) {
+			let str = '';
+			//const touches = e.changedTouches;
+
+			for (let i=0; i<touches.length; i++) {
+				let touch = touches[i];
+				str += `${i}: ${e.timeStamp}<br>
+					identifier: ${touch.identifier}<br>
+					screen: ${touch.screenX}, ${touch.screenY}<br>
+					client: ${touch.clientX}, ${touch.clientY}<br>
+					page: ${touch.pageX}, ${touch.pageY}<br>
+					target: ${touch.target}<br>
+					area: ${touch.radiusX}, ${touch.radiusY}<br>
+					rotationAngle: ${touch.rotationAngle}<br>
+					force: ${touch.force}<br><br>
+				`;
+			}
+			$('#touch h2').innerHTML = e.type;
+			$('#touch p').innerHTML = str;
+		}
+
+
+		// touch events
+		window.addEventListener('touchstart', e => {
+			//console.log(e);
+			e.preventDefault();
+			showTouchProperties(e, e.changedTouches);
+		});
+
+		window.addEventListener('touchmove', e => {
+			//console.log(e);
+			e.preventDefault();
+			showTouchProperties(e, e.changedTouches);
+		});
+
+		window.addEventListener('touchend', e => {
+			//console.log(e);
+			e.preventDefault();
+			showTouchProperties(e, e.changedTouches);
+		});
+
+		window.addEventListener('touchcancel', e => {
+			//console.log(e);
+			e.preventDefault();
+			showTouchProperties(e, e.changedTouches);
+		});
+
+</script>
+</head>
+<body>
+	<h1>Touch Events Test</h1>
+
+	<p>See:<br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch">Touch</a><br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events">Using Touch Events</a></p>
+
+	<div id="touch">
+		<h2></h2>
+		<p></p>
+	</div>
+
+</body>
+</html>

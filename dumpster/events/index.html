@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Mouse and Window Events Test</title>
+	<style>
+
+		body {margin:0;}
+		h1, h2 {margin:1rem;}
+		p {margin:1em;}
+
+		#wrapper {display:flex;}
+		#wrapper > div {flex:200px; outline:1px solid #ccc;}
+		#mouse  {}
+		#touch  {}
+		#resize {}
+		#window {}
+		#misc   {}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+		// shortcuts
+
+		const $ = document.querySelector.bind(document);
+		const $All = document.querySelectorAll.bind(document);
+
+		function showEventProperties(e, props, id) {
+			let str = '';
+
+			for (p in props) {
+				str += [props[p]]  + ': ' + e[props[p]] + '<br>';
+			}
+			$(`${id}`).innerHTML = '<h2></h2><p></p>';
+			$(`${id} h2`).innerHTML = e.type;
+			$(`${id} p`).innerHTML = str;
+		}
+
+		function showWindowProperties() {
+			let str1 = '';
+			let str2 = '';
+			let props1 = ['innerHeight', 'innerWidth', 'outerHeight', 'outerWidth', 'p', 'pageXOffset', 'pageYOffset', 'screenX', 'screenY', 'scrollX', 'scrollY'];
+			let props2 = ['height', 'offsetLeft', 'offsetTop', 'pageLeft', 'pageTop', 'scale', 'width'];
+
+			for (p in props1) {
+				str1 += 'window.' + [props1[p]]  + ': ' + window[props1[p]] + '<br>';
+			}
+			for (p in props2) {
+				str2 += 'window.visualViewport' + [props2[p]]  + ': ' + window.visualViewport[props2[p]] + '<br>';
+			}
+			$('#window').innerHTML = '<h2></h2><p></p>';
+			$('#window h2').innerHTML = 'window';
+			$('#window p').innerHTML = str1 + '<br>' + str2;
+		}
+
+		window.addEventListener('load', e => {
+			console.log(e);
+			let props = ['currentTarget', 'srcElement', 'target', 'timeStamp',];
+			showEventProperties(e, props, '#misc');
+			showWindowProperties();
+		});
+
+		window.addEventListener('scroll', e => {
+			//console.log(e);
+			let props = ['currentTarget', 'srcElement', 'target', 'timeStamp',];
+			showEventProperties(e, props, '#misc');
+			showWindowProperties();
+		});
+
+		window.addEventListener('resize', e => {
+			//console.log(e);
+			let props = ['currentTarget', 'srcElement', 'target', 'timeStamp',];
+			showEventProperties(e, props, '#misc');
+			showWindowProperties();
+		});
+
+		// mouse events
+		window.addEventListener('mousemove', e => {
+			//console.log(e);
+			let props = ['altKey', 'button', 'button', 'clientX', 'clientY', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'fromElement', 'layerX', 'layerY', 'metaKey', 'movementX', 'movementY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'x',  'y'];
+			showEventProperties(e, props, '#mouse');
+		});
+		window.addEventListener('mousedown', e => {
+			console.log(e);
+			let props = ['altKey', 'button', 'button', 'clientX', 'clientY', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'fromElement', 'layerX', 'layerY', 'metaKey', 'movementX', 'movementY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'x',  'y'];
+			showEventProperties(e, props, '#mouse');
+		});
+		window.addEventListener('mouseup', e => {
+			console.log(e);
+			let props = ['altKey', 'button', 'button', 'clientX', 'clientY', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'fromElement', 'layerX', 'layerY', 'metaKey', 'movementX', 'movementY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'x',  'y'];
+			showEventProperties(e, props, '#mouse');
+		});
+		window.addEventListener('click', e => {
+			console.log(e);
+			let props = ['altKey', 'button', 'button', 'clientX', 'clientY', 'ctrlKey', 'currentTarget', 'defaultPrevented', 'fromElement', 'layerX', 'layerY', 'metaKey', 'movementX', 'movementY', 'offsetX', 'offsetY', 'pageX', 'pageY', 'screenX', 'screenY', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'x',  'y'];
+			showEventProperties(e, props, '#mouse');
+		});
+
+		window.addEventListener('wheel', e => {
+			console.log(e);
+			let props = ['deltaMode', 'deltaX', 'deltaY', 'deltaZ', 'detail', 'movementX', 'movementY', 'wheelDelta', 'wheelDeltaX', 'wheelDeltaY'];
+			showEventProperties(e, props, '#mouse');
+		});
+
+		// keyboard events
+		window.addEventListener('keydown', e => {
+			//console.log(e);
+			let props = ['altGraphKey', 'altKey', 'charCode', 'code', 'ctrlKey', 'currentTarget', 'detail', 'key', 'keyCode', 'keyIdentifier', 'keyLocation', 'layerX', 'layerY', 'location', 'metaKey', 'pageX', 'pageY', 'repeat', 'returnValue', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'type', 'which'];
+			showEventProperties(e, props, '#misc');
+		});
+		window.addEventListener('keyup', e => {
+			//console.log(e);
+			let props = ['altGraphKey', 'altKey', 'charCode', 'code', 'ctrlKey', 'currentTarget', 'detail', 'key', 'keyCode', 'keyIdentifier', 'keyLocation', 'layerX', 'layerY', 'location', 'metaKey', 'pageX', 'pageY', 'repeat', 'returnValue', 'shiftKey', 'srcElement', 'target', 'timeStamp', 'type', 'which'];
+			showEventProperties(e, props, '#misc');
+		});
+
+</script>
+</head>
+<body>
+	<h1>Mouse and Window Events Test</h1>
+
+	<p>Mouse, wheel, load, scroll, resize, and keyboard events.</p>
+	<p>See: <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MDN: MouseEvent</a></p>
+
+	<div id="wrapper">
+		<div id="mouse"></div>
+		<div id="window"></div>
+		<div id="misc"></div>
+	</div>
+
+</body>
+</html>

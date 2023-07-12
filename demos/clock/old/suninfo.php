@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
 	<title>PHP Sun Info</title>
 	<meta name="generator" content="BBEdit 11.5" />

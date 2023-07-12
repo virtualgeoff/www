@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Touch Events Test</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=0">
+	<style>
+
+		body {margin:0; width:100vw; width:100dvw; height:100vh; height:100dvh; overflow:hidden;}
+		h1, h2 {margin:1rem;}
+		p {margin:1em;}
+
+		#touch {}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+		// shortcuts
+
+		const $ = document.querySelector.bind(document);
+		const $All = document.querySelectorAll.bind(document);
+
+		const ongoingTouches = [];
+
+		function copyTouch({ identifier, pageX, pageY }) {
+			return { identifier, pageX, pageY };
+		}
+		function ongoingTouchIndexById(idToFind) {
+			for (let i = 0; i < ongoingTouches.length; i++) {
+				const id = ongoingTouches[i].identifier;
+
+				if (id === idToFind) {
+					return i;
+				}
+			}
+			return -1; // not found
+		}
+
+		function showEventProperties(e, props, id) {
+			let str = '';
+
+			for (p in props) {
+				str += [props[p]]  + ': ' + e[props[p]] + '<br>';
+			}
+			$(`${id}`).innerHTML = '<h2></h2><p></p>';
+			$(`${id} h2`).innerHTML = e.type;
+			$(`${id} p`).innerHTML = str;
+		}
+
+		// touch events
+		window.addEventListener('touchstart', e => {
+			console.log(e);
+			e.preventDefault();
+
+			let str = '';
+			const touches = e.changedTouches;
+
+			for (let i=0; i<touches.length; i++) {
+				str += `${i}: ${e.timeStamp}<br>`;
+				ongoingTouches.push(copyTouch(touches[i]));
+			}
+			$('#touch h2').innerHTML = e.type;
+			$('#touch p').innerHTML = str;
+		});
+
+		window.addEventListener('touchmove', e => {
+			console.log(e);
+			e.preventDefault();
+
+			let str = '';
+			const touches = e.changedTouches;
+
+			for (let i=0; i<touches.length; i++) {
+				const idx = ongoingTouchIndexById(touches[i].identifier);
+				if (idx >= 0) {
+					str += `${idx}: ${ongoingTouches[idx].pageX}, ${ongoingTouches[idx].pageY}<br>`;
+				}
+				ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
+			}
+			$('#touch h2').innerHTML = e.type;
+			$('#touch p').innerHTML = str;
+		});
+
+		window.addEventListener('touchend', e => {
+			console.log(e);
+			e.preventDefault();
+
+			let str = '';
+			const touches = e.changedTouches;
+
+			for (let i=0; i<touches.length; i++) {
+				let idx = ongoingTouchIndexById(touches[i].identifier);
+				if (idx >= 0) {
+					str += `${idx}: ${ongoingTouches[idx].pageX}, ${ongoingTouches[idx].pageY}<br>`;
+				}
+      			ongoingTouches.splice(idx, 1); // remove it; we're done
+			}
+			$('#touch h2').innerHTML = e.type;
+			$('#touch p').innerHTML = str;
+		});
+
+		window.addEventListener('touchcancel', e => {
+			console.log(e);
+			e.preventDefault();
+
+			let str = '';
+			const touches = e.changedTouches;
+
+			for (let i=0; i<touches.length; i++) {
+				let idx = ongoingTouchIndexById(touches[i].identifier);
+				ongoingTouches.splice(idx, 1); // remove it; we're done
+			}
+			$('#touch h2').innerHTML = e.type;
+			$('#touch p').innerHTML = str;
+		});
+
+/*
+Touch.identifier
+Touch.screenX
+Touch.screenY
+Touch.clientX
+Touch.clientY
+Touch.pageX
+Touch.pageY
+Touch.target
+Touch area
+Touch.radiusX
+Touch.radiusY
+Touch.rotationAngle
+Touch.force
+*/
+
+</script>
+</head>
+<body>
+	<h1>Touch Events Test</h1>
+
+	<p>See:<br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch">Touch</a><br>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events">Using Touch Events</a></p>
+
+	<div id="touch">
+		<h2></h2>
+		<p></p>
+	</div>
+
+</body>
+</html>

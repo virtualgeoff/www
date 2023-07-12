@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en-AU">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>The Client-Side Include...</title>
+<link rel="stylesheet" type="text/css" media="Screen" title="Default" href="styles/screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="styles/print.css">
+<link rel="stylesheet" type="text/css" media="handheld" href="styles/handheld.css">
+<script type="text/javascript" src="scripts/csi.js"></script>
+</head>
+
+<body>
+
+<div><a class="include" id="globalNav" href="/includes/abcglobalnav.inc">Global Nav</a></div>
+<div><a class="include" id="explore" href="/homepage/2007/includes/explore.inc">Explore the ABC</a></div>
+	
+<h1>The Client-Side Include...</h1>
+
+<p>Server-side includes are incredibly useful, but one thing I've wanted for a while is a client-side include. Sure, you can use iframes and html objects and stuff.</p>
+
+<h2>Advantages</h2>
+<ul>
+	<li>smaller source code</li>
+	<li>less load on web server</li>
+	<li>good for handheld browsing - the includes are not downloaded but hidden - they are not downloaded in the first place.</li>
+	<li></li>
+	<li></li>
+</ul>
+	
+<h2>Advantages</h2>
+<ul>
+	<li>requires javascript</li>
+	<li>doesn't work for browsers that understand javascript but not handheld stylesheets</li>
+</ul>
+
+
+<div><a class="include" id="sidebar" href="/unleashed/includes/sidebar.htm">Sidebar</a></div>
+<div><a class="include" id="footer" href="/footer.inc">Footer</a></div>
+
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Untitled</title>
+	<script>
+	
+	function convertISO8601toRFC2822(dateString) {
+		///alert(dateString)
+		// Older browsers cannot handle ISO8601 dates
+		// also newer ones may not convert timezone correctly, so...
+
+		var Months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+		var date = dateString.substr(8,2);
+		var month = Months[parseInt(dateString.substr(5,2))];
+		var year = dateString.substr(0,4);
+		var time = dateString.substr(11,8);
+		var timezone = dateString.substr(-6,6);
+		
+		var str = date + ' ' + month + ' ' + year + ' ' + time + ' ' + timezone;
+		return str;
+	}
+
+	function convert(value) {
+		document.getElementById('rfc').value = convertISO8601toRFC2822(value);
+	}
+		
+	</script>
+</head>
+<body>
+
+	<form>
+		<p>ISO8601: <input id="iso" type="text" size="50" onchange="convert(this.value)" /></p>
+		<p>RFC2822: <input id="rfc" type="text" size="50" /></p>
+	</form>
+
+
+</body>
+</html>
