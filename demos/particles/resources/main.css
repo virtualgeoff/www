@@ -1,0 +1,15 @@
+/* main.css */
+
+html, body {margin:0; padding:0;}
+body {width:100vw; width:100dvw; height:100vh; height:100dvh; font-family:sans-serif; color:#090; background:#000; overflow:hidden;}
+a {color:#090; text-decoration:none;}
+a:hover {color:#f00;}
+.hide {display:none;}
+
+#canvas {display:block;}
+
+body > p {position:absolute; top:0; width:20vw; margin:0; padding:1em; color:#090; z-index:99;}
+#info1 {left:0;}
+#info2 {left:40vw; text-align:center;}
+#info3 {right:0; text-align:right;}
+

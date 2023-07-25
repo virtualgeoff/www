@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sine Waves</title>
+	<meta name="description" content="particles moving in sine waves.">
+	<meta name="keywords" content="particles, sine wave">
+	<meta name="author" content="virtualgeoff">
+	<meta name="created" content="2012-07-29">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<script src="./resources/common.js"></script>
+	<script>
+
+		function sinewaves() {
+			const canvas = document.querySelector('canvas');
+			const ctx = canvas.getContext('2d');
+
+			let timescale = 300;
+
+			function setCanvasSize() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
+			}
+
+			function update(now) {
+				let x, y;
+				let N = 0;
+
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				for (let n=1; n<7; n++){
+					for (let i=0, j=canvas.width; i<j; i++){
+						x = i;
+						y = canvas.height/2 - canvas.height*0.4 * Math.sin((i/j) * 2 * Math.PI * n + (now/timescale));
+						ctx.fillStyle = `hsl(${(n-1) * 60}, 50%, 50%)`;
+						ctx.fillRect(x,y,3,3);
+						N++;
+					}
+				}
+
+				document.querySelector('#info1').innerText = `n: ${N} \nt: ${(now).toFixed(0)} ms`;
+				requestAnimationFrame(update);
+			}
+
+			// go!
+			setCanvasSize();
+			window.addEventListener('resize', setCanvasSize);
+			window.requestAnimationFrame(update);
+		}
+
+		document.addEventListener('DOMContentLoaded', sinewaves);
+
+	</script>
+</head>
+<body>
+
+	<canvas></canvas>
+
+	<p id="info1"></p>
+	<p id="info2"></p>
+	<p id="info3"></p>
+
+	<!--#include virtual="/includes/stats.inc" -->
+
+</body>
+</html>

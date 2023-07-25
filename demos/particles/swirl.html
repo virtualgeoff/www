@@ -1,102 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<title>Swirl</title>
 	<meta name="description" content="a cloud of particles in motion.">
-	<meta name="keywords" content="particles, orbit">
+	<meta name="keywords" content="particles, swirl">
 	<meta name="author" content="virtualgeoff">
 	<meta name="created" content="2022-12-03">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
 
-		html, body {margin:0; padding:0;}
-		body {width:100vw; height:100vh; font-family:sans-serif; color:#090; background:#000; overflow:hidden;}
-		#canvas {display:block;}
-
-		body > p {position:absolute; top:0; width:20vw; margin:0; padding:1em; color:#0c0; z-index:99;}
-		#info1 {left:0;    text-align:left;}
-		#info2 {left:40vw; text-align:center;}
-		#info3 {right:0;   text-align:right;}
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<script src="./resources/common.js"></script>
 	<script>
 
 		/* jshint esversion: 6 */
 
 		function particles() {
-			// a cloud of particles orbiting the center of the window
-			let canvas, ctx, origin = {}, radius, W, H;
-			let info1, info2, info3;
-			let previousTimeStamp, deltaT;
-
+			const canvas = document.querySelector('canvas');
+			const ctx = canvas.getContext('2d');
 			const points = [];
 			const N = 200; // number of points
 			const GM = 500;
 			const tau = 2 * Math.PI;
 
-			function init() {
-				// info
-				info1 = document.querySelector('#info1');
-				info2 = document.querySelector('#info2');
-				info3 = document.querySelector('#info3');
+			let origin = {}, radius, W, H;
+			let then, dt;
 
-				// get canvas element
-				canvas = document.querySelector('canvas');
-				ctx = canvas.getContext('2d');
-				setSize();
-
-				// start with non-zero number of points
-				//for (let i=0; i<N/20; i++) {
-					//points.push( makePoint() );
-				//}
-			}
-
-			function makePoint() {
-				let point, r, v, θ;
-				r = 20 + Math.random() * 10; // random position
-				θ = Math.random() * tau;
-				v = Math.sqrt(GM / r); // v = √(GM/r) for ~circular orbit
-				v *= (1.15 + Math.random() * 0.2); // ±10%
-
-				point = {
-					x: r * Math.cos(θ),
-					y: -H/2,
-					z: r * Math.sin(θ),
-					vx: -v * Math.sin(θ), // make velocity ⟂ to r
-					vy: 5 + Math.random() * 2,
-					vz: v * Math.cos(θ),
-					ax: 0,
-					ay: 0,
-					az: 0,
-					r: Math.round(Math.random() * 8) + 1,
-					c: `hsl(${(Math.random()*360)} 100% 50%)` // random color
-					//c: `hsl(${r/radius*280} 100% 50%)` // color according to distance
-				};
-				return point;
-			}
-
-			function setSize() {
-				// get canvas size and origin
+			function setCanvasSize() {
 				canvas.width = W = window.innerWidth;
 				canvas.height = H = window.innerHeight;
 				origin.x = W/2;
 				origin.y = H/2;
 				radius  = Math.max(canvas.width, canvas.height) / 2;
-				info3.innerText = `${W} × ${H} px`;
+				document.querySelector('#info3').innerText = `${W} × ${H} px`;
 			}
 
-			function draw(timestamp) {
-				let p, r, f, d;
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			function createPoint() {
+				let r, v, θ;
+				r = random(10, 30); // random position
+				θ = random(0, tau);
+				v = Math.sqrt(GM / r); // v = √(GM/r) for ~circular orbit
+				v *= random(1.15, 1.35); // +15–35%
+				points.push({
+					x: r * Math.cos(θ),
+					y: -H/2,
+					z: r * Math.sin(θ),
+					vx: -v * Math.sin(θ), // make velocity ⟂ to r
+					vy: random(5, 7),
+					vz: v * Math.cos(θ),
+					ax: 0,
+					ay: 0,
+					az: 0,
+					r: Math.round(random(2, 9)),
+					c: 'hsl(0, 100% 50%)'
+				});
+			}
 
-				// create some new points each loop (and/or retire some old ones)
-				for (let i=0; i<1; i++) {
-					if (points.length >= N) {
-						points.shift();
-					}
-					points.push( makePoint() );
+			function update(now) {
+				let p, r, f, d;
+
+				if (!then) { then = now; }
+				dt = (now - then); // ms
+
+				// create a new point each update (and/or retire an old one)
+				if (points.length < N) {
+					createPoint();
+				} else {
+					points.shift();
 				}
+
+				// clear the canvas
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 				// draw all the points
 				for (let i=0; i<points.length; i++) {
@@ -119,7 +93,7 @@
 					// if a point goes out of frame, remove it and make a new one
 					if (p.y > H/2) {
 						points.splice(i, 1);
-						//points.push( makePoint() );
+						createPoint();
 					}
 
 					// change color based on z-distance
@@ -139,19 +113,17 @@
 				}
 
 				// update data
-				if (previousTimeStamp) {
-					deltaT = timestamp - previousTimeStamp;
-					info1.innerText = `n: ${points.length}\nΔt: ${deltaT} ms`;
-				}
-				previousTimeStamp = timestamp;
+				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${dt} ms`;
 
-				// repeat
-				requestAnimationFrame(draw);
+				// save last timestamp and repeat
+				then = now;
+				requestAnimationFrame(update);
 			}
 
-			init();
-			draw();
-			window.addEventListener('resize', setSize);
+			// go!
+			setCanvasSize();
+			window.addEventListener('resize', setCanvasSize);
+			requestAnimationFrame(update);
 		}
 
 		document.addEventListener('DOMContentLoaded', particles);
@@ -165,6 +137,8 @@
 	<p id="info1">data</p>
 	<p id="info2"></p>
 	<p id="info3"></p>
+
+	<!--#include virtual="/includes/stats.inc" -->
 
 </body>
 </html>

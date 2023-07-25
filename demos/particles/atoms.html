@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Atoms</title>
+	<meta name="description" content="a simple simulation of particles undergoing elastic collisions.">
+	<meta name="keywords" content="particles, atoms, elastic colision">
+	<meta name="author" content="virtualgeoff">
+	<meta name="created" content="2023-07-18">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<script src="./resources/common.js"></script>
+	<style>
+
+		body {background:#fff;}
+
+	</style>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		/* vector utility functions */
+		const vector = {
+			add: (u, v) => {
+				return [u[0] + v[0], u[1] + v[1]]; // vector
+			},
+			subtract: (u, v) => {
+				return [u[0] - v[0], u[1] - v[1]]; // vector
+			},
+			scalarMultiply: (v, r) => {
+				return [v[0] * r, v[1] * r]; // vector
+			},
+			dotProduct: (u, v) => {
+				return u[0] * v[0] + u[1] * v[1]; // scalar
+			},
+			normSquared: (v) => {
+				return v[0] * v[0] + v[1] * v[1]; // scalar
+			},
+			norm: (v) => {
+				return Math.sqrt(vector.normSquared(v)); // scalar
+			}
+		};
+
+		function particles() {
+			const canvas = document.querySelector('canvas');
+			const ctx = canvas.getContext('2d');
+			const points = [];
+			const N = 50; // number of particles
+			const tau = 2 * Math.PI;
+
+			let then, dt; // time deltas
+
+			function setCanvasSize() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
+			}
+
+			function createPoint() {
+				// create a particle with random position and velocity
+				let point, r, v, θ;
+				v = random(0, 300); // velocity
+				θ = random(0, 360/tau); // direction: 0° to 360°
+				r = random(10, Math.min(canvas.width, canvas.height)/30); // radius
+				point = {
+					s:  [random(r, (canvas.width - r)), random(r, (canvas.height - r))], //displacement
+					v:  [v * Math.cos(θ), v * Math.sin(θ)], // velocity
+					v1: [0,0],
+					m:  r * r / 10, // mass (proportional to area)
+					r:  r,
+					ke: 0, // kinetic energy
+					c: `hsla(${random(0, 360)}, 50%, 50%, 0.5)`
+				};
+				return point;
+			}
+
+			function update(now) {
+				let p, q, dr, M1, M2;  // temp variables
+				let KE = 0; // total kinetic energy
+
+				if (!then) { then = now; }
+				dt = (now - then) / 1000; // seconds
+				if (dt > 0.05) { dt = 0.05; } // set max time in case window/tab is backgrounded
+
+				if (points.length < N) {
+					points.push( createPoint() );
+				}
+
+				// calculate new positions and velocities
+				for (let i=0; i<points.length; i++) {
+					p = points[i];
+
+					// collisions with edges
+					if (p.s[0] > (canvas.width - p.r)) {
+						p.s[0] = canvas.width - p.r;
+						p.v[0] = -1 * Math.abs(p.v[0]);
+					} else if (p.s[0] < p.r) {
+						p.s[0] = p.r;
+						p.v[0] = Math.abs(p.v[0]);
+					}
+					if (p.s[1] > (canvas.height - p.r)) {
+						p.s[1] = canvas.height - p.r;
+						p.v[1] = -1 * Math.abs(p.v[1]);
+					} else if (p.s[1] < p.r) {
+						p.s[1] = p.r;
+						p.v[1] = Math.abs(p.v[1]);
+					}
+
+					// collisions with each other
+					for (let j=i+1; j<points.length; j++) {
+						q = points[j];
+						dr = vector.norm( vector.subtract(p.s, q.s));
+
+						if (dr < (p.r + q.r)) {
+							// collision between two moving objects in vector form — see: https://en.wikipedia.org/wiki/Elastic_collision
+							// p.v' = p.v - (2 * q.m / (p.m + q.m)) * ( (p.v - q.v)·(p.s - q.s) ) / ( ||p.s - q.s]||^2 ) * (p.s - q.s);
+							M1 = 2 * q.m / (p.m + q.m) * vector.dotProduct( vector.subtract(p.v, q.v), vector.subtract(p.s, q.s) ) / vector.normSquared( vector.subtract(p.s, q.s) );
+							p.v1 = vector.subtract( p.v, vector.scalarMultiply( vector.subtract(p.s, q.s), M1 ));
+
+							M2 = 2 * p.m / (q.m + p.m) * vector.dotProduct( vector.subtract(q.v, p.v), vector.subtract(q.s, p.s) ) / vector.normSquared( vector.subtract(q.s, p.s) );
+							q.v1 = vector.subtract( q.v, vector.scalarMultiply( vector.subtract(q.s, p.s), M2 ));
+
+							p.v = p.v1;
+							q.v = q.v1;
+						}
+					}
+
+					// update position
+					p.s = vector.add(p.s, vector.scalarMultiply(p.v, dt));
+
+					// calculate kinetic energy
+					p.ke = 0.5 * p.m * vector.normSquared(p.v);
+					KE += p.ke;
+				}
+
+				// clear the canvas
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				// draw the points
+				for (let i=0; i<points.length; i++) {
+					p = points[i];
+					ctx.fillStyle = p.c;
+					ctx.beginPath();
+					ctx.ellipse(p.s[0], p.s[1], p.r, p.r, 0, 0, tau);
+					ctx.fill();
+				}
+
+				// draw lines between points (new loop so lines are on top of all the circles)
+				for (let i=0; i<points.length; i++) {
+					p = points[i];
+					for (let j=i+1; j<points.length; j++) {
+						q = points[j];
+
+						dr = vector.norm( vector.subtract(p.s, q.s));
+						ctx.strokeStyle =  (dr < (p.r + q.r)) ? 'rgba(255,127,0,1)' : 'rgba(255,255,255,0)';
+						ctx.lineWidth = 2;
+						ctx.beginPath();
+						ctx.moveTo(p.s[0],p.s[1]);
+						ctx.lineTo(q.s[0],q.s[1]);
+						ctx.stroke();
+					}
+				}
+
+				// update data
+				document.querySelector('#info1').innerText = `n: ${points.length}
+					Δt: ${(dt * 1000).toFixed(0)} ms
+					KE: ${KE.toExponential(3)}`;
+
+				// save last timestamp and repeat
+				then = now;
+				requestAnimationFrame(update);
+			}
+
+			// go!
+			setCanvasSize();
+			window.addEventListener('resize', setCanvasSize);
+			requestAnimationFrame(update);
+		}
+
+		document.addEventListener('DOMContentLoaded', particles);
+
+	</script>
+</head>
+<body>
+
+	<canvas></canvas>
+
+	<p id="info1"></p>
+	<p id="info2"></p>
+	<p id="info3"></p>
+
+	<!--#include virtual="/includes/stats.inc" -->
+
+</body>
+</html>

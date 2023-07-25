@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Rain</title>
+	<meta name="description" content="particles falling like rain.">
+	<meta name="keywords" content="particles, rain">
+	<meta name="author" content="virtualgeoff">
+	<meta name="created" content="2023-07-18">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<script src="./resources/common.js"></script>
+	<script>
+
+		/* jshint esversion: 6 */
+
+		function particles() {
+			const canvas = document.querySelector('canvas');
+			const ctx = canvas.getContext('2d');
+			const points = [];
+			const N = 2000; // initial number of points
+			const g = 500;
+			const tau = 2 * Math.PI;
+
+			let then, dt;
+
+			function setCanvasSize() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
+			}
+
+			function createPoints(n) {
+				let v, r;
+				for (let i=0; i<n; i++) {
+					v = random(0, 500); // velocity (magnitude)
+					r = Math.round(random(2,6)),
+					points.push({
+						x:  random(0, canvas.width),
+						y:  0,
+						vx: 0,
+						vy: v,
+						r:  r,
+						e:  random(0, 0.5),
+						age: 0,
+						//c: `hsl(${random(0, 360)}, ${random(50, 100)}%, ${random(20, 80)}%)`
+						c: 'hsl(0, 0%, 50%)'
+					});
+				}
+			}
+
+			function update(now) {
+				let p;
+
+				if (!then) { then = now; }
+				dt = (now - then) / 1000; // seconds
+
+				// create some new points each update (and/or retire some old ones)
+				if (points.length < N) {
+					createPoints(1);
+				} else {
+					points.shift();
+				}
+
+				// clear the canvas
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				// draw all the points
+				for (let i=0; i<points.length; i++) {
+					p = points[i];
+					//p.age += 1;//++;
+
+					if (p.age > 400) {
+						points.splice(i, 1);
+						createPoints(1);
+					}
+					if (p.y >= canvas.height - p.r) {
+						p.y = canvas.height - p.r;
+						p.vy = -p.vy * p.e;//g * dt;
+					}
+
+					// calculate acceleration, velocity, position
+					p.vy += g * dt;
+					p.x  += p.vx * dt;
+					p.y  += p.vy * dt;
+
+
+					// draw the point
+					ctx.fillStyle = p.c;
+					ctx.beginPath();
+					ctx.ellipse(p.x, p.y, p.r, p.r, 0, 0, tau);
+					ctx.fill();
+				}
+
+				// update data
+				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${(dt * 1000).toFixed(0)} ms`;
+
+				// save last timestamp and repeat
+				then = now;
+				requestAnimationFrame(update);
+			}
+
+			// go!
+			setCanvasSize();
+			window.addEventListener('resize', setCanvasSize);
+			requestAnimationFrame(update);
+		}
+
+		document.addEventListener('DOMContentLoaded', particles);
+
+	</script>
+</head>
+<body>
+
+	<canvas></canvas>
+
+	<p id="info1"></p>
+	<p id="info2"></p>
+	<p id="info3"></p>
+
+	<!--#include virtual="/includes/stats.inc" -->
+
+</body>
+</html>

@@ -1,107 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
 	<title>Fountain</title>
 	<meta name="description" content="a particle fountain.">
 	<meta name="keywords" content="particles, fountain">
 	<meta name="author" content="virtualgeoff">
 	<meta name="created" content="2022-12-03">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
 
-		html, body {margin:0; padding:0;}
-		body {width:100vw; height:100vh; font-family:sans-serif; color:#090; background:#000; overflow:hidden;}
-		#canvas {display:block;}
-
-		body > p {position:absolute; top:0; width:20vw; margin:0; padding:1em; color:#0c0; z-index:99;}
-		#info1 {left:0;    text-align:left;}
-		#info2 {left:40vw; text-align:center;}
-		#info3 {right:0;   text-align:right;}
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<script src="./resources/common.js"></script>
 	<script>
 
 		/* jshint esversion: 6 */
 
 		function particles() {
-			let canvas, ctx, origin = {}, radius, W, H;
-			let info1, info2, info3;
-			let previousTimeStamp, deltaT;
-
+			const canvas = document.querySelector('canvas');
+			const ctx = canvas.getContext('2d');
 			const points = [];
-			const N = 2500; // number of points
+			const g = -1000;
 			const tau = 2 * Math.PI;
 
-			function init() {
-				// info
-				info1 = document.querySelector('#info1');
-				info2 = document.querySelector('#info2');
-				info3 = document.querySelector('#info3');
+			let origin = {};
+			let then, dt;
 
-				// get canvas element
-				canvas = document.querySelector('canvas');
-				ctx = canvas.getContext('2d');
-				setSize();
+			function setCanvasSize() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				origin.x = canvas.width/2;
+				origin.y = canvas.height;
+				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
+			}
 
-				// start with non-zero number of points
-				for (let i=0; i<N/20; i++) {
-					points.push( makePoint() );
+			function createPoints(n) {
+				let v, θ;
+				for (let i=0; i<n; i++) {
+					v = random(500, 1200); // velocity (magnitude)
+					θ = random(75, 105) * tau/360 ; // angle: 75° to 105°
+					points.push({
+						x:  0,
+						y:  0,
+						vx: v * Math.cos(θ),
+						vy: v * Math.sin(θ),
+						r:  Math.round(random(1, 6)),
+						c: `hsl(${random(0, 360)}, ${random(50, 100)}%, ${random(20, 80)}%)`
+					});
 				}
 			}
 
-			function makePoint() {
-				let v = Math.random() * 15 + 10; // velocity magnitude
-				let θ = (Math.random() * 30 + 75) * tau/360 ; // angle: 75° to 105°
-
-				let point = {
-					x:  0,
-					y:  0,
-					vx: v * Math.cos(θ),
-					vy: v * Math.sin(θ),
-					ax: 0,
-					ay: -0.5,
-					r:  Math.round(Math.random() * 5) + 1,
-					c: `hsl(${(Math.random() * 360)}, ${(Math.random() * 50 + 50)}%, ${Math.random() * 60 + 20}%)`
-				};
-				return point;
+			function removePoints(n) {
+				//for (let i=0; i<n; i++) { points.shift(); }
+				points.splice(0, n);
 			}
 
-			function setSize() {
-				// get canvas size and origin
-				canvas.width = W = window.innerWidth;
-				canvas.height = H = window.innerHeight;
-				origin.x = W/2;
-				origin.y = H;
-				radius  = Math.max(canvas.width, canvas.height) / 2;
-				info3.innerText = `${W} × ${H} px`;
-			}
+			function update(now) {
+				let p;
 
-			function draw(timestamp) {
-				let p, r, f;
+				if (!then) { then = now; }
+				dt = (now - then) / 1000; // seconds
+				if (dt > 0.05) { dt = 0.05; } // set max time in case window/tab is backgrounded
+
+				// add new points while frame rate > 30 fps (and/or retire some old ones)
+				if (dt < 0.0333) {
+					createPoints(10);
+				} else {
+					removePoints(10);
+				}
+
+				// clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-				// create some new points each loop (and/or retire some old ones)
-				for (let i=0; i<3; i++) {
-					if (points.length >= N) {
-						points.shift();
-					}
-					points.push( makePoint() );
-				}
 
 				// draw all the points
 				for (let i=0; i<points.length; i++) {
 					p = points[i];
 					// calculate acceleration, velocity, position
-					p.vx += p.ax;
-					p.vy += p.ay;
-					p.x  += p.vx;
-					p.y  += p.vy;
+					p.vy += g * dt;
+					p.x  += p.vx * dt;
+					p.y  += p.vy * dt;
 
 					// if a point goes out of frame, remove it and make a new one
 					if (p.y < 0) {
 						points.splice(i, 1);
-						points.push( makePoint() );
+						createPoints(1);
 					}
 
 					// draw the point
@@ -112,19 +93,17 @@
 				}
 
 				// update data
-				if (previousTimeStamp) {
-					deltaT = timestamp - previousTimeStamp;
-					info1.innerText = `n: ${points.length}\nΔt: ${deltaT} ms`;
-				}
-				previousTimeStamp = timestamp;
+				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${(dt * 1000).toFixed(0)} ms`;
 
-				// repeat
-				requestAnimationFrame(draw);
+				// save last timestamp and repeat
+				then = now;
+				requestAnimationFrame(update);
 			}
 
-			init();
-			draw();
-			window.addEventListener('resize', setSize);
+			// go!
+			setCanvasSize();
+			window.addEventListener('resize', setCanvasSize);
+			requestAnimationFrame(update);
 		}
 
 		document.addEventListener('DOMContentLoaded', particles);
@@ -135,9 +114,11 @@
 
 	<canvas></canvas>
 
-	<p id="info1">data</p>
+	<p id="info1"></p>
 	<p id="info2"></p>
 	<p id="info3"></p>
+
+	<!--#include virtual="/includes/stats.inc" -->
 
 </body>
 </html>
