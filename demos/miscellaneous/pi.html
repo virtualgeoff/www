@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Approximating π</title>
+	<style type="text/css">
+	
+		table {border-collapse: collapse;}
+		th, td {padding: 5px; border:1px solid #ccc;}
+		.template {display:none;}
+		
+
+	</style>
+	<script>
+	
+		function Leibniz(n) {
+			// Leibniz series:
+			// π/4 = 1 – 1/3 + 1/5 – 1/7 + …
+			var a = 0,
+				b = 1;
+			
+			for (var i=1; i<=n; i++) {
+				a += b/(2*i-1);
+				b *= -1;
+			}
+			return 4 * a;		
+		}
+
+		function MadhavaLeibniz(n) {
+			// Madhava–Leibniz series		
+			// π = √12 (1 - 1/3•3 + 1/5•3^2 - 1/7•3^3 + ...)
+			var a = 1,
+				b = -1,
+				c = 3;
+		
+			for (var i=1; i<=n; i++) {
+				a += b * (1 / (c * Math.pow(3, i)));
+				b *= -1;
+				c += 2;
+			}
+			return Math.sqrt(12) * a;		
+		}
+ 		
+		function init() {
+			var n = 100,
+				template = document.querySelector('.template'),
+				row;
+			
+			for (var i=1; i<=n; i++) {
+				row = template.cloneNode(true);
+				row.className = '';
+				row.querySelector('.n').innerText = i;
+				row.querySelector('.Leibniz').innerText = Leibniz(i);
+				row.querySelector('.deltaLeibniz').innerText = Math.PI - Leibniz(i);
+				row.querySelector('.MadhavaLeibniz').innerText = MadhavaLeibniz(i);
+				row.querySelector('.deltaMadhavaLeibniz').innerText = Math.PI - MadhavaLeibniz(i);
+				template.parentNode.insertBefore(row, template);
+			}
+		}
+
+		window.addEventListener('load', init);
+
+	</script>
+</head>
+<body>
+
+	<h1>Approximating π</h1>
+
+	<p>See: <a href="https://en.wikipedia.org/wiki/Approximations_of_π#Development_of_efficient_formulae">Approximations of π (Wikipedia)</a></p>
+	<table>
+		<tr>
+			<th>n:</th>
+			<th>Leibniz:</th>
+			<th>Delta:</th>
+			<th>Madhava–Leibniz:</th>
+			<th>Delta:</th>
+		</tr>
+		<tr class="template">
+			<td class="n"></td>
+			<td class="Leibniz"></td>
+			<td class="deltaLeibniz"></td>
+			<td class="MadhavaLeibniz"></td>
+			<td class="deltaMadhavaLeibniz"></td>
+		</tr>
+	</table>
+
+</body>
+</html>
