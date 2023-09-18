@@ -1,0 +1,357 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title       "Squash Alpha"
+    info        "Geoff Pack, Spike, 1998"
+}
+
+NavigationInfo {
+    headlight   FALSE
+    type        "EXAMINE"
+}
+
+Viewpoint {
+    description "Front"
+    fieldOfView 1.0
+    position    0 0 8
+    orientation 0 0 1 0
+}
+Viewpoint {
+    description "Above"
+    fieldOfView 1.0
+    position    0 3 9
+    orientation 1 0 0 -0.3
+}
+Viewpoint {
+    description "Side"
+    fieldOfView 0.785398
+    position    -5 0 10
+    orientation 0 1 0 -0.6
+}
+
+#----------------------------------------------------------------------------
+#Sounds
+
+Sound {
+    source DEF Bounce AudioClip { url ["bounce.wav"] }
+    maxFront    50
+    minFront    50
+    spatialize  FALSE
+}
+Sound {
+    source DEF Hit AudioClip { url ["hit.wav"] }
+    maxFront    50
+    minFront    50
+    spatialize  FALSE
+}
+Sound {
+    source DEF Miss AudioClip { url ["miss.wav"] }
+    maxFront    50
+    minFront    50
+    spatialize  FALSE
+}
+
+#----------------------------------------------------------------------------
+# Lights
+
+PointLight {
+    color       1 1 1
+    location    0 8 10
+    intensity   1
+    on      TRUE
+}
+
+#----------------------------------------------------------------------------
+# Walls
+
+Shape {
+    appearance Appearance {
+        material Material {
+            emissiveColor 0 0 .5
+        }
+    }
+    geometry IndexedFaceSet {
+        coord Coordinate {
+            point [ -3 -2 -4, 3 -2 -4, 3 2 -4, -3 2 -4,
+                -3 -2 4, 3 -2 4, 3 2 4, -3 2 4, ]
+        }
+        coordIndex [ 0, 1, 2, 3, -1
+                0, 4, 5, 1, -1
+                3, 2, 6, 7, -1
+                2, 1, 5, 6, -1
+                0, 3, 7, 4, -1]
+        #colorIndex [ 0 1 2 3 4 ]
+        #color Color {
+        #   color [ 1 0 0, 0 1 0, 0 0 1, 1 1 0, 0 1 1]
+        #}
+        colorPerVertex FALSE
+        convex TRUE
+        solid TRUE
+    }
+}
+
+#----------------------------------------------------------------------------
+# Ball
+
+DEF Ball Transform {
+    translation 0 0 0
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor    1 0 0
+                }
+            }
+            geometry Sphere {
+                radius .2
+            }
+        }
+    ]
+}
+
+DEF BallDepth Transform {
+    translation 0 0 0
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    emissiveColor   .6 0 0
+                }
+            }
+            geometry IndexedLineSet {
+                coord Coordinate {
+                    point [ -2.95 -1.95 0, 2.95 -1.95 0, 2.95 1.95 0, -2.95 1.95 0 ]
+                }
+                coordIndex [ 0, 1, 2, 3, 0, -1 ]
+            }
+        }
+    ]
+}
+
+#----------------------------------------------------------------------------
+# Paddle
+
+Transform {
+    translation 0 0 4
+    children [
+        DEF PaddleSensor PlaneSensor {}
+        DEF Paddle  Transform {
+            translation 0 0 0
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor    0 .5 0
+                            emissiveColor   0 .5 0
+                            transparency    .5
+                        }
+                    }
+                    geometry Box {
+                        size 1 1 .1
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+ROUTE PaddleSensor.translation_changed TO Paddle.set_translation
+
+#----------------------------------------------------------------------------
+# Scores
+
+Transform {
+    translation -1.9 1.4 -3.95
+    children [
+        Shape {
+            appearance DEF ScoreAppearance Appearance {
+                material Material {
+                    diffuseColor    1 0 0
+                }
+            }
+            geometry DEF HitScore Text {
+                fontStyle DEF ScoreFont FontStyle {
+                    family  "SANS"
+                    justify "MIDDLE"
+                    size        0.8
+                }
+                string ["Score", "0"]
+            }
+        }
+    ]
+}
+
+Transform {
+    translation 2.05 1.4 -3.95
+    children [
+        Shape {
+            appearance USE ScoreAppearance
+            geometry DEF BallsScore Text {
+                fontStyle USE ScoreFont
+                string ["Balls", "4"]
+            }
+        }
+    ]
+}
+
+Transform {
+    translation 0 -.5 4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor    1 .5 0
+                    emissiveColor   1 .5 0
+                }
+            }
+            geometry DEF GameMessage Text {
+                fontStyle FontStyle {
+                    family  "SANS"
+                    justify "MIDDLE"
+                    style       "BOLD"
+                    size        1.2
+                }
+                string [""]
+            }
+        }
+    ]
+}
+
+
+#----------------------------------------------------------------------------
+# Timers
+
+DEF Clock TimeSensor {
+   cycleInterval    0.05
+   stopTime -1
+   loop     TRUE
+}
+
+DEF Delay TimeSensor {
+   cycleInterval    2
+}
+
+#----------------------------------------------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+    eventIn     SFVec3f     paddleChanged
+
+    eventIn     SFTime      moveBall
+    eventOut    SFTime      resume
+    eventOut    SFTime      pause
+
+    eventOut    SFVec3f     ballChanged
+    eventOut    SFVec3f     ballDepthChanged
+    eventOut    SFTime      bounceSound
+    eventOut    SFTime      hitSound
+    eventOut    SFTime      missSound
+    eventOut    MFString    scoreHit
+    eventOut    MFString    scoreBall
+    eventOut    MFString    message
+
+    field       SFBool      inPlay            TRUE
+    field       SFVec3f     paddlePosition    0 0 0
+    field       SFVec3f     ballPosition      0 0 0
+    field       SFVec3f     ballDepthPosition 0 0 0
+    field       SFVec3f     ballVelocity      .13 .11 -0.26
+    field       SFInt32     numberHits        0
+    field       SFInt32     numberBalls       4
+
+    url "javascript:
+
+        function paddleChanged(positionValue) {
+            paddlePosition = positionValue;
+        }
+
+        function moveBall(timeValue) {
+            // determine new position:
+            ballPosition[0] = ballPosition[0] + ballVelocity[0];
+            ballPosition[1] = ballPosition[1] + ballVelocity[1];
+            ballPosition[2] = ballPosition[2] + ballVelocity[2];
+
+            ballDepthPosition[0] = 0;
+            ballDepthPosition[1] = 0;
+            ballDepthPosition[2] = ballPosition[2];
+
+            // check to see if ball has hit a wall:
+            if (ballPosition[0] >= 2.8) {
+                ballPosition[0] = 2.8;
+                ballVelocity[0] = -Math.abs(ballVelocity[0]);
+                hitSound = timeValue;
+            } else if (ballPosition[0]<= -2.8) {
+                ballPosition[0] = -2.8;
+                ballVelocity[0] = Math.abs(ballVelocity[0]);
+                hitSound = timeValue;
+            }
+            if (ballPosition[1] >= 1.8) {
+                ballPosition[1] = 1.8;
+                ballVelocity[1] = -Math.abs(ballVelocity[1]);
+                hitSound = timeValue;
+            } else if (ballPosition[1]<= -1.8) {
+                ballPosition[1] = -1.8;
+                ballVelocity[1] = Math.abs(ballVelocity[1]);
+                hitSound = timeValue;
+            }
+            if (ballPosition[2]<= -3.8) {
+                ballPosition[2] = -3.8;
+                ballVelocity[2] = Math.abs(ballVelocity[2]);
+                hitSound = timeValue;
+            }
+            // check if ball hit or missed:
+            if (ballPosition[2] >= 3.8) {
+                ballPosition[2] = 3.8;
+                if ((Math.abs(paddlePosition[0] - ballPosition[0])<= .7) && (Math.abs(paddlePosition[1] - ballPosition[1])<= .7)) {
+                    // ball is HIT:
+                    ballVelocity[0] = ballVelocity[0] * 1.05;
+                    ballVelocity[1] = ballVelocity[1] * 1.05;
+                    ballVelocity[2] = ballVelocity[2] * 1.05;
+
+                    ballVelocity[2] = -Math.abs(ballVelocity[2]);
+                    hitSound = timeValue;
+                    numberHits++;
+                    scoreHit[0] = 'Score';
+                    scoreHit[1] = numberHits;
+                } else {
+                    // ball is MISSED:
+                    missSound = timeValue;
+                    pause = timeValue;
+                    numberBalls--;
+                    scoreBall[0] = 'Balls';
+                    scoreBall[1] = numberBalls;
+                    if (numberBalls == 0) {
+                        message[0] = 'Game Over';
+                    } else {
+                        resume = timeValue + 3 ;
+                        ballVelocity[0] = 0.3 * Math.random(1);
+                        ballVelocity[1] = 0.2 * Math.random(1);
+                        ballVelocity[2] = -0.2 - 0.1 * Math.random(1);                  }
+                }
+            }
+            // update ball position:
+            ballChanged = ballPosition;
+            // update ballDepth position:
+            ballDepthChanged = ballDepthPosition;
+        }
+    "
+}
+
+#----------------------------------------------------------------------------
+# Routing:
+
+ROUTE Paddle.translation_changed TO MotionScript.paddleChanged
+
+ROUTE Clock.cycleTime TO MotionScript.moveBall
+ROUTE MotionScript.pause TO Clock.stopTime
+ROUTE MotionScript.resume TO Clock.startTime
+
+ROUTE MotionScript.ballChanged TO Ball.set_translation
+ROUTE MotionScript.ballDepthChanged TO BallDepth.set_translation
+
+ROUTE MotionScript.bounceSound TO Bounce.startTime
+ROUTE MotionScript.hitSound TO Hit.startTime
+ROUTE MotionScript.missSound TO Miss.startTime
+
+ROUTE MotionScript.scoreHit TO HitScore.string
+ROUTE MotionScript.scoreBall TO BallsScore.string
+ROUTE MotionScript.message TO GameMessage.string

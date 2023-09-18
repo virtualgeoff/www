@@ -1,0 +1,259 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Ideal Gas, beta 1"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "v1"
+  position 0 15 35
+  orientation 1 0 0 -0.4
+}
+Viewpoint {
+  description "entry"
+  position 0 0 30
+}
+
+#--------------------------------------
+# Lights
+
+DirectionalLight {
+  color       1 1 1
+  direction   0 -1 0
+  intensity   1
+  on          TRUE
+}
+
+#--------------------------------------
+# Timer
+
+DEF WorldClock TimeSensor {
+   cycleInterval  30
+   stopTime       -1
+   loop           TRUE
+}
+
+#--------------------------------------
+# Objects
+
+# Container
+DEF Container Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 .1 1
+          shininess     .5
+          transparency  0.8
+        }
+      }
+      geometry Box { size  2 2 2 }
+    }
+    Shape {
+      appearance Appearance {
+        material Material { emissiveColor 0 0 1 }
+      }
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [ -1 -1 -1, 1 -1 -1, 1 1 -1, -1 1 -1,
+                  -1 -1 1, 1 -1 1, 1 1 1, -1 1 1 ]
+        }
+        coordIndex [ 0, 1, 2, 3, 0, -1, 4, 5, 6, 7, 4, -1,
+                     0, 4, -1, 1, 5, -1, 2, 6, -1, 3, 7, -1]
+      }
+    }
+  ]
+}
+
+DEF ballTransform Transform {
+}
+
+# Mass 1
+DEF Mass1 Transform {
+  translation   0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 .1 1
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.5 }
+    }
+  ]
+}
+
+# Mass 2
+DEF Mass2 Transform {
+  translation   0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 .1 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.5 }
+    }
+  ]
+}
+
+# Mass 3
+DEF Mass3 Transform {
+  translation   0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 1 .1
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.5 }
+    }
+  ]
+}
+
+# Mass 4
+DEF Mass4 Transform {
+  translation   0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 .9 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  0.5 }
+    }
+  ]
+}
+#--------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+  eventIn   SFTime      set_lastTime
+  field     SFTime      lastTime            0
+  field     SFTime      dt                  0
+
+  eventOut  SFVec3f     position1_changed
+  eventOut  SFVec3f     position2_changed
+  eventOut  SFVec3f     position3_changed
+  eventOut  SFVec3f     position4_changed
+
+  field     MFVec3f     position           []
+  field     MFVec3f     velocity           []
+
+  field     SFVec3f     positionX           1 1 1
+  field     SFVec3f     bboxSize            1 1 1
+  field     SFVec3f     maxVelocity         10 10 10
+  field     SFVec3f     container           10 10 10
+  field     SFFloat     numBalls            4
+
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    function initialize() {
+      for (var i=0; i<numBalls; i++) {
+        position[i].x = Math.random() * (container.x - bboxSize.x);
+        position[i].y = Math.random() * (container.y - bboxSize.y);
+        position[i].z = Math.random() * (container.z - bboxSize.z);
+        velocity[i].x = Math.random() * maxVelocity.x;
+        velocity[i].y = Math.random() * maxVelocity.y;
+        velocity[i].z = Math.random() * maxVelocity.z;
+      }
+    }
+
+    function set_lastTime(timeValue) {
+      if (lastTime == 0) {
+        lastTime = timeValue;
+      } else {
+        dt = timeValue - lastTime;
+        lastTime = timeValue;
+
+        // move balls
+
+        for (var i=0; i<numBalls; i++) {
+          position[i].x += velocity[i].x * dt;
+          position[i].y += velocity[i].y * dt;
+          position[i].z += velocity[i].z * dt;
+        }
+
+        // test for collision with container
+
+        for (var i=0; i<numBalls; i++) {
+          if (position[i].x > (container.x - bboxSize.x)) {
+            position[i].x = container.x - bboxSize.x;
+            velocity[i].x = -(velocity[i].x);
+          } else if (position[i].x < (-container.x + bboxSize.x)) {
+            position[i].x = -container.x + bboxSize.x;
+            velocity[i].x = -(velocity[i].x);
+          }
+          if (position[i].y > (container.y - bboxSize.y)) {
+            position[i].y = container.y - bboxSize.y;
+            velocity[i].y = -(velocity[i].y);
+          } else if (position[i].y < (-container.y + bboxSize.y)) {
+            position[i].y = -container.y + bboxSize.y;
+            velocity[i].y = -(velocity[i].y);
+          }
+          if (position[i].z > (container.z - bboxSize.z)) {
+            position[i].z = container.z - bboxSize.z;
+            velocity[i].z = -(velocity[i].z);
+          } else if (position[i].z < (-container.z + bboxSize.z)) {
+            position[i].z = -container.z + bboxSize.z;
+            velocity[i].z = -(velocity[i].z);
+          }
+        }
+
+        // ball to ball collision
+
+        for (var i=0; i<numBalls; i++) {
+          for (var j=i+1; j<numBalls; j++) {
+            // do something!
+          }
+        }
+
+        // update position
+        position1_changed = position[0];
+        position2_changed = position[1];
+        position3_changed = position[2];
+        position4_changed = position[3];
+      }
+    }
+  "
+}
+
+#--------------------------------------
+# Routing
+
+ROUTE WorldClock.time TO MotionScript.set_lastTime
+
+ROUTE MotionScript.position1_changed TO Mass1.set_translation
+ROUTE MotionScript.position2_changed TO Mass2.set_translation
+ROUTE MotionScript.position3_changed TO Mass3.set_translation
+ROUTE MotionScript.position4_changed TO Mass4.set_translation
+
+
+
+

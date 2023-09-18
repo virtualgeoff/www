@@ -1,0 +1,78 @@
+#VRML V2.0 utf8
+
+# Produced by 3D Studio MAX VRML97 exporter, Version 3.01, Revision 0
+# Date: Mon May 14 16:30:43 2001
+
+WorldInfo {
+  title   "Spike"
+  info    [ "Copyright Spike, 2001",
+            "author: Geoff Pack",
+            "geoff@spike.com.au"]
+}
+
+NavigationInfo {
+  avatarSize  [ 0 0 0 ]
+  headlight   TRUE
+  speed       1
+  type        "EXAMINE"
+}
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+DEF GeoSphere01 Transform {
+  #translation -0.7995 0 1.546
+  translation 0 0 0
+  children [
+    Shape {
+      appearance Appearance {
+            material Material {
+              diffuseColor    0 0.379 0.761
+              emissiveColor   0 0 .3
+              shininess       0.5
+              transparency    0
+            }
+      }
+      geometry DEF GeoSphere01-FACES IndexedFaceSet {
+        ccw TRUE
+        solid TRUE
+        coord DEF GeoSphere01-COORD Coordinate { point [
+          0 40.98 0, 36.66 18.33 0, 11.33 18.33 -34.86, -29.66 18.33 -21.55,
+          -29.66 18.33 21.55, 11.33 18.33 34.86, 29.66 -18.33 -21.55,
+          -11.33 -18.33 -34.86, -36.66 -18.33 0, -11.33 -18.33 34.86,
+          29.66 -18.33 21.55, 0 -40.98 0]
+        }
+        normal Normal { vector [
+          -0.3035 0.1875 -0.9341, 0.4911 0.7946 -0.3568, 0.3035 -0.1875 -0.9341,
+          0.7946 0.1875 0.5773, -0.1875 0.7946 0.5773, -0.9822 0.1875 0,
+          -0.4911 -0.7946 0.3568, 0.1875 -0.7946 0.5773, 0.9822 -0.1875 0,
+          0.7946 0.1875 -0.5773, -0.1875 0.7946 -0.5773, -0.4911 -0.7946 -0.3568,
+          0.1875 -0.7946 -0.5773, -0.7946 -0.1875 0.5773, -0.3035 0.1875 0.9341,
+          0.4911 0.7946 0.3568, -0.607 0.7946 0, 0.3035 -0.1875 0.9341,
+          0.607 -0.7946 0, -0.7946 -0.1875 -0.5773, ] }
+        normalPerVertex TRUE
+        coordIndex [
+          0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 5, -1, 0, 5, 1, -1,
+          1, 10, 6, -1, 2, 6, 7, -1, 3, 7, 8, -1, 4, 8, 9, -1,
+          5, 9, 10, -1, 6, 2, 1, -1, 7, 3, 2, -1, 8, 4, 3, -1,
+          9, 5, 4, -1, 10, 1, 5, -1, 11, 7, 6, -1, 11, 8, 7, -1,
+          11, 9, 8, -1, 11, 10, 9, -1, 11, 6, 10, -1]
+        normalIndex [
+          1, 1, 1, -1, 10, 10, 10, -1, 16, 16, 16, -1, 4, 4, 4,
+          -1, 15, 15, 15, -1, 8, 8, 8, -1, 2, 2, 2, -1, 19, 19,
+          19, -1, 13, 13, 13, -1, 17, 17, 17, -1, 9, 9, 9, -1,
+          0, 0, 0, -1, 5, 5, 5, -1, 14, 14, 14, -1, 3, 3, 3,
+          -1, 12, 12, 12, -1, 11, 11, 11, -1, 6, 6, 6, -1, 7,
+          7, 7, -1, 18, 18, 18, -1, ]
+        }
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Extended Mass ExternProto, beta 4"
+  info    "Geoff Pack, Spike, October 1999"
+}
+
+PROTO extendedMass [
+  #eventIn   MFNode      addChildren
+  #eventIn   MFNode      removeChildren
+
+  eventIn   SFVec3f     set_force
+  eventIn   SFVec3f     set_torque
+
+  eventIn   SFVec3f     set_position
+  eventIn   SFVec3f     set_velocity
+  eventIn   SFVec3f     set_acceleration
+  eventIn   SFVec3f     set_orientation
+  eventIn   SFVec3f     set_angularVelocity
+  eventIn   SFVec3f     set_angularAcceleration
+
+  eventOut  SFVec3f     position_changed
+  eventOut  SFVec3f     velocity_changed
+  eventOut  SFVec3f     acceleration_changed
+  eventOut  SFVec3f     orientation_changed
+  eventOut  SFVec3f     angularVelocity_changed
+  eventOut  SFVec3f     angularAcceleration_changed
+
+  field     SFVec3f     position             0 0 0
+  field     SFVec3f     velocity             0 0 0
+  field     SFVec3f     acceleration         0 0 0
+  field     SFVec3f     orientation          0 0 0
+  field     SFVec3f     angularVelocity      0 0 0
+  field     SFVec3f     angularAcceleration  0 0 0
+
+  field     SFFloat     mass                 1.0
+  field     SFVec3f     momentsOfInertia     1 1 1
+  field     MFNode      children             []
+]{
+
+#--------------------------------------
+# extendedMass geometry
+
+DEF Object1 Transform {
+  translation   IS position
+  rotation      0 1 0 0
+  children [
+    DEF Pitch Transform {
+      rotation      1 0 0 0
+      children [
+        DEF Yaw Transform {
+          rotation      0 1 0 0
+          children [
+            DEF Roll Transform {
+              rotation      0 0 1 0
+              children IS children
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WorldClock TimeSensor {
+   cycleInterval  1
+   stopTime       -1
+   loop           TRUE
+}
+
+#--------------------------------------
+# extendedMass Motion script
+
+DEF MotionScript Script {
+  eventIn   SFTime      set_lastTime
+  eventIn   SFVec3f     set_force                   IS set_force
+  eventIn   SFVec3f     set_torque                  IS set_torque
+  #eventIn   MFNode      addChildren                 IS addChildren
+  #eventIn   MFNode      removeChildren              IS removeChildren
+
+  eventIn   SFVec3f     set_position                IS set_position
+  eventIn   SFVec3f     set_velocity                IS set_velocity
+  eventIn   SFVec3f     set_acceleration            IS set_acceleration
+  eventIn   SFVec3f     set_orientation             IS set_orientation
+  eventIn   SFVec3f     set_angularVelocity         IS set_angularVelocity
+  eventIn   SFVec3f     set_angularAcceleration     IS set_angularAcceleration
+
+  eventOut  SFVec3f     position_changed            IS position_changed
+  eventOut  SFVec3f     velocity_changed            IS velocity_changed
+  eventOut  SFVec3f     acceleration_changed        IS acceleration_changed
+  eventOut  SFVec3f     orientation_changed         IS orientation_changed
+  eventOut  SFVec3f     angularVelocity_changed     IS angularVelocity_changed
+  eventOut  SFVec3f     angularAcceleration_changed IS angularAcceleration_changed
+
+  field     SFNode      objectPosition              USE Object1
+  field     SFVec3f     position                    IS position
+  field     SFVec3f     velocity                    IS velocity
+  field     SFVec3f     acceleration                IS acceleration
+  field     SFVec3f     orientation                 IS orientation
+  field     SFVec3f     angularVelocity             IS angularVelocity
+  field     SFVec3f     angularAcceleration         IS angularAcceleration
+
+  field     SFVec3f     force                       0 0 0
+  field     SFVec3f     torque                      0 0 0
+  field     SFFloat     mass                        IS mass
+  field     SFVec3f     momentsOfInertia            IS momentsOfInertia
+  field     SFTime      lastTime                    0
+  field     SFTime      dt                          0
+  #field     MFNode      children                    IS children
+
+  field     SFNode      pitch                       USE Pitch
+  field     SFNode      yaw                         USE Yaw
+  field     SFNode      roll                        USE Roll
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    //function initialize() {
+    // --- This method requires sending startTime and enabled events  ---
+    // --- to the clock in order to work correctly - otherwise        ---
+    // --- the initialised time is later than first few clock cycles! ---
+    // --- Also, Now = new Date() gives bad times on Mac              ---
+    // --- Instead, use method below...                               ---
+    //  Now = new Date();
+    //  lastTime = Now.getTime()/1000; // convert milliseconds(js) to seconds(vrml);
+    //}
+
+    //
+    // Handle eventIns
+    //
+
+    function set_force(value) {
+      force = value;
+    }
+    function set_torque(value) {
+      torque = value;
+    }
+    function set_position(value) {
+      position = value;
+    }
+    function set_velocity(value) {
+      velocity = value;
+    }
+    function set_acceleration(value) {
+      acceleration = value;
+    }
+    function set_orientation(value) {
+      orientation = value;
+    }
+    function set_angularVelocity(value) {
+      angularVelocity = value;
+    }
+    function set_angularAcceleration(value) {
+      angularAcceleration = value;
+    }
+
+    //
+    // set_lastTime - move the object!
+    //
+
+    function set_lastTime(timeValue) {
+      if (lastTime != 0) {
+        // calculate dt:
+        dt = timeValue - lastTime;
+        //print('lastTime = ' + lastTime);
+        //print('dt = ' + dt);
+
+        // new method:
+        position = position.add(velocity.multiply(dt));
+        velocity = velocity.add(acceleration.multiply(dt));
+        acceleration = force.divide(mass);
+
+        orientation = orientation.add(angularVelocity.multiply(dt));
+        angularVelocity = angularVelocity.add(angularAcceleration.multiply(dt));
+        angularAcceleration = torque.multiply(mass);
+
+        // old method:
+        //for (var i=0; i<3; i++) {
+        //  position[i] += velocity[i] * dt;
+        //  velocity[i] += acceleration[i] * dt;
+        //  acceleration[i] = force[i] / mass;
+        //  orientation[i] += angularVelocity[i] * dt;
+        //  angularVelocity[i] += angularAcceleration[i] * dt;
+        //  angularAcceleration[i] = torque[i] / momentsOfInertia[i];
+        //}
+
+        // update positions & orientation:
+        objectPosition.translation =  position;
+        pitch.rotation[3] = orientation[0];
+        yaw.rotation[3] = orientation[1];
+        roll.rotation[3] = orientation[2];
+
+        // make eventOuts available:
+        position_changed = position;
+        velocity_changed = velocity;
+        acceleration_changed = acceleration;
+        orientation_changed = orientation;
+        angularVelocity_changed = angularVelocity;
+        angularAcceleration_changed = angularAcceleration;
+
+      }
+      // update lastTime:
+      lastTime = timeValue;
+    }
+  "
+}
+
+#--------------------------------------
+# Routing
+
+# Connect clock to motion script
+ROUTE WorldClock.time TO MotionScript.set_lastTime
+
+#--------------------------------------
+# End Proto
+
+}
+
+

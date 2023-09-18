@@ -1,0 +1,136 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+	info [	"Concept Mapping",
+			"Geoff Pack",
+			"geoff@spike.com.au",
+			"August 1998" ]
+}
+
+NavigationInfo {
+	type	"EXAMINE"
+}
+
+Background {
+	skyColor [ 1 1 1 ]
+}
+
+Fog {
+	color			1 1 1
+	fogType			"EXPONENTIAL"
+	visibilityRange 40
+}
+
+#------------------------------------------------------------------------
+# Nodes:
+
+# Root Node:
+Transform {
+	translation 0 0 0
+	children [
+		DEF NodeSensor TouchSensor {}
+		Billboard {
+			axisOfRotation	0 0 0
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor .1 .1 .1
+						}
+					}
+					geometry Text {
+						string ["SPIKE"]
+						fontStyle FontStyle {
+							family	"SANS"
+							justify	"MIDDLE"
+						}
+					}
+				}
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 1 0 0							transparency 0.5
+						}
+					}
+					geometry Box { size 2 1 .1 }
+				}
+			]
+		}
+	]
+}
+
+# Level2 Node:
+DEF NodeSwitch Switch {
+	whichChoice -1
+	choice [
+		Transform {
+			translation 3 -2 0
+			children [
+				DEF NodeSensor2 TouchSensor {}
+				Shape {
+					appearance Appearance {
+						material Material {
+							emissiveColor 1 0 0
+						}
+					}
+					geometry IndexedLineSet {
+						coord Coordinate {
+							point [ 0 0 0, -3 2 0 ]
+						}
+						coordIndex [ 0 1 -1 ]
+					}
+				}		
+				Billboard {
+					axisOfRotation	0 0 0
+					children [
+						Shape {
+							appearance Appearance {
+								material Material {
+									diffuseColor .1 .1 .1
+								}
+							}
+							geometry Text {
+								string ["clients"]
+								fontStyle FontStyle {
+									family	"SANS"
+									justify	"MIDDLE"
+								}
+							}
+						}
+						Shape {
+							appearance Appearance {
+								material Material {
+									diffuseColor 1 0 0							transparency 0.5
+								}
+							}
+							geometry Box { size 2 1 .1 }
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+
+DEF Rollover Script {
+	eventIn	SFBool	rollon
+	eventOut	SFInt32	whichChoice
+	eventIn	SFBool	rollon2
+	eventOut	SFInt32	whichChoice2
+	url "javascript:
+		function rollon(state){
+			if (state) whichChoice = 0;
+			// else whichChoice = -1;
+		}
+		function rollon2(state){
+			if (state) whichChoice = 0;
+			else whichChoice = -1;
+		}
+	"
+}
+
+ROUTE NodeSensor.isOver TO Rollover.rollon
+ROUTE Rollover.whichChoice TO NodeSwitch.whichChoice
+
+ROUTE NodeSensor2.isOver TO Rollover.rollon2

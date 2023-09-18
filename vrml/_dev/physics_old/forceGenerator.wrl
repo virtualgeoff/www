@@ -1,0 +1,86 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Force Generator ExternProto, beta 1"
+  info    "Geoff Pack, Spike, October 1999"
+}
+
+PROTO extendedMass [
+  eventIn   SFNode      mass1
+  eventIn   SFNode      mass2
+
+  eventOut  SFVec3f     force1
+  eventOut  SFVec3f     force2
+  eventOut  SFVec3f     torque1
+  eventOut  SFVec3f     torque2
+
+  field     SFFloat     G         1.0
+]{
+
+#--------------------------------------
+# extendedMass geometry
+
+DEF ForceScript Script {
+  eventIn   SFVec3f     position1In
+  eventIn   SFVec3f     position2In
+  eventOut  SFVec3f     force1Out
+  eventOut  SFVec3f     force2Out
+  #eventOut  SFVec3f     torque1
+  #eventOut  SFVec3f     torque2
+
+  field     SFVec3f     position1   5 0 -10
+  field     SFVec3f     position2   0 0 -10
+  field     SFVec3f     r           0 0 0
+  field     SFVec3f     force1      0 0 0
+  field     SFVec3f     force2      0 0 0
+
+  field     SFFloat     fx          0
+  field     SFFloat     modr        0
+  field     SFFloat     mass1       1
+  field     SFFloat     mass2       10
+  field     SFFloat     G           1
+
+  url "javascript:
+    function initialize() {
+    }
+    function position1In(value) {
+      position1[0] = value[0];
+      position1[1] = value[1];
+      position1[2] = value[2];
+    }
+    function position2In(value) {
+      position2[0] = value[0];
+      position2[1] = value[1];
+      position2[2] = value[2];
+    }
+    function eventsProcessed() {
+      r[0] = position1[0] - position2[0];
+      r[1] = position1[1] - position2[1];
+      r[2] = position1[2] - position2[2];
+      modr = Math.sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
+      fx = (G * mass1 * mass2) / (modr * modr * modr) ;
+
+      //print('r = ' + r);
+      //print('modr = ' + modr);
+      //print('fx = ' + fx);
+
+      force1[0] = fx * -r[0]
+      force1[1] = fx * -r[1]
+      force1[2] = fx * -r[2]
+      force2[0] = fx * r[0]
+      force2[1] = fx * r[1]
+      force2[2] = fx * r[2]
+
+      //print('');
+      //print('position1 = ' + position1);
+      //print('position2 = ' + position2);
+      //print('r = ' + r);
+      print('force1 = ' + force1);
+
+      force1Out = force1;
+      force2Out = force2;
+
+    }
+  "
+}
+

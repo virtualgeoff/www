@@ -1,0 +1,28 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"General Background"
+   info		"VRML 2.0 Background, Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"WALK"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		1.0
+}
+
+Viewpoint {
+   description "Entry"
+   position 	0 0 50
+}
+
+Background {
+   groundColor	[0 .5 0, 0 .7 0]
+   groundAngle	[1.6]
+   skyColor		[.3 .3 .9, .3 .3 .9]
+   skyAngle		[1.5708]
+}
+
+# note - no support yet for background images in Win95 Cosmo Player
+

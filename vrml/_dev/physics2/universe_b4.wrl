@@ -1,0 +1,233 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Physics Simulator, beta 4"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["WALK","EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "v1"
+  position 0 15 35
+  orientation 1 0 0 -0.4
+}
+Viewpoint {
+  description "entry"
+  position 0 0 30
+}
+
+
+#--------------------------------------
+# Lights
+
+DirectionalLight {
+  color       1 1 1
+  direction   0 -1 0
+  intensity   1
+  on          TRUE
+}
+
+#--------------------------------------
+# Grid:
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+#--------------------------------------
+# HUD Controls:
+
+EXTERNPROTO sixDofHud [
+  eventOut  SFVec3f     translationOut
+  eventOut  SFVec3f     rotationOut
+
+  field     SFColor     lineColor
+  field     SFColor     boxColor
+] "sixDofHud.wrl"
+
+# HUD 1
+DEF Hud1 sixDofHud {
+  lineColor   1 .5 0
+  boxColor    1 0 .5
+}
+
+#--------------------------------------
+# Objects
+
+EXTERNPROTO extendedMass [
+  eventIn   SFVec3f     set_force
+  eventIn   SFVec3f     set_torque
+
+  eventIn   SFVec3f     set_position
+  eventIn   SFVec3f     set_velocity
+  eventIn   SFVec3f     set_acceleration
+  eventIn   SFVec3f     set_orientation
+  eventIn   SFVec3f     set_angularVelocity
+  eventIn   SFVec3f     set_angularAcceleration
+
+  eventOut  SFVec3f     position_changed
+  eventOut  SFVec3f     velocity_changed
+  eventOut  SFVec3f     acceleration_changed
+  eventOut  SFVec3f     orientation_changed
+  eventOut  SFVec3f     angularVelocity_changed
+  eventOut  SFVec3f     angularAcceleration_changed
+
+  field     SFVec3f     position
+  field     SFVec3f     velocity
+  field     SFVec3f     acceleration
+  field     SFVec3f     orientation
+  field     SFVec3f     angularVelocity
+  field     SFVec3f     angularAcceleration
+
+  field     SFFloat     mass
+  field     SFVec3f     momentsOfInertia
+  field     MFNode      children
+
+] "extendedMass_b4.wrl"
+
+# Mass 1
+DEF Mass1 extendedMass {
+  position   -10 0 0
+  velocity   0 0 0
+  children [
+    Inline {
+      url "coord_axes.wrl"
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0 1
+          shininess     .5
+        }
+      }
+      geometry Box { size  0.6 0.4 0.8 }
+    }
+  ]
+}
+
+# Mass 2
+DEF Mass2 extendedMass {
+  position  0 0 0
+  mass      1000
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 1 0
+          shininess     .5
+        }
+      }
+      geometry Sphere { radius  1 }
+    }
+  ]
+}
+
+#--------------------------------------
+# Central Force Script
+
+DEF CentralForce Script {
+  eventIn   SFVec3f     set_position1
+  eventIn   SFVec3f     set_position2
+  eventOut  SFVec3f     force1_changed
+  eventOut  SFVec3f     force2_changed
+
+  field     SFVec3f     position1       0 0 0
+  field     SFVec3f     position2       0 0 0
+  field     SFVec3f     force1          0 0 0
+  field     SFVec3f     force2          0 0 0
+
+  field     SFFloat     mass1           1
+  field     SFFloat     mass2           1000
+  field     SFFloat     G               1
+  field     SFVec3f     r               0 0 0
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    function set_position1(value) {
+      position1 = value;
+    }
+    function set_position2(value) {
+      position2 = value;
+    }
+    function eventsProcessed() {
+      r = position2.subtract(position1);
+      var modf = (G * mass1 * mass2)/(r.length()*r.length());
+      force1 = r.normalize();
+      force1 = force1.multiply(modf);
+      force2 = force1.negate();
+
+      print(' ');
+      print('force1 = ' + force1);
+      print('force2 = ' + force2);
+
+      force1_changed = force1;
+      force2_changed = force2;
+    }
+  "
+}
+
+#--------------------------------------
+# Add Forces Script
+
+DEF AddForces Script {
+  eventIn   SFVec3f     set_force1
+  eventIn   SFVec3f     set_force2
+  eventOut  SFVec3f     forceSum_changed
+
+  field     SFVec3f     force1      0 0 0
+  field     SFVec3f     force2      0 0 0
+
+  url "javascript:
+    function set_force1(value) {
+      force1 = value;
+    }
+    function set_force2(value) {
+      force2 = value;
+    }
+    function eventsProcessed() {
+      forceSum_changed = force1.add(force2);
+      //print(' ');
+      //print('force1 = ' + force1);
+
+    }
+  "
+}
+#--------------------------------------
+# Routing
+
+# Connect the HUD controls to the extendedMass
+ROUTE Hud1.translationOut TO AddForces.set_force1
+ROUTE Hud1.rotationOut TO Mass1.set_torque
+
+# Connect positions to ForceGenerator
+ROUTE Mass1.position_changed TO CentralForce.set_position1
+ROUTE Mass2.position_changed TO CentralForce.set_position2
+
+# Connect forces to the masses
+ROUTE CentralForce.force2_changed TO Mass2.set_force
+ROUTE CentralForce.force1_changed TO AddForces.set_force2
+ROUTE AddForces.forceSum_changed TO Mass1.set_force
+
+
+
+

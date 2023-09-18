@@ -1,0 +1,695 @@
+#VRML V2.0 utf8
+
+# An object that can have descendents
+
+PROTO TreeCone [
+  eventIn  MFInt32  set_childData
+  field    MFNode   children [ ]
+  field    MFString label [ ]
+  field    MFString longLabel [ ]
+]
+{
+  Transform {
+    children [
+      DEF ME Transform {
+	translation 0 -4 0
+	children [
+	  DEF VP Viewpoint {
+	    position 0 1 18
+	    orientation -1 0 0 0.2
+	    description "Auto"
+	  }
+	  Transform {
+	    children [
+	      Shape {
+		appearance Appearance {
+		  material DEF CONE_COLOR Material {
+		    diffuseColor 1 0 0
+		  }
+		}
+		geometry Cone { }
+	      }
+	    ]
+	  }
+	  DEF TOUCHED TouchSensor { }
+	  Billboard {
+	    axisOfRotation 0 0 0
+	    children [
+	      Transform {
+		translation 0 0 1
+		children [
+		  Shape {
+		    appearance Appearance {
+		      material Material {
+			diffuseColor 0.9412 0.9725 1.0000
+		      }
+		    }
+		    geometry Text {
+		      string IS label
+		      fontStyle FontStyle {
+			family "SANS"
+			justify "MIDDLE"
+			size 0.6
+			spacing 1.2
+			style "BOLD"
+		      }
+		      length 0
+		    }
+		  }
+		]
+	      }
+	    ]
+	  }
+	]
+      }
+      Shape {
+	appearance Appearance {
+	  material Material {
+	    emissiveColor 0.85 0.85 0.10
+	  }
+	}
+	geometry IndexedLineSet {
+	  coord DEF LINECOORDS Coordinate {
+	    point [ 0 0 0, 0 0 0 ]
+	  }
+	  coordIndex [ 0 1 -1 ]
+	  colorPerVertex FALSE
+	}
+      }
+      DEF EXPANDER Script {
+	eventIn  SFBool  touched
+	eventIn  SFBool  show
+	eventIn  MFInt32 set_childData IS set_childData
+	eventOut SFVec3f newTranslation
+	eventOut MFVec3f lineCoords
+	eventOut MFNode  newChildren
+	eventOut MFNode  oldChildren
+	eventOut SFColor coneColor
+	eventOut SFBool  bindVp
+
+	field   MFNode   children IS children
+	field   MFString longLabel IS longLabel
+
+	field SFInt32 numSiblings 0
+	field SFInt32 myChildNumber 0
+	field SFColor leafColor 0.49 0.68 1
+	field SFColor expandedColor 0.3922 0.5043 0.8294
+	field SFColor unexpandedColor 0.2400 0.3500 0.6700
+	field SFBool  expanded FALSE
+
+	# For browsers that don't like vars
+	field SFFloat theta 0.0
+	field SFFloat ntheta 0.0
+	field SFFloat r 0.0
+	field SFInt32 i 0
+
+	url "javascript:
+
+	  // For each of the children of this node, we send it the
+	  // number of children in the group and the child's own number.
+	  // The child will use this information to compute its position.
+	  // We do this in the initialize() method because if you do it
+	  // in the touched() method it's possible for the children
+	  // to be added to the scene graph before they finish processing
+	  // the event that computes their position.  This doesn't work
+	  // at all in WorldView 2.0, and I have no idea why not.
+	  function initialize() {
+	    if (children.length > 0) {
+	      coneColor = unexpandedColor;
+	      for (i=0; i<children.length; i++) {
+		children[i].set_childData = new MFInt32(children.length, i);
+	      }
+	    } else {
+	      coneColor = leafColor;
+	    }
+	  }
+
+	  // Called by the parent to set the child's number of siblings
+	  // and child number, from which it computes its position
+	  function set_childData(value) {
+	    numSiblings = value[0];
+	    myChildNumber = value[1];
+	    lineCoords = new MFVec3f(new SFVec3f(0,0,0), new SFVec3f(0,0,0));
+	    if (numSiblings > 0) {
+	      theta = 3.14159*2/numSiblings;
+	      if (numSiblings > 2)
+		ntheta = (myChildNumber*theta)-1.570795;
+	      else
+		ntheta = myChildNumber*theta;
+	      if (numSiblings > 1) {
+		r = 1.5/Math.sin(theta/2.0);
+		newTranslation = new SFVec3f(
+		  r * Math.cos(ntheta), -4.0, -r * Math.sin(ntheta));
+	      } else {
+		newTranslation = new SFVec3f(0,-4,0);
+	      }
+	      lineCoords[1] = newTranslation;
+	      lineCoords[1][1] += 1;
+	    }
+	  }
+
+	  // Called when the user touches the cone.  Either expands the
+	  // cone (addChildren) or contracts it (removeChildren)
+	  function touched(value) {
+	    if (value) {
+	      if (!expanded) {
+		bindVp = true;
+		if (children.length > 0) {
+		  // The following line is harmless in Cosmo Player and
+		  // CCPro which have already done the initialization,
+		  // but it lets WorldView sort of work -- you have to
+		  // open the node, close it, and open it again.  Sigh.
+		  initialize();
+		  coneColor = expandedColor;
+		  newChildren = children;
+		  expanded = TRUE;
+		}
+	      } else {
+		bindVp = false;
+		if (children.length > 0)
+		  coneColor = unexpandedColor;
+		else
+		  coneColor = leafColor;
+		oldChildren = children;
+		expanded = FALSE;
+	      }
+	    }
+	  }
+
+	  // Displays the long label in the tray when the user's mouse
+	  // is over this node
+	  function show(value) {
+	    if (value) {
+	      if (longLabel.length > 0)
+		Browser.setDescription(longLabel[0]);
+	    } else {
+	      Browser.setDescription('');
+	    }
+	  }
+	"
+      }
+    ]
+  }
+  ROUTE TOUCHED.isActive TO EXPANDER.touched
+  ROUTE TOUCHED.isOver TO EXPANDER.show
+  ROUTE EXPANDER.newTranslation TO ME.set_translation
+  ROUTE EXPANDER.lineCoords TO LINECOORDS.set_point
+  ROUTE EXPANDER.newChildren TO ME.addChildren
+  ROUTE EXPANDER.oldChildren TO ME.removeChildren
+  ROUTE EXPANDER.coneColor TO CONE_COLOR.set_diffuseColor
+  ROUTE EXPANDER.bindVp TO VP.set_bind
+}
+
+# A leaf object
+
+PROTO UrlBall [
+  field   MFString label [ ]
+  field   MFString url [ ]
+  eventIn MFInt32  set_childData
+]
+{
+  Transform {
+    children [
+      DEF ME Transform {
+	translation 0 -4 0
+	children [
+	  Transform {
+	    children [
+	      Shape {
+		appearance Appearance {
+		  material Material {
+		    diffuseColor 0.49 0.68 1
+		  }
+		}
+		geometry Sphere { radius 0.75 }
+	      }
+	      Billboard {
+		axisOfRotation 0 0 0
+		children [
+		  Transform {
+		    translation 0 0 1
+		    children [
+		      Shape {
+			appearance Appearance {
+			  material Material {
+			    diffuseColor 0.9412 0.9725 1.0000
+			  }
+			}
+			geometry Text {
+			  string IS label
+			  fontStyle FontStyle {
+			    family "SANS"
+			    justify "MIDDLE"
+			    size 0.6
+			    spacing 1.2
+			    style "BOLD"
+			  }
+			  length 0
+			}
+		      }
+		    ]
+		  }
+		]
+	      }
+	    ]
+	  }
+	  DEF TOUCHED TouchSensor { }
+	]
+      }
+      Shape {
+	appearance Appearance {
+	  material Material {
+	    emissiveColor 0.85 0.85 0.10
+	  }
+	}
+	geometry IndexedLineSet {
+	  coord DEF LINECOORDS Coordinate {
+	    point [ 0 0 0, 0 0 0 ]
+	  }
+	  coordIndex [ 0 1 -1 ]
+	  colorPerVertex FALSE
+	}
+      }
+      DEF LINK Script {
+	eventIn  MFInt32 set_childData IS set_childData
+	eventIn  SFBool  load
+	eventIn  SFBool  show
+	eventOut SFVec3f newTranslation
+	eventOut MFVec3f lineCoords
+
+	field MFString the_url IS url
+
+	field SFInt32  myChildNumber 0
+	field SFInt32  numSiblings 0
+	field MFString parm [ ]
+
+	field SFFloat theta 0.0
+	field SFFloat ntheta 0.0
+	field SFFloat r 0.0
+
+	url "javascript:
+	  function initialize() {
+	    parm[0] = 'target=newpage';
+	  }
+	  function load(value) {
+	    if (value) {
+	      Browser.loadURL (the_url, parm);
+	    }
+	  }
+	  function show(value) {
+	    if (value)
+	      Browser.setDescription(the_url[0]);
+	    else
+	      Browser.setDescription('');
+	  }
+
+	  // This event is sent to this node from its TreeCone parent.
+	  function set_childData(value) {
+	    numSiblings = value[0];
+	    myChildNumber = value[1];
+	    lineCoords = new MFVec3f(new SFVec3f(0,0,0), new SFVec3f(0,0,0));
+	    if (numSiblings > 0) {
+	      theta = 3.14159*2/numSiblings;
+	      if (numSiblings > 2)
+		ntheta = (myChildNumber*theta)-1.570795;
+	      else
+		ntheta = myChildNumber*theta;
+	      if (numSiblings > 1) {
+		r = 1.5/Math.sin(theta/2.0);
+		newTranslation = new SFVec3f(
+		  r * Math.cos(ntheta), -4.0, -r * Math.sin(ntheta));
+	      }
+	      lineCoords[1] = newTranslation;
+	      lineCoords[1][1] += 0.5;
+	    }
+	  }
+	"
+      }
+    ]
+  }
+ROUTE TOUCHED.isActive TO LINK.load
+ROUTE TOUCHED.isOver TO LINK.show
+ROUTE LINK.newTranslation TO ME.set_translation
+ROUTE LINK.lineCoords TO LINECOORDS.set_point
+}
+
+#
+# End of PROTOs, start of world
+#
+Group {
+  children [
+    WorldInfo {
+      title "TreeCone"
+      info [
+	"Author     : Bob Crispen
+	 Email      : crispen@hiwaay.net
+	 Date       : 3 June 1998
+	 Description: A directory or website map in VRML"
+      ]
+    }
+    NavigationInfo {
+      headlight FALSE
+      type [ "EXAMINE", "ANY" ]
+    }
+    Background {
+      groundAngle [ 0.9, 1.5, 1.57 ]
+      groundColor [
+	0 0.333 0,
+	0 0.4 0,
+	0 0.5 0,
+	0.62 0.67 0.60
+      ]
+      skyAngle [ 0.9, 1.5, 1.57 ]
+      skyColor [
+	0 0 0.1
+	0.21 0.18 0.66,
+	0.2 0.44 0.85,
+	0.77 0.8 0.82
+      ]
+    }
+    Viewpoint {
+      position 0 -1 18 
+      orientation -1 0 0 0.2
+      description "Entry"
+    }
+    DirectionalLight {
+      intensity 0.9
+      direction -1 -0.5 -1
+    }
+    DirectionalLight {
+      intensity 0.7
+      direction 1 -0.5 -1
+    }
+    DirectionalLight {
+      intensity 0.6
+      direction 0 0 1
+    }
+
+    Transform {
+      translation 0 1 0
+      children [
+	TreeCone {
+	  label "Home"
+	  longLabel "The Crispen Family"
+	  children [
+	    TreeCone {
+	      label "Us"
+	      longLabel "Family members"
+	      children [
+		UrlBall {
+		  label "Bob"
+		  url [ "Bob/index.html" ]
+		}
+		UrlBall {
+		  label "Kelly"
+		  url [ "Kelly/index.html" ]
+		}
+		UrlBall {
+		  label "Patrick"
+		  url [ "http://netsquirrel.com/index.html" ]
+		}
+		UrlBall {
+		  label "Robert"
+		  url [ "Robert/index.html" ]
+		}
+		UrlBall {
+		  label "FoxyToo"
+		  url [ "Foxy/index.html" ]
+		}
+	      ]
+	    }
+	    TreeCone {
+	      label "Tech"
+	      longLabel "Technical Stuff"
+	      children [
+		TreeCone {
+		  label "VRML"
+		  longLabel "VRMLworks"
+		  children [
+		    UrlBall {
+		      label "Main"
+		      url [ "vrmlworks/index.html" ]
+		    }
+		    TreeCone {
+		      label "Viewing"
+		      longLabel "How to view VRML worlds"
+		      children [
+			UrlBall {
+			  label "Main"
+			  url [ "vrmlworks/viewing2.html" ]
+			}
+			UrlBall {
+			  label [ "VRML" "1 or 2" ]
+			  url [ "vrmlworks/vrml1or2v.html" ]
+			}
+			UrlBall {
+			  label [ "Get" "Browser" ]
+			  url [ "vrmlworks/get_browser.html" ]
+			}
+			UrlBall {
+			  label [ "Browser" "Test" ]
+			  url [ "vrmlworks/browser_test.html" ]
+			}
+			UrlBall {
+			  label "Multi-Plugins"
+			  url [ "vrmlworks/multi_plugin.html" ]
+			}
+			UrlBall {
+			  label [ "Fix" "Problems" ]
+			  url [ "vrmlworks/fix_problems.html" ]
+			}
+		      ]
+		    }
+		    UrlBall {
+		      label "Worlds"
+		      url [ "vrmlworks/worlds.html" ]
+		    }
+		    UrlBall {
+		      label "Models"
+		      url [ "vrmlworks/models.html" ]
+		    }
+		    UrlBall {
+		      label "FAQ"
+		      url [ "vrmlworks/faq/index.html" ]
+		    }
+		    UrlBall {
+		      label "History"
+		      url [ "vrmlworks/history.html" ]
+		    }
+		    UrlBall {
+		      label "Technical"
+		      url [ "vrmlworks/tech.html" ]
+		    }
+		    UrlBall {
+		      label "Cyberspace"
+		      url [ "vrmlworks/cyberspace.html" ]
+		    }
+		    UrlBall {
+		      label "Icons"
+		      url [ "vrmlworks/icons.html" ]
+		    }
+		    UrlBall {
+		      label "Essays"
+		      url [ "vrmlworks/essays/index.html" ]
+		    }
+		    UrlBall {
+		      label "Search"
+		      url [ "http://hiwaay.net:8000/~crispen/uncgi-bin/vrml_search.html" ]
+		    }
+		    TreeCone {
+		      label "Building"
+		      longLabel [ "Building VRML Worlds" ]
+		      children [
+			UrlBall {
+			  label "Main"
+			  url [ "vrmlworks/building2.html" ]
+			}
+			UrlBall {
+			  label [ "VRML" "1 or 2" ]
+			  url [ "vrmlworks/vrml1or2.html" ]
+			}
+			UrlBall {
+			  label "Books"
+			  url [ "vrmlworks/books/index.html" ]
+			}
+			UrlBall {
+			  label "Tutorials"
+			  url [ "vrmlworks/tutorials.html" ]
+			}
+			UrlBall {
+			  label "Examples"
+			  url [ "vrmlworks/examples.html" ]
+			}
+			UrlBall {
+			  label "Tools"
+			  url [ "vrmlworks/tools.html" ]
+			}
+			TreeCone {
+			  label "Process"
+			  longLabel [ "A VRML world building process" ]
+			  children [
+			    UrlBall {
+			      label [ "Main" ]
+			      url [ "vrmlworks/process.html" ]
+			    }
+			    UrlBall {
+			      label [ "Model" "Objects" ]
+			      url [ "vrmlworks/model_objs.html" ]
+			    }
+			    UrlBall {
+			      label [ "Convert" ]
+			      url [ "vrmlworks/convert.html" ]
+			    }
+			    UrlBall {
+			      label [ "Build" "Scene" ]
+			      url [ "vrmlworks/build_scene.html" ]
+			    }
+			    UrlBall {
+			      label [ "Tweak" "Scene" ]
+			      url [ "vrmlworks/tweak_scene.html" ]
+			    }
+			    UrlBall {
+			      label [ "Export" "to ISP" ]
+			      url [ "vrmlworks/export.html" ]
+			    }
+			  ]
+			}
+		      ]
+		    }
+		  ]
+		}
+		UrlBall {
+		  label [ "Free" "Software" ]
+		  url [ "src/index.html" ]
+		}
+		UrlBall {
+		  label "Ada"
+		  url [ "ada/index.html" ]
+		}
+		UrlBall {
+		  label "Java"
+		  url [ "java/index.html" ]
+		}
+		UrlBall {
+		  label [ "Our", "Computer" ]
+		  url [ "us/our_computer.html" ]
+		}
+	      ]
+	    }
+
+	    TreeCone {
+	      label "Fun"
+	      longLabel "Fun Stuff"
+	      children [
+		UrlBall {
+		  label [ "VCR", "Simulator" ]
+		  url [ "us/vcr_sim.html" ]
+		}
+		UrlBall {
+		  label "Raves"
+		  url [ "raves/index.html" ]
+		}
+		UrlBall {
+		  label "Rants"
+		  url [ "rants/index.html" ]
+		}
+	      ]
+	    }
+
+	    TreeCone {
+	      label "The Arts"
+	      longLabel "Visual and Musical Arts"
+	      children [
+		UrlBall {
+		  label [ "Stan", "Kenton" ]
+		  url [ "kenton/index.html" ]
+		}
+		UrlBall {
+		  label "ALLMUSIC"
+		  url [ "allmusic/index.html" ]
+		}
+		UrlBall {
+		  label [ "MIDI" ]
+		  url [ "midi/index.html" ]
+		}
+	      ]
+	    }
+
+	    TreeCone {
+	      label "Links"
+	      longLabel "Miscellaneous Links"
+	      children [
+		UrlBall {
+		  label "Roadmap"
+		  url [ "http://rs.internic.net/roadmap96/" ]
+		}
+		UrlBall {
+		  label "The Net"
+		  url [ "us/net.html" ]
+		}
+		UrlBall {
+		  label [ "What's", "New" ]
+		  url [ "us/whatsnew.html" ]
+		}
+	      ]
+	    }
+	    TreeCone {
+	      label [ "Tudor" "England" ]
+	      longLabel "Tudor England "
+	      children [
+		UrlBall {
+		  label "Main"
+		  url [ "tudor/index.html" ]
+		}
+		UrlBall {
+		  label [ "Tudor" "Tree" ]
+		  url [ "tudor/tudor_tree/index.html" ]
+		}
+		UrlBall {
+		  label "Chronology"
+		  url [ "tudor/chronology/index.html" ]
+		}
+		UrlBall {
+		  label "Arts"
+		  url [ "tudor/art/index.html" ]
+		}
+		UrlBall {
+		  label [ "Wives of" "Henry VIII" ]
+		  url [ "tudor/6wives/index.html" ]
+		}
+		UrlBall {
+		  label [ "Life of" "Women" ]
+		  url [ "tudor/tudor_women/index.html" ]
+		}
+		UrlBall {
+		  label "Heraldry"
+		  url [ "tudor/heraldry/index.html" ]
+		}
+		UrlBall {
+		  label [ "Duke of" "Norfolk" ]
+		  url [ "tudor/norfolk/index.html" ]
+		}
+		UrlBall {
+		  label [ "Death of" "Henry VIII" ]
+		  url [ "tudor/Henry8_medical/index.html" ]
+		}
+		UrlBall {
+		  label [ "Music of" "Henry VIII" ]
+		  url [ "tudor/music/index.html" ]
+		}
+		UrlBall {
+		  label [ "Links &" "Sources" ]
+		  url [ "tudor/credits_and_links/index.html" ]
+		}
+		UrlBall {
+		  label "Dedication"
+		  url [ "tudor/dedication/index.html" ]
+		}
+	      ]
+	    }
+	  ]
+	}
+      ]
+    }
+  ]
+}

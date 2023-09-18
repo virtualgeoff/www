@@ -1,0 +1,218 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Collision Test, beta1"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["WALK","EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "v1"
+  position 0 15 35
+  orientation 1 0 0 -0.4
+}
+Viewpoint {
+  description "entry"
+  position 0 0 30
+}
+
+
+#--------------------------------------
+# Lights
+
+DirectionalLight {
+  color       1 1 1
+  direction   0 -1 0
+  intensity   1
+  on          TRUE
+}
+
+#--------------------------------------
+# Grid:
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+#--------------------------------------
+# HUD Controls:
+
+EXTERNPROTO sixDofHud [
+  eventOut  SFVec3f     translationOut
+  eventOut  SFVec3f     rotationOut
+
+  field     SFColor     lineColor
+  field     SFColor     boxColor
+] "sixDofHud.wrl"
+
+# HUD 1
+DEF Hud1 sixDofHud {
+  lineColor   1 .5 0
+  boxColor    1 0 .5
+}
+
+#--------------------------------------
+# Objects
+
+EXTERNPROTO extendedMass [
+  eventIn   SFVec3f     appliedForce
+  eventIn   SFVec3f     appliedTorque
+  eventOut  SFVec3f     positionOut
+
+  field     SFVec3f     initialPosition
+  field     SFVec3f     initialVelocity
+  field     SFVec3f     initialAcceleration
+  field     SFVec3f     initialOrientation
+  field     SFVec3f     initialAngularVelocity
+  field     SFVec3f     initialAngularAcceleration
+  field     SFFloat     mass
+  field     SFVec3f     momentsOfInertia
+  field     MFNode      children
+] "extendedMass.wrl"
+
+# Mass 1
+DEF Mass1 extendedMass {
+  initialPosition   10 0 0
+  initialVelocity   0 0 0
+  children [
+    Inline {
+      url "coord_axes.wrl"
+    }
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 0 1
+          shininess     .5
+        }
+      }
+      geometry Box { size  1 1 1 }
+    }
+  ]
+}
+
+# Mass 2
+DEF Mass2 extendedMass {
+  initialPosition 0 0 0
+  mass            1000
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  1 1 0
+          shininess     .5
+        }
+      }
+      geometry Box { size  2.0 4.0 6.0 }
+    }
+  ]
+}
+
+#--------------------------------------
+# Force Scripts
+
+DEF CollisonScript Script {
+  eventIn   SFVec3f     Mass1Moved
+  eventIn   SFVec3f     Mass2Moved
+  eventOut  SFVec3f     forceOut
+
+  field     SFVec3f     Mass1Position   10 0 0
+  field     SFVec3f     Mass1Size       1 1 1
+  field     SFVec3f     Mass2Position   0 0 0
+  field     SFVec3f     Mass2Size       2.0 4.0 6.0
+
+  field     SFVec3f     collisionForce  2 0 0
+
+  url "javascript:
+    function initialize() {
+    }
+    function Mass1Moved(value) {
+      Mass1Position[0] = value[0];
+      Mass1Position[1] = value[1];
+      Mass1Position[2] = value[2];
+    }
+    function Mass2Moved(value) {
+      Mass2Position[0] = value[0];
+      Mass2Position[1] = value[1];
+      Mass2Position[2] = value[2];
+    }
+    function eventsProcessed() {
+      // test overlapping bboxes:
+      if (Math.abs(Mass2Position[0] - Mass1Position[0]) < (Mass2Size[0]/2 + Mass1Size[0]/2)) {
+        if (Math.abs(Mass2Position[1] - Mass1Position[1]) < (Mass2Size[1]/2 + Mass1Size[1]/2)) {
+          if (Math.abs(Mass2Position[2] - Mass1Position[2]) < (Mass2Size[2]/2 + Mass1Size[2]/2)) {
+            // overlapping bboxes !!!
+            print(' ');
+            print('Mass1Position = ' + Mass1Position);
+            print('Mass2Position = ' + Mass2Position);
+            //
+            forceOut = collisionForce;
+          }
+        }
+      } else {
+        forceOut[0] = 0;
+        forceOut[1] = 0;
+        forceOut[2] = 0;
+      }
+    }
+  "
+}
+
+DEF ForceAdder Script {
+  eventIn   SFVec3f     force1In
+  eventIn   SFVec3f     force2In
+  eventOut  SFVec3f     forceSumOut
+
+  field     SFVec3f     force1      0 0 0
+  field     SFVec3f     force2      0 0 0
+  field     SFVec3f     forceSum    0 0 0
+
+  url "javascript:
+    function force1In(value) {
+      force1 = value;
+    }
+    function force2In(value) {
+      force2 = value;
+    }
+    function eventsProcessed() {
+      forceSum[0] = force1[0] + force2[0];
+      forceSum[1] = force1[1] + force2[1];
+      forceSum[2] = force1[2] + force2[2];
+      forceSumOut = forceSum;
+    }
+  "
+}
+
+#--------------------------------------
+# Routing
+
+# Connect the HUD controls to the extendedMass inputs & ForceAdder
+ROUTE Hud1.translationOut TO ForceAdder.force1In
+ROUTE Hud1.rotationOut TO Mass1.appliedTorque
+
+# Connect Masses to CollisonScript
+ROUTE Mass1.positionOut TO CollisonScript.Mass1Moved
+ROUTE Mass2.positionOut TO CollisonScript.Mass2Moved
+
+ROUTE CollisonScript.forceOut TO ForceAdder.force2In
+ROUTE ForceAdder.forceSumOut TO Mass1.appliedForce
+
+
+

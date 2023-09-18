@@ -1,0 +1,479 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title	"PlayStation Beta 2"
+   info		"Geoff Pack, Spike Wireless, February 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"EXAMINE"
+}
+
+DEF Default Viewpoint {
+   description "Default"
+   position 0 0 15
+}
+
+DEF CP Viewpoint {
+   description "Cosmo Player"
+   position 0 0 30
+   fieldOfView .1 
+
+}
+ 
+DEF WV Viewpoint {
+   description "World View"
+   position 0 0 4
+   fieldOfView 1 
+
+}
+
+       
+#----------------------------------------------------------------------------
+#Sounds
+
+Sound {
+	source DEF Yes AudioClip { url ["yes.wav"] }
+	minFront	50
+	maxFront	100
+	spatialize	FALSE
+}
+
+Sound {
+	source DEF No AudioClip { url	["no.wav"]}
+	minFront	50
+	maxFront	100
+	spatialize	FALSE
+}
+
+#----------------------------------------------------------------------------
+# Introduction Text
+
+DEF INTRO_TEXT1 Transform {
+	translation 30 0 2
+	children [
+		Shape {
+			appearance Appearance { material Material { diffuseColor 1 1 0 } }
+			geometry  Text {
+				string [ "Click on the PlayStation symbols"]				 
+				fontStyle FontStyle {
+					family		"SANS"
+					justify		"MIDDLE"
+					size		0.8
+					spacing		2.0
+					style		"BOLD"
+				}
+			}
+		}
+	]
+}
+		
+DEF INTRO_TEXT2 Transform {
+	translation -30 -1 2
+	children [
+		Shape {
+			appearance Appearance { material Material { diffuseColor 1 1 0 } }
+			geometry  Text {
+				string [ "Get the sequence correct to win!"]				 
+				fontStyle FontStyle {
+					family		"SANS"
+					justify		"MIDDLE"
+					size		0.8
+					spacing		2.0
+					style		"BOLD"
+				}
+			}
+		}
+	]
+}		
+	
+#----------------------------------------------------------------------------
+# Triangle
+
+Transform {
+	translation 	-6 0 0
+	children [
+		DEF CONTROL1 TouchSensor { }
+		Shape {
+		   appearance Appearance {
+			material Material {
+			   transparency 1.0				
+			}
+		   }
+		   geometry Sphere { radius 1.5}
+		}
+	]
+}
+
+DEF OBJECT1 Transform {
+	translation 	-6 0 0
+	children [
+		Shape {
+	 	   appearance Appearance {
+			material DEF M1 Material {
+			   diffuseColor	.1 .4 0
+			   shininess	.5
+			}
+		   }
+		   geometry Extrusion { 
+		      spine 		[ 0 1.1547 0,  -1 -.5773 0, 1 -.5773 0, 0 1.1547 0 ]
+		      crossSection 	[ .2 .2, .2 -.2, -.2 -.2, -.2 .2, .2 .2 ]
+		   }
+		}
+	]
+}
+
+#----------------------------------------------------------------------------
+# Square  
+
+Transform {
+	translation 	-2 0 0
+	children [
+		DEF CONTROL2 TouchSensor { }
+		Shape {
+		   appearance Appearance {
+			material Material {
+			   transparency 1.0				
+			}
+		   }
+		   geometry Sphere { radius 1.5}
+		}
+	]
+}
+
+DEF OBJECT2 Transform {
+	translation 	-2 0 0
+	children [
+		Shape {
+		   appearance Appearance {
+			material DEF M2 Material {
+			   diffuseColor	.5 .1 0
+			   shininess	.5
+			}
+		   }
+		   geometry Extrusion { 
+		      spine 		[ .9 .9 0, -.9 .9 0, -.9 -.9 0, .9 -.9 0, .9 .9 0 ]
+		      crossSection 	[ .15 .15, .15 -.15, -.15 -.15, -.15 .15, .15 .15 ]
+		   }
+		}
+	]
+}
+
+#----------------------------------------------------------------------------
+# Circle
+
+Transform {
+	translation 	2 0 0
+	children [
+		DEF CONTROL3 TouchSensor { }
+		Shape {
+		   appearance Appearance {
+			material Material {
+			   transparency 1.0				
+			}
+		   }
+		   geometry Sphere { radius 1.5}
+		}
+	]
+}
+
+DEF OBJECT3 Transform {
+	translation 	2 0 0
+	children [
+		Shape {
+	 	   appearance Appearance {
+			material DEF M3 Material {
+			   diffuseColor	.5 0 .1		
+			   shininess	.5
+			}
+		   }
+		   geometry Extrusion {
+			  beginCap         FALSE
+			  endCap           FALSE
+			  convex           TRUE
+		      spine 		[ 1 0 0, .9659 .2588 0, .866 .5 0, .7071 .7071 0, .5 .866 0, .2588 .9659 0, 
+		      				  0 1 0, -.2588 .9659 0, -.5 .866 0, -.7071 .7071 0, -.866 .5 0, -.9659 .2588 0,
+		      				  -1 0 0, -.9659 -.2588 0, -.866 -.5 0, -.7071 -.7071 0, -.5 -.866 0, -.2588 -.9659 0,  
+		      				  0 -1 0, .2588 -.9659 0, .5 -.866 0, .7071 -.7071 0, .866 -.5 0, .9659 -.2588 0, 1 0 0 ]
+		      crossSection 	[ .1 .1, .1 -.1, -.1 -.1, -.1 .1, .1 .1 ]
+		      creaseAngle	0.3
+		   }
+		}
+	]
+}
+
+#----------------------------------------------------------------------------
+# Cross
+
+Transform {
+	translation 	6 0 0
+	children [
+		DEF CONTROL4 TouchSensor { }
+		Shape {
+		   appearance Appearance {
+			material Material {
+			   transparency 1.0				
+			}
+		   }
+		   geometry Sphere { radius 1.5}
+		}
+	]
+}
+
+DEF OBJECT4 Transform {
+	translation 	6 0 0
+	children [
+		Shape {
+	 	   appearance Appearance {
+			material DEF M4 Material {
+			   diffuseColor	0 .2 .5		
+			   shininess	.5
+			}
+		   }
+		   geometry Extrusion { 
+		      spine 		[ .9 -.9 0, -.9 .9 0 ]
+		      crossSection 	[ .15 .15, .15 -.15, -.15 -.15, -.15 .15, .15 .15 ]
+		   }
+		}
+		Shape {
+	 	   appearance Appearance {
+			material USE M4
+		   }
+		   geometry Extrusion { 
+		      spine 		[ .9 .9 0, -.9 -.9 0 ]
+		      crossSection 	[ .15 .15, .15 -.15, -.15 -.15, -.15 .15, .15 .15 ]
+		   }
+		}
+
+	]
+}
+
+#----------------------------------------------------------------------------
+# Game Script
+
+DEF GameScript Script {
+	eventOut	SFBool	winner
+	eventOut	SFColor	lightM1
+	eventOut	SFColor	lightM2
+	eventOut	SFColor	lightM3
+	eventOut	SFColor	lightM4
+	eventOut	SFTime	soundYes
+	eventOut	SFTime	soundNo
+	eventOut	SFTime	spin1On
+	eventOut	SFTime	spin2On
+	eventOut	SFTime	spin3On
+	eventOut	SFTime	spin4On
+	eventOut	SFTime	spin1Off
+	eventOut	SFTime	spin2Off
+	eventOut	SFTime	spin3Off
+	eventOut	SFTime	spin4Off
+	eventIn		SFTime	object1	
+	eventIn		SFTime	object2	
+	eventIn		SFTime	object3	
+	eventIn		SFTime	object4	
+	field		MFInt32	combination [ 3, 1, 4, 2, 0, 0 ]		
+	field		SFInt32	numPressed 0		
+	field		SFColor	color1 .2 .8 0
+	field		SFColor	color2 1 .2 0		
+	field		SFColor	color3 1 0 .2		
+	field		SFColor	color4 0 .4 1		
+	field		SFColor	color1b .1 .4 0
+	field		SFColor	color2b .5 .1 0		
+	field		SFColor	color3b .5 0 .1		
+	field		SFColor	color4b 0 .2 .5	
+	field		MFString	win [ "http://www.playstation.com" ]
+	field		MFString	stuff [ "" ]
+	url "vrmlscript:
+		function allOut(time) {
+				lightM1 = color1b;
+				lightM2 = color2b;
+				lightM3 = color3b;
+				lightM4 = color4b;
+				spin1Off = time;
+				spin2Off = time;
+				spin3Off = time;
+				spin4Off = time;
+		}
+		function object1(timeValue) {
+			if (combination[numPressed]== 0) { 
+				numpressed = 5;
+			}
+			else if (combination[numPressed]== 1) {
+				++numPressed;
+				soundYes = timeValue;
+				spin1On = timeValue;
+				lightM1 = color1;
+			}
+			else {
+				numPressed = 0;
+				soundNo = timeValue;
+				allOut(timeValue);
+			}
+		}
+		function object2(timeValue) {
+			if (combination[numPressed]== 0) { 
+				numpressed = 5;
+			}
+			else if (combination[numPressed]== 2) {
+				++numPressed;
+				soundYes = timeValue;
+				spin2On = timeValue;
+				lightM2 = color2;
+			}
+			else {
+				numPressed = 0;
+				soundNo = timeValue;
+				allOut(timeValue);
+			}
+		}
+		function object3(timeValue) {
+			if (combination[numPressed]== 0) { 
+				numpressed = 5;
+			}
+			else if (combination[numPressed]== 3) {
+				++numPressed;
+				soundYes = timeValue;
+				spin3On = timeValue;
+				lightM3 = color3;
+			}
+			else {
+				numPressed = 0;
+				soundNo = timeValue;
+				allOut(timeValue);
+			}
+		}
+		function object4(timeValue) {
+			if (combination[numPressed]== 0) { 
+				numpressed = 5;
+			}
+			else if (combination[numPressed]== 4) {
+				++numPressed;
+				soundYes = timeValue;
+				spin4On = timeValue;
+				lightM4 = color4;
+			}
+			else {
+				numPressed = 0;
+				soundNo = timeValue;
+				allOut(timeValue);
+			}
+		}
+		function eventsProcessed() {
+			if (combination[numPressed] >= 5) { 
+				numpressed = 5;
+			}
+			if (numPressed == 4) {
+				winner = true;
+				Browser.loadURL(win,stuff);
+			}
+		}"
+}
+
+#----------------------------------------------------------------------------
+# Motion Mechanics
+
+DEF ROTATE1 OrientationInterpolator {
+   key	[ 0, .25, .5, .75, 1 ]
+   keyValue	[ .2 -.5 1 0, .2 -.5 1 1.5708, .2 -.5 1 3.1416, .2 -.5 1 4.7124, -.5 -.2 1 6.2832 ]
+}
+DEF ROTATE2 OrientationInterpolator {
+   key	[ 0, .25, .5, .75, 1 ]
+   keyValue	[ 0 1 .2 0, 0 1 .2 1.5708, 0 1 .2 3.1416, 0 1 .2 4.7124, 0 1 .2 6.2832 ]
+}
+DEF ROTATE3 OrientationInterpolator {
+   key	[ 0, .25, .5, .75, 1 ]
+   keyValue	[ 1 0 0 0, 1 0 0 1.5708, 1 0 0 3.1416, 1 0 0 4.7124, 1 0 0 6.2832 ]
+}
+DEF ROTATE4 OrientationInterpolator {
+   key	[ 0, .25, .5, .75, 1 ]
+   keyValue	[ 1 1 1 0, 1 1 1 1.5708, 1 1 1 3.1416, 1 1 1 4.7124, 1 1 1 6.2832 ]
+}
+DEF MOVE_TEXT1 PositionInterpolator {
+	key 		[ 0, 1.0 ]
+	keyValue	[ 30 0 2, -30 0 2 ]
+}
+DEF MOVE_TEXT2 PositionInterpolator {
+	key 		[ 0, .4, 1.0 ]
+	keyValue	[ -30 -1 2, -30 -1 2, 30 -1 2 ]
+}
+
+
+DEF TIMER1 TimeSensor {
+   cycleInterval	2
+   stopTime	-1
+   loop		TRUE
+}
+DEF TIMER2 TimeSensor {
+   cycleInterval	2
+   stopTime	-1
+   loop		TRUE
+}
+DEF TIMER3 TimeSensor {
+   cycleInterval	2
+   stopTime	-1
+   loop		TRUE
+}
+DEF TIMER4 TimeSensor {
+   cycleInterval	2
+   stopTime	-1
+   loop		TRUE
+}
+DEF TIMER_TEXT TimeSensor {
+	cycleInterval	20
+	loop		FALSE
+}
+
+#----------------------------------------------------------------------------
+# Routing
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE TIMER2.fraction_changed TO ROTATE2.set_fraction
+ROUTE TIMER3.fraction_changed TO ROTATE3.set_fraction
+ROUTE TIMER4.fraction_changed TO ROTATE4.set_fraction
+
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+ROUTE ROTATE2.value_changed TO OBJECT2.set_rotation
+ROUTE ROTATE3.value_changed TO OBJECT3.set_rotation
+ROUTE ROTATE4.value_changed TO OBJECT4.set_rotation
+
+ROUTE CONTROL1.touchTime TO GameScript.object1
+ROUTE CONTROL2.touchTime TO GameScript.object2
+ROUTE CONTROL3.touchTime TO GameScript.object3
+ROUTE CONTROL4.touchTime TO GameScript.object4
+
+ROUTE GameScript.soundYes TO Yes.startTime
+ROUTE GameScript.soundNo TO No.startTime
+
+ROUTE GameScript.spin1On TO TIMER1.startTime
+ROUTE GameScript.spin2On TO TIMER2.startTime
+ROUTE GameScript.spin3On TO TIMER3.startTime
+ROUTE GameScript.spin4On TO TIMER4.startTime
+
+ROUTE GameScript.spin1Off TO TIMER1.stopTime
+ROUTE GameScript.spin2Off TO TIMER2.stopTime
+ROUTE GameScript.spin3Off TO TIMER3.stopTime
+ROUTE GameScript.spin4Off TO TIMER4.stopTime
+
+ROUTE GameScript.lightM1 TO M1.set_diffuseColor
+ROUTE GameScript.lightM2 TO M2.set_diffuseColor
+ROUTE GameScript.lightM3 TO M3.set_diffuseColor
+ROUTE GameScript.lightM4 TO M4.set_diffuseColor
+
+#ROUTE CP.bindTime TO DELAY.startTime
+#ROUTE WV.bindTime TO DELAY.startTime
+#ROUTE DELAY.stopTime TO TIMER_TEXT1.startTime
+#ROUTE DELAY.stopTime TO TIMER_TEXT2.startTime
+
+ROUTE CP.bindTime TO TIMER_TEXT.startTime
+ROUTE WV.bindTime TO TIMER_TEXT.startTime
+
+ROUTE TIMER_TEXT.fraction_changed TO MOVE_TEXT1.set_fraction
+ROUTE TIMER_TEXT.fraction_changed TO MOVE_TEXT2.set_fraction
+
+ROUTE MOVE_TEXT1.value_changed TO INTRO_TEXT1.set_translation
+ROUTE MOVE_TEXT2.value_changed TO INTRO_TEXT2.set_translation
+
+
+#----------------------------------------------------------------------------
+# END

@@ -1,0 +1,133 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "Fog Test"
+  info  "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      "EXAMINE"
+}
+
+Viewpoint {
+  description "one"
+  position    0 0 10
+}
+
+Viewpoint {
+  description "two"
+  position    -1.01982 0 9.94786
+  orientation 0 -1 0 0.10216
+}
+
+Viewpoint {
+  description "three"
+  position    0.178648 0.976286 9.82145
+  orientation -0.982528 0.186117 -0.000617293  0.409849
+}
+
+Fog {
+  color           0 0 0
+  visibilityRange 10
+}
+
+#----------------------------------------
+# Distance signs
+
+Transform {
+  translation 0 -0.2 10
+  children [ Shape { geometry Text { string "0m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 9
+  children [ Shape { geometry Text { string "1m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 8
+  children [ Shape { geometry Text { string "2m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 7
+  children [ Shape { geometry Text { string "3m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 6
+  children [ Shape { geometry Text { string "4m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 5
+  children [ Shape { geometry Text { string "5m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 4
+  children [ Shape { geometry Text { string "6m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 3
+  children [ Shape { geometry Text { string "7m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 2
+  children [ Shape { geometry Text { string "8m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 1
+  children [ Shape { geometry Text { string "9m" } } ]
+}
+
+Transform {
+  translation 0 -0.2 0
+  children [ Shape { geometry Text { string "10m" } } ]
+}
+
+#----------------------------------------
+# transparent box
+
+Transform {
+  translation -1 0 8
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  .7 .7 .7
+          transparency  .6
+        }
+      }
+      geometry Box { size 1.2 1 .01 }
+    }
+  ]
+}
+
+DEF Prox1 ProximitySensor {
+  center    0 0 0
+  size      1000 1000 10000
+}
+
+DEF PrintScript Script {
+  eventIn SFVec3f set_position
+  eventIn SFRotation set_orientation
+
+  url "javascript:
+    function set_position(value, time) {
+      print('\nposition    = ' + value);
+    }
+    function set_orientation(value, time) {
+      print('\norientation = ' + value);
+    }
+
+  "
+}
+
+ROUTE Prox1.position_changed TO PrintScript.set_position
+ROUTE Prox1.orientation_changed TO PrintScript.set_orientation
+

@@ -1,0 +1,102 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "Random Spheres"
+  info ["Geoff Pack, Spike, 1999"]
+}
+
+NavigationInfo {
+  headlight TRUE
+  speed     3
+  type      ["EXAMINE","WALK","ANY"]
+}
+
+Viewpoint {
+  position 0 0 200
+  description "side"
+}
+Viewpoint {
+  position 0 0 50
+  description "inside"
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+DEF OBJECT1 Transform {
+  rotation     1 0 0 0
+  center       0 1 0
+  children [
+  ]
+}
+
+DEF TIMER1 TimeSensor {
+  cycleInterval   30
+  stopTime        -1
+  loop            TRUE
+}
+
+DEF ROTATE1 OrientationInterpolator {
+  key       [ 0, .25, .5, .75, 1 ]
+  keyValue  [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+DEF TIMER2 TimeSensor {
+  cycleInterval   0.33
+  stopTime        -1
+  loop            TRUE
+}
+
+DEF SphereScript Script {
+  eventIn   SFTime    AddSphere
+  eventOut  MFNode    SphereAdded
+  eventOut  MFNode    SphereRemoved
+  field     SFVec3f   position       5 0 0
+  field     SFVec3f   scale          1 1 1
+  field     SFFloat   maxSphereSize  20
+  field     SFVec3f   regionSize     100 100 100
+  field     SFFloat   sphereNumber   100
+  field     MFNode    sphereX        []
+  field     SFInt32   count          0
+
+  url "javascript:
+    function AddSphere(timeValue) {
+      // randomize position and size:
+      position.x = (Math.random()-0.5) * regionSize.x;
+      position.y = (Math.random()-0.5) * regionSize.y;
+      position.z = (Math.random()-0.5) * regionSize.z;
+      scale.x    = 10;
+      scale.y    = scale.x;
+      scale.z    = scale.x;
+
+      // create a new Sphere:
+      vrmlString = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor 0 0 1 shininess .5 } } geometry Sphere { radius  1 }}]}';
+      var sphere1 = new SFNode(vrmlString);
+      sphere1.translation = position;
+      sphere1.scale = scale;
+      sphereX[count] = sphere1;
+      SphereAdded = sphereX;
+      count++
+
+      if (count>=5) {
+        vrmlString = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor 1 0 0 shininess .5 } } geometry Box { size  1 1 1 }}]}';
+        var sphere2 = new SFNode(vrmlString);
+        sphere2.translation = position;
+        sphere2.scale = scale;
+        sphereX[count-6] = sphere2;
+        SphereRemoved = sphereX;
+      }
+    }
+  "
+}
+
+ROUTE TIMER2.cycleTime TO SphereScript.AddSphere
+ROUTE SphereScript.SphereAdded TO OBJECT1.addChildren
+ROUTE SphereScript.SphereRemoved TO OBJECT1.removeChildren
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation

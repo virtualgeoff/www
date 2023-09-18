@@ -1,0 +1,273 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "A Big Gun"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        ["WALK","EXAMINE","ANY"]
+}
+
+Viewpoint {
+    description "Front"
+    position    0 2 12
+    orientation 0 0 1 0
+}
+Viewpoint {
+    description "Above"
+    position    0 12 6
+    orientation 1 0 0 -0.785
+
+}
+Background {
+    groundAngle [ 1.5708 ]
+    groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+    skyAngle    [ 1.0, 1.5708 ]
+    skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.8 0.3 0.7]
+}
+#--------------------------------------
+# Sounds
+
+Sound {
+    source DEF Fire AudioClip { url ["sexplode.wav"] }
+    maxFront    50000
+    minFront    50000
+    spatialize  FALSE
+}
+
+Sound {
+    source DEF Explode AudioClip { url ["lexplode.wav"] }
+    maxFront    50000
+    minFront    50000
+    spatialize  FALSE
+}
+
+#--------------------------------------
+# Geometry
+
+# Base:
+Transform {
+    translation     0 0.25 0
+    children [
+        Shape {
+            appearance DEF lightGrey Appearance {
+                material Material {
+                diffuseColor    .6 .6 .6
+                shininess       .2
+                }
+            }
+            geometry Cylinder {
+                radius      .6
+                height      .5
+            }
+        }
+    ]
+}
+
+# Gun
+DEF Gun Transform {
+    translation     0 .5 0
+    rotation        0 1 0 0
+    children [
+        # Turret:
+        DEF Azimuth CylinderSensor {}
+        Shape {
+            appearance USE lightGrey
+            geometry Sphere {
+                radius      .5
+            }
+        }
+        # Barrel:
+        Transform {
+            translation     0 .2 .3
+            rotation        0 0 1 1.5708
+            children [
+                DEF Barrel Transform {
+                    translation     0 0 0
+                    rotation        0 1 0 0
+                    children [
+                        DEF Altitude CylinderSensor {
+                            maxAngle 1.5708
+                            minAngle -0.2
+                        }
+                        Shape {
+                            appearance DEF darkGrey Appearance {
+                                material Material {
+                                    diffuseColor    .3 .3 .3
+                                    shininess       .2
+                                }
+                            }
+                            geometry Cylinder {
+                                radius      .2
+                                height      .3
+                            }
+                        }
+                        Transform {
+                            translation     0 0 0.5
+                            rotation        1 0 0 1.5708
+                            children [
+                                Shape {
+                                    appearance USE darkGrey
+                                    geometry Cylinder {
+                                        radius      .05
+                                        height      1
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+# Fire Button
+Transform {
+    translation     0 1 0
+    children [
+        DEF FireButton TouchSensor {}
+        Shape {
+            appearance DEF red Appearance {
+                material Material {
+                diffuseColor    1 0 0
+                shininess       .2
+                }
+            }
+            geometry Sphere {
+                radius      .1
+            }
+        }
+    ]
+}
+
+ROUTE Azimuth.rotation_changed TO Gun.set_rotation
+ROUTE Altitude.rotation_changed TO Barrel.set_rotation
+
+#--------------------------------------
+#Shell
+DEF Shell Transform {
+    translation     0 0.2 0.3
+    children [
+        Shape {
+            appearance DEF yellow Appearance {
+                material Material {
+                diffuseColor    1 1 0
+                shininess       .2
+                }
+            }
+            geometry Sphere {
+                 radius      .05
+            }
+        }
+    ]
+}
+
+DEF ExplosionTimer TimeSensor {
+   cycleInterval    .5
+   stopTime -1
+   loop     FALSE
+}
+
+DEF ExplosionSize PositionInterpolator {
+   key  [ 0,  .5, 1 ]
+   keyValue [ 1 1 1, 50 50 50, 1 1 1 ]
+}
+
+ROUTE ExplosionTimer.fraction_changed TO ExplosionSize.set_fraction
+ROUTE ExplosionSize.value_changed TO Shell.set_scale
+
+#--------------------------------------
+# Timers
+
+DEF Clock TimeSensor {
+   cycleInterval    0.05
+   stopTime -1
+   loop     TRUE
+}
+
+
+
+#--------------------------------------
+# Scripts
+
+DEF gunControl Script {
+    eventIn     SFRotation  set_Azimuth
+    eventIn     SFRotation  set_Altitude
+    eventIn     SFTime      fireShell
+    eventIn     SFTime      moveShell
+
+    eventOut    SFVec3f     shellChanged
+    eventOut    SFTime      fireTime
+    eventOut    SFTime      explosionTime
+
+    field       SFRotation  azimuth             0 0 1 0
+    field       SFRotation  altitude            0 0 1 0
+    field       SFFloat     muzzleVelocity      20
+    field       SFVec3f     shellPosition       0 0.7 0.3
+    field       SFVec3f     shellVelocity       0 0 0
+    field       SFVec3f     shellAcceleration   0 0 0
+    field       SFFloat     friction            0
+    field       SFFloat     dt                  0.05
+
+    field       SFVec3f     shellPositionInit   0 0.7 0.3
+    field       SFVec3f     shellVelocityInit   0 0 0
+    field       SFVec3f     shellAccelerationInit   0 -9.8 0
+
+    url "javascript:
+        function set_Azimuth(value) {
+            azimuth = value;
+        }
+        function set_Altitude(value) {
+            altitude = value;
+        }
+        function fireShell(timeValue) {
+            fireTime = timeValue;
+            shellPosition[0] = shellPositionInit[2] * Math.sin(azimuth[3]);
+            shellPosition[1] = shellPositionInit[1];
+            shellPosition[2] = shellPositionInit[2] * Math.cos(azimuth[3]);
+            shellVelocity[0] = muzzleVelocity * Math.sin(azimuth[3]) * Math.cos(altitude[3]);
+            shellVelocity[1] = muzzleVelocity * Math.sin(altitude[3]);
+            shellVelocity[2] = muzzleVelocity * Math.cos(azimuth[3]) * Math.cos(altitude[3]);
+            shellAcceleration = shellAccelerationInit;
+        }
+        function moveShell(timeValue) {
+            // determine new position:
+            shellPosition[0] += shellVelocity[0] * dt;
+            shellPosition[1] += shellVelocity[1] * dt;
+            shellPosition[2] += shellVelocity[2] * dt;
+
+            // check to see if shell has hit ground:
+            if (shellPosition[1] < 0) {
+                shellPosition[1] = 0;
+                shellVelocity[0] = 0;
+                shellVelocity[1] = 0;
+                shellVelocity[2] = 0;
+                shellAcceleration[1] = 0
+                explosionTime = timeValue;
+            }
+
+            // determine new velocity:
+            shellVelocity[0] += shellAcceleration[0] * dt;
+            shellVelocity[1] += shellAcceleration[1] * dt;
+            shellVelocity[2] += shellAcceleration[2] * dt;
+
+            // updateshell position:
+            shellChanged = shellPosition;
+
+        }    "
+}
+
+ROUTE Clock.cycleTime TO gunControl.moveShell
+ROUTE FireButton.touchTime TO gunControl.fireShell
+ROUTE Azimuth.rotation_changed TO gunControl.set_Azimuth
+ROUTE Altitude.rotation_changed TO gunControl.set_Altitude
+
+ROUTE gunControl.shellChanged TO Shell.set_translation
+ROUTE gunControl.fireTime TO Fire.startTime
+ROUTE gunControl.explosionTime TO ExplosionTimer.startTime
+
+ROUTE gunControl.explosionTime TO Explode.startTime
+

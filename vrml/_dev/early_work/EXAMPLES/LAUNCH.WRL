@@ -1,0 +1,145 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Rocket Launch"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	FALSE
+   type		"WALK"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		3.0
+}
+
+Background {
+   groundColor	[0 .5 0, 0 .7 0]
+   groundAngle	[1.6]
+   skyColor		[.3 .3 .9, .3 .3 .9]
+   skyAngle		[1.5708]
+}
+
+Viewpoint {
+   description 	"Entry"
+   position 	0 2 150			# default
+   orientation	0 0 1 0 			# default
+   fieldOfView	0.785398			# default
+   jump		TRUE				# default
+}
+Viewpoint {
+   description 	"Top of Tower"
+   position 	2 24 -2			# default
+   orientation	0 1 0 2.356			# default
+   fieldOfView	0.785398			# default
+   jump		TRUE				# default
+}
+
+Inline {
+   url		"terrain.wrl"
+}
+
+#----------------------------------------------------------------------------
+# Platform and Launch Tower: (top of platform elevation 8m, top of tower 24m)
+
+Transform {
+   translation 		0 6 0
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	.3 .3 .3	
+		   shininess	.2
+		}
+	   }
+	   geometry Cylinder {
+		radius	8
+		height	4
+	   }
+	}
+   ]
+}
+Transform {
+   translation 		2 10 -2
+   rotation			0 1 0 .7854
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	.5 .2 0
+		   shininess	.5
+		}
+	   }
+	   geometry Box {
+		size		1 16 1
+	   }
+	}
+   ]
+}
+
+#----------------------------------------------------------------------------
+# Rocket and Exhaust Lights and Sound
+
+DEF ROCKET Transform {
+   translation 		0 8 0
+   children [
+	Inline {
+	   url		"rocket3.wrl"
+	}
+	PointLight {
+	   on				TRUE
+	   intensity		1
+	   ambientIntensity	.3
+	   color			1 1 0
+	   location			0 1.1 0
+	   radius			100
+	   attenuation		0 1 0	   
+	}
+	PointLight {
+	   on				TRUE
+	   intensity		1
+	   ambientIntensity	.3
+	   color			1 1 0
+	   location			0 -24 0
+	   radius			50
+	   attenuation		1 0 0	   
+	}
+	DEF NOISE Sound {
+	   source AudioClip {
+		url			"../sounds/Thrust.wav"
+		loop			TRUE
+		startTime		1
+		stopTime		0
+	   }
+	   intensity		1
+	   location			0 0 0
+	   minFront			50
+	   maxFront			500
+	   minBack			50
+	   maxBack			500
+	}
+   ]
+}
+
+#----------------------------------------------------------------------------
+# Motion Mechanics
+
+DEF LAUNCH ProximitySensor {
+   center		0 6 0
+   size		150, 150, 150
+   enabled		TRUE
+}
+
+DEF MOVE PositionInterpolator {
+   key		[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1]
+   keyValue		[ 0 8 0, 0 10 0, 0 15 0, 0 20 0, 0 30 0, 0 50 0, 0 100 0, 0 300 0, 0 1000 0, 0 3000 0, 0 10000 0 ]
+}
+
+DEF TIMER TimeSensor {
+   cycleInterval	30
+   #stopTime		-1
+   #loop		TRUE
+}
+
+ROUTE LAUNCH.enterTime TO TIMER.startTime
+ROUTE TIMER.fraction_changed TO MOVE.set_fraction
+ROUTE MOVE.value_changed TO ROCKET.set_translation

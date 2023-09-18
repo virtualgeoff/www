@@ -1,0 +1,171 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Extended Mass ExternProto, beta 2"
+  info    "Geoff Pack, Spike, October 1999"
+}
+
+PROTO extendedMass [
+  eventIn   SFVec3f     appliedForce
+  eventIn   SFVec3f     appliedTorque
+  eventOut  SFVec3f     positionOut
+  #eventOut  SFVec3f     orientationOut
+
+  field     SFVec3f     initialPosition             0 0 0
+  field     SFVec3f     initialVelocity             0 0 0
+  field     SFVec3f     initialAcceleration         0 0 0
+  field     SFVec3f     initialOrientation          0 0 0
+  field     SFVec3f     initialAngularVelocity      0 0 0
+  field     SFVec3f     initialAngularAcceleration  0 0 0
+  field     SFFloat     mass                        1.0
+  field     SFVec3f     momentsOfInertia            1 1 1
+  field     MFNode      children                    []
+]{
+
+#--------------------------------------
+# extendedMass geometry
+
+DEF Object1 Transform {
+  translation   IS initialPosition
+  rotation      0 1 0 0
+  children [
+    DEF Pitch Transform {
+      rotation      1 0 0 0
+      children [
+        DEF Yaw Transform {
+          rotation      0 1 0 0
+          children [
+            DEF Roll Transform {
+              rotation      0 0 1 0
+              children IS children
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WorldClock TimeSensor {
+   cycleInterval  1
+   stopTime       -1
+   loop           TRUE
+}
+
+#--------------------------------------
+# extendedMass Motion script
+
+DEF MotionScript Script {
+  eventIn   SFTime      moveObject
+  eventIn   SFVec3f     inputForce               IS appliedForce
+  eventIn   SFVec3f     inputTorque              IS appliedTorque
+  eventOut  SFVec3f     positionOut              IS positionOut
+  #eventOut  SFVec3f     orientationOut           IS orientationOut
+
+  field     SFNode      objectPosition            USE Object1
+  field     SFVec3f     objectVelocity            IS initialVelocity
+  field     SFVec3f     objectAcceleration        IS initialAcceleration
+  field     SFVec3f     objectOrientation         IS initialOrientation
+  field     SFVec3f     objectAngularVelocity     IS initialAngularVelocity
+  field     SFVec3f     objectAngularAcceleration IS initialAngularAcceleration
+  field     SFFloat     objectMass                IS mass
+  field     SFVec3f     objectMomentsOfInertia    IS momentsOfInertia
+
+  field     SFNode      objectPitch               USE Pitch
+  field     SFNode      objectYaw                 USE Yaw
+  field     SFNode      objectRoll                USE Roll
+  field     SFVec3f     objectForce               0 0 0
+  field     SFVec3f     objectTorque              0 0 0
+  field     SFTime      dt                        0
+  field     SFTime      lastTime                  0
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    //function initialize() {
+    // --- This method requires sending startTime and enabled events  ---
+    // --- to the clock in order to work correctly - otherwise        ---
+    // --- the initialised time is later than first few clock cycles! ---
+    // --- Also, Now = new Date() gives bad times on Mac              ---
+    // --- Instead, use method below...                               ---
+    //  Now = new Date();
+    //  lastTime = Now.getTime()/1000; // convert milliseconds(js) to seconds(vrml);
+    //}
+
+    function inputForce(value) {
+      objectForce = value;
+    }
+    function inputTorque(value) {
+      objectTorque = value;
+    }
+    function moveObject(timeValue) {
+      if (lastTime != 0) {
+        // calculate dt:
+        dt = timeValue - lastTime;
+        //print('lastTime = ' + lastTime);
+        //print('dt = ' + dt);
+
+        // calculate new position:
+        objectPosition.translation[0] += objectVelocity[0] * dt;
+        objectPosition.translation[1] += objectVelocity[1] * dt;
+        objectPosition.translation[2] += objectVelocity[2] * dt;
+
+        // calculate new velocity:
+        objectVelocity[0] += objectAcceleration[0] * dt;
+        objectVelocity[1] += objectAcceleration[1] * dt;
+        objectVelocity[2] += objectAcceleration[2] * dt;
+
+        // calculate new acceleration:
+        objectAcceleration[0] = objectForce[0] / objectMass;
+        objectAcceleration[1] = objectForce[1] / objectMass;
+        objectAcceleration[2] = objectForce[2] / objectMass;
+
+        // calculate new orientation:
+        objectOrientation[0] += objectAngularVelocity[0] * dt;
+        objectOrientation[1] += objectAngularVelocity[1] * dt;
+        objectOrientation[2] += objectAngularVelocity[2] * dt;
+
+        // calculate new angular velocity:
+        objectAngularVelocity[0] += objectAngularAcceleration[0] * dt;
+        objectAngularVelocity[1] += objectAngularAcceleration[1] * dt;
+        objectAngularVelocity[2] += objectAngularAcceleration[2] * dt;
+
+        // calculate new angular acceleration:
+        objectAngularAcceleration[0] = objectTorque[0] / objectMomentsOfInertia[0];
+        objectAngularAcceleration[1] = objectTorque[1] / objectMomentsOfInertia[1];
+        objectAngularAcceleration[2] = objectTorque[2] / objectMomentsOfInertia[2];
+
+        // update positions:
+        positionOut = objectPosition.translation;
+
+        // update orientation:
+        objectPitch.rotation[3] = objectOrientation[0];
+        objectYaw.rotation[3] = objectOrientation[1];
+        objectRoll.rotation[3] = objectOrientation[2];
+
+        //objectPitchChanged = objectPitch;
+        //objectRollChanged = objectRoll;
+        //objectYawChanged = objectYaw;
+      }
+      // update lastTime:
+      lastTime = timeValue;
+    }
+  "
+}
+
+#--------------------------------------
+# Routing
+
+# Connect clock to motion script
+ROUTE WorldClock.time TO MotionScript.moveObject
+
+#--------------------------------------
+# End Proto
+
+}
+
+

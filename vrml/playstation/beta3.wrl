@@ -282,7 +282,7 @@ DEF GameScript Script {
   field   SFColor color2b .5 .1 0
   field   SFColor color3b .5 0 .1
   field   SFColor color4b 0 .2 .5
-  field   MFString  win [ "http://www.playstation.com" ]
+  field   MFString  win [ "winner.html" ]
   field   MFString  stuff [ "" ]
   url "vrmlscript:
     function allOut(time) {

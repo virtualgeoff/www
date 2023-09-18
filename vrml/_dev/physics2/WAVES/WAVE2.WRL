@@ -1,0 +1,161 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Wave Simulator, beta 2"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["WALK","EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "v1"
+  position 0 20 40
+  orientation 1 0 0 -0.4
+}
+Viewpoint {
+  description "entry"
+  position 0 0 50
+}
+
+#--------------------------------------
+# Wave ElevationGrid
+
+DEF Wave Transform {
+  scale         2 2 2
+  translation   -20 0 -20
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { diffuseColor 0 .2 .5 }
+      }
+      geometry DEF WaveGrid ElevationGrid {
+        xDimension  10
+        xSpacing    2
+        zDimension  10
+        zSpacing    2
+        creaseAngle 1
+        solid FALSE
+      }
+    }
+  ]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WaveTimer TimeSensor {
+  cycleInterval   1
+  stopTime        -1
+  loop TRUE
+}
+
+#--------------------------------------
+# Motion Script
+
+DEF WaveScript Script {
+  eventIn   SFFloat   change
+  eventIn   SFTime    animateGrid
+
+  field     SFNode    grid USE WaveGrid
+  field     MFFloat   gridheight []
+  field     MFFloat   height1 []
+  field     MFFloat   height2 []
+  field     MFFloat   height3 []
+  field     MFFloat   height4 []
+  field     MFFloat   height5 []
+  field     MFFloat   height6 []
+  field     MFFloat   height7 []
+  field     MFFloat   height8 []
+  field     MFFloat   height9 []
+  field     MFFloat   height10 []
+  field     SFNode    timer USE WaveTimer
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    function initialize(){
+      var i;
+      for(i=0;i<=99;i++){
+        height1[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)));
+      }
+      for(i=0;i<=99;i++){
+        height2[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(1.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height3[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(2.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height4[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(3.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height5[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(4.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height6[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(5.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height7[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(6.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height8[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(7.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height9[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(8.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height10[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(9.0/5.0)*3.14);
+      }
+    }
+    function change(value) {
+    if(Math.floor(value*10)==0){
+      gridheight = height1;
+    }
+    if(Math.floor(value*10)==1){
+     gridheight = height2;
+    }
+    if(Math.floor(value*10)==2){
+      gridheight = height3;
+    }
+    if(Math.floor(value*10)==3){
+      gridheight = height4;
+    }
+    if(Math.floor(value*10)==4){
+      gridheight = height5;
+    }
+    if(Math.floor(value*10)==5){
+      gridheight = height6;
+    }
+    if(Math.floor(value*10)==6){
+      gridheight = height7;
+    }
+    if(Math.floor(value*10)==7){
+      gridheight = height8;
+    }
+    if(Math.floor(value*10)==8){
+      gridheight = height9;
+    }
+    if(Math.floor(value*10)==9){
+      gridheight = height10;
+    }
+    grid.set_height = gridheight;
+    }
+  "
+}
+
+#--------------------------------------
+# Routing
+
+#ROUTE WaveTimer.time TO WaveScript.animateGrid
+ROUTE WaveTimer.fraction_changed TO WaveScript.change
+

@@ -1,53 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
-    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/x3dom/release/x3dom.css'></link>
-    <script type='text/javascript' src='http://www.x3dom.org/x3dom/release/x3dom.js'></script>
-  </head>
-  <body>
-    <x3d id='someUniqueId' showStat='false' showLog='false' x='0px' y='0px' width='400px' height='400px'>
-      <scene DEF='scene'>
-        <worldInfo info='"Geoff Pack, Spike, 1999"' title='Random Boxes'></worldInfo>
-        <navigationInfo speed='3' type='"EXAMINE" "WALK" "ANY"'></navigationInfo>
-        <viewpoint description='side' position='0 0 200'></viewpoint>
-        <viewpoint description='inside' position='0 0 50'></viewpoint>
-        <background groundAngle='1.5708' groundColor='0.1 0.1 0.1 0.1 0.1 0.1' skyAngle='1 1.5708' skyColor='0.2 0.2 0.7 0.3 0.3 0.8 0.7 0.5 0.2'></background>
-        <transform DEF='OBJECT1' center='0 1 0'></transform>
-        <timeSensor DEF='TIMER1' cycleInterval='30' loop='true' stopTime='-1'></timeSensor>
-        <orientationInterpolator DEF='ROTATE1' key='0 0.25 0.5 0.75 1' keyValue='0 1 0 0 0 1 0 1.5708 0 1 0 3.1416 0 1 0 4.7124 0 1 0 6.2832'></orientationInterpolator>
-        <timeSensor DEF='TIMER2' cycleInterval='0.33' loop='true' stopTime='-1'></timeSensor>
-        <script DEF='BoxScript'>
-          <field accessType='inputOnly' name='AddBox' type='SFTime'></field>
-          <field accessType='outputOnly' name='BoxesAdded' type='MFNode'></field>
-          <field accessType='initializeOnly' name='position' type='SFVec3f' value='5 0 0'></field>
-          <field accessType='initializeOnly' name='scale' type='SFVec3f' value='1 1 1'></field>
-          <field accessType='initializeOnly' name='maxBoxSize' type='SFVec3f' value='20 20 20'></field>
-          <field accessType='initializeOnly' name='regionSize' type='SFVec3f' value='100 100 100'></field>
-          <![CDATA[javascript:
-			function AddBox(timeValue) {
-			  // randomize position and size:
-			  position.x = (Math.random()-0.5) * regionSize.x;
-			  position.y = (Math.random()-0.5) * regionSize.y;
-			  position.z = (Math.random()-0.5) * regionSize.z;
-			  scale.x    = Math.random() * maxBoxSize.x;
-			  scale.y    = Math.random() * maxBoxSize.y;
-			  scale.z    = Math.random() * maxBoxSize.z;
-
-			  // create a new box:
-			  vrmlString = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor  .5 .5 .5 shininess     .5 } } geometry Box { size  1 1 1 }}]}';
-			  box1 = Browser.createVrmlFromString(vrmlString);
-			  box1[0].translation = position;
-			  box1[0].scale = scale;
-			  BoxesAdded = box1;
-			}
-		  ]]>
-        </script>
-        <ROUTE fromNode='BoxScript' fromField='BoxesAdded' toNode='OBJECT1' toField='addChildren'></ROUTE>
-        <ROUTE fromNode='TIMER2' fromField='cycleTime' toNode='BoxScript' toField='AddBox'></ROUTE>
-        <ROUTE fromNode='TIMER1' fromField='fraction_changed' toNode='ROTATE1' toField='set_fraction'></ROUTE>
-        <ROUTE fromNode='ROTATE1' fromField='value_changed' toNode='OBJECT1' toField='set_rotation'></ROUTE>
-      </scene>
-    </x3d>
-  </body>
+<head>
+	<meta charset="utf-8">
+	<script src="../scripts/x_ite-8.12.0/x_ite.min.js"></script>
+	<style>
+		body {margin:0; padding:0;}
+		x3d-canvas {width:100vw; height:100vh; margin:0; padding:0;}
+	</style>
+</head>
+<body>
+	<x3d-canvas src="randomBoxes.wrl"></x3d-canvas>
+</body>
 </html>

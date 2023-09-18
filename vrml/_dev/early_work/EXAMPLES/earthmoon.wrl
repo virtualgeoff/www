@@ -1,0 +1,170 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Sun-Earth-Moon System"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   avatarSize  	[ 0.01, .01, 0.01 ]	# default
+   headlight 	FALSE				# default is on
+   type		"FLY"			# WALK, FLY, EXAMINE, NONE. (WALK is default)
+   speed		3000
+}
+
+Viewpoint {
+   description 	"Entry"
+   position 	0 0 10			# default
+   orientation	0 0 1 0			# default
+   fieldOfView	0.785398			# default
+   jump		TRUE				# default
+}
+
+#----------------------------------------------------------------------------
+# The Sun 
+
+Shape {
+   appearance Appearance {
+	material Material {
+	   diffuseColor	0 0 0
+	   emissiveColor	1 .8 0
+	}
+   }
+   geometry Sphere {
+	radius	1
+   }
+}
+
+DEF Sunlight PointLight {
+   on				TRUE
+   intensity		1
+   ambientIntensity	.5
+   color			1 1 1
+   location			0 0 0
+   radius			100
+   attenuation		0 0 1
+}	   
+
+#----------------------------------------------------------------------------
+# The Earth and Moon 
+
+DEF EarthOrbitPeriod Transform {
+   rotation			0 0 0 0
+   center			0 0 0
+   children [
+	DEF EarthOrbitRadius Transform {
+	   translation 	5 0 0
+	   children [
+		DEF EarthSpinPeriod Transform {
+		   rotation			0 0 0 0
+		   center			0 0 0
+		   children [
+			DEF Earth Shape {
+ 			   appearance Appearance {
+				material Material {
+				   diffuseColor	.5 .5 1
+				   shininess	.5
+				}
+				texture ImageTexture { url "../textures/paleblue.jpg" }
+			   }
+			   geometry Sphere {
+				radius	.3
+			   }
+			}
+			Viewpoint {
+			   description 	"Above Earth - looking down at the North Pole"
+			   position 	0 0 2
+			   orientation	0 0 1 0
+			   fieldOfView	0.785398
+			   jump		TRUE
+			}
+			Viewpoint {
+			   description 	"On Earth - looking east at the Equator"
+			   position 	.35 0 0
+			   orientation	1 0 0 1.5708
+			   fieldOfView	0.785398
+			   jump		TRUE
+			}
+			Viewpoint {
+			   description 	"Geosynchronous Orbit"
+			   position 	0 -1 0
+			   orientation	1 0 0 1.5708
+			   fieldOfView	0.785398
+			   jump		TRUE
+			}
+		   ]
+		}
+		DEF MoonOrbitPeriod Transform {
+		   rotation			0 0 0 0
+		   center			0 0 0
+		   children [
+			DEF MoonOrbitRadius Transform {
+			   translation 	1 0 0
+			   children [
+				DEF MoonSpinPeriod Transform {
+				   rotation			0 0 0 0
+				   center			0 0 0
+				   children [
+					DEF Moon Shape {
+		 			   appearance Appearance {
+						material Material {
+						   diffuseColor	.2 .2 .2
+						   shininess		.5
+						}
+						texture ImageTexture { url "../textures/white1.jpg" }
+					   }
+					   geometry Sphere {
+						radius		.1
+				   	   }
+					}
+				   ]
+				}
+			   ]
+			}
+		   ]
+		}
+	   ]
+	}
+   ]
+}
+
+#----------------------------------------------------------------------------
+# Motion Mechanics
+
+DEF ROTATE_DAY OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 0 0 1 0, 0 0 1 1.5708, 0 0 1 3.1416, 0 0 1 4.7124, 0 0 1 0 ]
+}
+DEF ROTATE_MONTH OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 0 0 1 0, 0 0 1 1.5708, 0 0 1 3.1416, 0 0 1 4.7124, 0 0 1 0 ]
+}
+DEF ROTATE_YEAR OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 0 0 1 0, 0 0 1 1.5708, 0 0 1 3.1416, 0 0 1 4.7124, 0 0 1 0 ]
+}
+
+DEF TIMER_DAY TimeSensor {
+   cycleInterval	10
+   stopTime		-1
+   loop		TRUE
+}
+DEF TIMER_MONTH TimeSensor {
+   cycleInterval	273
+   stopTime		-1
+   loop		TRUE
+}
+DEF TIMER_YEAR TimeSensor {
+   cycleInterval	3653
+   stopTime		-1
+   loop		TRUE
+}
+
+ROUTE TIMER_DAY.fraction_changed TO ROTATE_DAY.set_fraction
+ROUTE TIMER_MONTH.fraction_changed TO ROTATE_MONTH.set_fraction
+ROUTE TIMER_YEAR.fraction_changed TO ROTATE_YEAR.set_fraction
+
+ROUTE ROTATE_DAY.value_changed TO EarthSpinPeriod.set_rotation
+ROUTE ROTATE_MONTH.value_changed TO MoonOrbitPeriod.set_rotation
+ROUTE ROTATE_YEAR.value_changed TO EarthOrbitPeriod.set_rotation
+

@@ -1,0 +1,28 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title	"createVrmlFromURL example 2"
+    info 	"Geoff Pack, geoff@spike.com.au, June 2001"
+}
+
+DEF myGroup Group {}
+
+DEF myScript Script {
+	directOutput TRUE
+    eventIn 	MFNode		loaded
+    eventOut	MFNode  	newChild
+    field		MFString	address "box.wrl"
+    field		SFNode		self USE myScript
+
+    url ["javascript:
+		function initialize() {
+			Browser.createVrmlFromURL(address,self,'loaded');
+    	}
+        function loaded(nodes) {
+            newChild = nodes;
+        }
+    "]
+}
+
+ROUTE myScript.newChild TO myGroup.addChildren
+

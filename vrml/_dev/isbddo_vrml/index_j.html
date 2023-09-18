@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>I&amp;S/BBDO</title>
+<style type="text/css">
+<!--
+body 	{background-color: 003366}
+-->
+</style>
+<script language="javascript" src="scripts/show_hide.js"></script>
+
+<script language="javascript">
+<!--
+
+var topNav = '';
+var clientNav = '';
+
+function newWindow(url,name,features){
+	var newWin = window.open(url,name,'width=200,height=200');
+}
+
+function hideB(str) {
+	// hide layer on rolloff if not topnav or clientnav
+	if (!((str==topNav)||(str==clientNav))) hide(str);
+}
+
+function hideAll() {
+	hide('clients','clientsSub','vending','vendingSub','world','reddots2','reddots3','career','careerSub',
+		'tv','tv2','tvSub','print','print2','printSub','radio','radio2','radioSub','interactive','interactive2','interactiveSub','feedback2',
+		'bsDigital2','women2','men2','insite2','careerMachine2','addSchool2','lunchbook2','yomiuri2','kabata2','fujitsu2',
+		'takeda2','bridgestone2','keisei2','yoshinoya2','tokyoDome2','parco2','atHome2','taisho2','lion2','smartcar2');
+}
+
+function showNav(n) {
+	hideAll();
+	switch (n) {
+		//main navs
+		case 1:	topNav = 'clients';
+				show('clients','clientsSub','tv2','print2','radio2','interactive2','feedback2','reddots3');
+				break;
+		case 2:	topNav = 'vending';
+				show('vending','vendingSub','bsDigital2','women2','men2', 'insite2','reddots3'); 
+				break;
+		case 3:	topNav = 'world';
+				show('world','reddots2','reddots3');     
+				break;
+		case 4:	topNav = 'career';
+				show('career','careerSub','careerMachine2','addSchool2','lunchbook2','reddots3');
+				break;
+		// clients sub navs		
+		case 5: clientNav = 'tv';
+				show('clients','clientsSub','tv','tv2','print2','radio2','interactive2','feedback2'); 
+				show('tvSub','yomiuri2','kabata2','fujitsu2','takeda2','bridgestone2','keisei2');
+				break;
+		case 6: clientNav = 'print';
+				show('clients','clientsSub','print','tv2','print2','radio2','interactive2','feedback2'); 
+				show('printSub','yoshinoya2','tokyoDome2','parco2','atHome2');
+				break;
+		case 7: clientNav = 'radio';
+				show('clients','clientsSub','radio','tv2','print2','radio2','interactive2','feedback2'); 
+				show('radioSub','taisho2','lion2');
+				break;
+		case 8: clientNav = 'interactive';
+				show('clients','clientsSub','interactive','tv2','print2','radio2','interactive2','feedback2'); 
+				show('interactiveSub','smartcar2');
+				break;
+		case 9: clientNav = '';
+				show('clients','clientsSub','tv2','print2','radio2','interactive2','feedback2','reddots3');
+				break;
+	}
+}
+
+// -->
+</script>
+</head>
+
+<body bgcolor="#003366">
+
+<!-- background images -->
+<div id="black" 		style="position:absolute; width:652px; height:358px; z-index:1; top:0px; left:30px;"><img src="images/black.gif" width="652" height="358"></div>
+<div id="yellow" 		style="position:absolute; width:129px; height:3px; z-index:2; left:478px; top:283px;"><img src="images/yellow.gif" width="129" height="3"></div>
+<div id="center" 		style="position:absolute; width:562px; height:103px; z-index:3; left:86px; top:152px;"><img src="images/center.gif" width="562" height="103"></div>
+<div id="animated" 		style="position:absolute; width:23px; height:14px; z-index:4; left:214px; top:83px"><img src="images/animated2.gif" width="23" height="14" alt="" border="0"></div>
+<div id="yellowdot" 	style="position:absolute; width:5px; height:5px; z-index:5; left:518px; top:84px;"><img src="images/dot3.gif" width="5" height="5"></div>
+<div id="copyright" 	style="position:absolute; width:97px; height:7px; z-index:6; left:433px; top:325px;"><img src="images/copyright.gif" width="97" height="7" border="0"></div>
+<div id="reddots" 		style="position:absolute; width:606px; height:131px; z-index:7; left:62px; top:135px;"><img src="images/reddots.gif" width="606" height="131"></div>
+
+<div id="reddots2" 		style="position:absolute; width:200px; height:115px; z-index:10; left:128px; top:288px;"><img src="images/reddots2.gif" width="503" height="9"></div>
+<div id="reddots3" 		style="position:absolute; width:200px; height:115px; z-index:11; left:183px; top:308px;"><img src="images/reddots3.gif" width="420" height="7"></div>
+
+<!-- main navs -->
+<div id="navs1off" 		style="position:absolute; width:117px; height:78px; z-index:12; left:330px; top:162px"><img src="navs_j/navs1off.gif" width="117" height="78"></div>
+<div id="clients" 		style="position:absolute; width:84px; height:15px; z-index:16; left: 329px; top: 161px; visibility:hidden"><img src="navs_j/clients.gif" width="84" height="15"></div>
+<div id="vending" 		style="position:absolute; width:70px; height:15px; z-index:17; left: 329px; top: 183px; visibility:hidden"><img src="navs_j/vending.gif" width="70" height="15"></div>
+<div id="world" 		style="position:absolute; width:119px; height:15px; z-index:18; left: 329px; top: 207px; visibility:hidden"><img src="navs_j/world.gif" width="119" height="15"></div>
+<div id="career" 		style="position:absolute; width:56px; height:15px; z-index:19; left: 329px; top: 226px; visibility:hidden"><img src="navs_j/career.gif" width="56" height="15"></div>
+<!-- links -->
+<div style="position:absolute; width:84px; height:15px; z-index:20; left: 329px; top: 161px"><a href="#" onClick="showNav(1)" onMouseOver="show('clients'); window.status='Clients'; return true;" onMouseOut="hideB('clients'); window.status=''; return true;"><img src="navs_j/shim.gif" width="84" height="15" border="0"></a></div>
+<div style="position:absolute; width:70px; height:15px; z-index:21; left: 329px; top: 183px"><a href="#" onClick="showNav(2)" onMouseOver="show('vending'); window.status='Digital Vending Machine'; return true;" onMouseOut="hideB('vending'); window.status=''; return true;"><img src="navs_j/shim.gif" width="70" height="15" border="0"></a></div>
+<div style="position:absolute; width:119px; height:15px; z-index:22; left: 329px; top: 207px"><a href="#" onClick="showNav(3); newWindow('../japanese/isbbdoworld/index.html','isbbdoworld','scrollbars=yes')" onMouseOver="show('world'); window.status='The World of I&S/BBDO'; return true;" onMouseOut="hideB('world'); window.status=''; return true;"><img src="navs_j/shim.gif" width="119" height="15" border="0"></a></div>
+<div style="position:absolute; width:56px; height:15px; z-index:23; left: 329px; top: 226px"><a href="#" onClick="showNav(4)" onMouseOver="show('career'); window.status='Career'; return true;" onMouseOut="hideB('career'); window.status=''; return true;"><img src="navs_j/shim.gif" width="56" height="15" border="0"></a></div>
+
+<!-- second level navs -->
+<div id="navs2off"		style="position:absolute; width:471px; height:12px; z-index:24; left:129px; top: 257px"><img src="navs_j/navs2off.gif" width="471" height="12"></div>
+<div id="tvreel"		style="position:absolute; width:91px; height:10px; z-index:25; left:128px; top:258px; visibility:hidden"><img src="navs_j/tvreel.gif" width="91" height="10"></div>
+<div id="highlights"	style="position:absolute; width:49px; height:10px; z-index:26; left:241px; top:258px; visibility:hidden"><img src="navs_j/highlights.gif" width="49" height="10"></div>
+<div id="credits"		style="position:absolute; width:68px; height:10px; z-index:27; left:315px; top:258px; visibility:hidden"><img src="navs_j/credits.gif" width="68" height="10"></div>
+<div id="secure"		style="position:absolute; width:78px; height:10px; z-index:28; left:411px; top:258px; visibility:hidden"><img src="navs_j/secure.gif" width="78" height="10"></div>
+<div id="press"			style="position:absolute; width:88px; height:10px; z-index:29; left:513px; top:258px; visibility:hidden"><img src="navs_j/press.gif" width="88" height="10"></div>
+<!-- links -->
+<div style="position:absolute; width:91px; height:10px; z-index:30; left:128px; top:258px"><a href="#" onClick="newWindow('../japanese/tvreel/index.html','tvreel','')" onMouseOver="show('tvreel'); window.status='TV Reel'; return true;" onMouseOut="hide('tvreel'); window.status=''; return true;"><img src="navs_j/shim.gif" width="91" height="10" border="0"></a></div>
+<div style="position:absolute; width:49px; height:10px; z-index:31; left:241px; top:258px"><a href="#" onClick="newWindow('../japanese/highlights/index.html','highlights','')" onMouseOver="show('highlights'); window.status='Highlights'; return true;" onMouseOut="hide('highlights'); window.status=''; return true;"><img src="navs_j/shim.gif" width="49" height="10" border="0"></a></div>
+<div style="position:absolute; width:68px; height:10px; z-index:32; left:315px; top:258px"><a href="#" onClick="newWindow('../japanese/tvreel/index.html','credits','')" onMouseOver="show('credits'); window.status='Credits'; return true;" onMouseOut="hide('credits'); window.status=''; return true;"><img src="navs_j/shim.gif" width="68" height="10" border="0"></a></div>
+<div style="position:absolute; width:78px; height:10px; z-index:33; left:411px; top:258px"><a href="#" onClick="newWindow('../japanese/secure/index.html','secure','')" onMouseOver="show('secure'); window.status='Secure Area'; return true;" onMouseOut="hide('secure'); window.status=''; return true;"><img src="navs_j/shim.gif" width="78" height="10" border="0"></a></div>
+<div style="position:absolute; width:88px; height:10px; z-index:34; left:513px; top:258px"><a href="#" onClick="newWindow('../japanese/isbbdoworld/press_releases/index.html','press','')" onMouseOver="show('press'); window.status='Press Release'; return true;" onMouseOut="hide('press'); window.status=''; return true;"><img src="navs_j/shim.gif" width="88" height="10" border="0"></a></div>
+
+<!-- clients subnavs -->
+<div id="clientsSub" 	style="position:absolute; width:507px; height:12px; z-index:35; left:127px; top:287px; visibility:hidden;"><img src="navs_j/clients_sub.gif" width="507" height="12"></div>
+<div id="tv" 			style="position:absolute; width:29px; height:10px; z-index:36; left:211px; top:288px; visibility:hidden;"><img src="navs_j/tv.gif" width="29" height="10"></div>
+<div id="print" 		style="position:absolute; width:39px; height:10px; z-index:37; left:265px; top:288px; visibility:hidden;"><img src="navs_j/print.gif" width="39" height="10"></div>
+<div id="radio" 		style="position:absolute; width:30px; height:10px; z-index:38; left:329px; top:288px; visibility:hidden;"><img src="navs_j/radio.gif" width="30" height="10"></div>
+<div id="interactive" 	style="position:absolute; width:80px; height:10px; z-index:39; left:383px; top:288px; visibility:hidden;"><img src="navs_j/interactive.gif" width="80" height="10"></div>
+<div id="feedback" 		style="position:absolute; width:67px; height:10px; z-index:40; left:487px; top:288px; visibility:hidden;"><img src="navs_j/feedback.gif" width="67" height="10"></div>
+<!-- links -->
+<div id="tv2"			style="position:absolute; width:29px; height:10px; z-index:41; left:211px; top:288px; visibility:hidden;"><a href="#" onClick="showNav(5)" onMouseOver="show('tv'); window.status='Televison'; return true;" onMouseOut="hideB('tv'); window.status=''; return true;"><img src="navs_j/shim.gif" width="29" height="10" border="0"></a></div>
+<div id="print2"		style="position:absolute; width:39px; height:10px; z-index:42; left:265px; top:288px; visibility:hidden;"><a href="#" onClick="showNav(6)" onMouseOver="show('print'); window.status='Print'; return true;" onMouseOut="hideB('print'); window.status=''; return true;"><img src="navs_j/shim.gif" width="39" height="10" border="0"></a></div>
+<div id="radio2"		style="position:absolute; width:30px; height:10px; z-index:43; left:329px; top:288px; visibility:hidden;"><a href="#" onClick="showNav(7)" onMouseOver="show('radio'); window.status='Radio'; return true;" onMouseOut="hideB('radio'); window.status=''; return true;"><img src="navs_j/shim.gif" width="30" height="10" border="0"></a></div>
+<div id="interactive2"	style="position:absolute; width:80px; height:10px; z-index:44; left:383px; top:288px; visibility:hidden;"><a href="#" onClick="showNav(8)" onMouseOver="show('interactive'); window.status='Interactive'; return true;" onMouseOut="hideB('interactive'); window.status=''; return true;"><img src="navs_j/shim.gif" width="80" height="10" border="0"></a></div>
+<div id="feedback2"		style="position:absolute; width:67px; height:10px; z-index:45; left:487px; top:288px; visibility:hidden;"><a href="#" onClick="showNav(9); newWindow('../japanese/registration/user_feedback_world.html','feedback','width=200,height=200')" onMouseOver="show('feedback'); window.status='Feedback'; return true;" onMouseOut="hide('feedback'); window.status=''; return true;"><img src="navs_j/shim.gif" width="67" height="10" border="0"></a></div>
+
+<!-- vending subnavs -->
+<div id="vendingsub" 	style="position:absolute; width:518px; height:12px; z-index:46; left:123px; top:287px; visibility:hidden;"><img src="navs_j/vending_sub.gif" width="518" height="12"></div>
+<div id="bsDigital" 	style="position:absolute; width:77px; height:10px; z-index:47; left:156px; top:288px; visibility:hidden;"><img src="navs_j/bsDigital.gif" width="77" height="10"></div>
+<div id="women" 		style="position:absolute; width:79px; height:10px; z-index:48; left:258px; top:288px; visibility:hidden;"><img src="navs_j/women.gif" width="79" height="10"></div>
+<div id="men" 			style="position:absolute; width:70px; height:10px; z-index:49; left:361px; top:288px; visibility:hidden;"><img src="navs_j/men.gif" width="70" height="10"></div>
+<div id="insite" 		style="position:absolute; width:148px; height:10px; z-index:50; left:455px; top:288px; visibility:hidden;"><img src="navs_j/insiteMag.gif" width="148" height="10"></div>
+<!-- links -->
+<div id="bsDigital2" 	style="position:absolute; width:77px; height:10px; z-index:51; left:156px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/dvm/bs_digital.html','dvm','width=200,height=200')" onMouseOver="show('bsDigital'); window.status='BS Digital'; return true;" onMouseOut="hide('bsDigital'); window.status=''; return true;"><img src="navs_j/shim.gif" width="77" height="10" border="0"></a></div>
+<div id="women2" 		style="position:absolute; width:79px; height:10px; z-index:52; left:258px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/dvm/women.html','dvm','width=200,height=200')" onMouseOver="show('women'); window.status='Women and Spending'; return true;" onMouseOut="hide('women'); window.status=''; return true;"><img src="navs_j/shim.gif" width="79" height="10" border="0"></a></div>
+<div id="men2" 			style="position:absolute; width:70px; height:10px; z-index:53; left:361px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/dvm/men.html','dvm','width=200,height=200')" onMouseOver="show('men'); window.status='Men and Spending'; return true;" onMouseOut="hide('men'); window.status=''; return true;"><img src="navs_j/shim.gif" width="70" height="10" border="0"></a></div>
+<div id="insite2" 		style="position:absolute; width:148px; height:10px; z-index:54; left:455px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/dvm/magazine.html','dvm','width=200,height=200')" onMouseOver="show('insite'); window.status='Insite Magazine Launch'; return true;" onMouseOut="hide('insite'); window.status=''; return true;"><img src="navs_j/shim.gif" width="148" height="10" border="0"></a></div>
+
+<!-- career subnavs -->
+<div id="careerSub" 	style="position:absolute; width:518px; height:12px; z-index:56; left: 123px; top:287px; visibility:hidden;"><img src="navs_j/career_sub.gif" width="518" height="12"></div>
+<div id="careerMachine" style="position:absolute; width:43px; height:11px; z-index:57; left: 286px; top:288px; visibility:hidden;"><img src="navs_j/careerMachine.gif" width="43" height="11"></div>
+<div id="addSchool" 	style="position:absolute; width:40px; height:10px; z-index:58; left: 357px; top:288px; visibility:hidden;"><img src="navs_j/addSchool.gif" width="40" height="10"></div>
+<div id="lunchbook" 	style="position:absolute; width:80px; height:11px; z-index:59; left: 422px; top:287px; visibility:hidden;"><img src="navs_j/lunchbook.gif" width="80" height="11"></div>
+<!-- links -->
+<div id="careerMachine2" style="position:absolute; width:43px; height:11px; z-index:60; left: 286px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/career/career_machine/index.html','career','width=200,height=200')" onMouseOver="show('careerMachine'); window.status='Career Machine'; return true;" onMouseOut="hide('careerMachine'); window.status=''; return true;"><img src="navs_j/shim.gif" width="43" height="11" border="0"></a></div>
+<div id="addSchool2" 	style="position:absolute; width:40px; height:10px; z-index:61; left: 357px; top:288px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/career/advertising/index.html','career','width=200,height=200')" onMouseOver="show('addSchool'); window.status='Advertising School'; return true;" onMouseOut="hide('addSchool'); window.status=''; return true;"><img src="navs_j/shim.gif" width="40" height="10" border="0"></a></div>
+<div id="lunchbook2" 	style="position:absolute; width:80px; height:11px; z-index:62; left: 422px; top:287px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/career/lunch/index.html','career','width=200,height=200')" onMouseOver="show('lunchbook'); window.status='BBDO Lunchbook'; return true;" onMouseOut="hide('lunchbook'); window.status=''; return true;"><img src="navs_j/shim.gif" width="80" height="11" border="0"></a></div>
+
+<!-- clients sub-subnavs -->
+
+<!-- tv subnavs -->
+<div id="tvSub" 		style="position:absolute; width:438px; height:11px; z-index:63; left:174px; top:306px; visibility:hidden;"><img src="navs_j/tv_sub.gif" width="438" height="11"></div>
+<div id="yomiuri" 		style="position:absolute; width:69px; height:10px; z-index:64; left: 193px; top: 306px; visibility:hidden;"><img src="navs_j/yomiuri.gif" width="69" height="10"></div>
+<div id="kabata" 		style="position:absolute; width:49px; height:10px; z-index:65; left: 277px; top: 306px; visibility:hidden;"><img src="navs_j/kabata.gif" width="49" height="10"></div>
+<div id="fujitsu" 		style="position:absolute; width:30px; height:10px; z-index:66; left: 340px; top: 306px; visibility:hidden;"><img src="navs_j/fujitsu.gif" width="30" height="10"></div>
+<div id="takeda" 		style="position:absolute; width:40px; height:10px; z-index:67; left: 384px; top: 306px; visibility:hidden;"><img src="navs_j/takeda.gif" width="40" height="10"></div>
+<div id="bridgestone" 	style="position:absolute; width:98px; height:10px; z-index:68; left: 438px; top: 306px; visibility:hidden;"><img src="navs_j/bridgestone.gif" width="98" height="10"></div>
+<div id="keisei" 		style="position:absolute; width:40px; height:10px; z-index:69; left: 551px; top: 306px; visibility:hidden;"><img src="navs_j/keisei.gif" width="40" height="10"></div>
+<!-- links -->
+<div id="yomiuri2" 		style="position:absolute; width:69px; height:10px; z-index:70; left:193px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/yomiuri.html','clients','width=200,height=200')" onMouseOver="show('yomiuri'); window.status='Yomiura Land'; return true;" onMouseOut="hide('yomiuri'); window.status=''; return true;"><img src="navs_j/shim.gif" width="69" height="10" border="0"></a></div>
+<div id="kabata2" 		style="position:absolute; width:49px; height:10px; z-index:71; left:277px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/kabata.html','clients','width=200,height=200')" onMouseOver="show('kabata'); window.status='Kabata'; return true;" onMouseOut="hide('kabata'); window.status=''; return true;"><img src="navs_j/shim.gif" width="49" height="10" border="0"></a></div>
+<div id="fujitsu2" 		style="position:absolute; width:30px; height:10px; z-index:72; left:340px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/fujitsu.html','clients','width=200,height=200')" onMouseOver="show('fujitsu'); window.status='Fujitsu'; return true;" onMouseOut="hide('fujitsu'); window.status=''; return true;"><img src="navs_j/shim.gif" width="30" height="10" border="0"></a></div>
+<div id="takeda2" 		style="position:absolute; width:40px; height:10px; z-index:73; left:384px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/takeda.html','clients','width=200,height=200')" onMouseOver="show('takeda'); window.status='Takeda Food Products'; return true;" onMouseOut="hide('takeda'); window.status=''; return true;"><img src="navs_j/shim.gif" width="40" height="10" border="0"></a></div>
+<div id="bridgestone2" 	style="position:absolute; width:98px; height:10px; z-index:74; left:438px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/bridgestone.html','clients','width=200,height=200')" onMouseOver="show('bridgestone'); window.status='Bridgestone'; return true;" onMouseOut="hide('bridgestone'); window.status=''; return true;"><img src="navs_j/shim.gif" width="98" height="10" border="0"></a></div>
+<div id="keisei2" 		style="position:absolute; width:40px; height:10px; z-index:75; left:551px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/tv/keisei.html','clients','width=200,height=200')" onMouseOver="show('keisei'); window.status='Keisei Electric'; return true;" onMouseOut="hide('keisei'); window.status=''; return true;"><img src="navs_j/shim.gif" width="40" height="10" border="0"></a></div>
+
+<!-- print subnavs -->
+<div id="printSub" 		style="position:absolute; width:433px; height:11px; z-index:76; left:174px; top:306px; visibility:hidden;"><img src="navs_j/print_sub.gif" width="438" height="11"></div>
+<div id="yoshinoya" 	style="position:absolute; width:30px; height:10px; z-index:77; left:268px; top:306px; visibility:hidden;"><img src="navs_j/yoshinoya.gif" width="30" height="10"></div>
+<div id="tokyoDome" 	style="position:absolute; width:49px; height:11px; z-index:78; left:319px; top:306px; visibility:hidden;"><img src="navs_j/tokyoDome.gif" width="49" height="11"></div>
+<div id="parco" 		style="position:absolute; width:29px; height:10px; z-index:79; left:389px; top:306px; visibility:hidden;"><img src="navs_j/parco.gif" width="29" height="10"></div>
+<div id="atHome" 		style="position:absolute; width:59px; height:10px; z-index:80; left:440px; top:306px; visibility:hidden;"><img src="navs_j/atHome.gif" width="59" height="10"></div>
+<!-- links -->
+<div id="yoshinoya2" 	style="position:absolute; width:30px; height:10px; z-index:81; left:268px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/print/yoshinoya.html','clients','width=200,height=200')" onMouseOver="show('yoshinoya'); window.status='Yoshinoya'; return true;" onMouseOut="hide('yoshinoya'); window.status=''; return true;"><img src="navs_j/shim.gif" width="30" height="10" border="0"></a></div>
+<div id="tokyoDome2" 	style="position:absolute; width:49px; height:11px; z-index:82; left:319px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/print/dome.html','clients','width=200,height=200')" onMouseOver="show('tokyoDome'); window.status='Tokyo Dome'; return true;" onMouseOut="hide('tokyoDome'); window.status=''; return true;"><img src="navs_j/shim.gif" width="49" height="11" border="0"></a></div>
+<div id="parco2"  		style="position:absolute; width:29px; height:10px; z-index:83; left:389px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/print/parco.html','clients','width=200,height=200')" onMouseOver="show('parco'); window.status='Parco'; return true;" onMouseOut="hide('parco'); window.status=''; return true;"><img src="navs_j/shim.gif" width="29" height="10" border="0"></a></div>
+<div id="atHome2" 		style="position:absolute; width:59px; height:10px; z-index:84; left:440px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/print/home.html','clients','width=200,height=200')" onMouseOver="show('atHome'); window.status='At Home'; return true;" onMouseOut="hide('atHome'); window.status=''; return true;"><img src="navs_j/shim.gif" width="59" height="10" border="0"></a></div>
+
+<!-- radio subnavs -->
+<div id="radioSub" 		style="position:absolute; width:438px; height:12px; z-index:85; left:174px; top:305px; visibility:hidden;"><img src="navs_j/radio_sub.gif" width="438" height="12"></div>
+<div id="taisho" 		style="position:absolute; width:40px; height:10px; z-index:86; left:334px; top:306px; visibility:hidden;"><img src="navs_j/taisho.gif" width="40" height="10"></div>
+<div id="lion" 			style="position:absolute; width:38px; height:10px; z-index:87; left:412px; top:306px; visibility:hidden;"><img src="navs_j/lion.gif" width="38" height="10"></div>
+<!-- links -->
+<div id="taisho2" 		style="position:absolute; width:40px; height:10px; z-index:88; left:334px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/radio/taisho.html','clients','width=200,height=200')" onMouseOver="show('taisho'); window.status='Taisho'; return true;" onMouseOut="hide('taisho'); window.status=''; return true;"><img src="navs_j/shim.gif" width="40" height="10" border="0"></a></div>
+<div id="lion2" 		style="position:absolute; width:38px; height:10px; z-index:89; left:412px; top:306px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/radio/lion.html','clients','width=200,height=200')" onMouseOver="show('lion'); window.status='Lion'; return true;" onMouseOut="hide('lion'); window.status=''; return true;"><img src="navs_j/shim.gif" width="38" height="10" border="0"></a></div>
+
+<!-- interactive subnavs -->
+<div id="interactiveSub" style="position:absolute; width:429px; height:11px; z-index:90; left:183px; top:306px; visibility:hidden;"><img src="navs_j/interactive_sub.gif" width="429" height="11"></div>
+<div id="smartcar" 		style="position:absolute; width:63px; height:7px; z-index:91; left:347px; top:308px; visibility:hidden;"><img src="navs_j/smartcar.gif" width="63" height="7"></div>
+<!-- links -->
+<div id="smartcar2" 	style="position:absolute; width:63px; height:7px; z-index:92; left:347px; top:308px; visibility:hidden;"><a href="#" onClick="newWindow('../japanese/clients/interactive/smart.html','clients','width=200,height=200')" onMouseOver="show('smartcar'); window.status='Smart Car'; return true;" onMouseOut="hide('smartcar'); window.status=''; return true;"><img src="navs_j/shim.gif" width="63" height="7" border="0"></a></div>
+
+</body>
+</html>

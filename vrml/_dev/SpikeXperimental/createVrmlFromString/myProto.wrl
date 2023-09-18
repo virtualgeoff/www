@@ -1,0 +1,25 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "createVrmlFromString + proto - myProto"
+    info  "Geoff Pack, geoff@spike.com.au, June 2001"
+}
+
+PROTO myProto [
+	field  SFVec3f  translation 0 0 0
+	field  SFColor  color 1 0 0
+]{
+	Transform {
+		translation IS translation
+		children [
+			Shape {
+				appearance Appearance {
+					material Material {
+						diffuseColor IS color
+					}
+				}
+				geometry Box{}
+			}
+		]
+ 	}
+}

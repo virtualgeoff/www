@@ -1,0 +1,113 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "Battlefield"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        ["WALK","EXAMINE","ANY"]
+}
+
+Viewpoint {
+    description "Ground Zero"
+    position    0 2 0
+    orientation 0 1 0 3.14159
+}
+
+Viewpoint {
+    description "Top View"
+    position    0 200 0
+    orientation 1 0 0 -1.5708
+
+}
+
+Background {
+    groundAngle [ 1.5708 ]
+    groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+    skyAngle    [ 1.0, 1.5708 ]
+    skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.8 0.3 0.7]
+}
+
+#--------------------------------------
+# Grid:
+
+Transform {
+    translation     0 0 0
+    rotation        0 1 0 0
+    scale           10 10 10
+    children [
+        Inline {
+            url     "grid.wrl"
+        }
+    ]
+}
+
+
+#--------------------------------------
+# Inline Guns:
+
+EXTERNPROTO Gun [
+    eventOut    SFTime      fireTime
+    eventOut    SFVec3f     shellPosition
+    eventOut    SFVec3f     shellVelocity
+    field       SFString    gunName
+    field       SFColor     gunColor
+    field       SFVec3f     gunPosition
+    field       SFRotation  gunRotation
+] "gun_proto2.wrl"
+
+# gun 1
+DEF gun1 Gun {
+    gunName     "gun1"
+    gunColor    .5 .5 0
+    gunPosition 0 0 -50
+    gunRotation 0 1 0 0
+}
+
+EXTERNPROTO Shell [
+    eventIn     SFTime      fireTime
+    eventIn     SFVec3f     firePosition
+    eventIn     SFVec3f     fireVelocity
+    eventOut    SFTime      detonationTime
+    eventOut    SFVec3f     detonationPosition
+    eventOut    SFTime      hitTargetTime
+    field       SFString    shellName
+    field       SFColor     shellColor
+    field       SFVec3f     targetPosition1
+] "shell_proto.wrl"
+
+
+# shell 1
+DEF shell1 Shell {
+    shellName       "shell1"
+    shellColor      1 0.5 0
+    targetPosition1 0 1.5 50
+}
+
+EXTERNPROTO Target [
+    eventIn     SFTime      detonationTime
+    field       SFString    targetName
+    field       SFColor     targetColor
+    field       SFVec3f     targetPosition
+    field       SFVec3f     targetSize
+] "target_proto.wrl"
+
+# target 1
+DEF target1 Target {
+    targetName      "target1"
+    targetColor     0 0 1
+    targetPosition  0 1.5 50
+    targetSize      3 3 3
+}
+
+
+
+
+ROUTE gun1.fireTime TO shell1.fireTime
+ROUTE gun1.shellPosition TO shell1.firePosition
+ROUTE gun1.shellVelocity TO shell1.fireVelocity
+
+ROUTE shell1.hitTargetTime TO target1.detonationTime
+

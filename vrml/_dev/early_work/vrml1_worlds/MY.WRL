@@ -1,0 +1,284 @@
+#VRML V1.0 ascii
+Separator {
+    DEF Viewer Info {
+	string  "walk"
+    }
+    PointLight {
+	intensity 10
+	location 0 10 0
+    }
+    DEF Cameras Switch {
+        whichChild      0
+        DEF Main_Entrance PerspectiveCamera {
+            position    -19 2 2
+	    orientation 0 1 0 -1.6
+        }
+        DEF Transporter PerspectiveCamera {
+            position    -12 2 2
+	    orientation 0 1 0 1.6
+        }
+        DEF Big_screen PerspectiveCamera {
+            position    4 3 0
+            orientation 0 1 0  -.7
+	  }
+        DEF console_1 PerspectiveCamera {
+            position    -8 3 -3
+            orientation 0 1 0  .8
+        }
+        DEF console_2 PerspectiveCamera {
+            position    -4 3 -6
+            orientation 0 1 0  .8
+	  }
+        DEF console_3 PerspectiveCamera {
+            position    8.3 3 -11.2
+            orientation 0 1 0  1.4
+	  }
+        DEF console_4 PerspectiveCamera {
+            position    13 3 -2
+            orientation 0 1 0  -2.8
+	  }
+        DEF console_5 PerspectiveCamera {
+            position    13 3 12.7
+            orientation 0 1 0  .8
+	  }
+        DEF console_6 PerspectiveCamera {
+            position    6 3 6
+            orientation 0 1 0  -2.3
+	  }
+      }
+      Separator {
+		Transform { 
+			rotation 0 1 0 -1.6
+			translation -15 3 2
+			scaleFactor .1 .1 .1 
+			}
+		AsciiText {
+			string "Geoff's World"
+			justification CENTER
+		}
+	}
+	Separator {
+		DEF pillar 
+		Separator {
+			Material { diffuseColor 1 0 0 }
+			Translation { translation 0 10 0 }
+			Cube {
+				width .5
+				height 20
+				depth .5
+			}
+		}
+	}
+	Separator {
+		Material { diffuseColor .33 .27 .04 }
+		Translation { translation -5 .3 -5 }
+		Cube {
+			width 10
+			height .3
+			depth 10
+		}
+		Translation { translation -2.5 .3 -2 }
+		Cube {
+			width 6
+			height 0.5
+			depth 5
+		}
+	}
+	Separator { #walkway
+		Material { diffuseColor .2 .4 .8 }
+		Translation { translation -7 -.1 2 }
+		Cube {
+			width 20
+			height .2
+			depth 5
+		}
+
+	}
+	Separator { #main floor
+		Material { diffuseColor .8 .38 .24 }
+		Translation { translation 7 0 -4 }
+		Cylinder {
+			radius 10
+			height .4
+		}
+
+	}
+	Separator { #apillar
+		Translation {translation 4 0 -13 }
+		USE pillar
+	}
+	Separator { #apillar
+		Translation {translation 14 0 2}
+		USE pillar
+	}
+	Separator { # circle stand
+		Transform {
+			rotation     0 1 0  .8
+			translation 9 .3 9
+			scaleFactor .5 1 1
+		}
+		Separator { 
+			Translation {translation 0 0 0 }
+			USE pillar
+		}
+		Material { diffuseColor .55 .29 .53 }
+		Cylinder {
+			radius 7
+			height .4
+		}
+		Translation { translation 0 .3 0 }
+		Cylinder {
+			radius 4
+			height .8
+		}
+	}
+	WWWAnchor { # big screen
+		name "http://www.scam.net/geoff/index.html"
+		description "Geoff Pack"
+		Separator {
+			Transform {
+				translation 13 5 -10 
+				rotation 0 1 0 -.7
+			}
+			Texture2 { filename "\bluerock.jpg" }
+			Cube {
+				width 8
+				depth .2
+				height 8
+			}
+		}
+	}
+	Separator { # a textured cube
+		Transform {
+			translation  -7 3 -9
+			rotation     0 1 0  .8
+		}
+		Texture2 { filename "cloudback.gif" }
+			Cube {
+				width .5
+				depth .5
+				height .5
+			}
+
+	}
+	Separator {
+		Transform { 
+			translation -10 3 -5 
+			rotation     0 1 0  .8
+		}
+		WWWAnchor {
+			name "http://www.scam.net/geoff/index.html"
+			description "My Homepage"
+			DEF wstation 
+			Separator {
+				Material { diffuseColor .07 .58 .53 }
+				WWWInline {
+					name "wstation.wrl"
+					bboxSize .5 .5 .5
+				}
+			}
+			Texture2 { filename "pool.gif" }
+			DEF image
+			Separator {
+				Transform {
+					translation 0 0 .44
+					scaleFactor .6 .6 .6
+				}
+				Cube {
+					depth .3
+
+				}
+			}
+		}
+	}
+	Separator { # console 2
+		WWWAnchor { name "http://www.scam.net/geoff/index.html"
+			Transform { 
+				translation -7 3 -9
+				rotation     0 1 0  .8
+			}
+			USE wstation
+			Texture2 { filename "clouds2.gif" }
+			USE image
+		}
+	}
+	Separator { # console 3
+		WWWAnchor { name "http://www.scam.net/geoff/index.html"
+			Transform { 
+				translation 5 3 -12
+				rotation     0 1 0  1.4
+			}
+			USE wstation
+			Texture2 { filename "\\geoff\vrml\leaves.jpg" }
+			USE image
+		}
+	}
+	Separator { #console 4
+		WWWAnchor { name "http://www.scam.net/geoff/index.html"
+			Transform { 
+				translation 14 3 1.2
+				rotation     0 1 0  3.5
+			}
+			USE wstation
+			Texture2 { filename "fire.jpg" }
+			USE image
+		}
+	}
+	Separator { #console 5
+		WWWAnchor { name "http://www.scam.net/geoff/index.html"
+			Transform { 
+				translation 10.6 3 10.2
+				rotation     0 1 0  .8
+			}
+			USE wstation
+			Texture2 { filename "forest.jpg" }
+			USE image
+		}
+	}
+	Separator { # console 6
+		WWWAnchor { name "http://www.scam.net/geoff/index.html"
+			Transform { 
+				translation 8 3 8
+				rotation     0 1 0  4
+			}
+			USE wstation
+			Texture2 { filename "fire.jpg" }
+			USE image
+		}
+	}
+	Separator {
+		Transform { translation -20 0 2}
+		WWWInline {
+			name "http://www.scam.net/geoff/vrml/teleporter.wrl"
+			bboxSize 4 4 4
+		}
+	}
+
+	Separator { # A Cylinder
+		Material { diffuseColor .7 .7 .2 }
+		Translation { translation 0 0 10 }
+		Cylinder {
+			radius 1.5
+			height 1
+		}
+	}
+	Separator { # A Cylinder
+		Material { diffuseColor .5 .2 .2 }
+		Translation { translation 0 1.5 10 }
+		Cylinder {
+			radius .3
+			height 2.5
+		}
+	}
+
+	Separator { # A Sphere
+		Material { diffuseColor 0 1 0 }
+		Translation { translation 0 5 10 }
+		Sphere {
+			radius 2.5
+		}
+
+	}
+
+
+}

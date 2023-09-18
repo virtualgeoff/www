@@ -1,0 +1,235 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "Expanding Geodesic Sphere proto"
+    info ["Geoff Pack, geoff@spike.com.au",
+          "beta 0.4 - icosahedron version, May 2001"]
+}
+
+# -------------------------------------------------------
+# Icosahedron version.
+# Click on tetraheadrons to MOVE them.
+#
+# This version only works in Blaxxun Contact
+#
+# Partly inspired by V.Bulatov's ExplodingPolySet proto.
+# -------------------------------------------------------
+
+PROTO Spike [
+    field       SFNode      coord Coordinate {}
+    field       MFInt32     coordIndex []
+    field       SFTime      duration 2          # duration of expansion
+    field       SFColor     color 0 0.379 0.761
+]{
+
+    DEF IFSTransform Transform {
+        translation     0 0 0
+        scale           1.01 1.01 1.01
+        children [
+            DEF Trigger TouchSensor{}
+        ]
+    }
+
+    DEF ExpansionTimer TimeSensor {
+        cycleInterval IS duration
+    }
+
+    DEF ExpansionPosition PositionInterpolator {
+        key      [ 0, 1 ]
+        keyValue [ 10 10 10, 30 30 30 ]
+    }
+
+    ROUTE Trigger.touchTime TO ExpansionTimer.startTime
+    ROUTE ExpansionTimer.fraction_changed TO ExpansionPosition.set_fraction
+    ROUTE ExpansionPosition.value_changed TO IFSTransform.set_translation
+
+
+    DEF IFSScript Script {
+        directOutput  TRUE
+        eventOut    MFNode      newChild
+        eventOut    MFVec3f     positions
+        field       SFNode      coord IS coord
+        field       MFInt32     coordIndex IS coordIndex
+
+        field       MFInt32     newCoordIndex []
+        field       SFVec3f     origin 0 0 0
+        field       SFVec3f     center 0 0 0
+        field       SFColor     color IS color
+
+        url ["javascript:
+
+            function initialize() {
+                //create base of pyramid and caculate center
+                for(i=0; i< coordIndex.length; i++) {
+                    newCoordIndex[i] = coordIndex[i];
+                    if (coordIndex[i] != -1) {
+                        center.x += coord.point[coordIndex[i]].x;
+                        center.y += coord.point[coordIndex[i]].y;
+                        center.z += coord.point[coordIndex[i]].z;
+                    }
+                }
+                center.x /= 2;
+                center.y /= 2;
+                center.z /= 2;
+                positions = new MFVec3f(origin,center);
+
+                // create faces of pyramid
+                newCoordIndex[4]  = coordIndex[1];
+                newCoordIndex[5]  = coordIndex[0];
+                newCoordIndex[6]  = coord.point.length-1;
+                newCoordIndex[7]  = -1;
+                newCoordIndex[8]  = coordIndex[2];
+                newCoordIndex[9]  = coordIndex[1];
+                newCoordIndex[10] = coord.point.length-1;
+                newCoordIndex[11] = -1;
+                newCoordIndex[12] = coordIndex[0];
+                newCoordIndex[13] = coordIndex[2];
+                newCoordIndex[14] = coord.point.length-1;
+                newCoordIndex[15] = -1;
+
+                // create a new vrml string
+                vrmlString = 'Shape {'
+                    + 'appearance Appearance { material Material { diffuseColor ' + color + '}}'
+                    + 'geometry IndexedFaceSet { solid FALSE '
+                    + '    coord Coordinate { point ' + coord.point + '}'
+                    + '    coordIndex ' + newCoordIndex + '}'
+                    + '}'
+                    //+ 'Transform { translation ' + center + ' children[Shape {geometry Sphere {radius 0.5}}]}'
+                    ;
+
+                // parse the vrml string into a node
+                node = Browser.createVrmlFromString(vrmlString);
+
+                // add the node to scene
+                newChild = node;
+            }
+        "]
+    }
+
+    ROUTE IFSScript.newChild TO IFSTransform.addChildren
+    ROUTE IFSScript.positions TO ExpansionPosition.set_keyValue
+
+}
+
+# end proto
+# -------------------------------------------------------
+
+
+
+
+PROTO GeoSphere [
+    field       SFNode      coord Coordinate {}
+    field       MFInt32     coordIndex []
+    field       SFTime      duration 2
+    field       SFColor     color 0 0.379 0.761
+]{
+
+    DEF GeoSphereTransform Transform {
+        translation     0 0 0
+        scale           1.02 1.02 1.02
+        children []
+    }
+
+    DEF GeoSphereScript Script {
+        directOutput  TRUE
+        eventOut    MFNode      newChild
+        field       SFNode      coord IS coord
+        field       MFInt32     coordIndex IS coordIndex
+
+        field       MFInt32     newCoordIndex []
+        field       SFVec3f     origin 0 0 0
+        field       SFVec3f     center 0 0 0
+        field       SFColor     color IS color
+        field       SFInt32     count 0
+        field       SFInt32     newCount 0
+
+        url ["javascript:
+
+            function initialize() {
+
+                // read each face of coord index
+                // write a spike instance with the face's coordinates
+
+                for(i=0; i< coordIndex.length; i++) {
+
+                    if(coordIndex[i] != -1){
+                        // add index to newCoordIndex
+                        newCoordIndex[newCount] = coordIndex[count];
+                        count++;
+                        newCount++;
+                    } else {
+                        // new face
+                        newCoordIndex[newCount] = -1;
+                        count++;
+                        newCount = 0;
+
+                        // create a new vrml string
+                        vrmlString = 'Spike { '
+                            + '    coord Coordinate { point ' + coord.point + '}'
+                            + '    coordIndex ' + newCoordIndex
+                            + '    color ' + color
+                            + '}';
+
+                        // parse the vrml string into a node
+                        node = Browser.createVrmlFromString(vrmlString);
+
+                        // add the node to scene
+                        newChild = node;
+
+                    }
+                }
+
+            }
+        "]
+    }
+
+    ROUTE GeoSphereScript.newChild TO GeoSphereTransform.addChildren
+
+}
+
+# end proto
+# -------------------------------------------------------
+
+DEF GeoSpere1 GeoSphere {
+    coord Coordinate {
+        point [0 40.98 0, 36.66 18.33 0, 11.33 18.33 -34.86, -29.66 18.33 -21.55,
+          -29.66 18.33 21.55, 11.33 18.33 34.86, 29.66 -18.33 -21.55,
+          -11.33 -18.33 -34.86, -36.66 -18.33 0, -11.33 -18.33 34.86,
+          29.66 -18.33 21.55, 0 -40.98 0, 0 0 0
+        ]
+    }
+    coordIndex [0, 1, 2, -1, 0, 2, 3, -1, 0, 3, 4, -1, 0, 4, 5, -1, 0, 5, 1, -1,
+          1, 10, 6, -1, 2, 6, 7, -1, 3, 7, 8, -1, 4, 8, 9, -1,
+          5, 9, 10, -1, 6, 2, 1, -1, 7, 3, 2, -1, 8, 4, 3, -1,
+          9, 5, 4, -1, 10, 1, 5, -1, 11, 7, 6, -1, 11, 8, 7, -1,
+          11, 9, 8, -1, 11, 10, 9, -1, 11, 6, 10, -1
+    ]
+    duration 2
+    color 0.7 0 0
+}
+
+NavigationInfo {
+    type "EXAMINE"
+    headlight TRUE
+}
+
+Viewpoint {
+    position 0 1.5 200
+}
+
+DirectionalLight{
+    ambientIntensity 0
+    direction 0.3 -1 -0.1
+}
+
+#Transform {
+#   translation   0 0 0
+#   rotation      0 1 0 0
+#   scale         10 10 10
+#   children [
+#       Inline {
+#           url       "grid.wrl"
+#       }
+#   ]
+#}
+#

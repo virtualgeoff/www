@@ -1,0 +1,137 @@
+#VRML V2.0 utf8
+
+# A blue axes lines
+
+Transform {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { emissiveColor 1 1 1 }
+      }
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [ 0 0 0, .6 0 0, 0 .6 0, 0 0 .6 ]
+        }
+        coordIndex [ 0, 1, -1, 0, 2, -1, 0, 3, -1 ]
+      }
+    }
+  ]
+}
+
+DEF xAxis Transform {
+  translation   0.8 0 0
+  rotation      0 0 1 -1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { diffuseColor 1 0 0 }
+      }
+      geometry Cone {
+        bottomRadius  0.1
+        height        0.4
+      }
+    }
+    Transform {
+      translation   0 .3 0
+      children [
+        Billboard {
+          axisOfRotation 0 1 0
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor 1 0 0 }
+              }
+              geometry DEF billboardText Text {
+                string      "X"
+                fontStyle FontStyle {
+                  size      .4
+                  family    "SANS"
+                  justify   "MIDDLE"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+DEF yAxis Transform {
+  translation   0 0.8 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { diffuseColor  0 1 0 }
+      }
+      geometry Cone {
+        bottomRadius  0.1
+        height        0.4
+      }
+    }
+    Transform {
+      translation   0 .3 0
+      children [
+        Billboard {
+          axisOfRotation 0 1 0
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor  0 1 0 }
+              }
+              geometry DEF billboardText Text {
+                string      "Y"
+                fontStyle FontStyle {
+                  size      .4
+                  family    "SANS"
+                  justify   "MIDDLE"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+DEF zAxis Transform {
+  translation   0 0 0.8
+  rotation      1 0 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material { diffuseColor 0 0 1 }
+      }
+      geometry Cone {
+        bottomRadius  0.1
+        height        0.4
+      }
+    }
+    Transform {
+      translation   0 .3 0
+      children [
+        Billboard {
+          axisOfRotation 0 1 0
+          children [
+            Shape {
+              appearance Appearance {
+                material Material { diffuseColor 0 0 1 }
+              }
+              geometry DEF billboardText Text {
+                string      "Z"
+                fontStyle FontStyle {
+                  size      .4
+                  family    "SANS"
+                  justify   "MIDDLE"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+

@@ -1,0 +1,163 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Maze Game"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"WALK"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.5
+}
+DirectionalLight {
+	direction 1 0 0
+}
+DirectionalLight {
+	direction -1 0 0
+}
+DirectionalLight {
+	direction 0 1 0
+}
+DirectionalLight {
+	direction 0 -1 0
+}
+DirectionalLight {
+	direction 0 0 1
+}
+DirectionalLight {
+	direction 0 0 -1
+}
+
+
+Viewpoint {
+   description "Entry"
+   position		0 1.5 1.5
+   fieldOfView 0
+
+}
+
+DEF Corridor Group {
+	children [	
+
+DEF Floor Group {
+	children [	
+		Transform {
+			translation 	0 0 0
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor	.3 .3 .3	
+							shininess		.1
+						}
+					#	texture ImageTexture { url "textures/hardwood.jpg" }
+					}
+					geometry IndexedFaceSet {
+						coord Coordinate {
+							point [ -2 0 2, 2 0 2, 2 0 -2, -2 0 -2 ]
+						}
+						coordIndex [ 0, 1, 2, 3, -1 ]
+					}
+				}
+			]
+		}
+		Transform {
+			translation 	0 2 0
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor	.7 .7 .7	
+							shininess		.1
+						}
+						texture ImageTexture { url "textures/white1.jpg" }
+					}
+					geometry IndexedFaceSet {
+						coord Coordinate {
+							point [ -2 0 2, 2 0 2, 2 0 -2, -2 0 -2 ]
+						}
+						coordIndex [ 3, 2, 1, 0, -1 ]
+					}
+				}
+			]
+		}
+	]
+}
+
+DEF Wall Group {
+	children [	
+		Transform {
+			translation 	0 0 0
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor	.2 .2 .4	
+							shininess		.1
+						}
+					#	texture ImageTexture { url "textures/bluerock.jpg" }
+					}
+					geometry IndexedFaceSet {
+						coord Coordinate {
+							point [ 2 0 2, 2 2 2, 2 2 -2, 2 0 -2 ]
+						}
+						coordIndex [ 0, 1, 2, 3, -1 ]
+					}
+				}
+			]
+		}
+	]
+}
+Transform {
+	rotation		0 1 0 3.14159
+	children USE Wall
+}
+
+	]
+}
+
+Transform {
+	translation		0 0 -4
+	children USE Corridor
+}
+Transform {
+	translation		0 0 -8
+	children USE Corridor
+}
+Transform {
+	translation		0 0 -12
+	children USE Floor
+}
+Transform {
+	translation		0 0 -16
+	children USE Corridor
+}
+Transform {
+	translation		0 0 -20
+	children USE Corridor
+}
+
+Transform {
+	rotation		0 1 0 1.571
+	translation		4 0 -12
+	children USE Corridor
+}
+Transform {
+	rotation		0 1 0 1.571
+	translation		8 0 -12
+	children USE Corridor
+}
+Transform {
+	rotation		0 1 0 1.571
+	translation		-4 0 -12
+	children USE Corridor
+}
+Transform {
+	rotation		0 1 0 1.571
+	translation		-8 0 -12
+	children USE Corridor
+}
+
+
+

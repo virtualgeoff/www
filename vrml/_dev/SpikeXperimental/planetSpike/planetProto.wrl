@@ -1,0 +1,137 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Planet ExternProto"
+  info    "Geoff Pack, May 2001"
+}
+
+# Note:
+#	angles are in radians,
+#	time in seconds
+#	distances in metres
+
+PROTO Planet [
+  field		SFVec3f 	OrbitalRadius 		10 0 0
+  field 	SFTime 		OrbitalPeriod 		1
+  field 	SFRotation 	OrbitalInclination 	1 0 0 0		# rotate around x only
+  field 	SFRotation 	NodeAngle 			0 1 0 0		# rotate around y only
+
+  field 	SFFloat 	PlanetRadius		1
+  field 	SFTime	 	RotationPeriod 		1
+  field 	SFRotation 	RotationAxis 		0 1 0 0
+  field		SFColor		Color 				0.5 0.5 0.5
+]{
+
+	Transform {
+	  rotation IS NodeAngle
+	  children [
+		Transform {
+		  rotation IS OrbitalInclination
+		  children [
+			DEF PlanetOrbit Transform {
+			  rotation 0 1 0 0
+			  children [
+				Transform {
+				  translation IS OrbitalRadius
+				  children [
+				    # objects here rotate once per orbit
+				    # i.e. rotating solar refernce frame
+
+					#Inline {
+					#  url       "coord_axes.wrl"
+					#}
+
+					DEF PlanetSidereal Transform {
+					  rotation 0 1 0 0
+					  children [
+						# fixed  orientation wrt stars
+						# i.e. cancels rotating solar refernce frame
+
+						Inline {
+						  url       "coord_axes.wrl"
+						}
+
+
+
+
+					  ]
+					}
+
+					DEF PlanetRotation Transform {
+					  rotation 0 1 0 0
+					  children [
+
+						Shape {
+						  appearance Appearance {
+							material Material { diffuseColor IS Color }
+						  }
+						  #geometry Sphere { radius IS PlanetRadius }
+						  geometry Box { size 1 1 1 }
+						}
+						#Inline {
+						#  url       "spike.wrl"
+						#}
+						#Inline {
+						#  url       "coord_axes.wrl"
+						#}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ]
+	}
+
+
+	# ----- Planet Orbit -----
+
+	DEF PlanetYear TimeSensor {
+		cycleInterval IS OrbitalPeriod
+		stopTime    -1
+		loop        TRUE
+	}
+
+	DEF PlanetOrbitAngle OrientationInterpolator {
+		key			[0, .25, .5, .75, 1]
+		keyValue 	[0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832]
+	}
+
+	ROUTE PlanetYear.fraction_changed TO PlanetOrbitAngle.set_fraction
+	ROUTE PlanetOrbitAngle.value_changed TO PlanetOrbit.set_rotation
+
+
+	# ----- Planet Rotation -----
+
+	DEF PlanetDay TimeSensor {
+		cycleInterval IS RotationPeriod
+		stopTime    -1
+		loop        TRUE
+	}
+
+	DEF PlanetRotationAngle OrientationInterpolator {
+		key      	[0, .25, .5, .75, 1]
+		keyValue    [0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832]
+	}
+
+
+	ROUTE PlanetDay.fraction_changed TO PlanetRotationAngle.set_fraction
+	ROUTE PlanetRotationAngle.value_changed TO PlanetRotation.set_rotation
+
+
+	# ----- Planet AntiRotation -----
+
+	# Cancels rotation of planet due to orbital rotation
+	# i.e. makes sidereal refence frame
+
+	DEF PlanetSiderealAngle OrientationInterpolator {
+		key			[0, .25, .5, .75, 1]
+		keyValue 	[0 1 0 0, 0 1 0 -1.5708, 0 1 0 -3.1416, 0 1 0 -4.7124, 0 1 0 -6.2832]
+	}
+
+	ROUTE PlanetYear.fraction_changed TO PlanetSiderealAngle.set_fraction
+	ROUTE PlanetSiderealAngle.value_changed TO PlanetSidereal.set_rotation
+
+}

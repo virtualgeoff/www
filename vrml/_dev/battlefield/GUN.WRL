@@ -1,0 +1,105 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "A Big Gun"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+# Base:
+Transform {
+    translation     0 0.25 0
+    children [
+        Shape {
+            appearance DEF lightGrey Appearance {
+                material Material {
+                diffuseColor    .6 .6 .6
+                shininess       .2
+                }
+            }
+            geometry Cylinder {
+                radius      .6
+                height      .5
+            }
+        }
+    ]
+}
+
+# Gun
+DEF Gun Transform {
+    translation     0 .5 0
+    rotation        0 1 0 0
+    children [
+        # Turret:
+        DEF Azimuth CylinderSensor {}
+        Shape {
+            appearance USE lightGrey
+            geometry Sphere {
+                radius      .5
+            }
+        }
+        # Barrel:
+        Transform {
+            translation     0 .2 .3
+            rotation        0 0 1 1.5708
+            children [
+                DEF Barrel Transform {
+                    translation     0 0 0
+                    rotation        0 1 0 0
+                    children [
+                        DEF Altitude CylinderSensor {
+                            maxAngle 1.5708
+                            minAngle -0.2
+                        }
+                        Shape {
+                            appearance DEF darkGrey Appearance {
+                                material Material {
+                                    diffuseColor    .3 .3 .3
+                                    shininess       .2
+                                }
+                            }
+                            geometry Cylinder {
+                                radius      .2
+                                height      .3
+                            }
+                        }
+                        Transform {
+                            translation     0 0 0.5
+                            rotation        1 0 0 1.5708
+                            children [
+                                Shape {
+                                    appearance USE darkGrey
+                                    geometry Cylinder {
+                                        radius      .05
+                                        height      1
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+# Fire Button
+Transform {
+    translation     0 1 0
+    children [
+        TouchSensor {}
+        Shape {
+            appearance DEF red Appearance {
+                material Material {
+                diffuseColor    1 0 0
+                shininess       .2
+                }
+            }
+            geometry Sphere {
+                radius      .1
+            }
+        }
+    ]
+}
+
+ROUTE Azimuth.rotation_changed TO Gun.set_rotation
+ROUTE Altitude.rotation_changed TO Barrel.set_rotation

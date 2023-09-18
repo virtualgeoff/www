@@ -1,0 +1,190 @@
+#VRML V1.0 ascii
+Separator {
+	DEF Viewer Info {
+		string  "walk"
+	}
+	PointLight {
+		intensity 10
+		location 0 10 0
+	}
+	DEF Cameras Switch {
+		whichChild      0
+		DEF Main_Entrance PerspectiveCamera {
+            	position    -19 2 2
+			orientation 0 1 0 -1.6
+		}
+	}
+	Separator {
+      	Transform { 
+			rotation 0 1 0 -1.6
+			translation -15 3 2
+			scaleFactor .1 .1 .1 
+			}
+		AsciiText {
+			string "Test World"
+			justification CENTER
+		}
+	}
+	Separator {
+		DEF pillar 
+		Separator {
+			Material { diffuseColor 1 0 0 }
+			Translation { translation 0 10 0 }
+			Cube {
+				width .5
+				height 20
+				depth .5
+			}
+		}
+	}
+	Separator {
+		Material { diffuseColor .33 .27 .04 }
+		Translation { translation -5 .3 -5 }
+		Cube {
+			width 10
+			height .3
+			depth 10
+		}
+		Translation { translation -2.5 .3 -2 }
+		Cube {
+			width 6
+			height 0.5
+			depth 5
+		}
+	}
+
+	Separator { # main floor
+		Material { diffuseColor .8 .38 .24 }
+		Translation { translation 7 0 -4 }
+		Cylinder {
+			radius 10
+			height .4
+		}
+
+	}
+	Separator { #apillar
+		Translation {translation 4 0 -13 }
+		USE pillar
+	}
+	Separator { #apillar
+		Translation {translation 14 0 2}
+		USE pillar
+	}
+	Separator { # circle stand
+		Transform {
+			rotation     0 1 0  .8
+			translation 9 .3 9
+			scaleFactor .5 1 1
+		}
+		Separator { 
+			Translation {translation 0 0 0 }
+			USE pillar
+		}
+		Material { diffuseColor .55 .29 .53 }
+		Cylinder {
+			radius 7
+			height .4
+		}
+		Translation { translation 0 .3 0 }
+		Cylinder {
+			radius 4
+			height .8
+		}
+	}
+	WWWAnchor { # big screen
+		name "http://www.scam.net/geoff/index.html"
+		description "VisLab home page"
+		Separator {
+			Transform {
+				translation 13 5 -10 
+				rotation 0 1 0 -.7
+			}
+			Texture2 { filename "texture1.jpg" }
+			Cube {
+				width 8
+				depth .2
+				height 8
+			}
+		}
+	}
+
+	Separator { # a textured cube
+		Transform {
+			translation  -7 3 -9
+			rotation     0 1 0  .8
+		}
+		Texture2 {
+			filename "texture2.jpg"
+		}
+	}
+
+	Separator {
+		Transform { 
+			translation -10 3 -5 
+			rotation     0 1 0  .8
+		}
+		WWWAnchor {
+			name "http://www.scam.net/geoff/vrml/index.html"
+			description "Physicsl optics research"
+			DEF wstation 
+			Separator {
+				Material { diffuseColor .07 .58 .53 }
+				WWWInline {
+					name "wstation.wrl"
+					bboxSize .5 .5 .5
+				}
+			}
+			Texture2 { filename "texture2.jpg" }
+			DEF image
+			Separator {
+				Transform {
+					translation 0 0 .44
+					scaleFactor .6 .6 .6
+				}
+				Cube {
+					depth .3
+
+				}
+			}
+		}
+	}
+	Separator { # console 2
+		WWWAnchor { name "http://www.scam.net/geoff/gallery/index.html"
+			Transform { 
+				translation -7 3 -9
+				rotation     0 1 0  .8
+			}
+			USE wstation
+			Texture2 { filename "texture2.jpg" }
+			USE image
+		}
+	}
+
+	Separator { # A www?
+		Transform { translation -20 0 2}
+		WWWInline {
+			name "http://www.scam.net/geoff/vrml/teleporter.wrl"
+			bboxSize 4 4 4
+		}
+	}
+
+	Separator { # A Cylinder
+		Material { diffuseColor .5 .7 .2 }
+		Translation { translation 0 10 0 }
+		Cylinder {
+			radius 10
+			height 1
+		}
+	}
+
+	Separator { # A Sphere
+		Material { diffuseColor 0 .9 0 }
+		Translation { translation 0 0 0 }
+		Sphere {
+			radius 3
+		}
+
+	}
+
+
+}

@@ -1,0 +1,137 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Sound Example"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"WALK"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		3.0
+}
+
+Background {
+   groundColor	[0 .5 0, 0 .7 0]
+   groundAngle	[1.6]
+   skyColor		[.3 .3 .9, .3 .3 .9]
+   skyAngle		[1.5708]
+}
+
+Viewpoint {
+   description 	"Entry"
+   position 	0 2 150
+}
+
+Inline {
+   url		"terrain.wrl"
+}
+
+Sound {
+   source AudioClip {
+	url			"../sounds/ball.wav"
+	loop			TRUE
+	startTime		1
+	stopTime		0
+   }
+   location			0 4 0
+   minFront			10
+   maxFront			100
+   minBack			10
+   maxBack			100
+}
+
+Sound {
+   source AudioClip {
+	url			"../sounds/ball.wav"
+	loop			TRUE
+	startTime		1
+	stopTime		0
+	pitch			1.5
+   }
+   location			-150 1 -150
+   minFront			10
+   maxFront			100
+   minBack			10
+   maxBack			100
+}
+
+Sound {
+   source AudioClip {
+	url			"../sounds/beep.wav"
+	loop			TRUE
+	startTime		1
+	stopTime		0
+   }
+   location			150 1 -150
+   minFront			10
+   maxFront			100
+   minBack			10
+   maxBack			100
+}
+
+Sound {
+   source AudioClip {
+	url			"../sounds/cone.wav"
+	loop			TRUE
+	startTime		1
+	stopTime		0
+   }
+   location			150 1 150
+   minFront			10
+   maxFront			100
+   minBack			10
+   maxBack			100
+}
+
+Sound {
+   source AudioClip {
+	url			"../sounds/cube.wav"
+	loop			TRUE
+	startTime		1
+	stopTime		0
+   }
+   location			-150 2 150
+   minFront			10
+   maxFront			100
+   minBack			10
+   maxBack			100
+}
+
+
+# Central Marker:
+
+Transform {
+   translation 		0 13 0
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	1 1 1
+		   shininess	.5
+		}
+	   }
+	   geometry Cone {
+		bottomRadius	2
+		height	10
+	   }
+	}
+	DEF LIGHT1 PointLight {
+	   on				FALSE
+	   intensity		1
+	   ambientIntensity	.5
+	   color			1 0 0
+	   location			0 20 0
+	   radius			50
+	   attenuation		1 0 0	   
+	}
+	DEF LightSwitch ProximitySensor {
+	   center		0 0 0
+	   size		150, 50, 150
+	   enabled		TRUE
+	}
+   ]
+}
+
+ROUTE LightSwitch.isActive TO LIGHT1.on

@@ -1,0 +1,319 @@
+#VRML V2.0 utf8
+
+# An expandable node object
+
+# Version X2:
+# Changed statusText to SFString so could use as VP description
+
+PROTO XNode [
+   eventIn  MFInt32     set_childData
+   field    MFNode      children [ ]
+   field    MFString    label [ ]
+   field    SFString    statusText " "
+   field    MFString    url [ ]
+]
+{
+   Transform {
+	children [
+      DEF ME Transform {
+      translation 0 -4 0
+      children [
+        DEF VP Viewpoint {
+          position 0 1 18
+          orientation -1 0 0 0.2
+          description IS statusText
+        }
+        Transform {
+          children [
+            Shape {
+            appearance Appearance {
+              material DEF CONE_COLOR Material {
+                diffuseColor 1 0 0
+              }
+            }
+		# changed geometry to box for lower polygon count
+            geometry Box { size 1 1 1 }
+            }
+          ]
+        }
+        DEF TOUCHED TouchSensor { }
+        Billboard {
+          axisOfRotation 0 0 0
+          children [
+            Transform {
+            translation 0 0 1
+            children [
+              Shape {
+                appearance Appearance {
+                  material Material {
+                  diffuseColor 0.9412 0.9725 1.0000
+                  }
+                }
+                geometry Text {
+                  string IS label
+                  fontStyle FontStyle {
+                  family "SANS"
+                  justify "MIDDLE"
+                  size 0.6
+                  spacing 1.2
+                  style "BOLD"
+                  }
+                  length 0
+                }
+              }
+            ]
+            }
+          ]
+        }
+      ]
+      }
+      Shape {
+      appearance Appearance {
+        material Material {
+          emissiveColor 0.85 0.85 0.10
+        }
+      }
+      geometry IndexedLineSet {
+        coord DEF LINECOORDS Coordinate {
+          point [ 0 0 0, 0 0 0 ]
+        }
+        coordIndex [ 0 1 -1 ]
+        colorPerVertex FALSE
+      }
+      }
+      DEF EXPANDER Script {
+      eventIn  SFBool  touched
+      eventIn  SFBool  show
+      eventIn  MFInt32 set_childData IS set_childData
+      eventOut SFVec3f newTranslation
+      eventOut MFVec3f lineCoords
+      eventOut MFNode  newChildren
+      eventOut MFNode  oldChildren
+      eventOut SFColor coneColor
+      eventOut SFBool  bindVp
+
+      field   MFNode   children IS children
+      field   SFString statusText IS statusText
+
+      field SFInt32 numSiblings 0
+      field SFInt32 myChildNumber 0
+      field SFColor leafColor 0.49 0.68 1
+      field SFColor expandedColor 0.3922 0.5043 0.8294
+      field SFColor unexpandedColor 0.2400 0.3500 0.6700
+      field SFBool  expanded FALSE
+
+      field MFString the_url IS url
+      field MFString parm [ ]
+
+      # For browsers that don't like vars
+      field SFFloat theta 0.0
+      field SFFloat ntheta 0.0
+      field SFFloat r 0.0
+      field SFInt32 i 0
+
+      url "javascript:
+
+        // For each of the children of this node, we send it the
+        // number of children in the group and the child's own number.
+        // The child will use this information to compute its position.
+        // We do this in the initialize() method because if you do it
+        // in the touched() method it's possible for the children
+        // to be added to the scene graph before they finish processing
+        // the event that computes their position.  This doesn't work
+        // at all in WorldView 2.0, and I have no idea why not.
+        function initialize() {
+          if (children.length > 0) {
+            coneColor = unexpandedColor;
+            for (i=0; i<children.length; i++) {
+            children[i].set_childData = new MFInt32(children.length, i);
+            }
+          } else {
+            coneColor = leafColor;
+          }
+        }
+
+        // Called by the parent to set the child's number of siblings
+        // and child number, from which it computes its position
+        function set_childData(value) {
+          numSiblings = value[0];
+          myChildNumber = value[1];
+          lineCoords = new MFVec3f(new SFVec3f(0,0,0), new SFVec3f(0,0,0));
+          if (numSiblings > 0) {
+            theta = 3.14159*2/numSiblings;
+            if (numSiblings > 2)
+            ntheta = (myChildNumber*theta)-1.570795;
+            else
+            ntheta = myChildNumber*theta;
+            if (numSiblings > 1) {
+            r = 1.5/Math.sin(theta/2.0);
+            newTranslation = new SFVec3f(
+              r * Math.cos(ntheta), -4.0, -r * Math.sin(ntheta));
+            } else {
+            newTranslation = new SFVec3f(0,-4,0);
+            }
+            lineCoords[1] = newTranslation;
+          }
+        }
+
+        // Called when the user touches the cone.  Either expands the
+        // cone (addChildren) or contracts it (removeChildren)
+        function touched(value) {
+          if (value) {
+            if (!expanded) {
+            Browser.loadURL (the_url, parm);
+            bindVp = true;
+            if (children.length > 0) {
+              // The following line is harmless in Cosmo Player and
+              // CCPro which have already done the initialization,
+              // but it lets WorldView sort of work -- you have to
+              // open the node, close it, and open it again.  Sigh.
+              initialize();
+              coneColor = expandedColor;
+              newChildren = children;
+              expanded = TRUE;
+            }
+            } else {
+            bindVp = false;
+            if (children.length > 0)
+              coneColor = unexpandedColor;
+            else
+              coneColor = leafColor;
+            oldChildren = children;
+            expanded = FALSE;
+            }
+          }
+        }
+
+        // Displays the long label in the tray when the user's mouse
+        // is over this node
+        function show(value) {
+          if (value) {
+            if (statusText.length > 0)
+            Browser.setDescription(statusText);
+          } else {
+            Browser.setDescription('');
+          }
+        }
+      "
+      }
+    ]
+  }
+   ROUTE TOUCHED.isActive TO EXPANDER.touched
+   ROUTE TOUCHED.isOver TO EXPANDER.show
+   ROUTE EXPANDER.newTranslation TO ME.set_translation
+   ROUTE EXPANDER.lineCoords TO LINECOORDS.set_point
+   ROUTE EXPANDER.newChildren TO ME.addChildren
+   ROUTE EXPANDER.oldChildren TO ME.removeChildren
+   ROUTE EXPANDER.coneColor TO CONE_COLOR.set_diffuseColor
+   ROUTE EXPANDER.bindVp TO VP.set_bind
+}
+
+
+# ----------------------------------------------------------
+# End of PROTOs, start of world
+#
+
+WorldInfo {
+   title "IdeaMap"
+   info [" Author: Geoff Pack
+      email: geoff@spike.com.au
+      date: August 1998
+      Based on ConeTree, by Bob Crispen
+      Description: A directory or website map in VRML"
+   ]
+}
+
+NavigationInfo {
+   headlight      TRUE
+   type           [ "EXAMINE", "ANY" ]
+}
+
+Viewpoint {
+   position       0 -1 18 
+   orientation    -1 0 0 0.2
+   description    "Entry"
+}
+
+Group {
+   children [
+      XNode {
+         label          "Top"
+         statusText     "This is the Root Node"
+         url            [ "0.html" ]
+         children [
+            XNode {
+               label          "A"
+               statusText     "level 2, node A"
+               url            [ "A.html" ]
+               children [
+                  XNode {
+                     label          "A1"
+                     statusText     "level 3, node A1"
+                     url            [ "A1.html" ]
+                     children [
+                        XNode {
+                           label          "A1i"
+                           statusText     "level 4, node A1i"
+                           url            [ "A1i.html" ]
+                           children [
+                           ]
+                        }
+                     ]
+                  }
+                  XNode {
+                     label          "A2"
+                     statusText     "level 3, node A2"
+                     url            [ "A2.html" ]
+                     children [
+                     ]
+                  }
+               ]
+            }
+            XNode {
+               label          "B"
+               statusText     "level 2, node B"
+               url            [ "B.html" ]
+               children [
+                  XNode {
+                     label          "B1"
+                     statusText     "level 3, node B1"
+                     url            [ "B1.html" ]
+                     children [
+                     ]
+                  }
+               ]
+            }
+            XNode {
+               label          "C"
+               statusText     "level 2, node C"
+               url            [ "C.html" ]
+               children [
+                  XNode {
+                     label          "C1"
+                     statusText     "level 3, node C1"
+                     url            [ "C1.html" ]
+                     children [
+                     ]
+                  }
+                  XNode {
+                     label          "C2"
+                     statusText     "level 3, node C2"
+                     url            [ "C2.html" ]
+                     children [
+                     ]
+                  }
+                  XNode {
+                     label          "C3"
+                     statusText     "level 3, node C3"
+                     url            [ "C3.html" ]
+                     children [
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+
+

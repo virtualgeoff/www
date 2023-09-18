@@ -1,0 +1,162 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title "Dynaboard Script"
+   info  "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+    headlight     TRUE
+    speed         0.8
+    type          "EXAMINE"
+}
+
+Viewpoint {
+    position      0 2 10
+    description   "front"
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 1 1 1, 1 1 1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 1 1 1, 1 1 1, 1 1 1]
+}
+Transform {
+  children [
+    Billboard {
+      axisOfRotation  0 1 0
+      children [
+        DEF SW1 Switch {
+          whichChoice 9
+          choice [
+            Shape {
+              geometry DEF IFS1 IndexedFaceSet {
+                solid   FALSE
+                coord Coordinate { point [ -2 0 0, 2 0 0, 2 4 0, -2 4 0 ] }
+                coordIndex [ 0, 1, 2, 3, -1 ]
+              }
+              appearance Appearance { texture ImageTexture { url [ "frames/00.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/01.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/02.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/03.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/04.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/05.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/06.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/07.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/08.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/09.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/10.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/11.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/12.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/13.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/14.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/15.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/16.png"] } }
+            }
+            Shape {
+              geometry USE IFS1
+              appearance Appearance { texture ImageTexture { url [ "frames/17.png"] } }
+            }
+          ]
+        }
+        Shape {
+          geometry DEF billboardText Text {
+            string [" "]
+            fontStyle FontStyle {
+              justify "MIDDLE"
+            }
+          }
+        }
+      ]
+    }
+    DEF PS1 ProximitySensor {
+      center    0 0 0
+      size      1000 1000 1000
+      enabled   TRUE
+    }
+  ]
+}
+
+DEF S1 Script {
+  eventIn   SFVec3f   positionIn
+  eventOut  MFString  stringOut
+  eventOut  SFInt32   choiceOut
+
+  field     SFFloat   distance  0
+  field     SFFloat   angleRad  0
+  field     SFFloat   angleDeg  180
+  field     SFFloat   choice    9
+
+  url "javascript:
+    function positionIn(position) {
+      distance = position.length();
+      angleRad = Math.acos(position[2]/distance) * (position[0]/Math.abs(position[0]));
+      angleDeg = angleRad * 180 / Math.PI;
+
+      stringOut[0] = 'Distance = ' + Math.round(distance*10)/10 + ' m';
+      stringOut[1] = 'Angle = ' + angleDeg;
+
+      choice = Math.round((180 + angleDeg)/20);
+      if (choice > 17) choice = 0;
+      else if (choice < 0) choice = 17;
+      choiceOut = choice;
+      stringOut[2] = 'Choice = ' +  choiceOut;
+    }
+  "
+}
+
+
+ROUTE PS1.position_changed TO S1.positionIn
+ROUTE S1.stringOut TO billboardText.string
+ROUTE S1.choiceOut TO SW1.whichChoice
+
+

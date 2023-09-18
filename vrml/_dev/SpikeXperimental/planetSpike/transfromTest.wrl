@@ -1,0 +1,43 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Transform Test"
+  info    "Geoff Pack, May 2001"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["EXAMINE"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  position    0 0 10
+}
+
+Inline {
+  url "coord_axes.wrl"
+}
+
+
+Transform {
+  translation 	5 0 0
+  rotation		0 1 0 0.785
+  scale			0.5 0.5 0.5
+  children [
+	Shape {
+	  geometry Box { size 1 1 1 }
+	}
+  ]
+}
+
+
+# Results:
+# 1. Translation is applied first, then rotation, then scale.
+# 2. Blaxxun Contact gives wrong default viewpoint - be sure to define one.

@@ -1,0 +1,96 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Physics Simulator"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["WALK","EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "entry"
+  position 0 0 10
+}
+
+#--------------------------------------
+# Lights
+
+DirectionalLight {
+  color       1 1 1
+  direction   0 -1 0
+  intensity   1
+  on          TRUE
+}
+
+#--------------------------------------
+# Grid:
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+#--------------------------------------
+# HUD Controls:
+
+EXTERNPROTO sixDofHud [
+  eventOut  SFVec3f     translationOut
+  eventOut  SFVec3f     rotationOut
+
+  field     SFColor     lineColor
+  field     SFColor     boxColor
+] "sixDofHud.wrl"
+
+# HUD 1
+DEF Hud1 sixDofHud {
+  lineColor   1 .5 0
+  boxColor    1 0 .5
+}
+
+#--------------------------------------
+# Object Transform
+
+EXTERNPROTO extendedMass [
+  eventIn   SFVec3f     forceIn
+  eventIn   SFVec3f     torqueIn
+
+  field     SFVec3f     initialPosition
+  field     SFVec3f     initialVelocity
+  field     SFVec3f     initialAcceleration
+  field     SFVec3f     initialOrientation
+  field     SFVec3f     initialAngularVelocity
+  field     SFVec3f     initialAngularAcceleration
+  field     SFFloat     mass
+  field     SFVec3f     momentsOfInertia
+  field     SFColor     objectColor
+] "extendedMass.wrl"
+
+# Mass 1
+DEF Mass1 extendedMass {
+}
+
+
+#--------------------------------------
+# Routing
+
+# Connect the HUD controls to the extendedMass inputs
+ROUTE Hud1.translationOut TO Mass1.forceIn
+ROUTE Hud1.rotationOut TO Mass1.torqueIn
+
+

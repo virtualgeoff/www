@@ -1,0 +1,70 @@
+#VRML V2.0 utf8   3D Lissajous bands, Evgeny Demidov   1 May 2000
+
+NavigationInfo{ type "EXAMINE" }
+Background{ skyColor 0 0 0.75 }
+DEF BandClock TimeSensor{ cycleInterval 60 loop TRUE }   #Time of cicle
+DEF Animation OrientationInterpolator {
+   key [ 0, .33, .66, 1 ]
+   keyValue [ 0 1 0 0, 0 1 0 2.1, 0 1 0 4.2, 0 1 0 0 ] }
+DEF XForm Transform{ scale 2 2 2
+  children[
+    Shape{
+      appearance Appearance{ material Material{ diffuseColor 1 1 1 } }
+      geometry DEF scrIFS IndexedFaceSet{
+         coord DEF scrCoord Coordinate{}
+         creaseAngle 2 } }
+    Shape{
+      appearance Appearance{ material Material{ diffuseColor 1 0 0 } }
+      geometry DEF scrIFSside2 IndexedFaceSet{
+         coord USE scrCoord
+         creaseAngle 2 } }
+  ]
+}
+
+DEF SCR Script{
+  eventIn SFTime go
+  field SFNode scrIFS USE scrIFS
+  field SFNode scrIFSside2 USE scrIFSside2
+  field SFNode scrCoord  USE scrCoord
+  directOutput TRUE
+url ["javascript:
+
+function initialize() { 
+  j=3, k=2+0.3, l=1-0.03, m=1;        //  parameters
+  n=100, r=1, d=0.3, step=6.283 / (n-1), t=0;
+  p = new MFVec3f();    p.length = 2*n;
+  for (var i= 0; i< n; i++) {
+    fi=i*step;
+    x=r*Math.cos(fi*j);
+    y=r*Math.sin(fi*k);    dy=d*Math.sin(fi*m);
+    z=r*Math.cos(fi*l);    dz=d*Math.cos(fi*m);
+    p[t].x = x;   p[t].y = y+dy;   p[t++].z = z+dz;
+    p[t].x = x;   p[t].y = y-dy;   p[t++].z = z-dz; }
+  var c = new MFInt32( );  c.length = 8*(n-1);
+  t=0;
+  for (var i= 0; i< 2*(n-1); i+=2) {
+    c[t++] = i;    c[t++] = i+1;  c[t++] = i+2;  c[t++] = -1;
+    c[t++] = i+1;  c[t++] = i+3;  c[t++] = i+2;  c[t++] = -1;}
+  scrCoord.set_point = p;
+  scrIFS.set_coordIndex = c;
+  t=0;
+  for (var i= 0; i< 2*(n-1); i+=2) {
+    c[t++] = i+1;  c[t++] = i;    c[t++] = i+2;  c[t++] = -1;
+    c[t++] = i+3;  c[t++] = i+1;  c[t++] = i+2;  c[t++] = -1;}
+  scrIFSside2.set_coordIndex = c;
+}
+function go(){
+  for (var i=0; i<2*n-2; i++)  p[i] = p[i+2];
+  fi += step;
+  x=r*Math.cos(fi*j);
+  y=r*Math.sin(fi*k);    dy=d*Math.sin(fi*m);
+  z=r*Math.cos(fi*l);    dz=d*Math.cos(fi*m);
+  p[n+n-2] = new SFVec3f(x, y+dy, z+dz);
+  p[n+n-1] = new SFVec3f(x, y-dy, z-dz);
+  scrCoord.set_point = p;
+}
+"]
+}
+ROUTE BandClock.time TO SCR.go
+ROUTE BandClock.fraction_changed TO Animation.set_fraction
+ROUTE Animation.value_changed TO XForm.rotation

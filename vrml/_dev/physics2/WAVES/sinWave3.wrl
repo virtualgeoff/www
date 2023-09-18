@@ -1,0 +1,159 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Wave Simulator, beta 3"
+  info    "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  speed     25
+  type      ["EXAMINE","WALK","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "front"
+  position    0 50 200
+  orientation 1 0 0 -0.4
+}
+Viewpoint {
+  description "side"
+  position    -200 2 0
+  orientation 0 1 0 -1.5708
+}
+Viewpoint {
+  description "above"
+  position    0 300 0
+  orientation 1 0 0 -1.5708
+}
+
+
+DirectionalLight {
+  direction         0 -1 -1
+  ambientIntensity  0.5
+}
+
+#--------------------------------------
+# Wave ElevationGrid
+
+DEF Wave Transform {
+  scale         1 1 1
+  translation   -50 0 -100
+  children [
+    DEF TS TouchSensor {}
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor  0 .2 .5
+          specularColor .2 .2 .2
+          shininess     0.9
+        }
+      }
+      geometry DEF WaveGrid ElevationGrid {
+        xDimension  2
+        xSpacing    100
+        zDimension  200
+        zSpacing    1
+        creaseAngle 1
+        solid FALSE
+      }
+    }
+  ]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WaveTimer TimeSensor {
+  cycleInterval 1
+  stopTime      -1
+  loop          TRUE
+}
+
+#--------------------------------------
+# Motion Script
+
+DEF WaveScript Script {
+  eventIn   SFFloat   change
+  eventIn   SFTime    animateGrid
+  eventIn   SFTime    touched
+
+  eventOut  SFTime    startClock
+  eventOut  SFTime    stopClock
+  eventOut  SFBool    enableClock
+
+  field     SFNode    waveGrid USE WaveGrid
+  field     MFFloat   gridHeight []
+  field     SFInt32   xDimension  2
+  field     SFFloat   xSpacing    100
+  field     SFInt32   zDimension  200
+  field     SFFloat   zSpacing    1
+
+  field     SFFloat   waveAmplitude   5.0
+  field     SFFloat   waveSpeed       10
+  field     SFFloat   waveLength      40
+  field     SFFloat   pi              3.14159
+  field     SFBool    active          TRUE
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    function initialize(){
+      // initialize grid values
+      var length = xDimension * zDimension;
+      for(var i=0; i<length; i++){
+        gridHeight[i] = 0;
+      }
+      waveGrid.set_height = gridHeight;
+
+      // initialize clock
+      Now = new Date();
+      lastTime = Now.getTime()/1000; // convert milliseconds(js) to seconds(vrml);
+      //print('init: lastTime = ' + lastTime);
+      startClock = lastTime;
+      enableClock = TRUE;
+    }
+
+    function animateGrid(timeValue) {
+      var t = timeValue;
+      for(var z=0; z<zDimension; z++){
+        var m=z*xDimension + 0;
+        // only calculate waveheight for first z value (wavefront is identical across x):
+        gridHeight[m] = waveAmplitude * Math.sin((2*pi/waveLength)*(z*zSpacing - t*waveSpeed));
+        for(var x=1; x<xDimension; x++){
+          var n=z*xDimension + x;
+          gridHeight[n] = gridHeight[m];
+        }
+      }
+      waveGrid.set_height = gridHeight;
+    }
+    function touched(timeValue) {
+      if (active) {
+        stopClock = timeValue;
+        active = FALSE;
+      } else {
+        startClock = timeValue;
+        active = TRUE;
+      }
+    }
+
+  "
+}
+
+#--------------------------------------
+# Routing
+
+ROUTE WaveScript.startClock TO WaveTimer.startTime
+ROUTE WaveScript.stopClock TO WaveTimer.stopTime
+ROUTE WaveScript.enableClock TO WaveTimer.enabled
+ROUTE WaveTimer.time TO WaveScript.animateGrid
+ROUTE TS.touchTime TO WaveScript.touched
+

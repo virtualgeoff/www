@@ -1,0 +1,236 @@
+#VRML V1.0 ascii TEMPLATE...
+
+#-------------------------------------------------------------
+# Shape Nodes:
+
+     AsciiText {
+          string         "Text"    # MFString
+          spacing        1     # SFFloat
+          justification  LEFT  # SFEnum
+          width          0     # MFFloat
+     }
+
+     Cone {
+          parts         ALL     # SFBitMask
+          bottomRadius  1       # SFFloat
+          height        2       # SFFloat
+     }
+     Cube {
+          width   2     # SFFloat
+          height  2     # SFFloat
+          depth   2     # SFFloat
+     }
+     Cylinder {
+          parts   ALL   # SFBitMask
+          radius  1     # SFFloat
+          height  2     # SFFloat
+     }
+     IndexedFaceSet {
+          coordIndex         0  # MFLong
+          materialIndex      -1 # MFLong
+          normalIndex        -1 # MFLong
+          textureCoordIndex  -1 # MFLong
+     }
+     IndexedLineSet {
+          coordIndex         0  # MFLong
+          materialIndex      -1 # MFLong
+          normalIndex        -1 # MFLong
+          textureCoordIndex  -1 # MFLong
+     }
+     PointSet {
+          startIndex  0 # SFLong
+          numPoints   -1        # SFLong
+     }
+     Sphere {
+          radius  1     # SFFloat
+     }
+
+#-------------------------------------------------------------
+# Property Nodes:
+
+     Coordinate3 {
+          point  0 0 0  # MFVec3f
+     }
+     FontStyle {
+          size     10      # SFFloat
+          family   SERIF   # SFEnum
+          style    NONE    # SFBitMask
+     }
+
+     Material {
+          ambientColor   0.2 0.2 0.2    # MFColor
+          diffuseColor   0.8 0.8 0.8    # MFColor
+          specularColor  0 0 0          # MFColor
+          emissiveColor  0 0 0          # MFColor
+          shininess      0.2            # MFFloat
+          transparency   0              # MFFloat
+     }
+     MaterialBinding {
+          value  OVERALL        # SFEnum
+     }
+     Normal {
+          vector  [ ] # MFVec3f
+     }
+     NormalBinding {
+          value  DEFAULT        # SFEnum
+     }
+     Texture2 {
+          filename    ""        # SFString
+          image       0 0 0     # SFImage
+          wrapS       REPEAT    # SFEnum
+          wrapT       REPEAT    # SFEnum
+     }
+     Texture2Transform {
+          translation  0 0      # SFVec2f
+          rotation     0        # SFFloat
+          scaleFactor  1 1      # SFVec2f
+          center       0 0      # SFVec2f
+     }
+     TextureCoordinate2 {
+          point  0 0    # MFVec2f
+     }
+     ShapeHints {
+          vertexOrdering  CLOCKWISE   # (or COUNTERCLOCKWISE)
+          shapeType       SOLID
+     }
+     ShapeHints {
+          vertexOrdering  UNKNOWN_ORDERING      # SFEnum
+          shapeType       UNKNOWN_SHAPE_TYPE    # SFEnum
+          faceType        CONVEX                # SFEnum
+          creaseAngle     0.5                   # SFFloat
+     }
+
+
+#-------------------------------------------------------------
+# Transformation Nodes:
+
+     MatrixTransform {
+          matrix  1 0 0 0       # SFMatrix
+                  0 1 0 0
+                  0 0 1 0
+                  0 0 0 1
+     }
+     Translation {
+          translation  0 0 0    # SFVec3f
+     }
+     Rotation {
+          rotation  0 0 1  0    # SFRotation
+     }
+     Scale {
+          scaleFactor  1 1 1    # SFVec3f
+     }
+     Transform {
+          translation       0 0 0       # SFVec3f
+          rotation          0 0 1  0    # SFRotation
+          scaleFactor       1 1 1       # SFVec3f
+          scaleOrientation  0 0 1  0    # SFRotation
+          center            0 0 0       # SFVec3f
+     }
+
+#-------------------------------------------------------------
+# Group Nodes:
+
+     Separator {
+          renderCulling       AUTO      # SFEnum
+     }
+     Switch {
+          whichChild  -1        # SFLong
+     }
+     LOD {
+          range [ ]    # MFFloat
+          center 0 0 0  # SFVec3f
+     }
+     WWWAnchor {
+          name ""        # SFString
+          description "" # SFString
+          map NONE       # SFEnum
+     }
+     WWWAnchor {
+          name "http://www.school.edu/vrml/someWorld.wrl#OverView"
+          Cube { } 
+     }
+     WWWAnchor {
+          name "#Doorway"
+          Sphere { }
+     }
+
+#-------------------------------------------------------------
+# Lighting:
+
+     DirectionalLight {
+          on         TRUE       # SFBool
+          intensity  1          # SFFloat
+          color      1 1 1      # SFColor
+          direction  0 0 -1     # SFVec3f
+     }
+     PointLight {
+          on         TRUE       # SFBool
+          intensity  1          # SFFloat
+          color      1 1 1      # SFColor
+          location   0 0 1      # SFVec3f
+     }
+     SpotLight {
+          on           TRUE     # SFBool
+          intensity    1        # SFFloat
+          color        1 1 1    # SFVec3f
+          location     0 0 1    # SFVec3f
+          direction    0 0 -1   # SFVec3f
+          dropOffRate  0        # SFFloat
+          cutOffAngle  0.785398 # SFFloat
+     }
+
+#-------------------------------------------------------------
+# Cameras:
+
+     OrthographicCamera {
+          position         0 0 1        # SFVec3f
+          orientation      0 0 1  0     # SFRotation
+          focalDistance    5            # SFFloat
+          height           2            # SFFloat
+     }
+     PerspectiveCamera {
+          position         0 0 1        # SFVec3f
+          orientation      0 0 1  0     # SFRotation
+          focalDistance    5            # SFFloat
+          heightAngle      0.785398     # SFFloat
+     }
+
+
+
+#-------------------------------------------------------------
+# Misc Nodes:
+
+     WWWInline {
+          name ""               # SFString
+          bboxSize 0 0 0        # SFVec3f
+          bboxCenter 0 0 0      # SFVec3f
+     }
+     Info {
+          string  "<Undefined info>"      # SFString
+     }
+
+
+#-------------------------------------------------------------
+# Naming Instances:
+
+     DEF objectname objecttype { fields  children }
+     USE objectnmae
+
+# e.g.
+     Separator {
+          DEF Joe Sphere { }
+          Translation { translation 2 0 0 }
+          Separator {
+                  DEF Joe Sphere { radius .2 }
+          }
+          Translation { translation 2 0 0 }
+          USE Joe    # radius .2 sphere will be used here
+     }
+
+#-------------------------------------------------------------
+
+
+
+
+
+

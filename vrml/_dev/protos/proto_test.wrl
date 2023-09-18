@@ -1,0 +1,85 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "Proto Test"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        ["WALK","EXAMINE","ANY"]
+}
+
+Viewpoint {
+    description "Front"
+    position    0 0 5
+    orientation 0 0 1 0
+}
+
+Viewpoint {
+    description "Above"
+    position    0 4 4
+    orientation 1 0 0 -0.7854
+
+}
+
+DirectionalLight{
+    ambientIntensity 0
+    direction 0.3 -1 -0.1
+}
+
+PROTO protoBox [
+    field   SFColor boxColor 1 1 1
+    field   SFVec3f boxSize  1 1 1
+]{
+    Transform {
+        translation     0 0 0
+        rotation        0 1 0 0.7854
+        children [
+            Shape {
+                appearance DEF Red Appearance {
+                    material Material {
+                    diffuseColor IS boxColor
+                    shininess       .2
+                    }
+                }
+                geometry Box {
+                    size IS boxSize
+                }
+            }
+        ]
+    }
+}
+
+Transform {
+    translation     0 0 0
+    rotation        0 1 0 0
+    children [
+        protoBox {
+            boxColor 1 0 0
+            boxSize  1 1 1
+        }
+    ]
+}
+Transform {
+    translation     2 0 0
+    rotation        0 1 0 0
+    children [
+        protoBox {
+            boxColor 0 0 1
+            boxSize  .5 .5 .5
+        }
+    ]
+}
+Transform {
+    translation     -2 0 0
+    rotation        0 1 0 0
+    children [
+        protoBox {
+            boxColor 0 1 0
+            boxSize  .7 .5 .3
+        }
+    ]
+}
+
+

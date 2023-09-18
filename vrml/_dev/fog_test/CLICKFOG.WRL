@@ -1,0 +1,38 @@
+#VRML V2.0 utf8
+
+Shape {
+  appearance
+          Appearance {
+              material
+            Material {
+                diffuseColor  0.9 0.75 0.35
+            }
+          }
+  geometry Box {}
+}
+DEF ts TouchSensor {}
+DEF f Fog {
+  color 0 0 0
+  visibilityRange 11
+}
+DEF sc Script {
+  directOutput TRUE
+  field SFNode f USE f
+  eventIn SFTime clicked
+  url "javascript:
+  function clicked()
+  {
+    if (f.visibilityRange == 0)
+    {
+      f.visibilityRange = 11;
+    }
+    else
+    {
+      f.visibilityRange = 0;
+    }
+    trace (f.visibilityRange);
+  }
+  "
+}
+
+ROUTE ts.touchTime TO sc.clicked

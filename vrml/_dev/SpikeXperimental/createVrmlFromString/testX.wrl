@@ -1,0 +1,22 @@
+#VRML V2.0 utf8
+
+DEF myGroup Group {}
+
+DEF myScript Script {
+    eventOut  MFNode   newChild
+    field     SFVec3f  translation 0 0 0
+    url ["javascript:
+        function initialize() {
+            vrmlString = '';
+            for (i=0; i<5; i++) {
+                translation[0] = 2*i-4;
+                vrmlString = 'Transform {translation ' + translation
+                    + ' children [Shape {geometry Sphere{}}]} ';
+                newChild = Browser.createVrmlFromString(vrmlString);
+            }
+        }
+    "]
+}
+
+ROUTE myScript.newChild TO myGroup.addChildren
+

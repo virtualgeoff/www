@@ -1,0 +1,10 @@
+#VRML 1.0 ascii
+Separator {
+        DEF Joe Sphere { }
+        Translation { translation 2 0 0 }
+        Separator {
+                DEF Joe Sphere { radius .2 }
+        }
+        Translation { translation 2 0 0 }
+        USE Joe    # radius .2 sphere will be used here
+}

@@ -1,0 +1,167 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "Shell ExternProto"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+PROTO Shell [
+    eventIn     SFTime      fireTime
+    eventIn     SFVec3f     firePosition
+    eventIn     SFVec3f     fireVelocity
+    eventOut    SFTime      detonationTime
+    eventOut    SFVec3f     detonationPosition
+    eventOut    SFTime      hitTargetTime
+    field       SFString    shellName       "shell"
+    field       SFColor     shellColor      1 0.5 0
+    field       SFVec3f     targetPosition1 0 0 0
+]{
+
+#--------------------------------------
+# Shell geometry
+
+DEF Shell Transform {
+    translation     0 0 0
+    children [
+        Viewpoint {
+            description IS shellName
+            position    0 1 -6
+            orientation 0 1 0 3.14159
+        }
+        Shape {
+            appearance Appearance {
+                material Material {
+                diffuseColor    IS shellColor
+                shininess       .2
+                }
+            }
+            geometry Sphere {
+                 radius      .05
+            }
+        }
+        Sound {
+            source DEF Fire AudioClip { url ["sexplode.wav"] }
+            maxFront    50000
+            minFront    50000
+            spatialize  FALSE
+        }
+        Sound {
+            source DEF Explode AudioClip { url ["lexplode.wav"] }
+            maxFront    50000
+            minFront    50000
+            spatialize  FALSE
+        }
+    ]
+}
+
+#--------------------------------------
+# Detonation
+
+DEF DetonationTimer TimeSensor {
+   cycleInterval    .5
+   startTime        0
+   stopTime         -1
+   loop             FALSE
+}
+
+DEF DetonationSize PositionInterpolator {
+   key      [ 0, .5, 1 ]
+   keyValue [ 1 1 1, 50 50 50, 1 1 1 ]
+}
+
+#--------------------------------------
+# Motion Clock
+
+DEF MotionClock TimeSensor {
+   cycleInterval    0.05
+   startTime        0
+   stopTime         -1
+   loop             TRUE
+}
+
+#--------------------------------------
+# Scripts
+
+DEF shellControl Script {
+    eventIn     SFTime      fireTime IS fireTime
+    eventIn     SFVec3f     firePosition IS firePosition
+    eventIn     SFVec3f     fireVelocity IS fireVelocity
+    eventIn     SFTime      moveShell
+
+    eventOut    SFTime      startMotion
+    eventOut    SFVec3f     shellMoved
+    eventOut    SFTime      detonationTime IS detonationTime
+    eventOut    SFVec3f     detonationPosition
+    eventOut    SFTime      hitTargetTime IS hitTargetTime
+
+    field       SFVec3f     shellPosition       0 0 0
+    field       SFVec3f     shellVelocity       0 0 0
+    field       SFVec3f     shellAcceleration   0 0 0
+    field       SFFloat     dt                  0.05
+    field       SFVec3f     targetPosition1 IS targetPosition1
+
+    url "javascript:
+        function firePosition(value) {
+            shellPosition = value;
+        }
+        function fireVelocity(value) {
+            shellVelocity = value;
+        }
+        function fireTime(timeValue) {
+            shellAcceleration[1] = -9.8;
+            startMotion = timeValue;
+        }
+
+        function moveShell(timeValue) {
+            // determine new position:
+            shellPosition[0] += shellVelocity[0] * dt;
+            shellPosition[1] += shellVelocity[1] * dt;
+            shellPosition[2] += shellVelocity[2] * dt;
+
+            // check to see if shell has hit ground:
+            if (shellPosition[1] < 0) {
+                shellPosition[1] = 0;
+                shellVelocity[0] = 0;
+                shellVelocity[1] = 0;
+                shellVelocity[2] = 0;
+                shellAcceleration[1] = 0;
+                detonationTime = timeValue;
+                detonationPosition = shellPosition;
+
+            // check to see if shell has hit target:
+            } else if ((Math.abs(shellPosition[0]-targetPosition1[0])<3)&&(Math.abs(shellPosition[1]-targetPosition1[1])<3)&&(Math.abs(shellPosition[2]-targetPosition1[2])<3)) {
+                shellVelocity[0] = 0;
+                shellVelocity[1] = 0;
+                shellVelocity[2] = 0;
+                shellAcceleration[1] = 0;
+                detonationTime = timeValue;
+                detonationPosition = shellPosition;
+                hitTargetTime = timeValue;
+            }
+
+            // determine new velocity:
+            shellVelocity[0] += shellAcceleration[0] * dt;
+            shellVelocity[1] += shellAcceleration[1] * dt;
+            shellVelocity[2] += shellAcceleration[2] * dt;
+
+            // updateshell position:
+            shellMoved = shellPosition;
+        }
+    "
+}
+
+ROUTE shellControl.startMotion TO MotionClock.startTime
+ROUTE MotionClock.cycleTime TO shellControl.moveShell
+ROUTE shellControl.shellMoved TO Shell.set_translation
+
+ROUTE shellControl.detonationTime TO MotionClock.stopTime
+ROUTE shellControl.detonationTime TO DetonationTimer.startTime
+ROUTE DetonationTimer.fraction_changed TO DetonationSize.set_fraction
+ROUTE DetonationSize.value_changed TO Shell.set_scale
+
+ROUTE shellControl.startMotion TO Fire.startTime
+ROUTE shellControl.detonationTime TO Explode.startTime
+
+}
+
+

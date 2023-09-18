@@ -1,0 +1,206 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Six Degree of freedom HUD Control"
+  info    "Geoff Pack, Spike, October 1999"
+}
+
+PROTO sixDofHud [
+  eventOut  SFVec3f     translationOut
+  eventOut  SFVec3f     rotationOut
+
+  field     SFColor     lineColor 1 1 0
+  field     SFColor     boxColor  0 1 0
+] {
+
+#------------------------------------------------------------
+# HUD Controls:
+
+DEF HudGroup Collision {
+  collide   FALSE
+  children  [
+    DEF HudProx ProximitySensor {
+      center  0 0 0
+      size    1000 1000 1000
+    }
+    DEF HudXform Transform {
+      translation   0 0 0
+      rotation      0 0 1  0
+      children [
+
+        Transform {
+          translation   -4 0 -8
+          children [
+            DEF linesShape Shape {
+              appearance Appearance {material Material { emissiveColor IS lineColor }}
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [ 0 1 0, 0 -1 0, .5 1 0, .5 -1 0, 1 1 0, 1 -1 0,]
+                }
+                coordIndex [ 0, 1, -1, 2, 3, -1, 4, 5, -1]
+              }
+            }
+            Transform {
+              children [
+                DEF sliderX Transform {
+                  children [
+                    DEF sliderShape Shape {
+                      appearance Appearance {material Material { diffuseColor IS boxColor }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorX PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   .5 0 0
+              children [
+                DEF sliderY Transform {
+                  children [ USE sliderShape ]
+                }
+                DEF sensorY PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   1 0 0
+              children [
+                DEF sliderZ Transform {
+                  children [ USE sliderShape ]
+                }
+                DEF sensorZ PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+
+          ]
+        }
+
+        Transform {
+          translation   4 0 -8
+          children [
+            USE linesShape
+
+            Transform {
+              children [
+                DEF sliderXX Transform {
+                  children [ USE sliderShape ]
+                }
+                DEF sensorXX PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   .5 0 0
+              children [
+                DEF sliderYY Transform {
+                  children [ USE sliderShape ]
+                }
+                DEF sensorYY PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   1 0 0
+              children [
+                DEF sliderZZ Transform {
+                  children [ USE sliderShape ]
+                }
+                DEF sensorZZ PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#--------------------------------------
+# HUD Script
+
+DEF HudScript Script {
+  eventIn   SFVec3f     sliderXin
+  eventIn   SFVec3f     sliderYin
+  eventIn   SFVec3f     sliderZin
+  eventIn   SFVec3f     sliderXXin
+  eventIn   SFVec3f     sliderYYin
+  eventIn   SFVec3f     sliderZZin
+
+  eventOut  SFVec3f     translationOut  IS translationOut
+  eventOut  SFVec3f     rotationOut     IS rotationOut
+
+  field     SFVec3f     translation     0 0 0
+  field     SFVec3f     rotation        0 0 0
+
+  url "javascript:
+    function sliderXin(value) {
+      translation[0] = value[1];
+      translationOut = translation;
+    }
+    function sliderYin(value) {
+      translation[1] = value[1];
+      translationOut = translation;
+    }
+    function sliderZin(value) {
+      translation[2] = value[1];
+      translationOut = translation;
+    }
+    function sliderXXin(value) {
+      rotation[0] = value[1];
+      rotationOut = rotation;
+    }
+    function sliderYYin(value) {
+      rotation[1] = value[1];
+      rotationOut = rotation;
+    }
+    function sliderZZin(value) {
+      rotation[2] = value[1];
+      rotationOut = rotation;
+    }
+  "
+}
+
+# HUD routing
+ROUTE HudProx.position_changed TO HudXform.set_translation
+ROUTE HudProx.orientation_changed TO HudXform.set_rotation
+ROUTE HudProx.position_changed TO HudProx.set_center
+
+# Connect the sensors to their representing objects
+ROUTE sensorX.translation_changed TO sliderX.set_translation
+ROUTE sensorY.translation_changed TO sliderY.set_translation
+ROUTE sensorZ.translation_changed TO sliderZ.set_translation
+ROUTE sensorXX.translation_changed TO sliderXX.set_translation
+ROUTE sensorYY.translation_changed TO sliderYY.set_translation
+ROUTE sensorZZ.translation_changed TO sliderZZ.set_translation
+
+# Connect the sensors to the script
+ROUTE sensorX.translation_changed TO HudScript.sliderXin
+ROUTE sensorY.translation_changed TO HudScript.sliderYin
+ROUTE sensorZ.translation_changed TO HudScript.sliderZin
+ROUTE sensorXX.translation_changed TO HudScript.sliderXXin
+ROUTE sensorYY.translation_changed TO HudScript.sliderYYin
+ROUTE sensorZZ.translation_changed TO HudScript.sliderZZin
+
+}

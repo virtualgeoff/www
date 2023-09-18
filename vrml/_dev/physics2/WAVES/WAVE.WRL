@@ -1,0 +1,134 @@
+#VRML V2.0 utf8
+
+DEF PIECE Transform {
+  #scale 5 5 5
+  translation 0 0 0
+  children [
+    DEF TOUCH TouchSensor {}
+    Shape {
+    appearance Appearance {
+      #texture ImageTexture { url "wave.png"}
+          material Material { diffuseColor .5 .5 .5 }
+    }
+      geometry DEF GRID ElevationGrid {
+        xDimension 10
+        xSpacing .4
+        zDimension 10
+        zSpacing .4
+    solid FALSE
+      }
+    }
+  ]
+}
+Transform {
+  rotation 0 1 0 1.57
+  children USE PIECE
+}
+Transform {
+  rotation 0 1 0 3.14
+  children USE PIECE
+}
+Transform {
+  rotation 0 1 0 4.71
+  children USE PIECE
+}
+DEF TIMER TimeSensor {
+  cycleInterval 10
+  loop TRUE
+}
+DEF SCRIPT Script {
+  directOutput TRUE
+  field SFNode grid USE GRID
+  field MFFloat gridheight []
+  field MFFloat height1 []
+  field MFFloat height2 []
+  field MFFloat height3 []
+  field MFFloat height4 []
+  field MFFloat height5 []
+  field MFFloat height6 []
+  field MFFloat height7 []
+  field MFFloat height8 []
+  field MFFloat height9 []
+  field MFFloat height10 []
+  field SFNode timer USE TIMER
+  eventIn SFFloat change
+  url [
+    "javascript:
+    function initialize(){
+      var i;
+      for(i=0;i<=99;i++){
+        height1[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)));
+      }
+      for(i=0;i<=99;i++){
+        height2[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(1.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height3[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(2.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height4[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(3.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height5[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(4.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height6[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(5.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height7[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(6.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height8[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(7.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height9[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(8.0/5.0)*3.14);
+      }
+      for(i=0;i<=99;i++){
+        height10[i] =1*Math.sin(1.57 - 0.111*(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10)))) + Math.sin(Math.sqrt((i/10)*(i/10)+(i%10)*(i%10))-(9.0/5.0)*3.14);
+      }
+    }
+    function change(value) {
+    if(Math.floor(value*10)==0){
+      gridheight = height1;
+    }
+    if(Math.floor(value*10)==1){
+     gridheight = height2;
+    }
+    if(Math.floor(value*10)==2){
+      gridheight = height3;
+    }
+    if(Math.floor(value*10)==3){
+      gridheight = height4;
+    }
+    if(Math.floor(value*10)==4){
+      gridheight = height5;
+    }
+    if(Math.floor(value*10)==5){
+      gridheight = height6;
+    }
+        if(Math.floor(value*10)==6){
+      gridheight = height7;
+    }
+    if(Math.floor(value*10)==7){
+      gridheight = height8;
+    }
+    if(Math.floor(value*10)==8){
+      gridheight = height9;
+    }
+    if(Math.floor(value*10)==9){
+      gridheight = height10;
+    }
+    grid.set_height = gridheight;
+    }
+  "
+  ]
+}
+SpotLight {
+  location 0 5 0
+  direction 0 -1 0
+}
+NavigationInfo {
+  headlight FALSE
+}
+ROUTE TIMER.fraction_changed TO SCRIPT.change
+#ROUTE TOUCH.touchTime TO TIMER.set_startTime

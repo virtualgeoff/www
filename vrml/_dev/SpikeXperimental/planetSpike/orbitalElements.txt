@@ -1,0 +1,40 @@
+
+Keplerian orbital Elements
+--------------------------
+
+Semi-major axis and Eccentricity, which together are the basic measurements of the size and shape of the orbit's ellipse (described in Chapter 3. Recall an eccentricity of zero indicates a circular orbit). 
+
+Inclination is the angular distance of the orbital plane from the plane of the planet's equator (or from the ecliptic plane, if you're talking about heliocentric orbits), stated in degrees. An inclination of 0 degreesmeans the spacecraft orbits the planet at its equator, and in the same direction as the planet rotates. An inclination of 90 degrees indicates a polar orbit, in which the spacecraft passes over the north and south poles of the planet. An inclination of 180 degrees indicates a retrograde equatorial orbit. 
+
+Argument of periapsis is the argument (angular distance) of the periapsis from the ascending node. 
+
+Time of periapsis passage and Celestial longitude of the ascending node are the remaining elements. 
+
+The orbital period is of interest to operations, although it is not one of the six Keplerian elements needed to define the orbit. 
+
+Magellan Probe:
+
+1. Semimajor Axis: 10434.162 km 
+2. Eccentricity: 0.2918967 
+3. Inclination: 85.69613° 
+4. Argument of Periapsis: 170.10651° 
+5. Periapsis Passage: DOY 222 19:54 ERT 
+6. Longitude of Ascending Node: -61.41017°  
+7. Orbital Period: 3.26375 hr 
+  
+  
+PROTO Planet [
+  field		SFFloat 	SemimajorAxis 	10434.162 	# km
+  field 	SFFloat 	Eccentricity 	0.2918967
+  field 	SFFloat 	Inclination: 	85.69613	# degrees 
+  field 	SFFloat 	ArgumentofPeriapsis: 170.10651	# degrees 
+  field 	SFString 	Periapsis Passage: DOY 222 19:54 ERT 
+  field 	SFFloat 	LongitudeofAscendingNode: -61.41017	# degrees   
+  field 	SFFloat 	OrbitalPeriod: 3.26375		# hours 
+  field 	SFFloat 	planetEquatorialRadius		# km
+  field 	SFFloat 	planetPolarRadius		# km
+  field		SFNode		planetModel 	"spike.wrl"
+]{
+
+
+}

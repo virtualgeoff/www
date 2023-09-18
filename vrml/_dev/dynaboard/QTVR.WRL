@@ -1,0 +1,60 @@
+#VRML V2.0 utf8
+
+Transform {
+    children [
+        Billboard {
+            axisOfRotation  0 1 0
+            children [
+                Shape {
+                    geometry IndexedFaceSet {
+                        coord Coordinate {
+                            point [ -1 1 0, 1 1 0, 1 2 0, -1 2 0 ]
+                        }
+                        coordIndex [ 0, 1, 2, 3, -1 ]
+                    }
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url [ "map.gif"]
+                        }
+                    }
+                }
+                Shape {
+                    geometry DEF billboardText Text {
+                        string ["1"]
+                        fontStyle FontStyle {
+                            justify "MIDDLE"
+                        }
+                    }
+                }
+            ]
+        }
+        DEF PS1 ProximitySensor {
+            center      0 0 0
+            size        1000 1000 1000
+            enabled     TRUE
+        }
+    ]
+}
+
+DEF S1 Script {
+    eventIn     SFVec3f     positionIn
+    eventOut    MFString    stringOut
+    field       SFString    text1   "testing"
+    field       SFString    text2   "passed"
+    url "javascript:
+        function positionIn(position) {
+            if (position[2] <= 8) {
+                stringOut[0] = text2;
+            } else {
+                stringOut[0] = text1;
+            }
+        }
+    "
+}
+
+
+
+ROUTE PS1.position_changed TO S1.positionIn
+ROUTE S1.stringOut TO billboardText.string
+
+

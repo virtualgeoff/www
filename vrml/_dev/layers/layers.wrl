@@ -1,0 +1,88 @@
+#VRML V2.0 utf8
+
+Background {
+    groundAngle [ 0.05, 1.5708 ]
+    groundColor [ 0.01 0.025 0.015, 0 0 0, 0 0 0 ]
+    skyAngle    [ 0.7, 1.5708 ]
+    skyColor    [ 0 0 0, 0.02 0 0.02, 0.4 0 0]
+}
+
+
+DEF redSquare Transform {
+    translation     0 50 0
+    rotation        0 0 0 0
+    scale           1000 1000 1000
+    children Shape {
+        appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+                url ["red.gif"]
+                repeatS TRUE
+                repeatT TRUE
+            }
+            textureTransform TextureTransform {
+                scale 5 5
+            }
+        }
+        geometry IndexedFaceSet {
+            coord Coordinate {
+                point   [ 1 0 1, 1 0 -1, -1 0 -1, -1 0 1 ]
+            }
+            coordIndex  [ 0, 1, 2, 3, 0, -1 ]
+        }
+    }
+}
+
+DEF greenSquare Transform {
+    translation     0 -10 0
+    rotation        0 0 0 0
+    scale           1000 1000 1000
+    children Shape {
+        appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+                url ["green.gif"]
+                repeatS TRUE
+                repeatT TRUE
+            }
+            textureTransform TextureTransform {
+                scale 5 5
+            }
+        }
+        geometry IndexedFaceSet {
+            coord Coordinate {
+                point   [ 1 0 1, 1 0 -1, -1 0 -1, -1 0 1 ]
+            }
+            coordIndex  [ 0, 1, 2, 3, 0, -1 ]
+        }
+    }
+}
+
+DEF blueSquare Transform {
+    translation     0 -50 0
+    rotation        0 0 0 0
+    scale           1000 1000 1000
+    children Shape {
+        appearance Appearance {
+            material Material {
+            }
+            texture ImageTexture {
+                url ["blue.gif"]
+                repeatS TRUE
+                repeatT TRUE
+            }
+            textureTransform TextureTransform {
+                scale 5 5
+            }
+        }
+        geometry IndexedFaceSet {
+            coord Coordinate {
+                point   [ 1 0 1, 1 0 -1, -1 0 -1, -1 0 1 ]
+            }
+            coordIndex  [ 0, 1, 2, 3, 0, -1 ]
+        }
+    }
+}
+

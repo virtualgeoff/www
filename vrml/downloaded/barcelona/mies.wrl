@@ -1,0 +1,36 @@
+#VRML V2.0 utf8
+
+#http://perso.wanadoo.fr/demoweb/
+#Site témoin 3 - Mies Van Der Rohe - Barcelone - 1929
+#
+#Cet exemple reprend le pavillon allemand réalisé en 1929 pour
+#l'exposition universelle de Barcelone. On peut se promener dans un
+#espace architectural.
+
+Background {
+skyColor [ 0.0 0.0 0.0, 0.4 0.4 0.4 ]
+skyAngle [ 1.571 ]
+groundColor [ 1.0 1.0 1.0, 0.4 0.4 0.4 ]
+groundAngle [ 1.571 ]}
+
+DEF Cam1 Viewpoint {
+  position 105.698 25.0445 -27.7741
+  orientation -0.159922 0.980393 0.115128 -4.21494
+  fieldOfView 0.334358
+  description "vue aerienne"
+}
+DEF Cam2 Viewpoint {
+  position 7.81162 1.8 6.01249
+  orientation 0.0240631 0.999279 0.029371 -1.76952
+  fieldOfView 0.736278
+  description "vue int."
+}
+DEF Cam3 Viewpoint {
+  position 48 1.8 13
+  orientation 0.025019 -0.999457 -0.0214488 -1.41797
+  fieldOfView 0.736278
+  description "Vue ext."
+}
+Inline { url "mies/mur.wrl" }
+Inline { url "mies/sol.wrl" }
+Inline { url "mies/divers.wrl" }

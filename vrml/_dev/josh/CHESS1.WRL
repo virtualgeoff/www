@@ -1,0 +1,1620 @@
+#VRML V2.0 utf8
+
+# Introductory stuff -----------------------------
+
+NavigationInfo {
+	type "EXAMINE"
+}
+Viewpoint {
+	position 4 4 11
+	description "Centred"
+}
+Viewpoint {
+	orientation 1 0 0  1.57
+	position 4 -9 0
+	description "Front"
+}
+Viewpoint {
+	orientation 1 0 0  0.8
+	position 4 -4 7
+	description "White's Perspective"
+}
+Viewpoint {
+	orientation 1 1 0  0.7
+	position 9 -1 8
+	description "3D Perspective"
+}
+
+# The Chess Board --------------------------------
+
+DEF TwoRows Group {
+	children [
+DEF RowofWhiteSquares Group {
+	children [
+		Transform {
+			translation 0 0 0
+			children [DEF WhiteSquare Shape {
+					appearance Appearance {
+						material Material {
+							ambientIntensity 0.8
+							diffuseColor 1 1 1
+						}
+					}
+					geometry DEF Square IndexedFaceSet {
+						coord Coordinate {
+							point [ 0 0 0, 1 0 0, 1 1 0, 0 1 0 ]
+						}
+						coordIndex [ 0, 1, 2, 3, -1 ]
+						solid FALSE
+					}
+			}]
+		}
+
+		Transform {
+			translation 2 0 0
+			children [USE WhiteSquare]
+		}
+
+		Transform {
+			translation 4 0 0
+			children [USE WhiteSquare]
+		}
+
+		Transform {
+			translation 6 0 0
+			children [USE WhiteSquare]
+		}
+	]
+}
+
+
+DEF RowofBlueSquares Group {
+	children [
+		Transform {
+			translation 1 0 0
+			children [DEF BlueSquare Shape {
+					appearance Appearance {
+						material Material {
+							ambientIntensity 0.8
+							diffuseColor 0 0 1
+						}
+					}
+					geometry USE Square
+			}]
+		}
+
+		Transform {
+			translation 3 0 0
+			children [USE BlueSquare]
+		}
+
+		Transform {
+			translation 5 0 0
+			children [USE BlueSquare]
+		}
+
+		Transform {
+			translation 7 0 0
+			children [USE BlueSquare]
+		}
+	]
+}
+
+Transform {
+	translation 1 1 0
+	children [USE RowofWhiteSquares]
+}
+
+Transform {
+	translation -1 1 0
+	children [USE RowofBlueSquares]
+}
+
+	]
+}
+	
+Transform {
+	translation 0 2 0
+	children [USE TwoRows]
+}
+
+Transform {
+	translation 0 4 0
+	children [USE TwoRows]
+}
+
+Transform {
+	translation 0 6 0
+	children [USE TwoRows]
+}
+
+# A White Pawn ----------------------------------------
+
+DEF WPawn Group {
+	children [
+		Transform {
+			translation 0.5 -1.5 -28.8
+			children [Shape {
+				appearance DEF White Appearance {
+					material Material {
+						diffuseColor 1 1 1
+					}
+				}	
+				geometry Sphere {
+					radius .3
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 -29.1
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  -1.57
+			translation 0.5 -1.5 -29.3
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 -29.6
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					height 0.6
+					radius .2
+					bottom FALSE
+					top FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 -29.8
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+	]	
+}
+
+# A Black Pawn ----------------------------------------
+
+DEF BPawn Group {
+	children [
+		Transform {
+			translation 0.5 9.5 -28.8
+			children [Shape {
+				appearance DEF Black Appearance {
+					material Material {
+						diffuseColor 1 0 0
+					}
+				}	
+				geometry Sphere {
+					radius .3
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 -29.1
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  -1.57
+			translation 0.5 9.5 -29.3
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 -29.6
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					height 0.6
+					radius .2
+					bottom FALSE
+					top FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 -29.8
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+	]	
+}
+
+# A White Bishop ------------------------------------
+
+DEF WBishop Group {
+	children [
+		Transform {
+			translation 1.5 -1.5 -28.2
+			children [Shape {
+				appearance USE White
+				geometry Sphere {
+					radius .1
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 -1.5 -28.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .2
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 -1.5 -28.65
+			children [Shape {
+				appearance USE White	
+				geometry Sphere {
+					radius .2
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 -1.5 -29.05
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .23
+					height 1.9
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 -1.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+	]
+}
+
+# A Black Bishop ------------------------------------
+
+DEF BBishop Group {
+	children [
+		Transform {
+			translation 1.5 9.5 -28.2
+			children [Shape {
+				appearance USE Black
+				geometry Sphere {
+					radius .1
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 9.5 -28.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .2
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 9.5 -28.65
+			children [Shape {
+				appearance USE Black	
+				geometry Sphere {
+					radius .2
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 9.5 -29.05
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .23
+					height 1.9
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 1.5 9.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+	]
+}
+
+# A White Rook ----------------------------------------
+
+DEF WRook Group {
+	children [
+		Transform {
+			translation 2.5 -1.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 2.5 -1.5 -29.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					radius 0.2
+					height 1
+					bottom FALSE
+					top FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 2.5 -1.5 -28.7
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					radius 0.3
+					height 0.4
+				}
+			}]
+		}
+	]
+}
+
+# A Black Rook ----------------------------------------
+
+DEF BRook Group {
+	children [
+		Transform {
+			translation 2.5 9.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 2.5 9.5 -29.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					radius 0.2
+					height 1
+					bottom FALSE
+					top FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 2.5 9.5 -28.7
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					radius 0.3
+					height 0.4
+				}
+			}]
+		}
+	]
+}
+
+# A White Knight --------------------------------------
+
+DEF WKnight Group {
+	children [
+		Transform {
+			translation 3.5 -1.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 3.5 -1.5 -29.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					radius 0.2
+					height 1
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 3.5 -1.59 -28.8
+			rotation 1 0 0  2.0
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.2
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 3.5 -1.53 -28.5
+			children [Shape {
+				appearance USE White
+				geometry Sphere {
+					radius 0.2
+				}
+			}]
+		}
+		Transform {
+			translation 3.5 -1.33 -28.63
+			rotation 1 0 0  -0.6
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.16
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 3.5 -1.33 -28.63
+			rotation 1 0 0 -0.6
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					radius 0.06
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+	]
+}
+# A Black Knight --------------------------------------
+
+DEF BKnight Group {
+	children [
+		Transform {
+			rotation 0 0 1  3.14
+			center 4.5 9.5 0
+	children [
+		Transform {
+			translation 4.5 9.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 4.5 9.5 -29.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					radius 0.2
+					height 1
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 4.5 9.41 -28.8
+			rotation 1 0 0  2
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.2
+					height .4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 4.5 9.47 -28.5
+			children [Shape {
+				appearance USE Black
+				geometry Sphere {
+					radius 0.2
+				}
+			}]
+		}
+		Transform {
+			translation 4.5 9.67 -28.63
+			rotation 1 0 0  -0.6
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.16
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 4.5 9.67 -28.63
+			rotation 1 0 0 -0.6
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					radius 0.06
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+	]
+}
+	]
+}
+
+# A White Queen ----------------------------------------
+
+DEF WQueen Group {
+	children [
+		Transform {
+			translation 6.5 -1.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -29.1
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.3
+					height 1.8
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -29
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -28.8
+			rotation 1 0 0 1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -28.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.2
+					height 1.1
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -28.35
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.4
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -28.05
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.4
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 -1.5 -27.9
+			children [Shape {
+				appearance USE White
+				geometry Sphere {
+					radius 0.1
+				}
+			}]
+		}
+	]
+}
+
+# A Black Queen ----------------------------------------
+
+DEF BQueen Group {
+	children [
+		Transform {
+			translation 6.5 9.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -29.1
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.3
+					height 1.8
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -29
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -28.8
+			rotation 1 0 0 1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -28.4
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.2
+					height 1.1
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -28.35
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.4
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -28.05
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.4
+					height 0.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 6.5 9.5 -27.9
+			children [Shape {
+				appearance USE Black
+				geometry Sphere {
+					radius 0.1
+				}
+			}]
+		}
+	]
+}
+
+# A White King ----------------------------------------
+
+DEF WKing Group {
+	children [
+		Transform {
+			translation 7.5 -1.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -28.9
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.3
+					height 2.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -28.5
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -28.2
+			rotation 1 0 0 1.57
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -27.9
+			children [Shape {
+				appearance USE White
+				geometry Sphere {
+					radius 0.2
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -27.7
+			children [Shape {
+				appearance USE White
+				geometry Box {
+					size 0.1 0.1 0.5
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 -1.5 -27.6
+			children [Shape {
+				appearance USE White
+				geometry Box {
+					size 0.3 0.1 0.1
+				}
+			}]
+		}
+	]
+}
+
+# A Black King ----------------------------------------
+
+DEF BKing Group {
+	children [
+		Transform {
+			translation 7.5 9.5 -29.8
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height 0.4
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -28.9
+			rotation 1 0 0  1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.3
+					height 2.2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -28.5
+			rotation 1 0 0  -1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -28.2
+			rotation 1 0 0 1.57
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.35
+					height 0.3
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -27.9
+			children [Shape {
+				appearance USE Black
+				geometry Sphere {
+					radius 0.2
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -27.7
+			children [Shape {
+				appearance USE Black
+				geometry Box {
+					size 0.1 0.1 0.5
+				}
+			}]
+		}
+		Transform {
+			translation 7.5 9.5 -27.6
+			children [Shape {
+				appearance USE Black
+				geometry Box {
+					size 0.3 0.1 0.1
+				}
+			}]
+		}
+	]
+}
+
+# Boxes for Pieces -----------------------------------
+
+Transform {
+	translation 4 -1.5 -27.6
+	children [Shape {
+		appearance Appearance {
+			material Material {
+				diffuseColor 0 0 0
+			}
+		}
+		geometry Box {
+			size 8 1 6
+		}
+	}]
+}
+
+Transform {
+	translation 4 9.5 -27.6
+	children [Shape {
+		appearance Appearance {
+			material Material {
+				diffuseColor 0 0 0
+			}
+		}
+		geometry Box {
+			size 8 1 6
+		}
+	}]
+}
+
+
+# Moving White Pawn 1 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor1 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 0 0 30
+			}
+		DEF WPawn1 Transform {
+			translation 0 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor1.translation_changed TO WPawn1.set_translation
+
+# Moving White Pawn 2 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor2 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 1 0 30
+			}
+		DEF WPawn2 Transform {
+			translation 1 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor2.translation_changed TO WPawn2.set_translation
+
+# Moving White Pawn 3 ----------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor3 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 2 0 30
+			}
+		DEF WPawn3 Transform {
+			translation 2 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor3.translation_changed TO WPawn3.set_translation
+
+# Moving White Pawn 4 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor4 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 3 0 30
+			}
+		DEF WPawn4 Transform {
+			translation 3 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor4.translation_changed TO WPawn4.set_translation
+
+# Moving White Pawn 5 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor5 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 4 0 30
+			}
+		DEF WPawn5 Transform {
+			translation 4 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor5.translation_changed TO
+WPawn5.set_translation
+
+# Moving White Pawn 6 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor6 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 5 0 30
+			}
+		DEF WPawn6 Transform {
+			translation 5 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor6.translation_changed TO WPawn6.set_translation
+
+# Moving White Pawn 7 ----------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor7 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 6 0 30
+			}
+		DEF WPawn7 Transform {
+			translation 6 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor7.translation_changed TO
+WPawn7.set_translation
+
+# Moving White Pawn 8 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor8 PlaneSensor {
+			minPosition 0 3
+			maxPosition 7 9
+			offset 7 0 30
+			}
+		DEF WPawn8 Transform {
+			translation 7 3 30
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor8.translation_changed TO WPawn8.set_translation
+
+# Moving Black Pawn 1 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor1 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 0 0 30
+			}
+		DEF BPawn1 Transform {
+			translation 0 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor1.translation_changed TO BPawn1.set_translation
+
+# Moving Black Pawn 2 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor2 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 1 0 30
+			}
+		DEF BPawn2 Transform {
+			translation 1 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor2.translation_changed TO BPawn2.set_translation
+
+# Moving Black Pawn 3 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor3 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 2 0 30
+			}
+		DEF BPawn3 Transform {
+			translation 2 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor3.translation_changed TO BPawn3.set_translation
+
+# Moving Black Pawn 4 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor4 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 3 0 30
+			}
+		DEF BPawn4 Transform {
+			translation 3 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor4.translation_changed TO BPawn4.set_translation
+
+# Moving Black Pawn 5 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor5 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 4 0 30
+			}
+		DEF BPawn5 Transform {
+			translation 4 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor5.translation_changed TO BPawn5.set_translation
+
+# Moving Black Pawn 6 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor6 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 5 0 30
+			}
+		DEF BPawn6 Transform {
+			translation 5 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor6.translation_changed TO BPawn6.set_translation
+
+# Moving Black Pawn 7 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor7 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 6 0 30
+			}
+		DEF BPawn7 Transform {
+			translation 6 -3 30
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor7.translation_changed TO BPawn7.set_translation
+
+# Moving Black Pawn 8 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor8 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 7 -3
+			offset 7 0 30
+			}
+		DEF BPawn8 Transform {
+			translation 7 -3 30
+			children USE BPawn
+		}
+	]
+}
+ROUTE BPawnSensor8.translation_changed TO BPawn8.set_translation
+
+# Moving White Bishop 1 --------------------------------
+
+Transform {
+	children [
+		DEF WBishopSensor1 PlaneSensor {
+			minPosition -1 2
+			maxPosition 6 9
+			offset 1 0 30
+			}
+		DEF WBishop1 Transform {
+			translation 1 2 30
+			children [
+				USE WBishop
+			]
+		}
+	]
+}
+ROUTE WBishopSensor1.translation_changed TO WBishop1.set_translation
+
+# Moving White Bishop 2 --------------------------------
+
+Transform {
+	children [
+		DEF WBishopSensor2 PlaneSensor { 
+			minPosition -1 2
+			maxPosition 6 9
+			offset 4 0 30
+			}
+		DEF WBishop2 Transform {
+			translation 4 2 30
+			children USE WBishop
+		}
+	]
+}
+ROUTE WBishopSensor2.translation_changed TO WBishop2.set_translation
+
+# Moving Black Bishop 1 --------------------------------
+
+Transform {
+	children [
+		DEF BBishopSensor1 PlaneSensor {
+			minPosition -1 -9
+			maxPosition 6 -2
+			offset 1 -2 30
+		}
+		DEF BBishop1 Transform {
+			translation 1 -2 30
+			children USE BBishop
+		}
+	]
+}
+ROUTE BBishopSensor1.translation_changed TO BBishop1.set_translation
+
+# Moving Black Bishop 2 --------------------------------
+
+Transform {
+	children [
+		DEF BBishopSensor2 PlaneSensor {
+			minPosition -1 -9
+			maxPosition 6 -2
+			offset 4 -2 30
+		}
+		DEF BBishop2 Transform {
+			translation 4 -2 30
+			children USE BBishop
+		}
+	]
+}
+ROUTE BBishopSensor2.translation_changed TO
+BBishop2.set_translation
+
+# Moving White Rook 1 --------------------------------
+
+Transform {
+	children [
+		DEF WRookSensor1 PlaneSensor {
+			minPosition -2 2
+			maxPosition 6 9
+			offset -2 -2 30
+		}
+		DEF WRook1 Transform {
+			translation -2 2 30
+			children USE WRook
+		}
+	]
+}
+ROUTE WRookSensor1.translation_changed TO
+WRook1.set_translation
+
+# Moving White Rook 2 --------------------------------
+
+Transform {
+	children [
+		DEF WRookSensor2 PlaneSensor {
+			minPosition -2 2
+			maxPosition 5 9
+			offset 5 -2 30
+		}
+		DEF WRook2 Transform {
+			translation 5 2 30
+			children USE WRook
+		}
+	]
+}
+ROUTE WRookSensor2.translation_changed TO
+WRook2.set_translation
+
+# Moving Black Rook 1 --------------------------------
+
+Transform {
+	children [
+		DEF BRookSensor1 PlaneSensor {
+			minPosition -2 -9
+			maxPosition 5 -2
+			offset -2 -2 30
+		}
+		DEF BRook1 Transform {
+			translation -2 -2 30
+			children USE BRook
+		}
+	]
+}
+ROUTE BRookSensor1.translation_changed TO
+BRook1.set_translation
+
+# Moving Black Rook 2 --------------------------------
+
+Transform {
+	children [
+		DEF BRookSensor2 PlaneSensor {
+			minPosition -2 -9
+			maxPosition 5 -2
+			offset 5 -2 30
+		}
+		DEF BRook2 Transform {
+			translation 5 -2 30
+			children USE BRook
+		}
+	]
+}
+ROUTE BRookSensor2.translation_changed TO
+BRook2.set_translation
+
+# Moving White Knight 1 ------------------------------
+
+Transform {
+	children [
+		DEF WKnightSensor1 PlaneSensor {
+			minPosition -3 2
+			maxPosition 4 9
+			offset -2 -2 30
+		}
+		DEF WKnight1 Transform {
+			translation -2 2 30
+			children USE WKnight
+		}
+	]
+}
+ROUTE WKnightSensor1.translation_changed TO
+WKnight1.set_translation
+
+# Moving White Knight 2 ------------------------------
+
+Transform {
+	children [
+		DEF WKnightSensor2 PlaneSensor {
+			minPosition -3 2
+			maxPosition 4 9
+			offset 3 -2 30
+		}
+		DEF WKnight2 Transform {
+			translation 3 2 30
+			children USE WKnight
+		}
+	]
+}
+ROUTE WKnightSensor2.translation_changed TO
+WKnight2.set_translation
+
+# Moving Black Knight 1 ------------------------------
+
+Transform {
+	children [
+		DEF BKnightSensor1 PlaneSensor {
+			minPosition -4 -9
+			maxPosition 3 -2
+			offset -3 -2 30
+		}
+		DEF BKnight1 Transform {
+			translation -3 -2 30
+			children USE BKnight
+		}
+	]
+}
+ROUTE BKnightSensor1.translation_changed TO
+BKnight1.set_translation
+
+# Moving Black Knight 2 ------------------------------
+
+Transform {
+	children [
+		DEF BKnightSensor2 PlaneSensor {
+			minPosition -4 -9
+			maxPosition 3 -2
+			offset 2 -2 30
+		}
+		DEF BKnight2 Transform {
+			translation 2 -2 30
+			children USE BKnight
+		}
+	]
+}
+ROUTE BKnightSensor2.translation_changed TO
+BKnight2.set_translation
+
+# Moving White Queen ------------------------------
+
+Transform {
+	children [
+		DEF WQueenSensor PlaneSensor {
+			minPosition -6 2
+			maxPosition 1 9
+			offset -3 -2 30
+		}
+		DEF WQueenTransform Transform {
+			translation -3 2 30
+			children USE WQueen
+		}
+	]
+}
+ROUTE WQueenSensor.translation_changed TO
+WQueenTransform.set_translation
+
+# Moving White King -------------------------------
+
+Transform {
+	children [
+		DEF WKingSensor PlaneSensor {
+			minPosition -7 2
+			maxPosition 0 9
+			offset -3 -2 30
+		}
+		DEF WKingTransform Transform {
+			translation -3 2 30
+			children USE WKing
+		}
+	]
+}
+ROUTE WKingSensor.translation_changed TO
+WKingTransform.set_translation
+
+# Moving Black Queen ------------------------------
+
+Transform {
+	children [
+		DEF BQueenSensor PlaneSensor {
+			minPosition -6 -9
+			maxPosition 1 -2
+			offset -3 -2 30
+		}
+		DEF BQueenTransform Transform {
+			translation -3 -2 30
+			children USE BQueen
+		}
+	]
+}
+ROUTE BQueenSensor.translation_changed TO
+BQueenTransform.set_translation
+
+# Moving Black King -------------------------------
+
+Transform {
+	children [
+		DEF BKingSensor PlaneSensor {
+			minPosition -7 -9
+			maxPosition 0 -2
+			offset -3 -2 30
+		}
+		DEF BKingTransform Transform {
+			translation -3 -2 30
+			children USE BKing
+		}
+	]
+}
+ROUTE BKingSensor.translation_changed TO
+BKingTransform.set_translation
+
+

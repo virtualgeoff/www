@@ -1,0 +1,298 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "Sound Test 1"
+    info [ "by Geoff Pack",
+           "Last modified: 7 March 1999",
+    ]
+}
+NavigationInfo {
+    headlight TRUE
+    speed 0.8
+    type "EXAMINE"
+}
+Viewpoint {
+    description "Start"
+    position 0 0 10
+}
+
+
+#-------------------------------------------------------
+# Sound Nodes
+Transform {
+    translation 4 0 4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 1.0 0 0
+                }
+            }
+            geometry Sphere { radius 0.1 }
+        }
+        DEF sound01 Sound {
+            intensity 1
+            source DEF sample01 AudioClip {
+                url "01.wav"
+                stopTime -1
+                loop TRUE
+                pitch 1.0
+            }
+        }
+    ]
+}
+Transform {
+    translation 4 0 -4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0 1.0 0
+                }
+            }
+            geometry Box { size 0.2 0.2 0.2 }
+        }
+        DEF sound02 Sound {
+            intensity 1
+            source DEF sample02 AudioClip {
+                url "02.wav"
+                stopTime -1
+                loop TRUE
+                pitch 1.0
+            }
+        }
+    ]
+}
+Transform {
+    translation -4 0 -4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0 0 1.0
+                }
+            }
+            geometry Cone {
+                bottomRadius 0.1
+                height 0.2
+            }
+        }
+        DEF sound03 Sound {
+            intensity 1
+            source DEF sample03 AudioClip {
+                url "03.wav"
+                stopTime -1
+                loop TRUE
+                pitch 1.0
+            }
+        }
+    ]
+}
+Transform {
+    translation -4 0 4
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 1.0 1.0 0
+                }
+            }
+            geometry Cylinder {
+                radius 0.1
+                height 0.2
+            }
+        }
+        DEF sound04 Sound {
+            intensity 1
+            source DEF sample04 AudioClip {
+                url "04.wav"
+                stopTime -1
+                loop TRUE
+                pitch 1.0
+            }
+        }
+    ]
+}
+
+#-------------------------------------------------------
+# A blue line box
+Transform {
+    children [
+     Shape {
+         appearance Appearance {
+          material Material { emissiveColor 0 0 0.5 }
+         }
+         geometry IndexedLineSet {
+
+          coord Coordinate {
+              point [ -1 -1 -1, 1 -1 -1, 1 1 -1, -1 1 -1,
+                     -1 -1 1, 1 -1 1, 1 1 1, -1 1 1 ]
+          }
+
+          coordIndex [ 0, 1, 2, 3, 0, -1, 4, 5, 6, 7, 4, -1,
+                      0, 4, -1, 1, 5, -1, 2, 6, -1, 3, 7, -1]
+         }
+        }
+    ]
+}
+
+#-------------------------------------------------------
+# Sensor 01
+Transform {
+    translation  1 0 1
+    children [
+        DEF sensorHandle01 Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor 1 0 0
+                        }
+                    }
+                    geometry Box { size 0.15 0.15 0.15 }
+                }
+            ]
+        }
+        DEF sensor01 PlaneSensor {
+            maxPosition  0 1
+            minPosition  0 -1
+            offset       0 0 0
+        }
+    ]
+}
+#-------------------------------------------------------
+# Sensor 02
+Transform {
+    translation  1 0 -1
+    children [
+        DEF sensorHandle02 Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor 0 1 0
+                        }
+                    }
+                    geometry Box { size 0.15 0.15 0.15 }
+                }
+            ]
+        }
+        DEF sensor02 PlaneSensor {
+            maxPosition  0 1
+            minPosition  0 -1
+            offset       0 0 0
+        }
+    ]
+}
+#-------------------------------------------------------
+# Sensor 03
+Transform {
+    translation  -1 0 -1
+    children [
+        DEF sensorHandle03 Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor 0 0 1
+                        }
+                    }
+                    geometry Box { size 0.15 0.15 0.15 }
+                }
+            ]
+        }
+        DEF sensor03 PlaneSensor {
+            maxPosition  0 1
+            minPosition  0 -1
+            offset       0 0 0
+        }
+    ]
+}
+#-------------------------------------------------------
+# Sensor 04
+Transform {
+    translation  -1 0 1
+    children [
+        DEF sensorHandle04 Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material {
+                            diffuseColor 1 1 0
+                        }
+                    }
+                    geometry Box { size 0.15 0.15 0.15 }
+                }
+            ]
+        }
+        DEF sensor04 PlaneSensor {
+            maxPosition  0 1
+            minPosition  0 -1
+            offset       0 0 0
+        }
+    ]
+}
+
+#-------------------------------------------------------
+# Sound Script
+DEF soundScript Script {
+    eventIn  SFVec3f sensor01In
+    eventIn  SFVec3f sensor02In
+    eventIn  SFVec3f sensor03In
+    eventIn  SFVec3f sensor04In
+    eventOut SFVec3f translation01Out
+    eventOut SFVec3f translation02Out
+    eventOut SFVec3f translation03Out
+    eventOut SFVec3f translation04Out
+    eventOut SFFloat pitch01Out
+    eventOut SFFloat pitch02Out
+    eventOut SFFloat pitch03Out
+    eventOut SFFloat pitch04Out
+
+    url "javascript:
+        function sensor01In(value) {
+            translation01Out[0] = 0;
+            translation01Out[1] = value[1];
+            translation01Out[2] = 0;
+            pitch01Out = (value[1] + 1) * 1 ;
+        }
+        function sensor02In(value) {
+            translation02Out[0] = 0;
+            translation02Out[1] = value[1];
+            translation02Out[2] = 0;
+            pitch02Out = (value[1] + 1) * 1 ;
+        }
+        function sensor03In(value) {
+            translation03Out[0] = 0;
+            translation03Out[1] = value[1];
+            translation03Out[2] = 0;
+            pitch03Out = (value[1] + 1) * 1 ;
+        }
+        function sensor04In(value) {
+            translation04Out[0] = 0;
+            translation04Out[1] = value[1];
+            translation04Out[2] = 0;
+            pitch04Out = (value[1] + 1) * 1 ;
+        }
+    "
+}
+
+#-------------------------------------------------------
+# ROUTES
+
+ROUTE sensor01.translation_changed TO soundScript.sensor01In
+ROUTE soundScript.translation01Out TO sensorHandle01.set_translation
+ROUTE soundScript.pitch01Out TO sample01.set_pitch
+
+ROUTE sensor02.translation_changed TO soundScript.sensor02In
+ROUTE soundScript.translation02Out TO sensorHandle02.set_translation
+ROUTE soundScript.pitch02Out TO sample02.set_pitch
+
+ROUTE sensor03.translation_changed TO soundScript.sensor03In
+ROUTE soundScript.translation03Out TO sensorHandle03.set_translation
+ROUTE soundScript.pitch03Out TO sample03.set_pitch
+
+ROUTE sensor04.translation_changed TO soundScript.sensor04In
+ROUTE soundScript.translation04Out TO sensorHandle04.set_translation
+ROUTE soundScript.pitch04Out TO sample04.set_pitch
+

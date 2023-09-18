@@ -1,0 +1,115 @@
+#VRML V2.0 utf8
+
+# A blue axes lines
+
+Transform {
+    scale 3 3 3
+    children [
+        # axes lines
+        Transform {
+            children [
+                Shape {
+                    appearance Appearance {
+                        material Material { emissiveColor 1 1 1 }
+                    }
+                    geometry IndexedLineSet {
+                        coord Coordinate {
+                            point [ 0 0 0, 1 0 0, 0 1 0, 0 0 1 ]
+                        }
+                        coordIndex [ 0, 1, -1, 0, 2, -1, 0, 3, -1 ]
+                    }
+                }
+            ]
+        }
+        # text
+        DEF xzPlane Transform {
+            translation   0 0 0
+            children [
+                Transform {
+                    translation   -1 1 0
+                    children [
+                        Shape {
+                            appearance Appearance {
+                                material Material { diffuseColor 1 0 0 }
+                            }
+                            geometry DEF billboardText Text {
+                                string      ["X-Z Plane:","Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor", "incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis", "nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna", "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi", "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in", "voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen", "ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd", "dereud facilis est er expedit distinct. Nam liber te conscient to factor tum", "poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper", "ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna", "aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate", "velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam", "dignissum qui blandit est praesent."]
+                                fontStyle FontStyle {
+                                    size      .2
+                                    family    "SANS"
+                                    justify   "LEFT"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        DEF xyPlane Transform {
+            translation   0 0 0
+            rotation      1 0 0 -1.5708
+            children [
+                Transform {
+                    translation   -1 1 0
+                    children [
+                        Shape {
+                            appearance Appearance {
+                                material Material { diffuseColor 0 0.6 0.1 }
+                            }
+                            geometry Text {
+                                string      ["X-Y Plane:","Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor", "incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis", "nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna", "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi", "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in", "voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen", "ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd", "dereud facilis est er expedit distinct. Nam liber te conscient to factor tum", "poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper", "ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna", "aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate", "velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam", "dignissum qui blandit est praesent."]
+                                fontStyle FontStyle {
+                                    size      .2
+                                    family    "SANS"
+                                    justify   "LEFT"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        DEF yzPlane Transform {
+            translation   0 0 0
+            rotation      0 1 0 -1.5708
+            children [
+                Transform {
+                    translation   -1 1 0
+                    children [
+                        Shape {
+                            appearance Appearance {
+                                material Material { diffuseColor 0 0 1 }
+                            }
+                            geometry Text {
+                                string      ["Y-Z Plane:","Lorem ipsum dolor sit amet, consectetur adipiscing elit, set eiusmod tempor", "incidunt et labore et dolore magna aliquam. Ut enim ad minim veniam, quis", "nostrud exerc. Irure dolor in reprehend incididunt ut labore et dolore magna", "aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi", "ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in", "voluptate velit esse molestaie cillum. Tia non ob ea soluad incommod quae egen", "ium improb fugiend. Officia deserunt mollit anim id est laborum Et harumd", "dereud facilis est er expedit distinct. Nam liber te conscient to factor tum", "poen legum odioque civiuda et tam. Neque pecun modut est neque nonor et imper", "ned libidig met, consectetur adipiscing elit, sed ut labore et dolore magna", "aliquam is nostrud exercitation ullam mmodo consequet. Duis aute in voluptate", "velit esse cillum dolore eu fugiat nulla pariatur. At vver eos et accusam", "dignissum qui blandit est praesent."]
+                                fontStyle FontStyle {
+                                    size      .2
+                                    family    "SANS"
+                                    justify   "LEFT"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+NavigationInfo {
+    type "EXAMINE"
+    headlight TRUE
+}
+
+#Viewpoint {
+#    position 0 0 20
+#}
+
+DirectionalLight{
+    ambientIntensity 0
+    direction 0.3 -1 -0.1
+}
+
+
+
+

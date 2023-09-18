@@ -1,0 +1,106 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "Random Spheres"
+  info ["Geoff Pack, Spike, 1999"]
+}
+
+NavigationInfo {
+  headlight TRUE
+  speed     3
+  type      ["EXAMINE","WALK","ANY"]
+}
+
+Viewpoint {
+  position 0 0 20
+  description "inside"
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+DEF OBJECT1 Transform {
+  rotation     1 0 0 0
+  center       0 1 0
+  children [
+    DEF TS TouchSensor {}
+  ]
+}
+
+DEF TIMER1 TimeSensor {
+  cycleInterval   1
+  stopTime        -1
+  loop            TRUE
+}
+
+DEF SphereScript Script {
+  eventIn   SFTime    AddSphere
+  eventIn   SFTime    Touched
+
+  field     SFNode    object1 USE OBJECT1
+  field     MFNode    spheres        []
+  field     SFVec3f   position       0 0 0
+  field     SFVec3f   regionSize     10 10 10
+  field     SFInt32   count          1
+
+  directOutput  TRUE
+
+  url "javascript:
+    function initialize() {
+      for (var i=1; i<=6; i++) {
+        position.x = (Math.random()-0.5) * regionSize.x;
+        position.y = (Math.random()-0.5) * regionSize.y;
+        position.z = (Math.random()-0.5) * regionSize.z;
+
+        vrmlString  = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor 0 0 1 shininess .5 } } geometry Sphere { radius  1 }}]}';
+        spheres[i] = new SFNode(vrmlString);
+        spheres[i].translation = position;
+
+        //object1.children = spheres;
+        //print (object1.children[i]);
+        print (spheres[i]);
+      }
+      object1.addChildren = spheres;
+    }
+    function Touched(timeValue) {
+      // move all spheres slightly ???
+      print ('   ');
+      for (var i=1; i<=6; i++) {
+        spheres[i].translation.x += 1;
+
+        //object1.children[i].translation.x += 1;
+        //print (object1.children[i].translation);
+      }
+      object1.children = spheres;
+    }
+
+    function AddSphere(timeValue) {
+      // randomize position:
+      position.x = (Math.random()-0.5) * regionSize.x;
+      position.y = (Math.random()-0.5) * regionSize.y;
+      position.z = (Math.random()-0.5) * regionSize.z;
+
+      // create a new Sphere:
+      vrmlString  = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor 0 0 1 shininess .5 } } geometry Sphere { radius  1 }}]}';
+      vrmlString2 = 'Transform { children [ Shape { appearance Appearance { material Material { diffuseColor 1 0 0 shininess .5 } } geometry Sphere { radius  1 }}]}';
+      var sphere1 = new SFNode(vrmlString);
+      var sphere2 = new SFNode(vrmlString2);
+      sphere1.translation = position;
+      sphere2.translation = position;
+      object1.children[count] = sphere1;
+
+      if (count>4) {
+        object1.children[count-4] = sphere2;
+      }
+      count++
+    }
+  "
+}
+
+ROUTE TS.touchTime TO SphereScript.Touched
+#ROUTE TIMER1.cycleTime TO SphereScript.AddSphere
+

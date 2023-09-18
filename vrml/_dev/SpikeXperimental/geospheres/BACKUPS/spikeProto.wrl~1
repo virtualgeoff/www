@@ -1,0 +1,133 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "Expanding Geodesic Sphere proto"
+    info ["Geoff Pack, geoff@spike.com.au",
+            "beta 0.4, May 2001"]
+}
+
+PROTO spikeProto [
+    field       SFNode      coord Coordinate {point [ 0 -2.5 -0.5774, -0.5 -2.5 0.2887, 0.5 -2.5 0.2887, 0 2.5 0]}
+    field       MFInt32     coordIndex [0, 2, 1, -1, 0, 1, 3, -1, 1, 2, 3, -1, 2, 0, 3, -1]
+    field       SFTime      duration 2
+    field       SFColor     color 0 0.379 0.761
+]{
+
+    DEF IFSTransform Transform {
+        translation     0 0 0
+        scale           1 1 1
+        children [
+            DEF Trigger TouchSensor{}
+
+        ]
+    }
+
+    DEF ExpansionTimer TimeSensor {
+        cycleInterval IS duration
+    }
+
+    DEF ExpansionPosition PositionInterpolator {
+        key      [ 0, 1 ]
+        keyValue [ 10 10 10, 30 30 30 ]
+    }
+
+    ROUTE Trigger.touchTime TO ExpansionTimer.startTime
+    ROUTE ExpansionTimer.fraction_changed TO ExpansionPosition.set_fraction
+    ROUTE ExpansionPosition.value_changed TO IFSTransform.set_translation
+
+
+    DEF IFSScript Script {
+        directOutput  TRUE
+        eventOut    MFNode      newChild
+        eventOut    MFVec3f     positions
+        field       SFNode      coord IS coord
+        field       MFInt32     coordIndex IS coordIndex
+
+        field       MFInt32     newCoordIndex []
+        field       SFVec3f     origin 0 0 0
+        field       SFVec3f     center 0 0 0
+        field       SFVec3f     centerX 100 100 100
+        field       SFColor     color IS color
+        field       SFColor     highlightColor 1 0.5 0
+
+        eventIn     SFBool      highlight
+        field       SFNode      self USE IFSScript
+        field       SFNode      Trigger USE Trigger
+        field       SFNode      T1 USE IFSTransform
+        field       SFVec3f     scale1 1 1 1
+        field       SFVec3f     scale2 1.05 1.05 1.05
+
+        url ["javascript:
+
+            function initialize() {
+                //create base of pyramid and caculate center
+                for(i=0; i< coordIndex.length; i++) {
+                    newCoordIndex[i] = coordIndex[i];
+                    if (coordIndex[i] != -1) {
+                        center.x += coord.point[coordIndex[i]].x;
+                        center.y += coord.point[coordIndex[i]].y;
+                        center.z += coord.point[coordIndex[i]].z;
+                    }
+                    //center = centerX;
+
+                }
+                center.x /= 2;
+                center.y /= 2;
+                center.z /= 2;
+                positions = new MFVec3f(origin,center);
+
+                // create faces of pyramid
+                // need to modify if polys have more than 3 sides
+                newCoordIndex[4]  = coordIndex[1];
+                newCoordIndex[5]  = coordIndex[0];
+                newCoordIndex[6]  = coord.point.length-1;
+                newCoordIndex[7]  = -1;
+                newCoordIndex[8]  = coordIndex[2];
+                newCoordIndex[9]  = coordIndex[1];
+                newCoordIndex[10] = coord.point.length-1;
+                newCoordIndex[11] = -1;
+                newCoordIndex[12] = coordIndex[0];
+                newCoordIndex[13] = coordIndex[2];
+                newCoordIndex[14] = coord.point.length-1;
+                newCoordIndex[15] = -1;
+
+                // create a new vrml string
+                vrmlString = 'Shape {'
+                    + 'appearance Appearance { material Material { diffuseColor ' + color + '}}'
+                    + 'geometry IndexedFaceSet { solid FALSE '
+                    + '    coord Coordinate { point ' + coord.point + '}'
+                    + '    coordIndex ' + newCoordIndex + '}'
+                    + '}'
+                    ;
+
+                // parse the vrml string into a node
+                node = Browser.createVrmlFromString(vrmlString);
+
+                // add the node to scene
+                newChild = node;
+
+                // add route for highlighting on mouseover
+                Browser.addRoute(Trigger,'isOver',self,'highlight');
+
+            }
+
+            function highlight(over) {
+                if (over) {
+                    T1.children[1].appearance.material.diffuseColor = highlightColor;
+                    T1.scale = scale2;
+                } else {
+                    T1.children[1].appearance.material.diffuseColor = color;
+                    T1.scale = scale1;
+                }
+            }
+
+        "]
+    }
+
+    ROUTE IFSScript.newChild TO IFSTransform.addChildren
+    ROUTE IFSScript.positions TO ExpansionPosition.set_keyValue
+
+}
+
+# end proto
+

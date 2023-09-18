@@ -1,0 +1,194 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "A Big Gun"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        ["WALK","EXAMINE","ANY"]
+}
+
+PROTO Gun [
+    eventOut    SFTime      fireTime
+    eventOut    SFVec3f     shellPosition
+    eventOut    SFVec3f     shellVelocity
+    field       SFString    gunName         "gunX"
+    field       SFColor     gunColor        .6 .6 .6
+    field       SFVec3f     gunPosition     0 0 0
+    field       SFRotation  gunRotation     0 1 0 0
+]{
+
+#--------------------------------------
+# gun geometry
+
+Transform {
+    translation IS gunPosition
+    rotation IS gunRotation
+    children [
+        Viewpoint {
+            description IS gunName
+            position    0 1 6
+            orientation 0 0 1 0
+        }
+        Viewpoint {
+            description " - behind"
+            position    -1 1 -6
+            orientation 0 1 0 3.14159
+        }
+        Viewpoint {
+            description " - beside"
+            position    6 1 0
+            orientation 0 1 0 1.5708
+        }
+        Viewpoint {
+            description " - above"
+            position    -1 5 -12
+            orientation 0 1 0 3.14159
+        }
+        # Base:
+        Transform {
+            translation     0 0.25 0
+            children [
+                Shape {
+                    appearance DEF lightGrey Appearance {
+                        material Material {
+                        diffuseColor    IS gunColor
+                        shininess       .2
+                        }
+                    }
+                    geometry Cylinder {
+                        radius      .6
+                        height      .5
+                    }
+                }
+            ]
+        }
+        # Gun
+        DEF Gun Transform {
+            translation     0 .5 0
+            rotation        0 0 1 0
+            children [
+                # Turret:
+                DEF Azimuth CylinderSensor {}
+                Shape {
+                    appearance USE lightGrey
+                    geometry Sphere {
+                        radius      .5
+                    }
+                }
+                # Barrel:
+                Transform {
+                    translation     0 .2 .3
+                    rotation        0 0 1 1.5708
+                    children [
+                        DEF Barrel Transform {
+                            translation     0 0 0
+                            rotation        0 1 0 0
+                            children [
+                                DEF Altitude CylinderSensor {
+                                    maxAngle 1.5708
+                                    minAngle -0.2
+                                }
+                                Shape {
+                                    appearance DEF darkGrey Appearance {
+                                        material Material {
+                                            diffuseColor    .3 .3 .3
+                                            shininess       .2
+                                        }
+                                    }
+                                    geometry Cylinder {
+                                        radius      .2
+                                        height      .3
+                                    }
+                                }
+                                Transform {
+                                    translation     0 0 0.5
+                                    rotation        1 0 0 1.5708
+                                    children [
+                                        Shape {
+                                            appearance USE darkGrey
+                                            geometry Cylinder {
+                                                radius      .05
+                                                height      1
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+        # Fire Button
+        Transform {
+            translation     0 1 0
+            children [
+                DEF FireButton TouchSensor {}
+                Shape {
+                    appearance DEF red Appearance {
+                        material Material {
+                        diffuseColor    1 0 0
+                        shininess       .2
+                        }
+                    }
+                    geometry Sphere {
+                        radius      .1
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+#--------------------------------------
+# Scripts
+
+DEF gunControl Script {
+    eventIn     SFRotation  set_Azimuth
+    eventIn     SFRotation  set_Altitude
+    eventIn     SFTime      fireShell
+
+    eventOut    SFTime      fireTime IS fireTime
+    eventOut    SFVec3f     shellPosition IS shellPosition
+    eventOut    SFVec3f     shellVelocity IS shellVelocity
+
+    field       SFVec3f     gunPosition IS gunPosition
+    field       SFRotation  gunRotation IS gunRotation
+    field       SFVec3f     shellOffset     0 0.7 0.3
+    field       SFRotation  azimuth         0 0 1 0
+    field       SFRotation  altitude        0 0 1 0
+    field       SFFloat     muzzleVelocity  50
+
+    url "javascript:
+        function set_Azimuth(value) {
+            azimuth = value;
+        }
+        function set_Altitude(value) {
+            altitude = value;
+        }
+        function fireShell(timeValue) {
+            fireTime = timeValue;
+            shellPosition[0] = gunPosition[0] + shellOffset[2] * Math.sin(azimuth[3]);
+            shellPosition[1] = gunPosition[1] + shellOffset[1];
+            shellPosition[2] = gunPosition[2] + shellOffset[2] * Math.cos(azimuth[3]);
+
+            shellVelocity[0] = muzzleVelocity * Math.sin(azimuth[3]) * Math.cos(altitude[3]);
+            shellVelocity[1] = muzzleVelocity * Math.sin(altitude[3]);
+            shellVelocity[2] = muzzleVelocity * Math.cos(azimuth[3]) * Math.cos(altitude[3]);
+
+        }
+    "
+}
+
+ROUTE Azimuth.rotation_changed TO Gun.set_rotation
+ROUTE Altitude.rotation_changed TO Barrel.set_rotation
+
+ROUTE Azimuth.rotation_changed TO gunControl.set_Azimuth
+ROUTE Altitude.rotation_changed TO gunControl.set_Altitude
+ROUTE FireButton.touchTime TO gunControl.fireShell
+
+}
+

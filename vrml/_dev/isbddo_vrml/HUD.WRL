@@ -1,0 +1,93 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Simple HUD Control"
+  info    "Geoff Pack, Spike, Feb 2001"
+}
+
+PROTO Hud [
+  eventOut  SFVec3f     scaleOut
+  field     SFColor     lineColor 1 1 0
+  field     SFColor     boxColor  0 1 0
+] {
+
+#------------------------------------------------------------
+# HUD Controls:
+
+DEF HudGroup Collision {
+  collide   FALSE
+  children  [
+    DEF HudProx ProximitySensor {
+      center  0 0 0
+      size    1000 1000 1000
+    }
+    DEF HudXform Transform {
+      translation   0 0 0
+      rotation      0 0 1  0
+      children [
+        Transform {
+          translation   -6 0 -8
+          children [
+            DEF linesShape Shape {
+              appearance Appearance {material Material { emissiveColor IS lineColor }}
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [ 0 1 0, 0 0 0]
+                }
+                coordIndex [ 0, 1, -1]
+              }
+            }
+            Transform {
+              children [
+                DEF sliderX Transform {
+                  children [
+                    DEF sliderShape Shape {
+                      appearance Appearance {material Material { diffuseColor IS boxColor }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorX PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 0.01
+                    offset       0 0 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#--------------------------------------
+# HUD Script
+
+DEF HudScript Script {
+  eventIn   SFVec3f     sliderXin
+  eventOut  SFVec3f     scaleOut	IS scaleOut
+  field     SFVec3f     scale     	0 0 0
+
+  url "javascript:
+    function sliderXin(value) {
+      scale[0] = 0.01;
+      scale[1] = 0.01;
+      scale[2] = value[1];
+      scaleOut = scale;
+    }
+  "
+}
+
+# HUD routing
+ROUTE HudProx.position_changed TO HudXform.set_translation
+ROUTE HudProx.orientation_changed TO HudXform.set_rotation
+ROUTE HudProx.position_changed TO HudProx.set_center
+
+# Connect the sensors to their representing objects
+ROUTE sensorX.translation_changed TO sliderX.set_translation
+
+# Connect the sensors to the script
+ROUTE sensorX.translation_changed TO HudScript.sliderXin
+
+}

@@ -1,0 +1,141 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Lights and Switches Example"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"EXAMINE"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		1.0
+}
+
+Viewpoint {
+   description "Entry"
+   position 0 0 15
+}
+
+   
+
+Group {
+   children [
+	Transform {
+	   translation 		-3 4 0
+	   children [
+		DEF LIGHT_CONTROL1 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { 
+			   diffuseColor		.5 .5 .5
+			   specularColor		0 0 0
+			   emissiveColor		1 1 1
+			   shininess		.5
+			   transparency		.5
+			}
+	         }
+	   	   geometry Box {
+			size		.5 .5 .5
+	   	   }
+		}
+		DEF LIGHT1 DirectionalLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			1 1 0
+		   direction		0 -1 -1
+		}	   
+  	   ]
+	}
+	Transform {
+	   translation 		0 4 0
+	   children [
+		DEF LIGHT_CONTROL2 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { }
+	         }
+	   	   geometry Sphere {
+			radius	.25
+	   	   }
+		}
+		DEF LIGHT2 PointLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			1 1 1
+		   location			0 0 0
+		   radius			10
+		   attenuation		0 0 0
+		}	   
+  	   ]
+	}
+	Transform {
+	   translation 		3 4 0
+	   children [
+		DEF LIGHT_CONTROL3 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { }
+	         }
+	   	   geometry Cylinder {
+			radius	.25
+			height	.5
+	   	   }
+		}
+		DEF LIGHT3 SpotLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			0 1 0
+		   location			0 0 0
+		   direction		0 -1 0
+		   beamWidth		1.5
+		   cutOffAngle		2.0
+		   radius			10
+		   attenuation		0 0 0
+		}
+  	   ]
+	}
+	Transform {
+	   translation 		6 4 0
+	   children [
+		DEF LIGHT_CONTROL4 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { }
+	         }
+	   	   geometry Cone {
+			bottomRadius	.25
+			height		.5
+	   	   }
+		}
+		DEF LIGHT4 SpotLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			1 0 1
+		   location			0 0 0
+		   direction		0 -1 0
+		   beamWidth		0.5
+		   cutOffAngle		0.8
+		   radius			10
+		   attenuation		0 0 0
+		}
+  	   ]
+	}
+
+   ]
+}
+
+Inline {
+   url		"textures.wrl"
+   bboxCenter	0 0 0
+   bboxSize 	-1 -1 -1	
+}
+
+ROUTE LIGHT_CONTROL1.isOver TO LIGHT1.on
+ROUTE LIGHT_CONTROL2.isOver TO LIGHT2.on
+ROUTE LIGHT_CONTROL3.isOver TO LIGHT3.on
+ROUTE LIGHT_CONTROL4.isOver TO LIGHT4.on

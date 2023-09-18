@@ -65,6 +65,9 @@ Group {
     Inline {
       url "floor.wrl"
     }
+    Inline {
+      url "base.wrl"
+    }
       ]
     }
     DEF furniture Group {

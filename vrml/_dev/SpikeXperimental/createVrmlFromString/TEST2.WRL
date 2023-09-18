@@ -1,0 +1,27 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "createVrmlFromString + proto test 2"
+    info  "Geoff Pack, geoff@spike.com.au, June 2001"
+}
+
+EXTERNPROTO myProto [
+	field  SFVec3f  translation
+	field  SFColor  color
+] "myProto.wrl"
+
+
+myProto {
+	translation 1 1 1
+	color 1 0 0
+}
+
+myProto {
+	translation -1 1 1
+	color 0 1 0
+}
+
+myProto {
+	translation 0 0 0
+	color 0 0 1
+}

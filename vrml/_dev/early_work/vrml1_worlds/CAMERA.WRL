@@ -1,0 +1,210 @@
+#VRML V1.0 ascii
+Separator {
+	DEF Viewer Info {
+		string  "A World by Geoff"
+	}
+
+#-----------------------------------------------------------
+# Lights:
+
+	DirectionalLight {
+		on         TRUE
+		intensity  1
+		color      1 1 1
+		direction  -1 -1 -1
+	}
+	PointLight {
+		on         TRUE
+		intensity  1
+		color      1 1 1
+		location   2.5 2.5 2.5
+	}
+	SpotLight {
+		on           TRUE
+		intensity    1
+		color        1 1 1
+		location     0 -7 5
+		direction    0 1 0
+		dropOffRate  0
+		cutOffAngle  0.785398
+	}
+
+
+#-----------------------------------------------------------
+# Cameras:
+
+	DEF Cameras Switch {
+		whichChild      0
+		DEF Camera1 PerspectiveCamera {
+            	position    0 0 20
+			orientation 0 0 0 0
+			#focalDistance    5
+			#heightAngle      0.785398
+		}
+		DEF Camera2 PerspectiveCamera {
+            	position    20 0 0
+			orientation 0 1 0 1.5708
+			#focalDistance    5 
+			#heightAngle      0.785398
+		}
+		DEF Camera3 PerspectiveCamera {
+            	position    0 20 0
+			orientation 1 0 0 -1.5708
+			#focalDistance    5
+			#heightAngle      0.785398
+		}
+		DEF Camera4 PerspectiveCamera {
+            	position    0 0 -20
+			orientation 0 1 0 3.14159
+			#focalDistance    5
+			#heightAngle      0.785398
+		}
+		DEF Camera5 PerspectiveCamera {
+            	position    0 20 0
+			orientation 1 0 0 -1.5708
+			#focalDistance    5
+			#heightAngle      0.785398
+		}
+		DEF Camera6 PerspectiveCamera {
+            	position   20 20 20
+			orientation -1 1 0 0.785398     
+			#focalDistance    5
+			#heightAngle      0.785398
+		}
+		DEF Camera7 OrthographicCamera {
+            	position    0 0 20
+			orientation 0 0 0 0
+			focalDistance    5
+			height           20
+		}
+	}
+
+#-----------------------------------------------------------
+# Text Labels:
+
+	Separator {
+      	Transform { 
+			rotation 0 0 0 0
+			translation 0 0 0
+			scaleFactor .1 .1 .1 
+		}
+		AsciiText {
+			string "--> +X"
+			justification LEFT
+		}
+	}
+	Separator {
+      	Transform { 
+			rotation 0 0 1 1.5708
+			translation 0 0 0
+			scaleFactor .1 .1 .1 
+		}
+		AsciiText {
+			string " --> +Y"
+			justification LEFT
+		}
+	}
+	Separator {
+      	Transform { 
+			rotation 0 1 0 -1.5708
+			translation 0 0 0
+			scaleFactor .1 .1 .1 
+		}
+		AsciiText {
+			string "--> +Z"
+			justification LEFT
+		}
+	}
+	Separator {
+      	Transform { 
+			rotation 0 0 0 0
+			translation 0 10 0
+			scaleFactor .1 .1 .1 
+		}
+		AsciiText {
+			string "camera.wrl"
+			justification CENTER
+		}
+	}
+
+#-----------------------------------------------------------
+# Objects:
+
+	Separator { # Red Sphere
+		Material {
+			ambientColor 0.2 0 0    
+			diffuseColor 0.8 0 0 
+			specularColor 1.0 0 0
+			emissiveColor  0 0 0
+			shininess    0.5
+			transparency   0 
+ 		}
+		Translation { translation 5 0 0 }
+		Sphere {
+			radius 1
+		}
+	}
+	Separator { # Green Cylinder
+		Material {
+			ambientColor 0 0.2 0    
+			diffuseColor 0 0.8 0 
+			specularColor 0 1.0 0
+			emissiveColor  0 0 0
+			shininess    0.5
+			transparency   0 
+ 		}
+		Translation { translation 0 5 0 }
+		Cylinder {
+			radius 1
+			height 2
+		}
+	}
+	Separator { # Blue Cone
+		Material {
+			ambientColor 0 0 0.2
+			diffuseColor 0 0 0.8
+			specularColor 0 0 1.0
+			emissiveColor  0 0 0
+			shininess    0.5
+			transparency   0 
+ 		}
+		Translation { translation 0 0 5 }
+		Cone {
+			parts SIDES
+			radius 1
+			height 2
+		}
+	}
+	Separator { # Magenta Cube
+		Material {
+			ambientColor 0.2 0 0.2    
+			diffuseColor 0.8 0 0.8 
+			specularColor 1.0 0 1.0
+			emissiveColor  0 0 0
+			shininess    0.5
+			transparency   0 
+ 		}
+		Translation { translation 5 5 5 }
+		Cube {
+			width 1
+			height 1
+			depth 1
+		}
+	}
+	Separator { # Yellow XY Plane
+		Material {
+			ambientColor 0.2 0.2 0  
+			diffuseColor 0.8 0.8 0
+			specularColor 1.0 1.0 0
+			emissiveColor  0 0 0
+			shininess    0.5
+			transparency   0 
+ 		}
+		Translation { translation 0 -5 0 }
+		Cube {
+			width 20
+			height .1
+			depth 20
+		}
+	}
+}

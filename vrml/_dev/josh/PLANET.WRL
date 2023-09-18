@@ -1,0 +1,36 @@
+#VRML V2.0 utf8
+
+NavigationInfo {
+	type "EXAMINE"
+}
+
+DEF Planet Transform {
+	children [
+		Shape {
+			appearance Appearance {
+				texture ImageTexture {
+					url "marble.gif"
+				}
+				textureTransform TextureTransform {
+					scale 2 2
+				}
+			}
+			geometry Sphere {
+				radius 3
+			}
+		}
+	]
+}
+
+DEF Rotate OrientationInterpolator {
+	key [ 0, 1]
+	keyValue [ 0 1 0 0, 0 1 0 3.14]
+}
+
+DEF TS TimeSensor{
+	stopTime -1
+	loop TRUE
+}
+
+ROUTE TS.fraction_changed TO Rotate.set_fraction
+ROUTE Rotate.value_changed TO Planet.set_rotation

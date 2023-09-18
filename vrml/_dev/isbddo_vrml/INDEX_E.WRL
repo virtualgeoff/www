@@ -1,0 +1,238 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title     "HTML to VRML Test"
+  info      "Geoff Pack, Spike, 2001"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["EXAMINE","ANY"]
+}
+
+Background {
+  skyAngle    [ 0, 3.14159 ]
+  skyColor    [ 0 0.2 0.4, 0 0.2 0.4]
+}
+
+Viewpoint {
+  description "entry"
+  position 3.5 -2.3 6
+}
+
+Transform {
+	translation 0.30 0 0
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 6.52 0 0, 6.52 -3.58 0, 0 -3.58 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/black.gif"]
+				}
+				textureTransform TextureTransform {scale 1 1.821}
+			}
+		}
+	]
+}
+Transform {
+	translation 4.78 -2.83 0.1
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 1.29 0 0, 1.29 -0.03 0, 0 -0.03 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/yellow.gif"]
+				}
+				textureTransform TextureTransform {scale 1 43}
+			}
+		}
+	]
+}
+Transform {
+	translation 0.86 -1.52 0.2
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 5.62 0 0, 5.62 -1.03 0, 0 -1.03 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/center.gif"]
+				}
+				textureTransform TextureTransform {scale 1 5.4563}
+			}
+		}
+	]
+}
+
+Transform {
+	translation 0.99 -1.58 0.3
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 2.16 0 0, 2.16 -0.88 0, 0 -0.88 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/isbbdo.gif"]
+				}
+				textureTransform TextureTransform {scale 1 2.455455}
+			}
+		}
+	]
+}
+
+Transform {
+	translation 2.14 -0.83 0.4
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 0.23 0 0, 0.23 -0.14 0, 0 -0.14 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/animated2.gif"]
+				}
+				textureTransform TextureTransform {scale 1 1.643}
+			}
+		}
+	]
+}
+
+Transform {
+	translation 5.18 -0.84 0.5
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 0.05 0 0, 0.05 -0.05 0, 0 -0.05 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/dot3.gif"]
+				}
+				textureTransform TextureTransform {scale 1 1}
+			}
+		}
+	]
+}
+Transform {
+	translation 4.33 -3.25 0.6
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 0.97 0 0, 0.97 -0.07 0, 0 -0.07 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/copyright.gif"]
+				}
+				textureTransform TextureTransform {scale 1 13.8571}
+			}
+		}
+	]
+}
+Transform {
+	translation 0.62 -1.35 0.7
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 6.06 0 0, 6.06 -1.31 0, 0 -1.31 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/reddots.gif"]
+				}
+				textureTransform TextureTransform {scale 1 4.6260}
+			}
+		}
+	]
+}
+Transform {
+	translation 1.28 -2.88 0.8
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 5.03 0 0, 5.03 -0.09 0, 0 -0.09 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/reddots2.gif"]
+				}
+				textureTransform TextureTransform {scale 1 55.9}
+			}
+		}
+	]
+}
+Transform {
+	translation 1.83 -3.08 0.9
+	children [
+		Shape {
+			geometry IndexedFaceSet {
+				solid   FALSE
+				coord Coordinate {
+					point [ 0 0 0, 4.20 0 0, 4.20 -0.07 0, 0 -0.07 0 ]
+				}
+				coordIndex [ 0, 1, 2, 3, -1 ]
+			}
+			appearance Appearance {
+				texture ImageTexture {
+					url ["images/reddots2.gif"]
+				}
+				textureTransform TextureTransform {scale 1 60}
+			}
+		}
+	]
+}
+
+
+#<div id="black" 	style="position:absolute; width:652px; height:358px; z-index:0; top:0px; left:30px;"><img src="images/black.gif" width="652" height="358"></div>
+#<div id="yellow" 	style="position:absolute; width:129px; height:3px; z-index:1; left:478px; top:283px;"><img src="images/yellow.gif" width="129" height="3"></div>
+#<div id="center" 	style="position:absolute; width:562px; height:103px; z-index:2; left: 86px; top: 152px;"><img src="images/center.gif" width="562" height="103"></div>
+#<div id="isbbdo" 	style="position:absolute; width:216px; height:88px; z-index:3; left: 99px; top: 158px;"><img src="images/isbbdo.gif" width="216" height="88"></div>
+#<div id="animated" style="position:absolute; width:23px; height:14px; z-index:4; left:214px; top:83px"><img src="images/animated2.gif" width="23" height="14" alt="" border="0"></div>
+#<div id="yellowdot"style="position:absolute; width:5px; height:5px; z-index:5; left:518px; top:84px;"><img src="images/dot3.gif" width="5" height="5"></div>
+#<div id="copyright"style="position:absolute; width:97px; height:7px; z-index:6; left:433px; top:325px;"><img src="images/copyright.gif" width="97" height="7" border="0"></div>
+#<div id="reddots"  style="position:absolute; width:606px; height:131px; z-index:7; left:62px; top:135px;"><img src="images/reddots.gif" width="606" height="131"></div>
+#<div id="reddots2" style="position:absolute; width:503px; height:9px; z-index:10; left:128px; top:288px;"><img src="images/reddots2.gif" width="503" height="9"></div>
+
+#<div id="reddots3" style="position:absolute; width:420px; height:7px; z-index:11; left:183px; top:308px;"><img src="images/reddots3.gif" width="420" height="7"></div>

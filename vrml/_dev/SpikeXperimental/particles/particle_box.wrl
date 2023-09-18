@@ -1,0 +1,139 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Spike"
+  info    [ "Copyright Spike, 2001",
+            "author: Geoff Pack",
+            "geoff@spike.com.au",
+            "Contact 4.4 Particle system test using VRML Box"
+          ]
+}
+
+NavigationInfo {
+  avatarSize  [ 0 0 0 ]
+  headlight   TRUE
+  speed       1
+  type        "EXAMINE"
+}
+
+Viewpoint {
+  position 0 15 60
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+EXTERNPROTO Particles[
+	exposedField SFVec3f bboxSize
+	exposedField SFVec3f bboxCenter
+	exposedField SFFloat lodRange
+	exposedField SFBool enabled
+	exposedField SFFloat particleRadius
+	exposedField SFFloat particleRadiusVariation
+	exposedField SFFloat particleRadiusRate
+	exposedField SFNode geometry
+	exposedField SFVec3f emitterPosition
+	exposedField SFFloat emitterRadius
+	exposedField SFFloat emitterSpread
+	exposedField SFVec3f emitVelocity
+	exposedField SFFloat emitVelocityVariation
+	exposedField SFRotation emitterOrientation
+	exposedField SFFloat creationRate
+	exposedField SFFloat creationRateVariation
+	exposedField SFInt32 maxParticles
+	exposedField SFTime maxLifeTime
+	exposedField SFFloat maxLifeTimeVariation
+	exposedField SFVec3f gravity
+	exposedField SFVec3f acceleration
+	exposedField SFColor emitColor
+	exposedField SFColor fadeColor
+	exposedField SFFloat fadeAlpha
+	exposedField SFFloat fadeRate
+	exposedField SFInt32 numTrails
+	exposedField SFInt32 numSparks
+	exposedField SFVec3f sparkGravity
+	exposedField SFColor sparkFadeColor
+]
+["urn:inet:blaxxun.com:node:Particles","http://www.blaxxun.com/vrml/protos/nodes.wrl#Particles","nodes.wrl#Particles"]
+
+
+Fog	{
+	fogType	"LINEAR"
+	color  0.5 0.5 1
+	visibilityRange	1000
+}
+
+
+DEF PS-T Transform {
+	children Shape {
+    	appearance  Appearance {
+        	material Material {
+              diffuseColor    0 0.379 0.761
+              emissiveColor   0 0 .3
+              shininess       0.5
+              transparency    0
+				#transparency 0.1
+				##emissiveColor 1 0.5 0.5
+			}
+
+    	}
+    	geometry Particles
+    	{
+        	#bboxSize 150 150 150 ##  to be estimated
+        	#bboxCenter 0 10 0
+        	lodRange 0 # 500
+        	particleRadius 0.5
+
+			  geometry IndexedFaceSet {
+				solid FALSE
+				coord DEF prismCoord Coordinate {
+				  point [ 0 -2.5 -0.5774, -0.5 -2.5 0.2887, 0.5 -2.5 0.2887, 0 2.5 0]
+				}
+				coordIndex [0, 2, 1, -1,
+						0, 1, 3, -1,
+						1, 2, 3, -1,
+						2, 0, 3, -1]
+			  }
+
+        	emitColor 1 1 1
+        	fadeColor 0.15 0.15 0.5
+        	fadeRate 1
+        	fadeAlpha 1
+        	emitterPosition 0 10 0
+        	emitterRadius 0.1
+        	emitterSpread 0.2
+        	creationRate 0.1
+        	creationRateVariation 0
+        	maxParticles 200
+        	maxLifeTime 10
+
+        	emitVelocity 5 20 5
+        	gravity 0 -9.8 0
+        	acceleration   0 0  0
+        	#acceleration   0.5 -1  0.5
+        	emitVelocityVariation 0
+
+
+        	numTrails 0
+        	numSparks 0
+    	}
+	}
+}
+
+
+

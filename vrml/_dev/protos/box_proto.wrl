@@ -1,0 +1,25 @@
+#VRML V2.0 utf8
+
+PROTO protoBox [
+    field   SFColor boxColor 1 1 1
+    field   SFVec3f boxSize  1 1 1
+]{
+    Transform {
+        translation     0 0 0
+        rotation        0 1 0 0.7854
+        children [
+            Shape {
+                appearance DEF Red Appearance {
+                    material Material {
+                    diffuseColor IS boxColor
+                    shininess       .2
+                    }
+                }
+                geometry Box {
+                    size IS boxSize
+                }
+            }
+        ]
+    }
+}
+

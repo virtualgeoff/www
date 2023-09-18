@@ -1,0 +1,172 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title     "HTML to VRML Test"
+  info      "Geoff Pack, Spike, 2001"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["EXAMINE","ANY"]
+}
+
+Background {
+  skyAngle    [ 0, 3.14159 ]
+  skyColor    [ 0 0.2 0.4, 0 0.2 0.4]
+}
+
+Viewpoint {
+  description "entry"
+  position 3.5 -2.3 6
+}
+
+#--------------------------------------
+# HUD Controls:
+
+EXTERNPROTO Hud [
+  eventOut  SFVec3f     scaleOut
+  field     SFColor     lineColor
+  field     SFColor     boxColor
+] "hud.wrl"
+
+# HUD 1
+DEF Hud1 Hud {
+  lineColor   1 .5 0
+  boxColor    1 0 .2
+}
+
+
+#--------------------------------------
+
+EXTERNPROTO imagePoly [
+	field	SFVec3f 	divPos
+    field   SFVec2f 	imgSize
+	field	MFString	imgURL
+] "imagePoly.wrl"
+
+DEF PageTransform Transform{
+    translation     0 0 0
+    rotation        0 1 0 0
+	scale			0.01 0.01 0.01
+    children [
+		#---------------------------------------------
+		# background images
+
+        imagePoly {
+			divPos		30 0 -5
+			imgSize		652 358
+			imgURL		"images/black.gif"
+        }
+        imagePoly {
+			divPos		478 283 -4
+			imgSize		129 3
+			imgURL		"images/yellow.gif"
+        }
+        imagePoly {
+			divPos		86 152 -3
+			imgSize		562 103
+			imgURL		"images/center.gif"
+        }
+        imagePoly {
+			divPos		99 158 -2
+			imgSize		216 88
+			imgURL		"images/isbbdo.gif"
+        }
+        imagePoly {
+			divPos		214 83 -1
+			imgSize		23 14
+			imgURL		"images/animated2.gif"
+        }
+        imagePoly {
+			divPos		518 84 0
+			imgSize		5 5
+			imgURL		"images/dot3.gif"
+        }
+        imagePoly {
+			divPos		433 325  1
+			imgSize		97 7
+			imgURL		"images/copyright.gif"
+        }
+        imagePoly {
+			divPos		62 135 2
+			imgSize		606 131
+			imgURL		"images/reddots.gif"
+        }
+
+        imagePoly {
+			divPos		128 288 3
+			imgSize		503 9
+			imgURL		"images/reddots2.gif"
+        }
+        imagePoly {
+			divPos		128 260 4
+			imgSize		472 7
+			imgURL		"navs_e/navs2off.gif"
+        }
+        imagePoly {
+			divPos		183 308 5
+			imgSize		420 7
+			imgURL		"images/reddots3.gif"
+        }
+
+		#---------------------------------------------
+		# main navs
+
+        imagePoly {
+			divPos		329 164 5
+			imgSize		272 84
+			imgURL		"navs_e/navs1off.gif"
+        }
+        imagePoly {
+			divPos		328 164 6
+			imgSize		84 11
+			imgURL		"navs_e/clients.gif"
+        }
+        imagePoly {
+			divPos		328 187 6
+			imgSize		274 11
+			imgURL		"navs_e/vending.gif"
+        }
+        imagePoly {
+			divPos		328 213 6
+			imgSize		263 11
+			imgURL		"navs_e/world.gif"
+        }
+        imagePoly {
+			divPos		328 238 6
+			imgSize		84 11
+			imgURL		"navs_e/career.gif"
+        }
+
+		#---------------------------------------------
+		# main links
+
+        imagePoly {
+			divPos		328 163 7
+			imgSize		84 11
+			imgURL		"navs_e/shim.gif"
+        }
+        imagePoly {
+			divPos		328 186 7
+			imgSize		274 11
+			imgURL		"navs_e/shim.gif"
+        }
+        imagePoly {
+			divPos		328 209 7
+			imgSize		263 11
+			imgURL		"navs_e/shim.gif"
+        }
+        imagePoly {
+			divPos		328 232 7
+			imgSize		84 11
+			imgURL		"navs_e/shim.gif"
+        }
+
+    ]
+}
+
+
+# Connect the HUD controls to the extendedMass
+ROUTE Hud1.scaleOut TO PageTransform.set_scale
+
+

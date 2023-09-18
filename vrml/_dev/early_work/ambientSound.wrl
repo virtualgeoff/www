@@ -1,0 +1,25 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   info		"Ambient sound demo"
+}
+
+DEF WORLD_PROX ProximitySensor {
+    center 0 0 0
+    size 2000 2000 2000 	#to cover the whole world
+}
+
+Sound {
+	source DEF AMBIENT_MUSIC AudioClip {
+		url "ball.wav"
+		loop TRUE
+    }
+    spatialize FALSE
+    	# set ellipses large enough to cover the whole world
+    minFront 2000
+    maxFront 2000
+    minBack  2000
+    maxBack  2000
+}
+
+ROUTE WORLD_PROX.enterTime TO AMBIENT_MUSIC.startTime

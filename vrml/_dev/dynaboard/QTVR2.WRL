@@ -1,0 +1,84 @@
+#VRML V2.0 utf8
+
+Transform {
+    translation 0 1 0
+    children [
+                Shape {
+                    geometry IndexedFaceSet {
+                        solid   FALSE
+                        coord Coordinate {
+                            point [ -1 1 0, 1 1 0, 1 2 0, -1 2 0 ]
+                        }
+                        coordIndex [ 0, 1, 2, 3, -1 ]
+                    }
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url [ "map.gif"]
+                        }
+                    }
+                }
+    ]
+}
+
+Transform {
+    children [
+        Billboard {
+            axisOfRotation  0 1 0
+            children [
+                Shape {
+                    geometry IndexedFaceSet {
+                        coord Coordinate {
+                            point [ -1 1 0, 1 1 0, 1 2 0, -1 2 0 ]
+                        }
+                        coordIndex [ 0, 1, 2, 3, -1 ]
+                    }
+                    appearance Appearance {
+                        texture ImageTexture {
+                            url [ "map.gif"]
+                        }
+                    }
+                }
+                Shape {
+                    geometry DEF billboardText Text {
+                        string ["1"]
+                        fontStyle FontStyle {
+                            justify "MIDDLE"
+                        }
+                    }
+                }
+            ]
+        }
+        DEF PS1 ProximitySensor {
+            center      0 0 0
+            size        1000 1000 1000
+            enabled     TRUE
+        }
+    ]
+}
+
+DEF S1 Script {
+    eventIn     SFVec3f     positionIn
+    eventOut    MFString    stringOut
+    field       SFFloat     distance    10
+    field       SFFloat     angleRad    0
+    field       SFFloat     angleDeg    0
+    url "javascript:
+        function positionIn(position) {
+            distance = Math.sqrt(position[0] * position[0]
+                               + position[1] * position[1]
+                               + position[2] * position[2]);
+            angleRad = Math.acos(position[2]/distance)
+                              * (position[0]/Math.abs(position[0]));
+            angleDeg = angleRad * 180 / Math.PI;
+
+            stringOut[0] = 'Distance = ' + Math.round(distance*10)/10 + ' m';
+            stringOut[1] = 'Angle = ' + Math.round(angleDeg) + ' deg';
+        }
+    "
+}
+
+
+ROUTE PS1.position_changed TO S1.positionIn
+ROUTE S1.stringOut TO billboardText.string
+
+

@@ -1,0 +1,68 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title    "Battlefield"
+   info     "Geoff Pack, Spike, June 1999"
+}
+
+NavigationInfo {
+    headlight   TRUE
+    type        ["WALK","EXAMINE","ANY"]
+}
+
+Viewpoint {
+    description "Ground Zero"
+    position    0 0 0
+    orientation 0 0 1 0
+}
+
+Viewpoint {
+    description "Top View"
+    position    0 200 0
+    orientation 1 0 0 -1.5708
+
+}
+
+Background {
+    groundAngle [ 1.5708 ]
+    groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+    skyAngle    [ 1.0, 1.5708 ]
+    skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.8 0.3 0.7]
+}
+
+#--------------------------------------
+# Inline Guns:
+
+
+EXTERNPROTO Gun [
+    field   SFString    gunName
+    field   SFColor     gunColor
+] "gun_proto.wrl"
+
+
+# gun 2
+Transform {
+    translation     0 0 -50
+    rotation        0 1 0 0
+    children [
+        Gun {
+            gunName     "Gun1"
+            gunColor    .5 .5 0
+        }
+    ]
+}
+
+# gun 3
+Transform {
+    translation     10 0 50
+    rotation        0 1 0 0
+    children [
+        Gun {
+            gunName     "Gun2"
+            gunColor    .5 0 0
+        }
+    ]
+}
+
+
+

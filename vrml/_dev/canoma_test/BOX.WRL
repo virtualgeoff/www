@@ -1,0 +1,200 @@
+#VRML V2.0 utf8
+#written by Canoma 3DViewer
+
+Background {skyColor  1 1 1}
+NavigationInfo { headlight TRUE type "EXAMINE" }
+
+Group {
+	children [
+	DEF Rectangle Transform { children [
+		Shape {
+			appearance Appearance {
+				texture DEF TEXRectangle ImageTexture {url "box0000.jpg"}
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					8.010742 0.001220 4.765036,
+					3.672813 0.001220 7.818109,
+					-0.231957 0.001220 2.270056,
+					4.105973 0.001220 -0.783017
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					0.000000 0.000000,
+					0.000000 1.000000,
+					1.000000 1.000000,
+					1.000000 0.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture USE TEXRectangle
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					8.010742 0.001220 4.765036,
+					4.105973 0.001220 -0.783017,
+					-0.231957 0.001220 2.270056,
+					3.672813 0.001220 7.818109
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					1.000000 0.000000,
+					0.000000 0.000000,
+					0.000000 1.000000,
+					1.000000 1.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+	] } # end of Rectangle
+	# ----------
+
+	DEF Box Transform { children [
+		Shape {
+			appearance Appearance {
+				texture DEF TEXBox ImageTexture {url "box0001.jpg"}
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					4.673886 2.623361 2.356949,
+					2.542757 2.623361 2.744441,
+					2.542757 0.000000 2.744441,
+					4.673886 0.000000 2.356949
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					0.000000 1.000000,
+					1.000000 1.000000,
+					1.000000 0.000000,
+					0.000000 0.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture USE TEXBox
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					4.825882 2.623361 3.192896,
+					4.825882 0.000000 3.192896,
+					2.694753 0.000000 3.580389,
+					2.694753 2.623361 3.580389
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					1.000000 1.000000,
+					1.000000 0.000000,
+					0.000000 0.000000,
+					0.000000 1.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture DEF TEXBox ImageTexture {url "box0002.jpg"}
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					2.694753 2.623361 3.580389,
+					2.694753 0.000000 3.580389,
+					2.542757 0.000000 2.744441,
+					2.542757 2.623361 2.744441
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					1.000000 1.000000,
+					1.000000 0.000000,
+					0.000000 0.000000,
+					0.000000 1.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture USE TEXBox
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					4.825882 2.623361 3.192896,
+					4.673886 2.623361 2.356949,
+					4.673886 0.000000 2.356949,
+					4.825882 0.000000 3.192896
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					0.000000 1.000000,
+					1.000000 1.000000,
+					1.000000 0.000000,
+					0.000000 0.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture DEF TEXBox ImageTexture {url "box0003.jpg"}
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					4.825882 0.000000 3.192896,
+					4.673886 0.000000 2.356949,
+					2.542757 0.000000 2.744441,
+					2.694753 0.000000 3.580389
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					0.000000 1.000000,
+					1.000000 1.000000,
+					1.000000 0.000000,
+					0.000000 0.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+		Shape {
+			appearance Appearance {
+				texture USE TEXBox
+			}
+			geometry IndexedFaceSet {
+				coord Coordinate {point [
+					4.825882 2.623361 3.192896,
+					2.694753 2.623361 3.580389,
+					2.542757 2.623361 2.744441,
+					4.673886 2.623361 2.356949
+				]}
+				coordIndex [3, 2, 1, 0, -1]
+				texCoord TextureCoordinate {point [
+					0.000000 0.000000,
+					0.000000 1.000000,
+					1.000000 1.000000,
+					1.000000 0.000000
+				]}
+				texCoordIndex [3, 2, 1, 0, -1]
+			}
+		}
+	] } # end of Box
+	# ----------
+
+	]
+}
+DEF current_view Viewpoint {
+	fieldOfView 0.422916
+#	LookAt= 0.203901 10.330968 12.214566
+	orientation -0.894769 -0.405476 -0.187025 0.936067
+	position -0.371599 12.004467 13.566964
+	description "current_view"
+}
+DEF tutorial1_jpg Viewpoint {
+	fieldOfView 0.422916
+#	LookAt= 0.203901 10.330968 12.214566
+	orientation -0.894769 -0.405476 -0.187025 0.936067
+	position -0.371599 12.004467 13.566964
+	description "tutorial1_jpg"
+}

@@ -1,0 +1,78 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title "HUD Driving Demo"
+  info  [ "Geoff Pack, 1998" ]
+}
+
+NavigationInfo {
+  avatarSize  [ 2, 1.5, 3.0 ]
+  headlight TRUE
+  speed   15
+  type    "WALK"
+}
+
+Viewpoint {
+  position  0 2 150
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle  [ 1.0, 1.5708 ]
+  skyColor  [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.8 0.3 0.7]
+}
+
+DEF Sun DirectionalLight {
+  on      TRUE
+  intensity 0.7
+  ambientIntensity  0.3
+  color   1 1 1
+  direction 1 -1 0
+}
+
+DEF HUDGroup Collision {
+  collide  FALSE
+  children  [
+    DEF HUDProx ProximitySensor {
+      center  0 20 0
+      size  500 100 500
+    }
+    DEF HUDXform Transform {
+      translation  0 0 0
+      rotation  0 0 1  0
+      children [
+        Transform {
+          translation  0 0 -2
+          #rotation  1 0 0  1.5708
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {}
+                texture ImageTexture {
+                  url "dashboard2.gif"
+                }
+              }
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [ -2 -3 0, 2 -3 0, 2 1 0, -2 1 0 ]
+                }
+                coordIndex [0, 1, 2, 3, -1]
+                convex  TRUE
+                solid FALSE
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+ROUTE HUDProx.position_changed TO HUDXform.set_translation
+ROUTE HUDProx.orientation_changed TO HUDXform.set_rotation
+ROUTE HUDProx.position_changed TO HUDProx.set_center
+
+Inline {
+  url "city.wrl"
+}

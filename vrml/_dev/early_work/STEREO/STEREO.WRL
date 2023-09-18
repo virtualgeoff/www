@@ -1,0 +1,1 @@
+#VRML V2.0 utf8Viewpoint {   description 	"left"   position 	-.1 0 5}Viewpoint {   description 	"right"   position 	.1 0 5}Transform {	translation		0 0 0	children [		Shape {			appearance Appearance {				material Material {					diffuseColor 1 1 1					transparency .5				}			}			geometry Sphere { }		}	]}

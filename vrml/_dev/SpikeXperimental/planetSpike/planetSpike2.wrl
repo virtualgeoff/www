@@ -1,0 +1,70 @@
+#VRML V2.0 utf8
+
+
+WorldInfo {
+  title   "Planet Spike v2"
+  info    [ "Copyright Spike, 2001",
+            "author: Geoff Pack",
+            "geoff@spike.com.au"]
+}
+
+NavigationInfo {
+  avatarSize  [ 0 0 0 ]
+  headlight   TRUE
+  speed       1
+  type        "EXAMINE"
+}
+
+Viewpoint {
+  position    0 0 50
+}
+
+
+DEF Sun Transform {
+  rotation     	0 0 0 0
+  translation  	0 0 0
+  scale			4 4 4
+  children [
+    Inline {
+      url       "spike.wrl"
+    }
+  ]
+}
+
+EXTERNPROTO Planet [
+  field		SFVec3f 	OrbitalRadius
+  field 	SFTime	 	OrbitalPeriod
+  field 	SFRotation 	OrbitalInclination
+  field 	SFRotation 	NodeAngle
+
+  field 	SFFloat 	PlanetRadius
+  field 	SFTime	 	RotationPeriod
+  field 	SFRotation 	RotationAxis
+  field		SFColor		Color
+] "planetProto.wrl"
+
+
+DEF Earth Planet {
+  OrbitalRadius 		5 0 0
+  OrbitalPeriod 		5
+  OrbitalInclination 	1 0 0 0.1
+  NodeAngle 			0 1 0 0
+
+  PlanetRadius			1
+  RotationPeriod 		1
+  RotationAxis 			0 1 0 0
+  Color					0.2 0.7 0.2
+}
+
+DEF Mars Planet {
+  OrbitalRadius 		10 0 0
+  OrbitalPeriod 		10
+  OrbitalInclination 	1 0 0 0.5
+  NodeAngle 			0 1 0 1.5708
+
+  PlanetRadius			0.7
+  RotationPeriod 		1.5
+  RotationAxis 			0 1 0 0
+  Color					1.0 0.2 0
+}
+

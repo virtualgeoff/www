@@ -1,0 +1,182 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Wave ElevationGrid ExternProto, beta 12"
+  info    "Geoff Pack, Spike, October 1999"
+}
+
+PROTO sinWaveEG [
+  eventOut  SFVec3f   queryReturnPoint
+  eventOut  SFVec3f   queryReturnGradient
+  eventIn   SFVec3f   queryPointInput
+
+  field     SFColor   diffuseColor    0 .2 .5
+  field     SFColor   specularColor   .2 .2 .2
+  field     SFFloat   shininess       .9
+  field     SFFloat   transparency    .2
+
+  field     SFInt32   xDimension      2
+  field     SFFloat   xSpacing        100
+  field     SFInt32   zDimension      200
+  field     SFFloat   zSpacing        1
+  field     SFFloat   waveAmplitude   5.0
+  field     SFFloat   waveSpeed       10.0
+  field     SFFloat   waveLength      40
+]{
+
+#--------------------------------------
+# sinWaveEG geometry
+
+DEF Wave Transform {
+  scale         1 1 1
+  translation   -50 0 -100
+  children [
+    DEF TS TouchSensor {}
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor    IS diffuseColor
+          specularColor   IS specularColor
+          shininess       IS shininess
+          transparency    IS transparency
+        }
+      }
+      geometry DEF WaveGrid ElevationGrid {
+        xDimension    IS xDimension
+        xSpacing      IS xSpacing
+        zDimension    IS zDimension
+        zSpacing      IS zSpacing
+        creaseAngle   1
+        solid         FALSE
+      }
+    }
+  ]
+}
+
+#--------------------------------------
+# Timer
+
+DEF WaveTimer TimeSensor {
+  cycleInterval 1
+  stopTime      -1
+  loop          TRUE
+}
+
+#--------------------------------------
+# Motion Script
+
+DEF WaveScript Script {
+  eventIn   SFFloat   change
+  eventIn   SFTime    animateGrid
+  eventIn   SFTime    touched
+
+  eventOut  SFTime    startClock
+  eventOut  SFTime    stopClock
+  eventOut  SFBool    enableClock
+
+  eventOut  SFVec3f   queryReturnPoint    IS queryReturnPoint
+  eventOut  SFVec3f   queryReturnGradient IS queryReturnGradient
+  eventIn   SFTime    queryInput
+  eventIn   SFVec3f   queryPointInput     IS queryPointInput
+  field     SFVec3f   queryPoint          0 0 0
+
+  field     SFNode    waveGrid            USE WaveGrid
+  field     MFFloat   gridHeight          []
+  field     MFFloat   gridGradient        []
+  field     SFInt32   xDimension          IS xDimension
+  field     SFFloat   xSpacing            IS xSpacing
+  field     SFInt32   zDimension          IS zDimension
+  field     SFFloat   zSpacing            IS zSpacing
+
+  field     SFFloat   waveAmplitude       IS waveAmplitude
+  field     SFFloat   waveSpeed           IS waveSpeed
+  field     SFFloat   waveLength          IS waveLength
+  field     SFFloat   pi                  3.14159
+  field     SFBool    active              TRUE
+
+  directOutput  TRUE
+  mustEvaluate  TRUE
+
+  url "javascript:
+    function initialize(){
+      // initialize grid values
+      var length = xDimension * zDimension;
+      for(var i=0; i<length; i++){
+        gridHeight[i] = 0;
+      }
+      waveGrid.set_height = gridHeight;
+
+      // initialize clock
+      Now = new Date();
+      lastTime = Now.getTime()/1000; // convert milliseconds(js) to seconds(vrml);
+      //print('init: lastTime = ' + lastTime);
+      startClock = lastTime;
+      enableClock = TRUE;
+    }
+
+    function animateGrid(timeValue) {
+      var t = timeValue;
+      for(var z=0; z<zDimension; z++){
+        var m=z*xDimension + 0;
+        // only calculate waveheight for first z value (waveheight is identical across x):
+        gridHeight[m] = waveAmplitude * Math.sin((2*pi/waveLength)*(z*zSpacing - t*waveSpeed));
+        gridGradient[m] = waveAmplitude * Math.cos((2*pi/waveLength)*(z*zSpacing - t*waveSpeed));
+        for(var x=1; x<xDimension; x++){
+          var n=z*xDimension + x;
+          gridHeight[n] = gridHeight[m];
+          gridGradient[n] = gridGradient[m];
+        }
+      }
+      waveGrid.set_height = gridHeight;
+    }
+    function touched(timeValue) {
+      if (active) {
+        stopClock = timeValue;
+        active = FALSE;
+      } else {
+        startClock = timeValue;
+        active = TRUE;
+      }
+    }
+    function queryPointInput(value) {
+      queryPoint = value;
+    }
+    function queryInput(timeValue) {
+      // assumes waveGrid is symmetrical around origin!
+
+      var x = Math.round(queryPoint[0]/xSpacing + 50/xSpacing);
+      var z = Math.round(queryPoint[2]/zSpacing + 100/zSpacing);
+
+      // return height and normal for x,z coords:
+      var n=z*xDimension + x;
+      queryReturnPoint[0] = queryPoint[0];
+      queryReturnPoint[1] = gridHeight[n];
+      queryReturnPoint[2] = queryPoint[2];
+
+      //queryReturnGradient = waveGrid.normal[n];
+      queryReturnGradient[0] = 0;
+      queryReturnGradient[1] = gridGradient[n];
+      queryReturnGradient[2] = -gridGradient[n];
+
+    }
+
+  "
+}
+
+#--------------------------------------
+# Routing
+
+ROUTE WaveScript.startClock TO WaveTimer.startTime
+ROUTE WaveScript.stopClock TO WaveTimer.stopTime
+ROUTE WaveScript.enableClock TO WaveTimer.enabled
+ROUTE WaveTimer.time TO WaveScript.animateGrid
+ROUTE WaveTimer.time TO WaveScript.queryInput
+ROUTE TS.touchTime TO WaveScript.touched
+
+
+#--------------------------------------
+# End Proto
+
+}
+
+

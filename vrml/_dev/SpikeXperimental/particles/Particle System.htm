@@ -1,0 +1,149 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<html>
+<HEAD>
+<TITLE>Particle System</TITLE>
+
+</HEAD>
+
+<BODY bgcolor="#fffeee"
+      text="Black"
+      link="#4a9e6d"
+      vlink="#588C80"
+      alink="#68BC90">
+<CENTER>
+
+<font face="Arial, Helvetica, sans-serif">
+  <p>&nbsp;</p>
+  </font>
+  <h1><font face="Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif">Particles</font></font></h1>
+  <h2><FONT face="Arial, Helvetica, sans-serif"></font></h2>
+</CENTER>
+<FONT face="Arial, Helvetica, sans-serif">
+<hr>
+<br>
+<br>
+<h2>Introduction</h2>
+<p> The Particles Node creates a dynamic generated Particle System.
+</font>
+<pre><h3><font face="Arial, Helvetica, sans-serif">Examples:</font></h3></pre>
+<p><font face="Arial, Helvetica, sans-serif"> <a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle1.wrl">Test 1<br>
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_fire.wrl">Fire
+  test<br>
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle1.wrl">
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle2t2.wrl">
+  with mirror effect<br>
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle1.wrl">
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_box.wrl"></a></font><font face="Arial, Helvetica, sans-serif"><a href="particle_box.wrl">using
+  the geometry field</a></font> <font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_box_burst.wrl">using
+  the geometry field</a></font><br>
+  <font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_move1.wrl">Moving
+  emitter<br>
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_edit.wrl">simple
+  Particle Editor<br>
+  </a></font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_move_random.wrl">Flashy
+  trails </a></font> <br>
+  <font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_flame.wrl">some
+  fire </a><br>
+  </font><font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle_fx_1.wrl">some
+  fx </a></font> <br>
+  <font face="Arial, Helvetica, sans-serif"><a href="http://www.blaxxun.com/support/developerguide/developer/contact/3d/vrml/demo/particles/particle2t2.wrl">with mirror
+  </a></font> <br>
+</p>
+<FONT face="Arial, Helvetica, sans-serif">
+<p>&nbsp;
+<p><font face="Arial, Helvetica, sans-serif"><b>Node definition : </b></font>
+</font>
+<p>&nbsp;
+<pre>
+Particles {
+    exposedField SFVec3f bboxSize -1 -1 -1
+    exposedField SFVec3f bboxCenter 0 0 0
+    exposedField SFFloat lodRange 100
+    exposedField SFBool enabled TRUE
+    exposedField SFFloat particleRadius 0.1
+    exposedField SFFloat particleRadiusVariation 0
+    exposedField SFFloat particleRadiusRate 0
+    exposedField SFNode geometry NULL
+    exposedField SFVec3f emitterPosition 0 3 0
+    exposedField SFFloat emitterRadius 0
+    exposedField SFFloat emitterSpread 0.25
+    exposedField SFVec3f emitVelocity 2.5 5 2.5
+    exposedField SFFloat emitVelocityVariation 0.5
+    exposedField SFRotation emitterOrientation 0 1 0 0
+    exposedField SFFloat creationRate 500
+    exposedField SFFloat creationRateVariation 0
+    exposedField SFInt32 maxParticles 500
+    exposedField SFTime maxLifeTime 5
+    exposedField SFFloat maxLifeTimeVariation 0
+    exposedField SFVec3f gravity  0 -9.8 0
+    exposedField SFVec3f acceleration 0 0 0
+    exposedField SFColor emitColor 1 1 1
+    exposedField SFFloat emitColorVariation 0 # new in 5.0
+    exposedField SFColor fadeColor 0.25 0.25 0.25
+    exposedField SFFloat fadeAlpha 1.0
+    exposedField SFFloat fadeRate  0.25
+    exposedField SFInt32 numTrails 0
+    exposedField SFInt32 numSparks 0
+    exposedField SFVec3f sparkGravity 0 -5 0
+    exposedField SFColor sparkFadeColor 0 0 0
+}
+</pre>
+<p><br>
+  <font face="Arial, Helvetica, sans-serif">Particles is a geometry node.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">Particles are rendered per default
+  as a textured billboarded quad. </font></p>
+<p><font face="Arial, Helvetica, sans-serif">Particles are emitted from a sphere
+  centered at emitterPosition. emitterRadius defines the radius of the sphere,
+  if radius is 0 the emitter is a single point. emitterSpread is a cone angle
+  0..1, if the spread is 1.0 particles are emitted over the whole sphere. The
+  cone direction can be orientied using emitterOrientation.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">If the particle system is enabled
+  (enabled TRUE) up to creationRate number of particles are created per second.
+  maxLifeTime limits the life time of a particle, maxParticles is an upper bound
+  for the number of currently simulated particles.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">Each particel internally stores the
+  properties position, velocity, radius, RGBA color, lifeTime</font></p>
+<p><font face="Arial, Helvetica, sans-serif">The initial RGBA color (emitColor,
+  Alpha 1.0), color is interpolated to (fadeColor, fadeAlpha) over the lifetime
+  of the particle. Gravity and acceleration are additional global force vectors.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">A particle is destroyed once the
+  radius reaches 0, the alpha values reaches 0 or the lifeTime expires. Another
+  special ending condition is if the particle reaches the y=0 plane. In this case
+  if numSparks is &gt;0 secondary particles are created.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">If geometry is not NULL it should
+  specify a geometry node which is used a the particle geometry, the node is translated
+  according to the particle position and scaled according to particle radius.
+  Particle color is ignored in this mode.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">Several variables can be randomized
+  using the corresponding variation parameter. Variation 0 means no variation,
+  values above 0 to 1 an randomize value according to parameter *(1.0 - (Math.random()
+  * variation))</font></p>
+<p><font face="Arial, Helvetica, sans-serif">In the Billboard drawing case, particles
+  can leave a trail using numTrails (0..10)</font></p>
+<p><font face="Arial, Helvetica, sans-serif">For culling purposes one can specify
+  a bbox for the particle system. The lodRange gradually scales the creationRate
+  to 0 if the viewer moves out of the sphere emitterPosition lodRange, lodRange
+  0 turns off the LOD effect.</font></p>
+<p><font face="Arial, Helvetica, sans-serif">If a Particles node is disabled,
+  creation of new particles is stopped, but current particles are simulated until
+  their end. Particles are not selectable or collidable.<br>
+  </font></p>
+<p>&nbsp;</p>
+<p></p>
+<p><font face="Arial, Helvetica, sans-serif"><b>Implementation notes:</b> </font></p>
+<p><font face="Arial, Helvetica, sans-serif">The Contact 4.4 DX render pipeline
+  does not render the particles with their current alpha value. Alpha is supported
+  with Contact 5 Dirext 7 and OpenGL Drivers.</font></p>
+<p>&nbsp;</p>
+<pre><h3><br>
+</h3></pre>
+<p><FONT face="Arial, Helvetica, sans-serif"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"></font></font></font></font></font></font></font></font></p>
+<pre><FONT face="Arial, Helvetica, sans-serif"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><font face="Courier"><HR>
+<CENTER>
+  <FONT SIZE=-1><A HREF="http://www.blaxxun.com/copyright.html" target=_top>&copy;2001 blaxxun interactive</A>
+  - All rights reserved.</FONT>
+</CENTER>
+<!-- END FOOTER ===============================================-->
+
+</font></font></font></font></font></font></font></font></font></pre>
+</BODY></HTML>

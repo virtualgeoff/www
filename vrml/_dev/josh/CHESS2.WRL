@@ -1,0 +1,547 @@
+#VRML V2.0 utf8
+
+# Introductory stuff -----------------------------
+
+NavigationInfo {
+	type "EXAMINE"
+}
+Viewpoint {
+	position 4 4 10
+	description "Centred"
+}
+Viewpoint {
+	orientation 1 0 0  1.57
+	position 4 -10 0
+	description "Front"
+}
+Viewpoint {
+	orientation 1 0 0  1.2
+	position 4 -10 3
+	description "Perspective"
+}
+
+# The Chess Board --------------------------------
+
+DEF TwoRows Group {
+	children [
+DEF RowofWhiteSquares Group {
+	children [
+		Transform {
+			translation 0 0 0
+			children [DEF WhiteSquare Shape {
+					appearance Appearance {
+						material Material {
+							ambientIntensity 0.8
+							diffuseColor 1 1 1
+						}
+					}
+					geometry DEF Square IndexedFaceSet {
+						coord Coordinate {
+							point [ 0 0 0, 1 0 0, 1 1 0, 0 1 0 ]
+						}
+						coordIndex [ 0, 1, 2, 3, -1 ]
+						solid FALSE
+					}
+			}]
+		}
+
+		Transform {
+			translation 2 0 0
+			children [USE WhiteSquare]
+		}
+
+		Transform {
+			translation 4 0 0
+			children [USE WhiteSquare]
+		}
+
+		Transform {
+			translation 6 0 0
+			children [USE WhiteSquare]
+		}
+	]
+}
+
+
+DEF RowofBlueSquares Group {
+	children [
+		Transform {
+			translation 1 0 0
+			children [DEF BlueSquare Shape {
+					appearance Appearance {
+						material Material {
+							ambientIntensity 0.8
+							diffuseColor 0 0 1
+						}
+					}
+					geometry USE Square
+			}]
+		}
+
+		Transform {
+			translation 3 0 0
+			children [USE BlueSquare]
+		}
+
+		Transform {
+			translation 5 0 0
+			children [USE BlueSquare]
+		}
+
+		Transform {
+			translation 7 0 0
+			children [USE BlueSquare]
+		}
+	]
+}
+
+Transform {
+	translation 1 1 0
+	children [USE RowofWhiteSquares]
+}
+
+Transform {
+	translation -1 1 0
+	children [USE RowofBlueSquares]
+}
+
+	]
+}
+	
+Transform {
+	translation 0 2 0
+	children [USE TwoRows]
+}
+
+Transform {
+	translation 0 4 0
+	children [USE TwoRows]
+}
+
+Transform {
+	translation 0 6 0
+	children [USE TwoRows]
+}
+
+# A White Pawn ----------------------------------------
+
+DEF WPawn Group {
+	children [
+		Transform {
+			translation 0.5 -1.5 1.2
+			children [Shape {
+				appearance DEF White Appearance {
+					material Material {
+						diffuseColor 1 1 1
+					}
+				}	
+				geometry Sphere {
+					radius .3
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 0.9
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  -1.57
+			translation 0.5 -1.5 0.7
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 0.4
+			children [Shape {
+				appearance USE White
+				geometry Cylinder {
+					height 0.6
+					radius .2
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 -1.5 0.2
+			children [Shape {
+				appearance USE White
+				geometry Cone {
+					bottomRadius 0.45
+					height .4
+				}
+			}]
+		}
+	]	
+}
+
+# A Black Pawn ----------------------------------------
+
+DEF BPawn Group {
+	children [
+		Transform {
+			translation 0.5 9.5 1.2
+			children [Shape {
+				appearance DEF Black Appearance {
+					material Material {
+						diffuseColor 1 0 0
+					}
+				}	
+				geometry Sphere {
+					radius .3
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 0.9
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  -1.57
+			translation 0.5 9.5 0.7
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius .4
+					height .2
+					bottom FALSE
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 0.4
+			children [Shape {
+				appearance USE Black
+				geometry Cylinder {
+					height 0.6
+					radius .2
+				}
+			}]
+		}
+		Transform {
+			rotation 1 0 0  1.57
+			translation 0.5 9.5 0.2
+			children [Shape {
+				appearance USE Black
+				geometry Cone {
+					bottomRadius 0.45
+					height .4
+				}
+			}]
+		}
+	]	
+}
+
+
+# Moving White Pawn 1 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor1 PlaneSensor {
+			minPosition 0 3
+			maxPosition 0 9
+			}
+		DEF WPawn1 Transform {
+			translation 0 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor1.translation_changed TO WPawn1.set_translation
+
+# Moving White Pawn 2 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor2 PlaneSensor {
+			minPosition 1 3
+			maxPosition 1 9
+			}
+		DEF WPawn2 Transform {
+			translation 1 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor2.translation_changed TO WPawn2.set_translation
+
+# Moving White Pawn 3 ----------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor3 PlaneSensor {
+			minPosition 2 3
+			maxPosition 2 9
+			}
+		DEF WPawn3 Transform {
+			translation 2 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor3.translation_changed TO WPawn3.set_translation
+
+# Moving White Pawn 4 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor4 PlaneSensor {
+			minPosition 3 3
+			maxPosition 3 9
+			}
+		DEF WPawn4 Transform {
+			translation 3 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor4.translation_changed TO WPawn4.set_translation
+
+# Moving White Pawn 5 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor5 PlaneSensor {
+			minPosition 4 3
+			maxPosition 4 9
+			}
+		DEF WPawn5 Transform {
+			translation 4 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor5.translation_changed TO
+WPawn5.set_translation
+
+# Moving White Pawn 6 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor6 PlaneSensor {
+			minPosition 5 3
+			maxPosition 5 9
+			}
+		DEF WPawn6 Transform {
+			translation 5 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor6.translation_changed TO WPawn6.set_translation
+
+# Moving White Pawn 7 ----------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor7 PlaneSensor {
+			minPosition 6 3
+			maxPosition 6 9
+			}
+		DEF WPawn7 Transform {
+			translation 6 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor7.translation_changed TO
+WPawn7.set_translation
+
+# Moving White Pawn 8 ---------------------------------
+
+Transform {
+	children [
+		DEF WPawnSensor8 PlaneSensor {
+			minPosition 7 3
+			maxPosition 7 9
+			}
+		DEF WPawn8 Transform {
+			translation 7 3 0
+			children [
+				USE WPawn
+			]
+		}
+	]
+}
+ROUTE WPawnSensor8.translation_changed TO WPawn8.set_translation
+
+# Moving Black Pawn 1 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor1 PlaneSensor {
+			minPosition 0 -9
+			maxPosition 0 -3
+			}
+		DEF BPawn1 Transform {
+			translation 0 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor1.translation_changed TO BPawn1.set_translation
+
+# Moving Black Pawn 2 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor2 PlaneSensor {
+			minPosition 1 -9
+			maxPosition 1 -3
+			}
+		DEF BPawn2 Transform {
+			translation 1 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor2.translation_changed TO BPawn2.set_translation
+
+# Moving Black Pawn 3 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor3 PlaneSensor {
+			minPosition 2 -9
+			maxPosition 2 -3
+			}
+		DEF BPawn3 Transform {
+			translation 2 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor3.translation_changed TO BPawn3.set_translation
+
+# Moving Black Pawn 4 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor4 PlaneSensor {
+			minPosition 3 -9
+			maxPosition 3 -3
+			}
+		DEF BPawn4 Transform {
+			translation 3 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor4.translation_changed TO BPawn4.set_translation
+
+# Moving Black Pawn 5 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor5 PlaneSensor {
+			minPosition 4 -9
+			maxPosition 4 -3
+			}
+		DEF BPawn5 Transform {
+			translation 4 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor5.translation_changed TO BPawn5.set_translation
+
+# Moving Black Pawn 6 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor6 PlaneSensor {
+			minPosition 5 -9
+			maxPosition 5 -3
+			}
+		DEF BPawn6 Transform {
+			translation 5 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor6.translation_changed TO BPawn6.set_translation
+
+# Moving Black Pawn 7 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor7 PlaneSensor {
+			minPosition 6 -9
+			maxPosition 6 -3
+			}
+		DEF BPawn7 Transform {
+			translation 6 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor7.translation_changed TO BPawn7.set_translation
+
+# Moving Black Pawn 8 ---------------------------------
+
+Transform {
+	children [
+		DEF BPawnSensor8 PlaneSensor {
+			minPosition 7 -9
+			maxPosition 7 -3
+			}
+		DEF BPawn8 Transform {
+			translation 7 -3 0
+			children [
+				USE BPawn
+			]
+		}
+	]
+}
+ROUTE BPawnSensor8.translation_changed TO BPawn8.set_translation

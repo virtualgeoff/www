@@ -1,0 +1,74 @@
+#VRML V2.0 utf8
+
+# Braden N. McDaniel
+# braden@endoframe.com
+# http://www.endoframe.com/
+
+WorldInfo {
+    title   "Spinning Humerus"
+}
+
+EXTERNPROTO RightHumerus [
+    exposedField    SFVec3f     location
+    exposedField    SFRotation  orientation
+] [ "HumerusPROTO.wrl" ]
+
+Collision {
+    collide FALSE
+    children [
+        NavigationInfo {
+            headlight   FALSE
+            type        [ "EXAMINE" ]
+        }
+        Background {
+            skyColor    [ 0.89 0.87 0.85 ]
+        #    groundColor [ 0.75 0.66 0.49 ]
+        },
+        Fog {
+            color           0.89 0.87 0.85
+            visibilityRange 0.5
+        }
+        Viewpoint {
+            fieldOfView 0.43
+            position    0 0 0.35
+        },
+        DirectionalLight {
+            direction   1 -1 -1
+        }
+        DirectionalLight {
+            direction   0 1 0
+            intensity   0.5
+        }
+        DirectionalLight {
+            direction   0 -1 0
+            intensity   0.5
+        }
+        DEF T Transform {
+            children [
+                RightHumerus {
+                    orientation -0.57735 -0.57735 -0.57735 2.0944
+                }
+            ]
+        },
+        DEF TS TimeSensor {
+            loop            TRUE
+            cycleInterval   7
+        },
+        DEF OI OrientationInterpolator {
+            key [
+                0,
+                0.333,
+                0.666,
+                1
+            ]
+            keyValue [
+                0 1 0  0,
+                0 1 0  2.094,
+                0 1 0  4.189,
+                0 1 0  6.283
+            ]
+        }
+    ]
+    ROUTE TS.fraction_changed   TO OI.set_fraction
+    ROUTE OI.value_changed      TO T.set_rotation
+}

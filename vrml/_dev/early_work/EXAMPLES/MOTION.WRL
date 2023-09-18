@@ -1,0 +1,219 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Motion and Sensors Example"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	TRUE
+   type		"EXAMINE"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		1.0
+}
+
+Viewpoint {
+   description "Entry"
+   position 0 0 15
+}
+
+#----------------------------------------------------------------------------
+# Objects and Transforms  
+
+DEF OBJECT1 Transform {
+   rotation		1 0 0 0
+   center		0 1 0 
+   children [
+      DEF OBJECT2 Transform {
+	   rotation		0 1 0 0
+	   center		0 0 1
+	   children [
+	      DEF OBJECT3 Transform {
+		   rotation		0 0 1 0
+		   center		1 0 0 
+		   children [
+		      DEF OBJECT4 Transform {
+			   rotation		1 1 1 0
+			   center		1 0 1
+			   children [
+				Inline {
+				   url		"textures.wrl"
+				}
+			   ]
+			}
+		   ]
+		}
+	   ]
+	}
+   ]
+}
+
+#----------------------------------------------------------------------------
+# Lights and Sensors  
+
+Transform {
+   rotation		1 0 0 1.5708
+   children [
+	Transform {
+	   translation 		-3 4 0
+	   children [
+		DEF LIGHT_CONTROL1 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { 
+			   emissiveColor		0 0 0
+			}
+	         }
+	   	   geometry Box {
+			size		.5 .5 .5
+	   	   }
+		}
+		DEF LIGHT1 DirectionalLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			1 0 0
+		   direction		0 -1 -1
+		}	   
+  	   ]
+	}
+	Transform {
+	   translation 		0 4 0
+	   children [
+		DEF LIGHT_CONTROL2 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { 
+			   emissiveColor		0 0 0
+			}
+	         }
+	   	   geometry Sphere {
+			radius	.25
+	   	   }
+		}
+		DEF LIGHT2 PointLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			0 1 0
+		   location			0 0 0
+		   radius			10
+		   attenuation		0 0 0
+		}	   
+  	   ]
+	}
+	Transform {
+	   translation 		3 4 0
+	   children [
+		DEF LIGHT_CONTROL3 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material { 
+			   emissiveColor		0 0 0
+			}
+	         }
+	   	   geometry Cylinder {
+			radius	.25
+			height	.5
+	   	   }
+		}
+		DEF LIGHT3 PointLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			0 0 1
+		   location			0 0 0
+		   radius			10
+		   attenuation		0 0 0
+		}	   
+  	   ]
+	}
+	Transform {
+	   translation 		6 4 0
+	   children [
+		DEF LIGHT_CONTROL4 TouchSensor { }
+		Shape {
+	   	   appearance Appearance {
+	      	material Material {
+			   emissiveColor		0 0 0 
+			}
+	         }
+	   	   geometry Cone {
+			bottomRadius	.25
+			height		.5
+	   	   }
+		}
+		DEF LIGHT4 PointLight {
+		   on				FALSE
+		   intensity		1
+		   ambientIntensity	.5
+		   color			1 1 0
+		   location			0 0 0
+		   radius			10
+		   attenuation		0 0 0
+		}
+  	   ]
+	}
+   ]
+}
+
+#----------------------------------------------------------------------------
+# Motion Mechanics
+
+DEF ROTATE1 OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 1 0 0 0, 1 0 0 1.5708, 1 0 0 3.1416, 1 0 0 4.7124, 1 0 0 6.2832 ]
+}
+DEF ROTATE2 OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+DEF ROTATE3 OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 0 0 1 0, 0 0 1 1.5708, 0 0 1 3.1416, 0 0 1 4.7124, 0 0 1 6.2832 ]
+}
+DEF ROTATE4 OrientationInterpolator {
+   key		[ 0, .25, .5, .75, 1 ]
+   keyValue		[ 1 1 1 0, 1 1 1 1.5708, 1 1 1 3.1416, 1 1 1 4.7124, 1 1 1 6.2832 ]
+}
+
+DEF TIMER1 TimeSensor {
+   cycleInterval	3
+   #stopTime	-1
+   #loop		TRUE
+}
+DEF TIMER2 TimeSensor {
+   cycleInterval	4
+   #stopTime	-1
+   #loop		TRUE
+}
+DEF TIMER3 TimeSensor {
+   cycleInterval	5
+   #stopTime	-1
+   #loop		TRUE
+}
+DEF TIMER4 TimeSensor {
+   cycleInterval	6
+   #stopTime	-1
+   #loop		TRUE
+}
+
+ROUTE LIGHT_CONTROL1.isOver TO LIGHT1.on
+ROUTE LIGHT_CONTROL2.isOver TO LIGHT2.on
+ROUTE LIGHT_CONTROL3.isOver TO LIGHT3.on
+ROUTE LIGHT_CONTROL4.isOver TO LIGHT4.on
+
+ROUTE LIGHT_CONTROL1.touchTime TO TIMER1.startTime
+ROUTE LIGHT_CONTROL2.touchTime TO TIMER2.startTime
+ROUTE LIGHT_CONTROL3.touchTime TO TIMER3.startTime
+ROUTE LIGHT_CONTROL4.touchTime TO TIMER4.startTime
+
+ROUTE TIMER1.fraction_changed TO ROTATE1.set_fraction
+ROUTE TIMER2.fraction_changed TO ROTATE2.set_fraction
+ROUTE TIMER3.fraction_changed TO ROTATE3.set_fraction
+ROUTE TIMER4.fraction_changed TO ROTATE4.set_fraction
+
+ROUTE ROTATE1.value_changed TO OBJECT1.set_rotation
+ROUTE ROTATE2.value_changed TO OBJECT2.set_rotation
+ROUTE ROTATE3.value_changed TO OBJECT3.set_rotation
+ROUTE ROTATE4.value_changed TO OBJECT4.set_rotation

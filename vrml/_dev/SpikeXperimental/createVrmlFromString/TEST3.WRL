@@ -1,0 +1,36 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+    title "createVrmlFromString + proto test 3"
+    info  "Geoff Pack, geoff@spike.com.au, June 2001"
+}
+
+DEF myTransform Transform {}
+
+DEF myScript Script {
+	directOutput  TRUE
+	eventOut  MFNode   newChild
+	field     SFVec3f  translation 0 0 0
+	field     SFColor  color 1 0 0
+    url ["javascript:
+
+    	function initialize() {
+ 			vrmlString = ''
+ 				+ 'EXTERNPROTO myProto [ '
+				+ '    field  SFVec3f  translation '
+				+ '    field  SFColor  color '
+				+ '] \"myProto.wrl\"' ;
+
+    		for (i=0; i<10; i++) {
+    			translation[1] = i*2;
+    			color[1] = i/10;
+ 				vrmlString += 'myProto {translation ' + translation + ' color ' + color + '}';
+            }
+ 			node = Browser.createVrmlFromString(vrmlString);
+            newChild = node;
+    	}
+    "]
+}
+
+ROUTE myScript.newChild TO myTransform.addChildren
+

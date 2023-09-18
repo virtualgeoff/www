@@ -1,0 +1,161 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Terrain Example"
+   info		"VRML 2.0 Background, Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   headlight 	FALSE
+   type		"WALK"	#WALK, FLY, EXAMINE, NONE
+   avatarSize  	1.8
+   speed		3.0
+}
+
+Viewpoint {
+   position 	0 2 150
+}
+
+Background {
+   groundColor	[0 .5 0, 0 .7 0]
+   groundAngle	[1.6]
+   skyColor		[.3 .3 .9, .3 .3 .9]
+   skyAngle		[1.5708]
+}
+
+# note - no support yet for background images in Win95 Cosmo Player
+
+DEF Sun DirectionalLight {
+   on				TRUE
+   intensity		.7
+   ambientIntensity	.3
+   color			1 1 1
+   direction		1 -1 0
+}	   
+
+Transform {
+   translation 		-150 0 -150
+   center			0 0 0
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	0 .9 0	
+		   shininess	.5
+		}
+		texture ImageTexture { 
+		   url "../textures/greenfac.jpg" 
+		   repeatS		TRUE
+		   repeatT		TRUE
+		}
+		textureTransform TextureTransform {
+		   translation	0 0
+		   rotation		.785
+		   scale		1 1
+		   center		0 0
+		}
+	   }
+	   geometry ElevationGrid {
+		xDimension		11	# 10 x 30 = 300m x 300m
+		zDimension		11
+		xSpacing		30
+		zSpacing		30
+		height	[ 	0, 0,  0, 0, 0,  0,  0,  0,  0,  0,  0, # row 0
+					0, 3,  4, 2, 2, -1,  2,  3,  3, -2,  0, # row 1
+				 	0, 3,  5, 4, 3,  2,  1,  6,  2,  1,  0, # row 2
+				 	0, 2,  0, 4, 3,  2,  2,  2,  0,  1,  0, # row 3
+				 	0, 1, -2, 2, 4,  4,  4,  2,  2,  1,  0, # row 4
+				 	0, 1,  2, 2, 4,  6,  4,  1,  2,  2,  0, # row 5
+				 	0, 1,  0, 3, 4,  4,  4,  1,  3, -2,  0, # row 6
+				 	0, 2, -2, 2, 2,  4,  2,  3,  1,  2,  0, # row 7
+				 	0, 4,  0, 2, 1, -1,  2,  1,  0,  2,  0, # row 8
+				 	0, 1,  0, 3, 1,  1,  1,  1,  0,  3,  0, # row 9
+				 	0, 0,  0, 0, 0,  0,  0,  0,  0,  0,  0, # row 10
+				]
+		solid		FALSE
+	   }
+	}
+   ]
+}
+
+
+# Corner Cone Markers:
+
+Transform {
+   translation 		-150 1 -150
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	0 0 1	
+		   shininess	.5
+		}
+	   }
+	   geometry Cone {
+		bottomRadius	1
+		height		2
+	   }
+	}
+   ]
+}
+
+Transform {
+   translation 		150 1 -150
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	1 0 1
+		   shininess	.5
+		}
+	   }
+	   geometry Cone {
+		bottomRadius	1
+		height		2
+	   }
+	}
+   ]
+}
+
+Transform {
+   translation 		150 1 150
+   rotation			0 0 0 0
+   scale			1 1 1
+   center			0 0 0
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	1 0 0
+		   shininess	.5
+		}
+	   }
+	   geometry Cone {
+		bottomRadius	1
+		height		2
+	   }
+	}
+   ]
+}
+
+Transform {
+   translation 		-150 1 150
+   rotation			0 0 0 0
+   scale			1 1 1
+   center			0 0 0
+   children [
+	Shape {
+ 	   appearance Appearance {
+		material Material {
+		   diffuseColor	1 1 0
+		   shininess	.5
+		}
+	   }
+	   geometry Cone {
+		bottomRadius	1
+		height		2
+	   }
+	}
+   ]
+}
+

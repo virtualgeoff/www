@@ -1,0 +1,30 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+   title		"Template"
+   info		"Geoff Pack, 1997"
+}
+
+NavigationInfo {
+   avatarSize  	[ 0.25, 1.6, 0.75 ]	# default
+   headlight 	TRUE				# default is on
+   type		"EXAMINE"			# WALK, FLY, EXAMINE, NONE. (WALK is default)
+   speed		3.0
+}
+
+Background {
+   groundColor	[0 .5 0, 0 .7 0]
+   groundAngle	[1.6]
+   skyColor		[.3 .3 .9, .3 .3 .9]
+   skyAngle		[1.5708]
+}
+
+Viewpoint {
+   description 	"Entry"
+   position 	0 0 10			# default
+   orientation	0 0 1 0			# default
+   fieldOfView	0.785398			# default
+   jump		TRUE				# default
+}
+
+

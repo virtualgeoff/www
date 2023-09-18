@@ -1,0 +1,72 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title   "Texture Mapped Polygon Proto"
+  info    "Geoff Pack, Spike, February 2001"
+}
+
+PROTO imagePoly [
+	field	SFVec3f 	divPos		1 1 0
+    field   SFVec2f 	imgSize		1 1
+	field	MFString	imgURL		""
+	field	SFFloat		transparency 0
+]{
+	DEF imgTransform Transform {
+		children [
+			Shape {
+				geometry IndexedFaceSet {
+					solid   FALSE
+	                coord DEF FaceSetCoords Coordinate {
+	                    point [ ]
+	                }
+					coordIndex [ 0, 1, 2, 3, -1 ]
+				}
+				appearance Appearance {
+					material Material {
+						transparency IS transparency
+					}
+					texture ImageTexture {
+						url IS imgURL
+					}
+					textureTransform DEF imgTextureTransform TextureTransform {}
+				}
+			}
+		]
+	}
+	DEF FaceSetScript Script {
+	    eventOut MFVec3f point_Changed
+	    eventOut SFVec2f scale_Changed
+	    eventOut SFVec3f position_Changed
+	    field    SFVec3f position IS divPos
+	    field    SFVec2f size IS imgSize
+    	field    MFVec3f point 0.0 0.0 0.0
+    	field    SFVec2f scale 1 1
+	    url "javascript:
+	        function initialize() {
+				point[0].x = 0;
+				point[0].y = 0;
+				point[0].z = 0;
+				point[1].x = size.x;
+				point[1].y = 0;
+				point[1].z = 0;
+				point[2].x = size.x;
+				point[2].y = -size.y;
+				point[2].z = 0;
+				point[3].x = 0;
+				point[3].y = -size.y;
+				point[3].z = 0;
+				scale.x = 1;
+				scale.y = size.x/size.y;
+				position.y = -position.y;
+				point_Changed = point;
+				scale_Changed = scale;
+				position_Changed = position;
+			}
+		"
+	}
+	ROUTE FaceSetScript.point_Changed TO FaceSetCoords.set_point
+	ROUTE FaceSetScript.scale_Changed TO imgTextureTransform.set_scale
+	ROUTE FaceSetScript.position_Changed TO imgTransform.set_translation
+
+	# End Proto
+}

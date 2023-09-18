@@ -1,0 +1,191 @@
+#VRML V2.0 utf8
+
+
+WorldInfo {
+  title   "Planet Spike"
+  info    [ "Copyright Spike, 2001",
+            "author: Geoff Pack",
+            "geoff@spike.com.au"]
+}
+
+NavigationInfo {
+  avatarSize  [ 0 0 0 ]
+  headlight   TRUE
+  speed       1
+  type        "EXAMINE"
+}
+
+Viewpoint {
+  position    0 0 50
+}
+
+
+DEF Sun Transform {
+  rotation     	0 0 0 0
+  translation  	0 0 0
+  scale			4 4 4
+  children [
+    Inline {
+      url       "spike.wrl"
+    }
+  ]
+}
+
+DEF PlanetOrbit Transform {
+  rotation     	0 1 0 0
+  translation  	0 0 0
+  scale			1 1 1
+  children [
+
+	DEF PlanetRotation Transform {
+	  translation   15 0 0
+	  rotation      0 1 0 0
+	  scale         2 2 2
+	  children [
+
+		Inline {
+		  url       "spike.wrl"
+		}
+
+
+		DEF MoonOrbit Transform {
+		  rotation     	0 1 0 0
+		  translation  	0 0 0
+		  scale			0.5 0.5 0.5
+		  children [
+
+			DEF MoonRotation Transform {
+			  translation   5 0 0
+			  rotation      0 1 0 0
+			  scale         1 1 1
+			  children [
+
+				Inline {
+				  url       "spike.wrl"
+				}
+
+				DEF MoonSatOrbit Transform {
+				  rotation     	0 1 0 0
+				  translation  	0 0 0
+				  scale			1 1 1
+				  children [
+
+					DEF MoonSatRotation Transform {
+					  translation   2 0 0
+					  rotation      0 1 0 0
+					  scale         0.5 0.5 0.5
+					  children [
+
+						Inline {
+						  url       "spike.wrl"
+						}
+
+					  ]
+					}
+
+				  ]
+				}
+
+
+
+			  ]
+			}
+
+		  ]
+		}
+
+	  ]
+	}
+
+  ]
+}
+
+
+# ----- Sun Rotation -----
+
+DEF sunDay TimeSensor {
+    cycleInterval    30
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF sunRotationAngle OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+ROUTE sunDay.fraction_changed TO sunRotationAngle.set_fraction
+ROUTE sunRotationAngle.value_changed TO Sun.set_rotation
+
+
+# ----- Planet Orbit -----
+
+DEF planetYear TimeSensor {
+    cycleInterval    15
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF planetOrbitAngle OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0.1 1 0 0, 0.1 1 0 1.5708, 0.1 1 0 3.1416, 0.1 1 0 4.7124, 0.1 1 0 6.2832 ]
+}
+
+ROUTE planetYear.fraction_changed TO planetOrbitAngle.set_fraction
+ROUTE planetOrbitAngle.value_changed TO PlanetOrbit.set_rotation
+
+
+# ----- Planet Rotation -----
+
+DEF planetDay TimeSensor {
+    cycleInterval    3
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF planetRotationAngle OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ 0 1 0 0, 0 1 0 1.5708, 0 1 0 3.1416, 0 1 0 4.7124, 0 1 0 6.2832 ]
+}
+
+
+ROUTE planetDay.fraction_changed TO planetRotationAngle.set_fraction
+ROUTE planetRotationAngle.value_changed TO PlanetRotation.set_rotation
+
+
+# ----- Moon Rotation -----
+
+DEF moonDay TimeSensor {
+    cycleInterval    1
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF moonRotationAngle OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ -0.15 1 0 0, -0.15 1 0 1.5708, -0.15 1 0 3.1416, -0.15 1 0 4.7124, -0.15 1 0 6.2832 ]
+}
+
+
+ROUTE moonDay.fraction_changed TO moonRotationAngle.set_fraction
+ROUTE moonRotationAngle.value_changed TO MoonRotation.set_rotation
+
+
+# ----- MoonSat Rotation -----
+
+DEF moonsatDay TimeSensor {
+    cycleInterval    1
+    stopTime    -1
+    loop        TRUE
+}
+
+DEF moonsatRotationAngle OrientationInterpolator {
+    key      [ 0, .25, .5, .75, 1 ]
+    keyValue     [ -0.1 1 0 0, -0.1 1 0 1.5708, -0.1 1 0 3.1416, -0.1 1 0 4.7124, -0.1 1 0 6.2832 ]
+}
+
+
+ROUTE moonsatDay.fraction_changed TO moonsatRotationAngle.set_fraction
+ROUTE moonsatRotationAngle.value_changed TO MoonSatRotation.set_rotation
+
+

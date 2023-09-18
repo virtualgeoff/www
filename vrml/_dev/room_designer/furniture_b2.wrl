@@ -1,0 +1,227 @@
+#VRML V2.0 utf8
+
+# Introductory stuff
+# ------------------
+
+NavigationInfo {
+	type "EXAMINE"
+}
+Viewpoint {
+	orientation 1 0 0  -0.8
+	position 0 7 7
+	description "Perspective"
+}
+Viewpoint {
+	position 0 0 10
+	description "Front"
+}
+Viewpoint {
+	orientation 1 0 0  -1.57
+	position 0 10 0
+	description "Above"
+}
+
+
+# Base
+# ----
+
+DEF Base Transform {
+	translation 0 -0.05 0
+	children [
+		Shape {
+			appearance Appearance {
+				material Material {
+					ambientIntensity 0.8
+					diffuseColor 0.1 0.1 0.5
+				}
+			}
+			geometry Box {
+				size 10 0.1 10
+			}
+		}
+	]
+}
+
+# Chair
+# ----------
+
+Transform {
+	translation 0 .5 0
+	rotation 1 0 0  -1.5708
+	children [
+		DEF chairMover PlaneSensor {
+			minPosition -5 -5
+			maxPosition 5 5
+			offset 0 0 0
+		}
+		DEF chair2 Transform {
+			rotation 1 0 0  1.5708
+			children [
+				DEF chair1 Transform {
+					translation 0 0 0
+					children [
+						Transform {
+							translation 0 -0.05 -0.5
+							children [
+								Inline {
+									url "furniture/beachchair.wrl.gz"
+								}
+							]
+						}
+						Transform {
+							translation 0 2 0
+							children [
+								DEF chairRotator CylinderSensor {
+								}
+								DEF Cylinder1 Transform {
+									translation 0 0 0
+									children [
+										Shape {
+											appearance Appearance {
+												material Material {
+													ambientIntensity 0.8
+													diffuseColor 0 0.7 0
+												}
+											}
+											geometry Cylinder {
+												height 0.2
+												radius 0.3
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+ROUTE chairMover.translation_changed TO chair2.set_translation
+ROUTE chairRotator.rotation_changed TO chair1.set_rotation
+
+# Chair B
+# ----------
+
+Transform {
+	translation -2 0.5 0
+	rotation 1 0 0  -1.5708
+	children [
+		DEF chairBMover PlaneSensor {
+			minPosition -3 -5
+			maxPosition 7 5
+			offset 0 0 0
+		}
+		DEF chairB2 Transform {
+			rotation 1 0 0  1.5708
+			children [
+				DEF chairB1 Transform {
+					translation 0 0 0
+					children [
+						Transform {
+							translation 0 -0.05 -0.5
+							children [
+								Inline {
+									url "furniture/beachchair.wrl.gz"
+								}
+							]
+						}
+						Transform {
+							translation 0 2 0
+							children [
+								DEF chairBRotator CylinderSensor {
+								}
+								DEF Cylinder1 Transform {
+									translation 0 0 0
+									children [
+										Shape {
+											appearance Appearance {
+												material Material {
+													ambientIntensity 0.8
+													diffuseColor 0 0.7 0
+												}
+											}
+											geometry Cylinder {
+												height 0.2
+												radius 0.3
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+ROUTE chairBMover.translation_changed TO chairB2.set_translation
+ROUTE chairBRotator.rotation_changed TO chairB1.set_rotation
+
+
+# Table
+# ----------
+
+Transform {
+	translation 2 .5 0
+	rotation 1 0 0  -1.5708
+	children [
+		DEF tableMover PlaneSensor {
+			minPosition -7 -5
+			maxPosition 3 5
+			offset 0 0 0
+		}
+		DEF table2 Transform {
+			rotation 1 0 0  1.5708
+			children [
+				DEF table1 Transform {
+					translation 0 0 0
+					children [
+						Transform {
+							translation 0 .2 0
+							children [
+								Inline {
+									url "furniture/table.wrl.gz"
+								}
+							]
+						}
+						Transform {
+							translation 0 2 0
+							children [
+								DEF tableRotator CylinderSensor {
+								}
+								DEF Cylinder1 Transform {
+									translation 0 0 0
+									children [
+										Shape {
+											appearance Appearance {
+												material Material {
+													ambientIntensity 0.8
+													diffuseColor 0 0.7 0
+												}
+											}
+											geometry Cylinder {
+												height 0.2
+												radius 0.3
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+ROUTE tableMover.translation_changed TO table2.set_translation
+ROUTE tableRotator.rotation_changed TO table1.set_rotation
+
+# end
+

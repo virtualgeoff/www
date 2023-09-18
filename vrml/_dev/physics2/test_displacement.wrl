@@ -1,0 +1,390 @@
+#VRML V2.0 utf8
+
+WorldInfo {
+  title     "Physics Simulator"
+  info      "Geoff Pack, Spike, 1999"
+}
+
+NavigationInfo {
+  headlight TRUE
+  type      ["WALK","EXAMINE","ANY"]
+}
+
+Background {
+  groundAngle [ 1.5708 ]
+  groundColor [ 0.1 0.1 0.1, 0.1 0.1 0.1 ]
+  skyAngle    [ 1.0, 1.5708 ]
+  skyColor    [ 0.2 0.2 0.7, 0.3 0.3 0.8, 0.7 0.5 0.2]
+}
+
+Viewpoint {
+  description "entry"
+  position 0 0 10
+}
+
+#------------------------------------------------------------
+# Lights
+
+DirectionalLight {
+  color       1 1 1
+  direction   0 -1 0
+  intensity   1
+  on          TRUE
+}
+
+#------------------------------------------------------------
+# Grid:
+
+Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  scale         10 10 10
+  children [
+    Inline {
+      url       "grid.wrl"
+    }
+  ]
+}
+
+#------------------------------------------------------------
+# HUD Controls:
+
+DEF HudGroup Collision {
+  collide   FALSE
+  children  [
+    DEF HudProx ProximitySensor {
+      center  0 0 0
+      size    100 100 100
+    }
+    DEF HudXform Transform {
+      translation   0 0 0
+      rotation      0 0 1  0
+      children [
+
+        Transform {
+          translation   -4 0 -8
+          children [
+            Shape {
+              appearance Appearance {material Material { emissiveColor 1 1 0 }}
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [ 0 1 0, 0 -1 0, .5 1 0, .5 -1 0, 1 1 0, 1 -1 0,]
+                }
+                coordIndex [ 0, 1, -1, 2, 3, -1, 4, 5, -1]
+              }
+            }
+
+            Transform {
+              children [
+                DEF sliderX Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorX PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   .5 0 0
+              children [
+                DEF sliderY Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorY PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   1 0 0
+              children [
+                DEF sliderZ Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorZ PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+
+          ]
+        }
+
+        Transform {
+          translation   4 0 -8
+          children [
+            Shape {
+              appearance Appearance {material Material { emissiveColor 1 1 0 }}
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [ 0 1 0, 0 -1 0, .5 1 0, .5 -1 0, 1 1 0, 1 -1 0,]
+                }
+                coordIndex [ 0, 1, -1, 2, 3, -1, 4, 5, -1]
+              }
+            }
+
+            Transform {
+              children [
+                DEF sliderXX Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorXX PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   .5 0 0
+              children [
+                DEF sliderYY Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorYY PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+            Transform {
+              translation   1 0 0
+              children [
+                DEF sliderZZ Transform {
+                  children [
+                    Shape {
+                      appearance Appearance {material Material { diffuseColor 0 1 0 }}
+                      geometry Box { size 0.15 0.15 0.15 }
+                    }
+                  ]
+                }
+                DEF sensorZZ PlaneSensor {
+                    maxPosition  0 1
+                    minPosition  0 -1
+                    offset       0 0 0
+                }
+              ]
+            }
+
+
+
+          ]
+        }
+
+
+      ]
+    }
+  ]
+}
+
+ROUTE HudProx.position_changed TO HudXform.set_translation
+ROUTE HudProx.orientation_changed TO HudXform.set_rotation
+ROUTE HudProx.position_changed TO HudProx.set_center
+
+# Connect the sensors to their representing objects
+ROUTE sensorX.translation_changed TO sliderX.set_translation
+ROUTE sensorY.translation_changed TO sliderY.set_translation
+ROUTE sensorZ.translation_changed TO sliderZ.set_translation
+ROUTE sensorXX.translation_changed TO sliderXX.set_translation
+ROUTE sensorYY.translation_changed TO sliderYY.set_translation
+ROUTE sensorZZ.translation_changed TO sliderZZ.set_translation
+
+#------------------------------------------------------------
+# Object Transform
+
+DEF Object1 Transform {
+  translation   0 0 0
+  rotation      0 1 0 0
+  children [
+    DEF Pitch Transform {
+      rotation      1 0 0 0
+      children [
+        DEF Yaw Transform {
+          rotation      0 1 0 0
+          children [
+            DEF Roll Transform {
+              rotation      0 0 1 0
+              children [
+                Inline {
+                  url "coord_axes.wrl"
+                }
+                Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor  .5 .5 0
+                      shininess .5
+                    }
+                  }
+                  geometry Sphere { radius  0.3 }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+#------------------------------------------------------------
+# Timer
+
+DEF WorldClock TimeSensor {
+   cycleInterval  1
+   stopTime       -1
+   loop           TRUE
+}
+
+#------------------------------------------------------------
+# Motion Script
+
+DEF MotionScript Script {
+  eventIn   SFTime      moveObject
+  eventIn   SFVec3f     objectForceX
+  eventIn   SFVec3f     objectForceY
+  eventIn   SFVec3f     objectForceZ
+  eventIn   SFVec3f     objectTorqueXX
+  eventIn   SFVec3f     objectTorqueYY
+  eventIn   SFVec3f     objectTorqueZZ
+
+  eventOut  SFVec3f     objectPositionChanged
+  eventOut  SFRotation  objectPitchChanged
+  eventOut  SFRotation  objectYawChanged
+  eventOut  SFRotation  objectRollChanged
+
+  field     SFVec3f     objectPosition            0 0 0
+  field     SFVec3f     objectVelocity            0 0 0
+  field     SFVec3f     objectAccleration         0 0 0
+
+  field     SFVec3f     objectOrientation         0 0 0
+  field     SFVec3f     objectAngularVelocity     0 0 0
+  field     SFVec3f     objectAngularAccleration  0 0 0
+
+  field     SFRotation  objectPitch               1 0 0 0
+  field     SFRotation  objectYaw                 0 1 0 0
+  field     SFRotation  objectRoll                0 0 1 0
+
+  field     SFFloat     objectMass                1
+  field     SFVec3f     objectForce               0 0 0
+  field     SFVec3f     objectTorque              0 0 0
+  field     SFVec3f     objectMomentsOfInertia    1 1 1
+
+  field     SFTime      dt                        0
+  field     SFTime      lastTime                  0
+
+  url "javascript:
+    //function initialize() {
+    // --- this method too slow ---
+    // --- initialised time is later than first few clock cycles! ---
+    //  Now = new Date();
+    //  lastTime = Now.getTime()/1000; // convert milliseconds(js) to seconds(vrml);
+    //  print('lastTime = ' + lastTime);
+    //}
+
+    function objectForceX(value) {
+      objectForce[0] = value[1];
+    }
+    function objectForceY(value) {
+      objectForce[1] = value[1];
+    }
+    function objectForceZ(value) {
+      objectForce[2] = value[1];
+    }
+    function objectTorqueXX(value) {
+      objectTorque[0] = value[1];
+    }
+    function objectTorqueYY(value) {
+      objectTorque[1] = value[1];
+    }
+    function objectTorqueZZ(value) {
+      objectTorque[2] = value[1];
+    }
+    function moveObject(timeValue) {
+      if (lastTime != 0) {
+        // calculate dt:
+        dt = timeValue - lastTime;
+        //print('lastTime = ' + lastTime);
+        //print('dt = ' + dt);
+
+        // calculate new position:
+        objectPosition[0] = objectForce[0];
+        objectPosition[1] = objectForce[1];
+        objectPosition[2] = objectForce[2];
+
+        // calculate new orientation:
+        objectOrientation[0] = objectTorque[0];
+        objectOrientation[1] = objectTorque[1];
+        objectOrientation[2] = objectTorque[2];
+
+
+        // update positions:
+        objectPositionChanged = objectPosition;
+
+        // update orientation:
+        objectPitch[3] = objectOrientation[0];
+        objectYaw[3] = objectOrientation[1];
+        objectRoll[3] = objectOrientation[2];
+
+        objectPitchChanged = objectPitch;
+        objectRollChanged = objectRoll;
+        objectYawChanged = objectYaw;
+      }
+      // update lastTime:
+      lastTime = timeValue;
+    }
+  "
+}
+
+#------------------------------------------------------------
+# Routing
+
+# Connect clock to motion script
+ROUTE WorldClock.time TO MotionScript.moveObject
+
+# Connect the sensors to the motion script
+ROUTE sensorX.translation_changed TO MotionScript.objectForceX
+ROUTE sensorY.translation_changed TO MotionScript.objectForceY
+ROUTE sensorZ.translation_changed TO MotionScript.objectForceZ
+ROUTE sensorXX.translation_changed TO MotionScript.objectTorqueXX
+ROUTE sensorYY.translation_changed TO MotionScript.objectTorqueYY
+ROUTE sensorZZ.translation_changed TO MotionScript.objectTorqueZZ
+
+# MotionScript outputs to object position
+ROUTE MotionScript.objectPositionChanged TO Object1.set_translation
+ROUTE MotionScript.objectPitchChanged TO Pitch.set_rotation
+ROUTE MotionScript.objectYawChanged TO Yaw.set_rotation
+ROUTE MotionScript.objectRollChanged TO Roll.set_rotation
+
+
