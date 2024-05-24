@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Atoms</title>
+	<title>Atoms 2</title>
 	<meta name="description" content="a simple simulation of particles undergoing elastic collisions.">
 	<meta name="keywords" content="particles, atoms, elastic colision">
 	<meta name="author" content="virtualgeoff">
@@ -53,21 +53,24 @@
 			let p, q, dr, M1, M2; // temp variables
 			let KE = 0; // total kinetic energy
 			let width, height;
+			let drag = 0.995;
+			let mouseParticle = false;
 
-			function createPoint() {
+			function createPoint(mo, s) {
 				// create a particle with random position and velocity
 				let point, r, v, θ;
 				v = random(0, 0.3); // velocity
 				θ = random(0, 360/tau); // direction: 0° to 360°
 				r = random(10, Math.min(canvas.width, canvas.height)/30); // radius
 				point = {
-					s:  [random(r, (canvas.width - r)), random(r, (canvas.height - r))], // displacement
+					s:  s || [random(r, (canvas.width - r)), random(r, (canvas.height - r))], // displacement
 					v:  [v * Math.cos(θ), v * Math.sin(θ)], // velocity
 					v1: [0,0],
 					m:  r * r / 10, // mass (proportional to area)
 					r:  r,
 					ke: 0, // kinetic energy
-					c: `hsla(${random(0, 360)}, 50%, 50%, 0.5)`
+					mo: mo, // the mouse particle
+					c:  (mo) ? `hsla(10, 100%, 55%, 0.9)` : `hsla(${random(0, 360)}, 50%, 50%, 0.5)`
 				};
 				return point;
 			}
@@ -83,6 +86,11 @@
 
 				if (points.length < N) {
 					points.push( createPoint() );
+				}
+				if (!mouseParticle && (mouse.s != null)) {
+					// create a point for the mouse — *after* the mouse has first moved!
+					points.push( createPoint(true, mouse.s) );
+					mouseParticle = true;
 				}
 
 				// calculate new positions and velocities
@@ -125,6 +133,13 @@
 					}
 
 					// update position
+					if (p.mo) {
+						// moves towards the mouse
+						let mv = vector.scalarMultiply(vector.subtract(mouse.s, p.s), 1/dt); // velocity towards mouse coords
+						//p.v = vector.add(p.v, vector.scalarMultiply(mv, 0.01)); // spring-like follower
+						p.v = vector.scalarMultiply(mv, 0.4); // close follower
+					}
+					p.v = vector.scalarMultiply(p.v, drag);
 					p.s = vector.add(p.s, vector.scalarMultiply(p.v, dt));
 
 					// calculate kinetic energy
@@ -174,7 +189,17 @@
 			requestAnimationFrame(update);
 		}
 
+		const mouse = {
+			s:  null,
+			s0: null,
+			move: function(e) {
+				mouse.s  = [e.clientX, e.clientY];
+				mouse.s0 = [e.clientX - e.movementX, e.clientY - e.movementY]; // previous mouse position
+			},
+		};
+
 		document.addEventListener('DOMContentLoaded', particles);
+		window.addEventListener('mousemove', mouse.move);
 
 	</script>
 </head>

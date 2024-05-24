@@ -9,7 +9,7 @@
 	<meta name="created" content="2022-12-03">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<link rel="stylesheet" type="text/css" href="./resources/common.css">
 	<script src="./resources/common.js"></script>
 	<script>
 
@@ -24,14 +24,6 @@
 
 			let origin = {};
 			let then, dt;
-
-			function setCanvasSize() {
-				canvas.width = window.innerWidth;
-				canvas.height = window.innerHeight;
-				origin.x = canvas.width/2;
-				origin.y = canvas.height;
-				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
-			}
 
 			function createPoints(n) {
 				let v, θ;
@@ -58,11 +50,11 @@
 				let p;
 
 				if (!then) { then = now; }
-				dt = (now - then) / 1000; // seconds
-				if (dt > 0.05) { dt = 0.05; } // set max time in case window/tab is backgrounded
+				dt = now - then; // ms
+				if (dt > 50) { dt = 50; } // set max time in case window/tab is backgrounded
 
 				// add new points while frame rate > 30 fps (and/or retire some old ones)
-				if (dt < 0.0333) {
+				if (dt < 33) {
 					createPoints(10);
 				} else {
 					removePoints(10);
@@ -70,14 +62,16 @@
 
 				// clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				origin.x = canvas.width/2;
+				origin.y = canvas.height;
 
 				// draw all the points
 				for (let i=0; i<points.length; i++) {
 					p = points[i];
 					// calculate acceleration, velocity, position
-					p.vy += g * dt;
-					p.x  += p.vx * dt;
-					p.y  += p.vy * dt;
+					p.vy +=    g * dt/1000;
+					p.x  += p.vx * dt/1000;
+					p.y  += p.vy * dt/1000;
 
 					// if a point goes out of frame, remove it and make a new one
 					if (p.y < 0) {
@@ -93,7 +87,7 @@
 				}
 
 				// update data
-				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${(dt * 1000).toFixed(0)} ms`;
+				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${dt} ms`;
 
 				// save last timestamp and repeat
 				then = now;
@@ -101,8 +95,6 @@
 			}
 
 			// go!
-			setCanvasSize();
-			window.addEventListener('resize', setCanvasSize);
 			requestAnimationFrame(update);
 		}
 

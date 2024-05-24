@@ -9,7 +9,7 @@
 	<meta name="created" content="2023-07-18">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<link rel="stylesheet" type="text/css" href="./resources/common.css">
 	<script src="./resources/common.js"></script>
 	<script>
 
@@ -24,12 +24,6 @@
 			const tau = 2 * Math.PI;
 
 			let then, dt;
-
-			function setCanvasSize() {
-				canvas.width = window.innerWidth;
-				canvas.height = window.innerHeight;
-				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
-			}
 
 			function createPoints(n) {
 				let v, r;
@@ -54,7 +48,8 @@
 				let p;
 
 				if (!then) { then = now; }
-				dt = (now - then) / 1000; // seconds
+				dt = (now - then); // ms
+				if (dt > 50) { dt = 50; } // set max time in case window/tab is backgrounded
 
 				// create some new points each update (and/or retire some old ones)
 				if (points.length < N) {
@@ -81,9 +76,9 @@
 					}
 
 					// calculate acceleration, velocity, position
-					p.vy += g * dt;
-					p.x  += p.vx * dt;
-					p.y  += p.vy * dt;
+					p.vy +=    g * dt/1000;
+					p.x  += p.vx * dt/1000;
+					p.y  += p.vy * dt/1000;
 
 
 					// draw the point
@@ -94,7 +89,7 @@
 				}
 
 				// update data
-				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${(dt * 1000).toFixed(0)} ms`;
+				document.querySelector('#info1').innerText = `n: ${points.length}\nΔt: ${dt} ms`;
 
 				// save last timestamp and repeat
 				then = now;
@@ -102,8 +97,6 @@
 			}
 
 			// go!
-			setCanvasSize();
-			window.addEventListener('resize', setCanvasSize);
 			requestAnimationFrame(update);
 		}
 

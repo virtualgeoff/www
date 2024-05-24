@@ -9,7 +9,7 @@
 	<meta name="created" content="2022-12-03">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<link rel="stylesheet" type="text/css" href="./resources/common.css">
 	<script src="./resources/common.js"></script>
 	<script>
 
@@ -26,18 +26,11 @@
 			let center = {}, radius;
 			let then, dt;
 
-			function setCanvasSize() {
-				canvas.width  = window.innerWidth;
-				canvas.height = window.innerHeight;
-				center.x = canvas.width/2;
-				center.y = canvas.height/2;
-				radius  = Math.max(canvas.width, canvas.height) / 2;
-				document.querySelector('#info3').innerText = `${canvas.width} × ${canvas.height} px`;
-			}
-
 			function createPoints() {
 				// create all the points
 				let r, v, θ;
+				radius = Math.max(canvas.width, canvas.height) / 2;
+
 				for (let i=0; i<N; i++) {
 					r = random(10, radius); // random position
 					θ = random(0, tau);
@@ -67,6 +60,9 @@
 				// clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+				center.x = canvas.width/2;
+				center.y = canvas.height/2;
+
 				for (let i=0; i<points.length; i++) {
 					p = points[i];
 					// calculate force
@@ -77,8 +73,8 @@
 					p.ay = -p.y/r * f;
 					p.vx += p.ax;
 					p.vy += p.ay;
-					p.x += p.vx;
-					p.y += p.vy;
+					p.x  += p.vx;
+					p.y  += p.vy;
 					// draw the point
 					ctx.fillStyle = p.c;
 					ctx.beginPath();
@@ -95,8 +91,6 @@
 			}
 
 			// go!
-			setCanvasSize();
-			window.addEventListener('resize', setCanvasSize);
 			createPoints();
 			requestAnimationFrame(update);
 		}

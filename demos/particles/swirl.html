@@ -9,7 +9,7 @@
 	<meta name="created" content="2022-12-03">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" type="text/css" href="./resources/main.css">
+	<link rel="stylesheet" type="text/css" href="./resources/common.css">
 	<script src="./resources/common.js"></script>
 	<script>
 
@@ -23,17 +23,8 @@
 			const GM = 500;
 			const tau = 2 * Math.PI;
 
-			let origin = {}, radius, W, H;
+			let center = {};
 			let then, dt;
-
-			function setCanvasSize() {
-				canvas.width = W = window.innerWidth;
-				canvas.height = H = window.innerHeight;
-				origin.x = W/2;
-				origin.y = H/2;
-				radius  = Math.max(canvas.width, canvas.height) / 2;
-				document.querySelector('#info3').innerText = `${W} × ${H} px`;
-			}
 
 			function createPoint() {
 				let r, v, θ;
@@ -43,7 +34,7 @@
 				v *= random(1.15, 1.35); // +15–35%
 				points.push({
 					x: r * Math.cos(θ),
-					y: -H/2,
+					y: -canvas.height/2,
 					z: r * Math.sin(θ),
 					vx: -v * Math.sin(θ), // make velocity ⟂ to r
 					vy: random(5, 7),
@@ -71,6 +62,8 @@
 
 				// clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				center.x = canvas.width/2;
+				center.y = canvas.height/2;
 
 				// draw all the points
 				for (let i=0; i<points.length; i++) {
@@ -79,19 +72,19 @@
 					r = Math.sqrt(p.x * p.x + p.z * p.z);
 					f = GM / (r * r); // f = GmM/r^2
 					// calculate acceleration, velocity, position
-					p.ax = -p.x/r * f;
-					p.ay = 0;//-0.02;
-					p.az = -p.z/r * f;
+					p.ax  = -p.x/r * f;
+					p.ay  = 0;//-0.02;
+					p.az  = -p.z/r * f;
 					p.vx += p.ax;
 					//p.vy += p.ay;
 					p.vy *= 0.995;
 					p.vz += p.az;
-					p.x += p.vx;
-					p.y += p.vy;
-					p.z += p.vz;
+					p.x  += p.vx;
+					p.y  += p.vy;
+					p.z  += p.vz;
 
 					// if a point goes out of frame, remove it and make a new one
-					if (p.y > H/2) {
+					if (p.y > canvas.height/2) {
 						points.splice(i, 1);
 						createPoint();
 					}
@@ -107,7 +100,7 @@
 					ctx.strokeStyle = p.c; // "red"; // "rgba(0,255,0,0.5)";
 					ctx.lineWidth = 2;
 					ctx.beginPath();
-					ctx.ellipse(origin.x + p.x, origin.y - p.y, p.r, p.r, 0, 0, tau);
+					ctx.ellipse(center.x + p.x, center.y - p.y, p.r, p.r, 0, 0, tau);
 					//ctx.fill();
 					ctx.stroke();
 				}
@@ -121,8 +114,6 @@
 			}
 
 			// go!
-			setCanvasSize();
-			window.addEventListener('resize', setCanvasSize);
 			requestAnimationFrame(update);
 		}
 
